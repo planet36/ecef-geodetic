@@ -2864,6 +2864,7 @@ COMMON_FIRST_DECLS
 
 	double sin_lat;
 	double cos_lat;
+	//double u0;
 
 	// geocentric to parametric
 
@@ -2891,6 +2892,10 @@ COMMON_FIRST_DECLS
 			cos_lat = w - a_e2;
 		}
 	}
+
+	//u0 = std::atan2(sin_lat, cos_lat);
+
+	// SDW: what is F'(u) ?
 
 	// i = 1
 	normalize(cos_lat, sin_lat);
@@ -7305,19 +7310,3 @@ Zhu, Jijie. (1993). Exact Conversion of Earth-Centered Earth-Fixed Coordinates t
 
 
 //-------------------------------------------------------------------
-
-
-
-
-/*
-
-//##### TODO:
-
-
-Fok, Hok Sum & Iz, H. (2003). A Comparative Analysis of the Performance of Iterative and Non-iterative Solutions to the Cartesian to Geodetic Coordinate Transformation. 5.
-https://www.researchgate.net/publication/237622491_A_Comparative_Analysis_of_the_Performance_of_Iterative_and_Non-iterative_Solutions_to_the_Cartesian_to_Geodetic_Coordinate_Transformation
-
-
-*/
-
-
