@@ -1,0 +1,171 @@
+testing these functions:
+borkowski_1989
+bowring_1976_1
+bowring_1976_2
+bowring_1985_1
+bowring_1985_2
+bowring_toms_1995_1
+bowring_toms_1995_2
+fukushima_1999_1
+fukushima_1999_customht_1
+fukushima_2006_1
+fukushima_2006_2
+geographiclib
+geographiclib_customht
+geotransformCpp
+geotransformCpp_customht
+gersten_1961
+halley_1
+halley_2
+halley_quick_1
+halley_quick_2
+heikkinen_1982
+heikkinen_1982_customht
+householder_1
+householder_2
+householder_quick_1
+householder_quick_2
+jat_spacetime_geodetic
+jones_2002_1
+ligas_2011_I_1
+ligas_2011_I_2
+lin_wang_1995_1
+lin_wang_1995_2
+lin_wang_1995_customht_1
+lin_wang_1995_customht_2
+long_1974
+naive_II_1
+naive_II_2
+naive_I_1
+naive_I_2
+newton_raphson_1
+newton_raphson_2
+newton_raphson_quick_1
+newton_raphson_quick_2
+olson_1996
+olson_1996_customht
+openglobe
+ozone_1985
+paul_1973
+pollard_2002_ht_1
+pollard_2002_naive_1
+pollard_2002_naive_2
+pollard_2002_newton_1
+pollard_2002_newton_2
+schroder_1
+schroder_2
+schroder_quick_1
+schroder_quick_2
+sedris
+sedris_customht
+shu_2010_1
+shu_2010_2
+shu_2010_customht_1
+shu_2010_customht_2
+sofair_1993
+sofair_2000
+sudano_1997
+turner_2013
+vermeille_2004
+vermeille_2011
+vermeille_2011_customht
+wu_2003_1
+wu_2003_2
+zhang_2005
+zhu_1993
+
+program_version: 2019-12-08
+
+glibc_version: 2.30
+
+gcc_version: 9.2.1 20191008
+
+num_perf_test_iterations: 0
+
+max_ilog10_mean_dist_err = 99
+
+input_data_coord_system = GEODETIC
+
+reading input data ... done
+
+lines_processed 8597550 lines
+
+ecef_vec.size(): 8597550
+
+acc:	func_name	mean(m)	standard_deviation(m)	max_abs(m)	sum_abs(m)	ilog10_mean	
+acc:	borkowski_1989	1.187E-07	1.965E-06	9.657E-04	1.021E+00	-7	
+acc:	bowring_1976_1	2.535E-02	8.077E-02	6.842E+00	2.179E+05	-2	
+acc:	bowring_1976_2	2.067E-09	9.238E-09	5.678E-07	1.777E-02	-9	
+acc:	bowring_1985_1	5.341E-07	9.584E-06	2.731E-03	4.592E+00	-7	
+acc:	bowring_1985_2	2.003E-09	8.906E-09	1.333E-07	1.722E-02	-9	
+acc:	bowring_toms_1995_1	2.506E-03	3.199E-02	7.273E+00	2.154E+04	-3	
+acc:	bowring_toms_1995_2	2.049E-09	9.207E-09	6.419E-07	1.761E-02	-9	
+acc:	fukushima_1999_1	4.763E+06	1.659E+07	1.482E+08	4.095E+13	99	
+acc:	fukushima_1999_customht_1	1.755E+07	7.530E+07	9.826E+08	1.509E+14	99	
+acc:	fukushima_2006_1	3.940E-05	3.184E-04	6.637E-02	3.387E+02	-5	
+acc:	fukushima_2006_2	9.900E+98	0.000E+00	9.900E+98	8.512E+105	99	
+acc:	geographiclib	1.039E-09	6.315E-09	2.384E-07	8.937E-03	-9	
+acc:	geographiclib_customht	2.968E-09	1.096E-08	1.885E-07	2.552E-02	-9	
+acc:	geotransformCpp	1.178E-04	1.557E-04	8.425E-04	1.013E+03	-4	
+acc:	geotransformCpp_customht	1.207E-04	1.577E-04	8.471E-04	1.038E+03	-4	
+acc:	gersten_1961	1.654E+07	5.503E+07	6.658E+08	1.422E+14	99	
+acc:	halley_1	8.245E-02	3.913E-01	4.353E+00	7.089E+05	-2	
+acc:	halley_2	9.297E-10	5.822E-09	1.788E-07	7.993E-03	-10	
+acc:	halley_quick_1	8.245E-02	3.913E-01	4.353E+00	7.089E+05	-2	
+acc:	halley_quick_2	2.796E-09	1.128E-08	2.149E-07	2.404E-02	-9	
+acc:	heikkinen_1982	1.919E-09	8.731E-09	1.885E-07	1.650E-02	-9	
+acc:	heikkinen_1982_customht	2.571E-09	9.645E-09	1.813E-07	2.211E-02	-9	
+acc:	householder_1	8.245E-02	3.913E-01	4.353E+00	7.089E+05	-2	
+acc:	householder_2	9.332E-10	5.829E-09	1.788E-07	8.023E-03	-10	
+acc:	householder_quick_1	8.245E-02	3.913E-01	4.353E+00	7.089E+05	-2	
+acc:	householder_quick_2	2.792E-09	1.126E-08	2.149E-07	2.401E-02	-9	
+acc:	jat_spacetime_geodetic	8.454E-03	2.350E-01	2.529E+01	7.268E+04	-3	
+acc:	jones_2002_1	1.178E+01	2.288E+01	1.985E+02	1.013E+08	1	
+acc:	ligas_2011_I_1	3.837E-02	5.860E-02	8.841E+00	3.298E+05	-2	
+acc:	ligas_2011_I_2	1.259E-08	4.410E-07	1.428E-04	1.082E-01	-8	
+acc:	lin_wang_1995_1	4.300E-07	6.940E-06	2.322E-03	3.697E+00	-7	
+acc:	lin_wang_1995_2	2.285E-09	9.908E-09	2.458E-07	1.965E-02	-9	
+acc:	lin_wang_1995_customht_1	1.133E-04	1.696E-03	4.888E-01	9.738E+02	-4	
+acc:	lin_wang_1995_customht_2	2.460E-09	9.585E-09	1.490E-07	2.115E-02	-9	
+acc:	long_1974	1.594E+04	8.837E+03	3.024E+04	1.370E+11	99	
+acc:	naive_II_1	4.699E+00	9.133E+00	1.439E+02	4.040E+07	0	
+acc:	naive_II_2	3.037E-03	1.175E-02	1.673E+00	2.611E+04	-3	
+acc:	naive_I_1	5.271E+00	1.427E+01	3.736E+02	4.532E+07	0	
+acc:	naive_I_2	3.606E-03	2.092E-02	5.773E+00	3.100E+04	-3	
+acc:	newton_raphson_1	1.518E-01	7.183E-01	8.206E+00	1.305E+06	-1	
+acc:	newton_raphson_2	9.466E-10	6.126E-09	7.831E-07	8.139E-03	-10	
+acc:	newton_raphson_quick_1	1.518E-01	7.183E-01	8.206E+00	1.305E+06	-1	
+acc:	newton_raphson_quick_2	2.932E-09	1.197E-08	7.838E-07	2.521E-02	-9	
+acc:	olson_1996	1.375E-09	9.596E-09	2.460E-06	1.182E-02	-9	
+acc:	olson_1996_customht	2.673E-09	1.140E-08	1.775E-06	2.298E-02	-9	
+acc:	openglobe	1.393E-05	4.717E-05	3.189E-04	1.198E+02	-5	
+acc:	ozone_1985	2.327E-07	5.876E-06	3.666E-04	2.001E+00	-7	
+acc:	paul_1973	4.951E+98	4.950E+98	9.900E+98	4.257E+105	99	
+acc:	pollard_2002_ht_1	3.215E+07	1.285E+08	1.225E+09	2.764E+14	99	
+acc:	pollard_2002_naive_1	8.684E-02	1.153E-01	1.031E+01	7.466E+05	-2	
+acc:	pollard_2002_naive_2	4.290E-04	1.264E-03	2.642E-01	3.689E+03	-4	
+acc:	pollard_2002_newton_1	5.339E-07	9.584E-06	2.731E-03	4.590E+00	-7	
+acc:	pollard_2002_newton_2	1.800E-09	8.483E-09	1.333E-07	1.547E-02	-9	
+acc:	schroder_1	3.130E-01	1.501E+00	1.691E+01	2.691E+06	-1	
+acc:	schroder_2	9.505E-10	6.327E-09	1.033E-06	8.172E-03	-10	
+acc:	schroder_quick_1	3.130E-01	1.501E+00	1.691E+01	2.691E+06	-1	
+acc:	schroder_quick_2	3.035E-09	1.241E-08	1.033E-06	2.609E-02	-9	
+acc:	sedris	7.863E-05	1.725E-04	9.130E-04	6.760E+02	-5	
+acc:	sedris_customht	1.055E-04	1.694E-04	9.243E-04	9.073E+02	-4	
+acc:	shu_2010_1	1.990E-07	1.631E-05	5.412E-03	1.711E+00	-7	
+acc:	shu_2010_2	2.345E-09	9.810E-09	1.885E-07	2.016E-02	-9	
+acc:	shu_2010_customht_1	5.224E-05	3.989E-03	1.139E+00	4.491E+02	-5	
+acc:	shu_2010_customht_2	3.029E-09	1.182E-08	5.084E-07	2.604E-02	-9	
+acc:	sofair_1993	1.645E+96	4.032E+97	9.900E+98	1.414E+103	99	
+acc:	sofair_2000	6.551E+00	3.673E+02	5.135E+04	5.633E+07	0	
+acc:	sudano_1997	9.900E+98	0.000E+00	9.900E+98	8.512E+105	99	
+acc:	turner_2013	1.615E+03	2.256E+04	3.076E+06	1.388E+10	99	
+acc:	vermeille_2004	1.354E-09	7.589E-09	1.788E-07	1.164E-02	-9	
+acc:	vermeille_2011	1.352E-09	7.581E-09	1.788E-07	1.163E-02	-9	
+acc:	vermeille_2011_customht	3.405E-09	1.222E-08	2.403E-07	2.928E-02	-9	
+acc:	wu_2003_1	1.119E+02	5.001E+02	4.942E+03	9.621E+08	2	
+acc:	wu_2003_2	4.591E-04	2.441E-03	2.759E-02	3.947E+03	-4	
+acc:	zhang_2005	2.409E-09	1.031E-08	2.458E-07	2.071E-02	-9	
+acc:	zhu_1993	4.842E-09	1.153E-07	1.124E-04	4.163E-02	-9	
+
+time elapsed = 113.026 s
