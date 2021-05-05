@@ -12,7 +12,6 @@
 #include "wgs84-utils.hpp"
 #include <cmath>
 
-
 /// Convert Geodetic to ECEF
 /**
 Source:

@@ -70,7 +70,6 @@ constexpr auto alpha = std::asin(e); // std::acos(b/a)
 }
 //}}}
 
-
 /// get the radius of curvature in the prime vertical (meters)
 /**
 Source:
@@ -86,7 +85,6 @@ double get_Rn(const double sin_lat)
 
 	return WGS84_Ellipsoid::a / d;
 }
-
 
 /// get the ellipsoid height (meters)
 /**
@@ -126,7 +124,6 @@ double get_ht(
 	}
 }
 
-
 /// get the ellipsoid height (meters)
 /**
 \param w distance from the rotational (i.e. Z) axis (meters)
@@ -141,7 +138,6 @@ double get_ht(
 {
 	return get_ht(w, z, sin_lat, cos_lat, get_Rn(sin_lat));
 }
-
 
 /// get the ellipsoid height (meters)
 /**
