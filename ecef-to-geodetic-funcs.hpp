@@ -228,7 +228,7 @@ struct func_info_t
 */
 
 /// get f, f'
-constexpr void get_f_fp(const double w, const double z, const double sin_lat, const double cos_lat, double& f, double& fp)
+void get_f_fp(const double w, const double z, const double sin_lat, const double cos_lat, double& f, double& fp)
 {
 	const auto d2 = 1 - WGS84_Ellipsoid::e2 * sin_lat * sin_lat;
 	const auto d = std::sqrt(d2);
@@ -240,7 +240,7 @@ constexpr void get_f_fp(const double w, const double z, const double sin_lat, co
 constexpr int _lines_f_fp = 8;
 
 /// get f, f', f''
-constexpr void get_f_fp_fpp(const double w, const double z, const double sin_lat, const double cos_lat, double& f, double& fp, double& fpp)
+void get_f_fp_fpp(const double w, const double z, const double sin_lat, const double cos_lat, double& f, double& fp, double& fpp)
 {
 	const auto d2 = 1 - WGS84_Ellipsoid::e2 * sin_lat * sin_lat;
 	const auto d = std::sqrt(d2);
@@ -295,22 +295,22 @@ double halley_delta_lat(const double w, const double z, const double sin_lat, co
 
 constexpr int _lines_halley_delta_lat = 8 + _lines_f_fp_fpp;
 
-constexpr double ligas_f1(const double w, const double we, const double z, const double ze)
+double ligas_f1(const double w, const double we, const double z, const double ze)
 {
 	return (1 - WGS84_Ellipsoid::e2) * we * (ze - z) - ze * (we - w);
 }
 
-constexpr double ligas_f2(const double we, const double ze)
+double ligas_f2(const double we, const double ze)
 {
 	return (1 - WGS84_Ellipsoid::e2) * we * we + ze * ze - WGS84_Ellipsoid::b2;
 }
 
-constexpr double det(const double A[2][2])
+double det(const double A[2][2])
 {
 	return A[0][0] * A[1][1] - A[0][1] * A[1][0];
 }
 
-constexpr void inv(const double A[2][2], double result[2][2])
+void inv(const double A[2][2], double result[2][2])
 {
 	const auto d = det(A);
 
@@ -320,13 +320,13 @@ constexpr void inv(const double A[2][2], double result[2][2])
 	result[1][1] = +A[0][0] / d;
 }
 
-constexpr void mul(const double A[2][2], const double X[2], double result[2])
+void mul(const double A[2][2], const double X[2], double result[2])
 {
 	result[0] = A[0][0] * X[0] + A[0][1] * X[1];
 	result[1] = A[1][0] * X[0] + A[1][1] * X[1];
 }
 
-constexpr void ligas_Jacobian(const double w, const double we, const double z, const double ze, double result[2][2])
+void ligas_Jacobian(const double w, const double we, const double z, const double ze, double result[2][2])
 {
 	result[0][0] = (1 - WGS84_Ellipsoid::e2) * (ze - z) - ze;
 	result[0][1] = (1 - WGS84_Ellipsoid::e2) * we - (we - w);
@@ -813,19 +813,19 @@ namespace fukushima_1999_1
 // {{{
 {
 
-constexpr double f(const double t, const double u, const double v, const double w)
+double f(const double t, const double u, const double v, const double w)
 {
 	// w * t**4 + u * t**3 + v * t - w
 	return w * t * t * t * t + u * t * t * t + v * t - w;
 }
 
-constexpr double fp(const double t, const double u, const double v, const double w)
+double fp(const double t, const double u, const double v, const double w)
 {
 	// 4 * w * t**3 + 3 * u * t**2 + v
 	return 4 * w * t * t * t + 3 * u * t * t + v;
 }
 
-constexpr double fpp(const double t, const double u, [[gnu::unused]] const double v, const double w)
+double fpp(const double t, const double u, [[gnu::unused]] const double v, const double w)
 {
 	// 12 * w * t**2 + 6 * u * t
 	return 12 * w * t * t + 6 * u * t;
@@ -953,19 +953,19 @@ namespace fukushima_1999_customht_1
 {
 #define USE_CUSTOM_HT
 
-constexpr double f(const double t, const double u, const double v, const double w)
+double f(const double t, const double u, const double v, const double w)
 {
 	// w * t**4 + u * t**3 + v * t - w
 	return w * t * t * t * t + u * t * t * t + v * t - w;
 }
 
-constexpr double fp(const double t, const double u, const double v, const double w)
+double fp(const double t, const double u, const double v, const double w)
 {
 	// 4 * w * t**3 + 3 * u * t**2 + v
 	return 4 * w * t * t * t + 3 * u * t * t + v;
 }
 
-constexpr double fpp(const double t, const double u, [[gnu::unused]] const double v, const double w)
+double fpp(const double t, const double u, [[gnu::unused]] const double v, const double w)
 {
 	// 12 * w * t**2 + 6 * u * t
 	return 12 * w * t * t + 6 * u * t;
@@ -1236,9 +1236,9 @@ COMMON_FIRST_DECLS
 	double cos_lat;
 	// Treat prolate spheroids by swapping w and z here and by switching
 	// the arguments to phi = atan2(...) at the end.
-	const auto p = w * w / WGS84_Ellipsoid::a2;
+	const auto p = w2 / WGS84_Ellipsoid::a2;
 	// (1 - WGS84_Ellipsoid::e2) / WGS84_Ellipsoid::a2 == 1 / (Rp * Rp)
-	const auto q = (z * z / WGS84_Ellipsoid::a2) * (1 - WGS84_Ellipsoid::e2);
+	const auto q = (z2 / WGS84_Ellipsoid::a2) * (1 - WGS84_Ellipsoid::e2);
 	const auto r = (p + q - e4) / 6;
 	if (!(e4 * q == 0 && r <= 0))
 	{
@@ -1366,9 +1366,9 @@ COMMON_FIRST_DECLS
 	double cos_lat;
 	// Treat prolate spheroids by swapping w and z here and by switching
 	// the arguments to phi = atan2(...) at the end.
-	const auto p = w * w / WGS84_Ellipsoid::a2;
+	const auto p = w2 / WGS84_Ellipsoid::a2;
 	// (1 - WGS84_Ellipsoid::e2) / WGS84_Ellipsoid::a2 == 1 / (Rp * Rp)
-	const auto q = (z * z / WGS84_Ellipsoid::a2) * (1 - WGS84_Ellipsoid::e2);
+	const auto q = (z2 / WGS84_Ellipsoid::a2) * (1 - WGS84_Ellipsoid::e2);
 	const auto r = (p + q - e4) / 6;
 	if (!(e4 * q == 0 && r <= 0))
 	{
@@ -1517,7 +1517,7 @@ COMMON_FIRST_DECLS
 
 	/* CHECK FOR SPECIAL CASES*/
 
-	if (!(x == 0)) ; /* null statement */
+	if (!(x == 0)) {;} /* null statement */
 	else
 	{
 		if (y > 0)
@@ -1748,7 +1748,7 @@ COMMON_FIRST_DECLS
 
 	/* CHECK FOR SPECIAL CASES*/
 
-	if (!(x == 0)) ; /* null statement */
+	if (!(x == 0)) {;} /* null statement */
 	else
 	{
 		if (y > 0)
@@ -3141,7 +3141,7 @@ COMMON_FIRST_DECLS
 	// lat_c == geocentric latitude
 	// r == geocentric distance, units of a
 
-	lat_rad = lat_c + WGS84_Ellipsoid::f * std::sin(2 * lat_c) / r + WGS84_Ellipsoid::f * WGS84_Ellipsoid::f * ((1 / (w * w + z * z) - 1 / (4 * r)) * std::sin(4 * lat_c));
+	lat_rad = lat_c + WGS84_Ellipsoid::f * std::sin(2 * lat_c) / r + WGS84_Ellipsoid::f * WGS84_Ellipsoid::f * ((1 / (w2 + z2) - 1 / (4 * r)) * std::sin(4 * lat_c));
 
 	// SDW: This function doesn't work, so don't worry about optimizing it.
 	ht = get_ht_r(w, z, lat_rad);
@@ -4176,7 +4176,7 @@ COMMON_FIRST_DECLS
 	n = z / we_N;
 	r_ = m * m + n * n / (1 - WGS84_Ellipsoid::e2);
 	s = m * w + z / (1 - WGS84_Ellipsoid::e2);
-	t = w * w + z * z / (1 - WGS84_Ellipsoid::e2) - WGS84_Ellipsoid::a2;
+	t = w2 + z2 / (1 - WGS84_Ellipsoid::e2) - WGS84_Ellipsoid::a2;
 	ht = (s - std::sqrt(std::abs(s * s - r_ * t))) / r_;
 
 	// i = 1
@@ -4187,7 +4187,7 @@ COMMON_FIRST_DECLS
 	n = z / we_N;
 	r_ = m * m + n * n / (1 - WGS84_Ellipsoid::e2);
 	s = m * w + z / (1 - WGS84_Ellipsoid::e2);
-	t = w * w + z * z / (1 - WGS84_Ellipsoid::e2) - WGS84_Ellipsoid::a2;
+	t = w2 + z2 / (1 - WGS84_Ellipsoid::e2) - WGS84_Ellipsoid::a2;
 	ht = (s - std::sqrt(std::abs(s * s - r_ * t))) / r_;
 
 	ze = z - n * ht;
@@ -6198,14 +6198,14 @@ void ecef_to_geodetic(const double x, const double y, const double z, double& la
 COMMON_FIRST_DECLS
 
 	const auto p = std::abs(z) / WGS84_Ellipsoid::ep2;
-	const auto s = w * w / (WGS84_Ellipsoid::e2 * WGS84_Ellipsoid::ep2);
-	//const auto q = p * p - WGS84_Ellipsoid::b2 + w * w / (WGS84_Ellipsoid::e2 * WGS84_Ellipsoid::ep2);
+	const auto s = w2 / (WGS84_Ellipsoid::e2 * WGS84_Ellipsoid::ep2);
+	//const auto q = p * p - WGS84_Ellipsoid::b2 + w2 / (WGS84_Ellipsoid::e2 * WGS84_Ellipsoid::ep2);
 	const auto q = p * p - WGS84_Ellipsoid::b2 + s;
 
 	const auto u = p / std::sqrt(q);
 	const auto v = WGS84_Ellipsoid::b2 * u * u / q;
 
-	//const auto P = 27 * WGS84_Ellipsoid::a2 * (w * w) * z2 / (WGS84_Ellipsoid::ep2 * WGS84_Ellipsoid::ep2 * WGS84_Ellipsoid::ep2 * WGS84_Ellipsoid::ep2);
+	//const auto P = 27 * WGS84_Ellipsoid::a2 * (w2) * z2 / (WGS84_Ellipsoid::ep2 * WGS84_Ellipsoid::ep2 * WGS84_Ellipsoid::ep2 * WGS84_Ellipsoid::ep2);
 	const auto P = 27 * v * s / q;
 	const auto Q_ = std::sqrt(P + 1) + std::sqrt(P);
 	//const auto Q = std::pow(std::sqrt(P + q * q * q) + std::sqrt(P), 2.0/3.0);
@@ -6453,8 +6453,8 @@ COMMON_FIRST_DECLS
 
 	constexpr auto e4 = WGS84_Ellipsoid::e2 * WGS84_Ellipsoid::e2;
 
-	const auto p = w * w / WGS84_Ellipsoid::a2;
-	const auto q = (1 - WGS84_Ellipsoid::e2) * z * z / WGS84_Ellipsoid::a2;
+	const auto p = w2 / WGS84_Ellipsoid::a2;
+	const auto q = (1 - WGS84_Ellipsoid::e2) * z2 / WGS84_Ellipsoid::a2;
 	const auto r = (p + q - e4) / 6;
 	const auto r3 = CB(r);
 
@@ -6505,8 +6505,8 @@ COMMON_FIRST_DECLS
 
 	constexpr auto e4 = WGS84_Ellipsoid::e2 * WGS84_Ellipsoid::e2;
 
-	const auto p = w * w / WGS84_Ellipsoid::a2;
-	const auto q = (z * z / WGS84_Ellipsoid::a2) * (1 - WGS84_Ellipsoid::e2);
+	const auto p = w2 / WGS84_Ellipsoid::a2;
+	const auto q = (z2 / WGS84_Ellipsoid::a2) * (1 - WGS84_Ellipsoid::e2);
 	const auto r = (p + q - e4) / 6;
 	const auto r3 = CB(r);
 
@@ -6611,8 +6611,8 @@ COMMON_FIRST_DECLS
 
 	constexpr auto e4 = WGS84_Ellipsoid::e2 * WGS84_Ellipsoid::e2;
 
-	const auto p = w * w / WGS84_Ellipsoid::a2;
-	const auto q = (z * z / WGS84_Ellipsoid::a2) * (1 - WGS84_Ellipsoid::e2);
+	const auto p = w2 / WGS84_Ellipsoid::a2;
+	const auto q = (z2 / WGS84_Ellipsoid::a2) * (1 - WGS84_Ellipsoid::e2);
 	const auto r = (p + q - e4) / 6;
 	const auto r3 = CB(r);
 
@@ -6876,8 +6876,8 @@ void ecef_to_geodetic(const double x, const double y, const double z, double& la
 COMMON_FIRST_DECLS
 
 	// Eq.(9);
-	const auto alpha = w * w / WGS84_Ellipsoid::a2 + z * z / WGS84_Ellipsoid::b2;
-	const auto beta = w * w / WGS84_Ellipsoid::b2 + z * z / WGS84_Ellipsoid::a2;
+	const auto alpha = w2 / WGS84_Ellipsoid::a2 + z2 / WGS84_Ellipsoid::b2;
+	const auto beta = w2 / WGS84_Ellipsoid::b2 + z2 / WGS84_Ellipsoid::a2;
 	//const auto gamma = WGS84_Ellipsoid::b / WGS84_Ellipsoid::a + WGS84_Ellipsoid::a / WGS84_Ellipsoid::b;
 	constexpr auto gamma = (1 - WGS84_Ellipsoid::f) + 1 / (1 - WGS84_Ellipsoid::f);
 	constexpr auto gamma2 = gamma * gamma;
@@ -6977,11 +6977,11 @@ COMMON_FIRST_DECLS
 
 	constexpr auto l = WGS84_Ellipsoid::e2 / 2;
 	constexpr auto l2 = l * l;
-	const auto m = w * w / WGS84_Ellipsoid::a2;
+	const auto m = w2 / WGS84_Ellipsoid::a2;
 	//const auto n = SQ(z * (1 - WGS84_Ellipsoid::e2) / WGS84_Ellipsoid::b);
-	//const auto n = z * z * SQ((1 - WGS84_Ellipsoid::e2)) / WGS84_Ellipsoid::b2;
-	//const auto n = (z * z / WGS84_Ellipsoid::a2) * (1 - WGS84_Ellipsoid::e2); // (1-e2) / a2 == 1/(Rp**2)
-	const auto n = (1 - WGS84_Ellipsoid::e2) * z * z / WGS84_Ellipsoid::a2;
+	//const auto n = z2 * SQ((1 - WGS84_Ellipsoid::e2)) / WGS84_Ellipsoid::b2;
+	//const auto n = (z2 / WGS84_Ellipsoid::a2) * (1 - WGS84_Ellipsoid::e2); // (1-e2) / a2 == 1/(Rp**2)
+	const auto n = (1 - WGS84_Ellipsoid::e2) * z2 / WGS84_Ellipsoid::a2;
 
 	const auto i = -(2 * l2 + m + n) / 2;
 	const auto k = l2 * (l2 - m - n);
