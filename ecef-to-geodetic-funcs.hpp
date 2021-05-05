@@ -13,7 +13,6 @@
 #include <cmath>
 #include <string>
 
-
 double hypot(const double x, const double y)
 {
 #if 0
@@ -23,7 +22,6 @@ double hypot(const double x, const double y)
 	return std::sqrt(x * x + y * y);
 #endif
 }
-
 
 /// make a unit vector (i.e. normalize the vector components)
 /**
@@ -39,7 +37,6 @@ void normalize(double& x, double& y)
 	y /= h;
 }
 
-
 // these are the lines in the function params and after the function body
 //constexpr int _lines_to_ignore = 7+2;
 
@@ -51,7 +48,6 @@ void normalize(double& x, double& y)
 #define POW5(X) ((X) * (X) * (X) * (X) * (X))
 #define POW6(X) ((X) * (X) * (X) * (X) * (X) * (X))
 
-
 // these are the lines in the common first decls
 constexpr int _lines_common_first_decls = 4;
 
@@ -61,7 +57,6 @@ constexpr int _lines_common_first_decls = 4;
 	const auto w = std::sqrt(w2); \
 	[[gnu::unused]] const auto z2 = z * z; \
 	lon_rad = std::atan2(y, x); \
-
 
 // these are the lines in the common first decls (checked)
 constexpr int _lines_common_first_decls_checked = 28;
@@ -98,10 +93,8 @@ constexpr int _lines_common_first_decls_checked = 28;
 	} \
 	[[gnu::unused]] const auto z2 = z * z; \
 
-
 //#undef COMMON_FIRST_DECLS
 //#define COMMON_FIRST_DECLS COMMON_FIRST_DECLS_CHECKED
-
 
 struct func_info_t
 {
@@ -115,7 +108,7 @@ struct func_info_t
 	const std::string_view orig_impl_lang;
 	const std::string_view url;
 	const std::string_view citation;
-	
+
 	func_info_t(
 			void (&_func_ref)(const double, const double, const double, double&, double&, double&),
 			const int              _num_lines,
@@ -150,7 +143,6 @@ struct func_info_t
 		}
 	}
 };
-
 
 /**
 * Derivation of naive II algorithm...
@@ -197,7 +189,6 @@ struct func_info_t
 *
 */
 
-
 /**
 * Original equation: (from Hirvonen)
 *
@@ -236,7 +227,6 @@ struct func_info_t
 * f''(φ) = -Rn * e2 * sin * cos * (3 * (1-e2) / d**2 + d**2) / d**2 + w * sin - z * cos = 0
 */
 
-
 /// get f, f'
 constexpr void get_f_fp(const double w, const double z, const double sin_lat, const double cos_lat, double& f, double& fp)
 {
@@ -248,7 +238,6 @@ constexpr void get_f_fp(const double w, const double z, const double sin_lat, co
 }
 
 constexpr int _lines_f_fp = 8;
-
 
 /// get f, f', f''
 constexpr void get_f_fp_fpp(const double w, const double z, const double sin_lat, const double cos_lat, double& f, double& fp, double& fpp)
@@ -263,10 +252,6 @@ constexpr void get_f_fp_fpp(const double w, const double z, const double sin_lat
 
 constexpr int _lines_f_fp_fpp = 9;
 
-
-//-------------------------------------------------------------------
-
-
 double newton_raphson_delta_lat(const double w, const double z, const double sin_lat, const double cos_lat)
 {
 	double f;
@@ -276,7 +261,6 @@ double newton_raphson_delta_lat(const double w, const double z, const double sin
 }
 
 constexpr int _lines_newton_raphson_delta_lat = 7 + _lines_f_fp;
-
 
 double householder_delta_lat(const double w, const double z, const double sin_lat, const double cos_lat)
 {
@@ -289,7 +273,6 @@ double householder_delta_lat(const double w, const double z, const double sin_la
 
 constexpr int _lines_householder_delta_lat = 8 + _lines_f_fp_fpp;
 
-
 double schroder_delta_lat(const double w, const double z, const double sin_lat, const double cos_lat)
 {
 	double f;
@@ -301,7 +284,6 @@ double schroder_delta_lat(const double w, const double z, const double sin_lat, 
 
 constexpr int _lines_schroder_delta_lat = 8 + _lines_f_fp_fpp;
 
-
 double halley_delta_lat(const double w, const double z, const double sin_lat, const double cos_lat)
 {
 	double f;
@@ -312,10 +294,6 @@ double halley_delta_lat(const double w, const double z, const double sin_lat, co
 }
 
 constexpr int _lines_halley_delta_lat = 8 + _lines_f_fp_fpp;
-
-
-//-------------------------------------------------------------------
-
 
 constexpr double ligas_f1(const double w, const double we, const double z, const double ze)
 {
@@ -358,10 +336,6 @@ constexpr void ligas_Jacobian(const double w, const double we, const double z, c
 
 constexpr int _lines_ligas_util = 38;
 
-
-//-------------------------------------------------------------------
-
-
 double lin_wang_1995_delta_m(const double w2, const double z2, const double m)
 {
 	const auto tmp_a = WGS84_Ellipsoid::a + 2 * m / WGS84_Ellipsoid::a;
@@ -374,10 +348,6 @@ double lin_wang_1995_delta_m(const double w2, const double z2, const double m)
 }
 
 constexpr int _lines_lin_wang_1995_delta_m = 10;
-
-
-//-------------------------------------------------------------------
-
 
 double shu_2010_delta_k(const double w2, const double z2, const double k)
 {
@@ -394,10 +364,6 @@ double shu_2010_delta_k(const double w2, const double z2, const double k)
 
 constexpr int _lines_shu_2010_delta_k = 12;
 
-
-//-------------------------------------------------------------------
-
-
 double wu_2003_delta_t(const double A, const double B, const double C, const double t)
 {
 	const auto t2 = t * t;
@@ -411,10 +377,6 @@ double wu_2003_delta_t(const double A, const double B, const double C, const dou
 }
 
 constexpr int _lines_wu_2003_delta_t = 11;
-
-
-//-------------------------------------------------------------------
-
 
 namespace borkowski_1989
 // {{{
@@ -489,7 +451,6 @@ https://link.springer.com/article/10.1007/BF02520228)"
 }
 //}}}
 
-
 namespace bowring_1976_1
 // {{{
 {
@@ -536,7 +497,6 @@ https://www.tandfonline.com/doi/abs/10.1179/sre.1976.23.181.323)"
 
 }
 //}}}
-
 
 namespace bowring_1976_2
 // {{{
@@ -593,7 +553,6 @@ https://www.tandfonline.com/doi/abs/10.1179/sre.1976.23.181.323)"
 }
 //}}}
 
-
 namespace bowring_1985_1
 // {{{
 {
@@ -643,7 +602,6 @@ const auto func_info = func_info_t(
 
 }
 //}}}
-
 
 namespace bowring_1985_2
 // {{{
@@ -702,7 +660,6 @@ const auto func_info = func_info_t(
 
 }
 //}}}
-
 
 namespace bowring_toms_1995_1
 // {{{
@@ -773,7 +730,6 @@ const auto func_info = func_info_t(
 
 }
 //}}}
-
 
 namespace bowring_toms_1995_2
 // {{{
@@ -852,7 +808,6 @@ const auto func_info = func_info_t(
 
 }
 //}}}
-
 
 namespace fukushima_1999_1
 // {{{
@@ -933,7 +888,6 @@ COMMON_FIRST_DECLS
 	// i = 1
 	t -= f(t, u, v, w) / fp(t, u, v, w);
 
-
 	// https://en.wikipedia.org/wiki/Tangent_half-angle_formula
 #if 0
 	// SDW: This does not work
@@ -993,7 +947,6 @@ https://link.springer.com/article/10.1007/s001900050271)"
 
 }
 //}}}
-
 
 namespace fukushima_1999_customht_1
 // {{{
@@ -1075,7 +1028,6 @@ COMMON_FIRST_DECLS
 	// i = 1
 	t -= f(t, u, v, w) / fp(t, u, v, w);
 
-
 	// https://en.wikipedia.org/wiki/Tangent_half-angle_formula
 #if 0
 	// SDW: This does not work
@@ -1136,7 +1088,6 @@ https://link.springer.com/article/10.1007/s001900050271)"
 #undef USE_CUSTOM_HT
 }
 //}}}
-
 
 namespace fukushima_2006_1
 // {{{
@@ -1202,7 +1153,6 @@ const auto func_info = func_info_t(
 }
 //}}}
 
-
 namespace fukushima_2006_2
 // {{{
 {
@@ -1266,7 +1216,6 @@ const auto func_info = func_info_t(
 
 }
 //}}}
-
 
 namespace geographiclib
 // {{{
@@ -1396,7 +1345,6 @@ https://arxiv.org/abs/1102.1215)"
 
 }
 //}}}
-
 
 namespace geographiclib_customht
 // {{{
@@ -1528,7 +1476,6 @@ https://arxiv.org/abs/1102.1215)"
 #undef USE_CUSTOM_HT
 }
 //}}}
-
 
 namespace geotransformCpp
 // {{{
@@ -1759,7 +1706,6 @@ file:Gcc_To_Gdc_Converter.cpp)"
 
 }
 //}}}
-
 
 namespace geotransformCpp_customht
 // {{{
@@ -1993,7 +1939,6 @@ file:Gcc_To_Gdc_Converter.cpp)"
 }
 //}}}
 
-
 namespace gersten_1961
 // {{{
 {
@@ -2055,7 +2000,6 @@ const auto func_info = func_info_t(
 }
 //}}}
 
-
 namespace halley_1
 // {{{
 {
@@ -2103,7 +2047,6 @@ const auto func_info = func_info_t(
 }
 //}}}
 
-
 namespace halley_2
 // {{{
 {
@@ -2150,7 +2093,6 @@ const auto func_info = func_info_t(
 
 }
 //}}}
-
 
 namespace halley_quick_1
 // {{{
@@ -2205,7 +2147,6 @@ const auto func_info = func_info_t(
 }
 //}}}
 
-
 namespace halley_quick_2
 // {{{
 {
@@ -2258,7 +2199,6 @@ const auto func_info = func_info_t(
 
 }
 //}}}
-
 
 namespace heikkinen_1982
 // {{{
@@ -2336,7 +2276,6 @@ const auto func_info = func_info_t(
 
 }
 //}}}
-
 
 namespace heikkinen_1982_customht
 // {{{
@@ -2417,7 +2356,6 @@ const auto func_info = func_info_t(
 }
 //}}}
 
-
 namespace householder_1
 // {{{
 {
@@ -2465,7 +2403,6 @@ const auto func_info = func_info_t(
 }
 //}}}
 
-
 namespace householder_2
 // {{{
 {
@@ -2512,7 +2449,6 @@ const auto func_info = func_info_t(
 
 }
 //}}}
-
 
 namespace householder_quick_1
 // {{{
@@ -2567,7 +2503,6 @@ const auto func_info = func_info_t(
 }
 //}}}
 
-
 namespace householder_quick_2
 // {{{
 {
@@ -2620,7 +2555,6 @@ const auto func_info = func_info_t(
 
 }
 //}}}
-
 
 namespace jat_spacetime_geodetic
 // {{{
@@ -2685,7 +2619,6 @@ const auto func_info = func_info_t(
 
 }
 //}}}
-
 
 namespace jones_2002_1
 // {{{
@@ -2774,7 +2707,6 @@ const auto func_info = func_info_t(
 }
 //}}}
 
-
 namespace ligas_2011_I_1
 // {{{
 {
@@ -2845,7 +2777,6 @@ const auto func_info = func_info_t(
 
 }
 //}}}
-
 
 namespace ligas_2011_I_2
 // {{{
@@ -2918,7 +2849,6 @@ const auto func_info = func_info_t(
 }
 //}}}
 
-
 namespace lin_wang_1995_1
 // {{{
 {
@@ -2987,7 +2917,6 @@ const auto func_info = func_info_t(
 }
 //}}}
 
-
 namespace lin_wang_1995_2
 // {{{
 {
@@ -3055,7 +2984,6 @@ const auto func_info = func_info_t(
 
 }
 //}}}
-
 
 namespace lin_wang_1995_customht_1
 // {{{
@@ -3127,7 +3055,6 @@ const auto func_info = func_info_t(
 }
 //}}}
 
-
 namespace lin_wang_1995_customht_2
 // {{{
 {
@@ -3198,7 +3125,6 @@ const auto func_info = func_info_t(
 }
 //}}}
 
-
 namespace long_1974
 // {{{
 {
@@ -3249,7 +3175,6 @@ NASA Technical Note TN D-7522)"
 
 }
 //}}}
-
 
 namespace naive_I_1
 // {{{
@@ -3305,7 +3230,6 @@ const auto func_info = func_info_t(
 }
 //}}}
 
-
 namespace naive_I_2
 // {{{
 {
@@ -3359,7 +3283,6 @@ const auto func_info = func_info_t(
 
 }
 //}}}
-
 
 namespace naive_II_1
 // {{{
@@ -3415,7 +3338,6 @@ Columbus, 1963)"
 }
 //}}}
 
-
 namespace naive_II_2
 // {{{
 {
@@ -3470,7 +3392,6 @@ Columbus, 1963)"
 }
 //}}}
 
-
 namespace newton_raphson_1
 // {{{
 {
@@ -3518,7 +3439,6 @@ const auto func_info = func_info_t(
 }
 //}}}
 
-
 namespace newton_raphson_2
 // {{{
 {
@@ -3565,7 +3485,6 @@ const auto func_info = func_info_t(
 
 }
 //}}}
-
 
 namespace newton_raphson_quick_1
 // {{{
@@ -3620,7 +3539,6 @@ const auto func_info = func_info_t(
 }
 //}}}
 
-
 namespace newton_raphson_quick_2
 // {{{
 {
@@ -3673,7 +3591,6 @@ const auto func_info = func_info_t(
 
 }
 //}}}
-
 
 namespace olson_1996
 // {{{
@@ -3769,7 +3686,6 @@ Converted to C++ and modified by Steven Ward.  No rights reserved.)"
 
 }
 //}}}
-
 
 namespace olson_1996_customht
 // {{{
@@ -3867,7 +3783,6 @@ Converted to C++ and modified by Steven Ward.  No rights reserved.)"
 #undef USE_CUSTOM_HT
 }
 //}}}
-
 
 namespace openglobe
 // {{{
@@ -4053,7 +3968,6 @@ Vector3D GeodeticSurfaceNormal(const Vector3D& positionOnEllipsoid)
 	return positionOnEllipsoid.multiply(Vector3D(1 / WGS84_Ellipsoid::a2, 1 / WGS84_Ellipsoid::a2, 1 / WGS84_Ellipsoid::b2)).normalize();
 }
 
-
 void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
 {
 	const Vector3D position(x, y, z);
@@ -4082,7 +3996,6 @@ const auto func_info = func_info_t(
 
 }
 //}}}
-
 
 namespace ozone_1985
 // {{{
@@ -4148,7 +4061,6 @@ Copied from George P. Gerdan and Rodney E. Deakin)"
 
 }
 //}}}
-
 
 namespace paul_1973
 // {{{
@@ -4235,7 +4147,6 @@ const auto func_info = func_info_t(
 }
 //}}}
 
-
 namespace pollard_2002_ht_1
 // {{{
 {
@@ -4310,7 +4221,6 @@ https://link.springer.com/article/10.1007%2Fs001900100220)"
 }
 //}}}
 
-
 namespace pollard_2002_naive_1
 // {{{
 {
@@ -4366,7 +4276,6 @@ https://link.springer.com/article/10.1007%2Fs001900100220)"
 }
 //}}}
 
-
 namespace pollard_2002_naive_2
 // {{{
 {
@@ -4394,7 +4303,6 @@ COMMON_FIRST_DECLS
 	ze = WGS84_Ellipsoid::b * sin_lat;
 	sin_lat = z + WGS84_Ellipsoid::ep2 * ze;
 	cos_lat = w;
-
 
 	// i = 2
 	sin_lat *= (1 - WGS84_Ellipsoid::f);
@@ -4429,7 +4337,6 @@ https://link.springer.com/article/10.1007%2Fs001900100220)"
 
 }
 //}}}
-
 
 namespace pollard_2002_newton_1
 // {{{
@@ -4494,7 +4401,6 @@ https://link.springer.com/article/10.1007%2Fs001900100220)"
 
 }
 //}}}
-
 
 namespace pollard_2002_newton_2
 // {{{
@@ -4574,7 +4480,6 @@ https://link.springer.com/article/10.1007%2Fs001900100220)"
 }
 //}}}
 
-
 namespace schroder_1
 // {{{
 {
@@ -4622,7 +4527,6 @@ const auto func_info = func_info_t(
 }
 //}}}
 
-
 namespace schroder_2
 // {{{
 {
@@ -4669,7 +4573,6 @@ const auto func_info = func_info_t(
 
 }
 //}}}
-
 
 namespace schroder_quick_1
 // {{{
@@ -4724,7 +4627,6 @@ const auto func_info = func_info_t(
 }
 //}}}
 
-
 namespace schroder_quick_2
 // {{{
 {
@@ -4777,7 +4679,6 @@ const auto func_info = func_info_t(
 
 }
 //}}}
-
 
 namespace sedris
 // {{{
@@ -5384,7 +5285,6 @@ file:src/lib/srm/src/lib/cpp_impl/srf_impl/srm_gc.cpp)"
 
 }
 //}}}
-
 
 namespace sedris_customht
 // {{{
@@ -5994,7 +5894,6 @@ file:src/lib/srm/src/lib/cpp_impl/srf_impl/srm_gc.cpp)"
 }
 //}}}
 
-
 namespace shu_2010_1
 // {{{
 {
@@ -6050,7 +5949,6 @@ const auto func_info = func_info_t(
 }
 //}}}
 
-
 namespace shu_2010_2
 // {{{
 {
@@ -6105,7 +6003,6 @@ const auto func_info = func_info_t(
 
 }
 //}}}
-
 
 namespace shu_2010_customht_1
 // {{{
@@ -6164,7 +6061,6 @@ const auto func_info = func_info_t(
 }
 //}}}
 
-
 namespace shu_2010_customht_2
 // {{{
 {
@@ -6221,7 +6117,6 @@ const auto func_info = func_info_t(
 #undef USE_CUSTOM_HT
 }
 //}}}
-
 
 namespace sofair_1993
 // {{{
@@ -6293,7 +6188,6 @@ const auto func_info = func_info_t(
 }
 //}}}
 
-
 namespace sofair_2000
 // {{{
 {
@@ -6364,7 +6258,6 @@ const auto func_info = func_info_t(
 
 }
 //}}}
-
 
 namespace sudano_1997
 // {{{
@@ -6449,7 +6342,6 @@ const auto func_info = func_info_t(
 }
 //}}}
 
-
 namespace turner_2013
 // {{{
 {
@@ -6489,8 +6381,6 @@ COMMON_FIRST_DECLS
 	const auto sin_2lat0 = std::sin(2 * lat0);
 	const auto sin2_2lat0 = sin_2lat0 * sin_2lat0;
 
-	//---------------------------------------------------------------
-
 	const auto C1 = -4 * CB(h0) + 37 * CB(WGS84_Ellipsoid::b) - 66 * WGS84_Ellipsoid::b2 * h0 + 33 * WGS84_Ellipsoid::b * h0 * h0;
 	const auto C2 = CB(h0) - 31 * CB(WGS84_Ellipsoid::b) + 75 * WGS84_Ellipsoid::b2 * h0 - 33 * WGS84_Ellipsoid::b * h0 * h0;
 	const auto C3 = 3 * WGS84_Ellipsoid::b * (WGS84_Ellipsoid::b2 + 3 * h0 * h0 - 6 * WGS84_Ellipsoid::b * h0);
@@ -6501,8 +6391,6 @@ COMMON_FIRST_DECLS
 	const auto C8 = -155 * POW4(WGS84_Ellipsoid::b) - 2 * POW4(h0) + 67 * WGS84_Ellipsoid::b * CB(h0) + 421 * CB(WGS84_Ellipsoid::b) * h0 - 315 * WGS84_Ellipsoid::b2 * h0 * h0;
 	const auto C9 = 49 * POW4(WGS84_Ellipsoid::b) - 15 * WGS84_Ellipsoid::b * CB(h0) - 185 * CB(WGS84_Ellipsoid::b) * h0 + 135 * CB(WGS84_Ellipsoid::b) * h0 * h0;
 	const auto C10 = 2 * WGS84_Ellipsoid::b2 * (10 * WGS84_Ellipsoid::b * h0 - 5 * h0 * h0 - WGS84_Ellipsoid::b2);
-
-	//---------------------------------------------------------------
 
 	const auto h1 = -WGS84_Ellipsoid::b * cos2_lat0;
 	const auto lat1 = (WGS84_Ellipsoid::b - h0) * sin_2lat0 / (2 * (h0pb));
@@ -6523,8 +6411,6 @@ COMMON_FIRST_DECLS
 	const auto lat4 = sin_2lat0 * (C7 * cos6_lat0 + C8 * cos4_lat0 + C9 * cos2_lat0 + C10) / (4 * POW4(h0pb));
 	ht += POW4(p) * h4;
 	lat_c += POW4(p) * lat4;
-
-	//---------------------------------------------------------------
 
 	// SDW: this is wrong
 	//lat_rad = std::atan2((1 - WGS84_Ellipsoid::f) * std::cos(lat_c), std::sin(lat_c));
@@ -6555,7 +6441,6 @@ const auto func_info = func_info_t(
 
 }
 //}}}
-
 
 namespace vermeille_2004
 // {{{
@@ -6608,7 +6493,6 @@ const auto func_info = func_info_t(
 
 }
 //}}}
-
 
 namespace vermeille_2011
 // {{{
@@ -6714,7 +6598,6 @@ const auto func_info = func_info_t(
 
 }
 //}}}
-
 
 namespace vermeille_2011_customht
 // {{{
@@ -6823,7 +6706,6 @@ const auto func_info = func_info_t(
 }
 //}}}
 
-
 namespace wu_2003_1
 // {{{
 {
@@ -6903,7 +6785,6 @@ Wu, Yuanxin & Wang, Ping & Hu, Xiaoping. (2003). Algorithm of Earth-Centered Ear
 
 }
 //}}}
-
 
 namespace wu_2003_2
 // {{{
@@ -6985,7 +6866,6 @@ Wu, Yuanxin & Wang, Ping & Hu, Xiaoping. (2003). Algorithm of Earth-Centered Ear
 }
 //}}}
 
-
 namespace zhang_2005
 // {{{
 {
@@ -7008,7 +6888,6 @@ COMMON_FIRST_DECLS
 	const auto q = beta * gamma - (2 / gamma) * (alpha + beta);
 	const auto r = 1 + beta - (gamma2 / 4) * (2 + beta) + gamma4 / 16;
 
-	//---------------------------------------------------------------------------
 	//Algebra prediction begain
 	//Eq.(20)
 	const auto G = (4 + beta - gamma2) / 12;
@@ -7036,7 +6915,6 @@ COMMON_FIRST_DECLS
 	//auto t0 = -sign(q) * std::sqrt(s0) + uv;
 	auto t0 = -std::copysign(std::sqrt(s0), q) + uv;
 	//Algebra prediction end
-	//---------------------------------------------------------------------------
 
 	// sometimes the Algebra prediction t exists numerical value error, but we
 	// can see this t as a good initial value and get a new solution from the
@@ -7087,7 +6965,6 @@ const auto func_info = func_info_t(
 
 }
 //}}}
-
 
 namespace zhu_1993
 // {{{
