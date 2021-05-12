@@ -10,6 +10,7 @@
 #pragma once
 
 #include "wgs84-utils.hpp"
+
 #include <cmath>
 #include <string>
 
