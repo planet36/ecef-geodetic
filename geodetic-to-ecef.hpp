@@ -10,6 +10,7 @@
 #pragma once
 
 #include "wgs84-utils.hpp"
+
 #include <cmath>
 
 /// Convert Geodetic to ECEF
@@ -24,13 +25,14 @@ Equation (4-14)
 \param[out] y Y coordinate (meters)
 \param[out] z Z coordinate (meters)
 */
-void geodetic_to_ecef(const double lat, const double lon, const double ht, double& x, double& y, double& z)
+void geodetic_to_ecef(const double lat, const double lon, const double ht,
+                      double& x, double& y, double& z)
 {
-	const auto sin_lat = sin(lat);
-	const auto cos_lat = cos(lat);
+	const auto sin_lat = std::sin(lat);
+	const auto cos_lat = std::cos(lat);
 
-	const auto sin_lon = sin(lon);
-	const auto cos_lon = cos(lon);
+	const auto sin_lon = std::sin(lon);
+	const auto cos_lon = std::cos(lon);
 
 	const auto Rn = get_Rn(sin_lat);
 
