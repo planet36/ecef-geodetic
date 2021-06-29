@@ -6086,7 +6086,7 @@ COMMON_FIRST_DECLS
 	const auto Ne = std::sqrt(POW4(WGS84_Ellipsoid::a) * SQ(z_) + POW4(WGS84_Ellipsoid::b) * SQ(w_)) / WGS84_Ellipsoid::b2;
 
 	auto sin_lat = (WGS84_Ellipsoid::a2 / WGS84_Ellipsoid::b2) * z_ / Ne;
-			
+
 	// clamp to valid range
 	if (sin_lat < -1) { sin_lat = -1; }
 	else if (sin_lat > 1) { sin_lat = 1; }
@@ -6157,7 +6157,7 @@ COMMON_FIRST_DECLS
 	const auto Ne = WGS84_Ellipsoid::a * std::sqrt(1 + Z * Z * WGS84_Ellipsoid::ep2 / WGS84_Ellipsoid::b2);
 
 	auto sin_lat = (WGS84_Ellipsoid::ep2 + 1) * (Z / Ne);
-			
+
 	// clamp to valid range
 	if (sin_lat < -1) { sin_lat = -1; }
 	else if (sin_lat > 1) { sin_lat = 1; }
