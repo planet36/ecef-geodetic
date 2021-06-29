@@ -27,8 +27,8 @@ double hypot(const double x, const double y)
 /// make a unit vector (i.e. normalize the vector components)
 /**
 \pre The magnitude of &lt;\a x, \a y&gt; is non-zero.
-\sa http://mathworld.wolfram.com/NormalizedVector.html
-\sa http://mathworld.wolfram.com/UnitVector.html
+\sa https://mathworld.wolfram.com/NormalizedVector.html
+\sa https://mathworld.wolfram.com/UnitVector.html
 \param[in,out] x,y the vector coordinates
 */
 void normalize(double& x, double& y)
@@ -186,8 +186,6 @@ struct func_info_t
 * sin * (Rn + ht) == z + sin * Rn * e2
 *
 * tan == (z + sin * Rn * e2) / w
-*
-*
 */
 
 /**
@@ -2017,7 +2015,7 @@ const auto func_info = func_info_t(
 	.code_copyright              = "Steven Ward",
 	.license                     = "OSL-3.0",
 	.orig_impl_lang              = "None",
-	.url                         = "http://mathworld.wolfram.com/HalleysMethod.html",
+	.url                         = "https://mathworld.wolfram.com/HalleysMethod.html",
 	.citation                    = R"(Halley's Method: Δφ = (f * f') / (f' * f' - 0.5 * f * f''))"
 );
 
@@ -2063,7 +2061,7 @@ const auto func_info = func_info_t(
 	.code_copyright              = "Steven Ward",
 	.license                     = "OSL-3.0",
 	.orig_impl_lang              = "None",
-	.url                         = "http://mathworld.wolfram.com/HalleysMethod.html",
+	.url                         = "https://mathworld.wolfram.com/HalleysMethod.html",
 	.citation                    = R"(Halley's Method: Δφ = (f * f') / (f' * f' - 0.5 * f * f''))"
 );
 
@@ -2115,7 +2113,7 @@ const auto func_info = func_info_t(
 	.code_copyright              = "Steven Ward",
 	.license                     = "OSL-3.0",
 	.orig_impl_lang              = "None",
-	.url                         = "http://mathworld.wolfram.com/HalleysMethod.html",
+	.url                         = "https://mathworld.wolfram.com/HalleysMethod.html",
 	.citation                    = R"(Halley's Method: Δφ = (f * f') / (f' * f' - 0.5 * f * f''))"
 );
 
@@ -2167,7 +2165,7 @@ const auto func_info = func_info_t(
 	.code_copyright              = "Steven Ward",
 	.license                     = "OSL-3.0",
 	.orig_impl_lang              = "None",
-	.url                         = "http://mathworld.wolfram.com/HalleysMethod.html",
+	.url                         = "https://mathworld.wolfram.com/HalleysMethod.html",
 	.citation                    = R"(Halley's Method: Δφ = (f * f') / (f' * f' - 0.5 * f * f''))"
 );
 
@@ -2367,7 +2365,7 @@ const auto func_info = func_info_t(
 	.code_copyright              = "Steven Ward",
 	.license                     = "OSL-3.0",
 	.orig_impl_lang              = "None",
-	.url                         = "http://mathworld.wolfram.com/HouseholdersMethod.html",
+	.url                         = "https://mathworld.wolfram.com/HouseholdersMethod.html",
 	.citation                    = R"(Householder's Method: Δφ = (f / f') * (1 + 0.5 * f * f'' / (f' * f')))"
 );
 
@@ -2413,7 +2411,7 @@ const auto func_info = func_info_t(
 	.code_copyright              = "Steven Ward",
 	.license                     = "OSL-3.0",
 	.orig_impl_lang              = "None",
-	.url                         = "http://mathworld.wolfram.com/HouseholdersMethod.html",
+	.url                         = "https://mathworld.wolfram.com/HouseholdersMethod.html",
 	.citation                    = R"(Householder's Method: Δφ = (f / f') * (1 + 0.5 * f * f'' / (f' * f')))"
 );
 
@@ -2465,7 +2463,7 @@ const auto func_info = func_info_t(
 	.code_copyright              = "Steven Ward",
 	.license                     = "OSL-3.0",
 	.orig_impl_lang              = "None",
-	.url                         = "http://mathworld.wolfram.com/HouseholdersMethod.html",
+	.url                         = "https://mathworld.wolfram.com/HouseholdersMethod.html",
 	.citation                    = R"(Householder's Method: Δφ = (f / f') * (1 + 0.5 * f * f'' / (f' * f')))"
 );
 
@@ -2517,7 +2515,7 @@ const auto func_info = func_info_t(
 	.code_copyright              = "Steven Ward",
 	.license                     = "OSL-3.0",
 	.orig_impl_lang              = "None",
-	.url                         = "http://mathworld.wolfram.com/HouseholdersMethod.html",
+	.url                         = "https://mathworld.wolfram.com/HouseholdersMethod.html",
 	.citation                    = R"(Householder's Method: Δφ = (f / f') * (1 + 0.5 * f * f'' / (f' * f')))"
 );
 
@@ -3387,7 +3385,7 @@ const auto func_info = func_info_t(
 	.code_copyright              = "Steven Ward",
 	.license                     = "OSL-3.0",
 	.orig_impl_lang              = "None",
-	.url                         = "http://mathworld.wolfram.com/NewtonsMethod.html",
+	.url                         = "https://mathworld.wolfram.com/NewtonsMethod.html",
 	.citation                    = R"(Newton-Raphson Method: Δφ = f / f')"
 );
 
@@ -3433,7 +3431,7 @@ const auto func_info = func_info_t(
 	.code_copyright              = "Steven Ward",
 	.license                     = "OSL-3.0",
 	.orig_impl_lang              = "None",
-	.url                         = "http://mathworld.wolfram.com/NewtonsMethod.html",
+	.url                         = "https://mathworld.wolfram.com/NewtonsMethod.html",
 	.citation                    = R"(Newton-Raphson Method: Δφ = f / f')"
 );
 
@@ -3485,7 +3483,7 @@ const auto func_info = func_info_t(
 	.code_copyright              = "Steven Ward",
 	.license                     = "OSL-3.0",
 	.orig_impl_lang              = "None",
-	.url                         = "http://mathworld.wolfram.com/NewtonsMethod.html",
+	.url                         = "https://mathworld.wolfram.com/NewtonsMethod.html",
 	.citation                    = R"(Newton-Raphson Method: Δφ = f / f')"
 );
 
@@ -3537,7 +3535,7 @@ const auto func_info = func_info_t(
 	.code_copyright              = "Steven Ward",
 	.license                     = "OSL-3.0",
 	.orig_impl_lang              = "None",
-	.url                         = "http://mathworld.wolfram.com/NewtonsMethod.html",
+	.url                         = "https://mathworld.wolfram.com/NewtonsMethod.html",
 	.citation                    = R"(Newton-Raphson Method: Δφ = f / f')"
 );
 
@@ -3626,9 +3624,8 @@ const auto func_info = func_info_t(
 	.license                     = "Public Domain",
 	.orig_impl_lang              = "C",
 	.url                         = "https://www.researchgate.net/publication/3002552_Converting_Earth-Centered_Earth-Fixed_Coordinates_to_Geodetic_Coordinates",
-	.citation                    = R"(D. K. Olson, "Converting Earth-centered, Earth-fixed coordinates to geodetic coordinates," in IEEE Transactions on Aerospace and Electronic Systems, vol. 32, no. 1, pp. 473-476, Jan. 1996.
-doi: 10.1109/7.481290
-URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=481290&isnumber=10254
+	.citation                    = R"(D. K. Olson, "Converting Earth-centered, Earth-fixed coordinates to geodetic coordinates," in IEEE Transactions on Aerospace and Electronic Systems, vol. 32, no. 1, pp. 473-476, Jan. 1996, doi: 10.1109/7.481290.
+URL: https://ieeexplore.ieee.org/document/481290
 
 Olson, D.K.. (1996). Converting Earth-Centered, Earth-Fixed Coordinates to Geodetic Coordinates. Aerospace and Electronic Systems, IEEE Transactions on. 32. 473 - 476. 10.1109/7.481290.
 
@@ -3721,9 +3718,8 @@ const auto func_info = func_info_t(
 	.license                     = "Public Domain",
 	.orig_impl_lang              = "C",
 	.url                         = "https://www.researchgate.net/publication/3002552_Converting_Earth-Centered_Earth-Fixed_Coordinates_to_Geodetic_Coordinates",
-	.citation                    = R"(D. K. Olson, "Converting Earth-centered, Earth-fixed coordinates to geodetic coordinates," in IEEE Transactions on Aerospace and Electronic Systems, vol. 32, no. 1, pp. 473-476, Jan. 1996.
-doi: 10.1109/7.481290
-URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=481290&isnumber=10254
+	.citation                    = R"(D. K. Olson, "Converting Earth-centered, Earth-fixed coordinates to geodetic coordinates," in IEEE Transactions on Aerospace and Electronic Systems, vol. 32, no. 1, pp. 473-476, Jan. 1996, doi: 10.1109/7.481290.
+URL: https://ieeexplore.ieee.org/document/481290
 
 Olson, D.K.. (1996). Converting Earth-Centered, Earth-Fixed Coordinates to Geodetic Coordinates. Aerospace and Electronic Systems, IEEE Transactions on. 32. 473 - 476. 10.1109/7.481290.
 
@@ -4462,7 +4458,7 @@ const auto func_info = func_info_t(
 	.code_copyright              = "Steven Ward",
 	.license                     = "OSL-3.0",
 	.orig_impl_lang              = "None",
-	.url                         = "http://mathworld.wolfram.com/SchroedersMethod.html",
+	.url                         = "https://mathworld.wolfram.com/SchroedersMethod.html",
 	.citation                    = R"(Schroeder's Method: Δφ = (f * f') / (f' * f' - f * f''))"
 );
 
@@ -4508,7 +4504,7 @@ const auto func_info = func_info_t(
 	.code_copyright              = "Steven Ward",
 	.license                     = "OSL-3.0",
 	.orig_impl_lang              = "None",
-	.url                         = "http://mathworld.wolfram.com/SchroedersMethod.html",
+	.url                         = "https://mathworld.wolfram.com/SchroedersMethod.html",
 	.citation                    = R"(Schroeder's Method: Δφ = (f * f') / (f' * f' - f * f''))"
 );
 
@@ -4560,7 +4556,7 @@ const auto func_info = func_info_t(
 	.code_copyright              = "Steven Ward",
 	.license                     = "OSL-3.0",
 	.orig_impl_lang              = "None",
-	.url                         = "http://mathworld.wolfram.com/SchroedersMethod.html",
+	.url                         = "https://mathworld.wolfram.com/SchroedersMethod.html",
 	.citation                    = R"(Schroeder's Method: Δφ = (f * f') / (f' * f' - f * f''))"
 );
 
@@ -4612,7 +4608,7 @@ const auto func_info = func_info_t(
 	.code_copyright              = "Steven Ward",
 	.license                     = "OSL-3.0",
 	.orig_impl_lang              = "None",
-	.url                         = "http://mathworld.wolfram.com/SchroedersMethod.html",
+	.url                         = "https://mathworld.wolfram.com/SchroedersMethod.html",
 	.citation                    = R"(Schroeder's Method: Δφ = (f * f') / (f' * f' - f * f''))"
 );
 
