@@ -3931,31 +3931,6 @@ struct Geodetic3D
 	{}
 };
 
-// forward declarations
-template <typename T>
-requires std::is_floating_point_v<T>
-Vector3D<T> ScaleToGeodeticSurface(const Vector3D<T>& position);
-
-template <typename T>
-requires std::is_floating_point_v<T>
-Geodetic2D<T> ToGeodetic2D(const Vector3D<T>& positionOnEllipsoid);
-
-template <typename T>
-requires std::is_floating_point_v<T>
-Vector3D<T> GeodeticSurfaceNormal(const Vector3D<T>& positionOnEllipsoid);
-
-template <typename T>
-requires std::is_floating_point_v<T>
-Geodetic3D<T> ToGeodetic3D(const Vector3D<T>& position)
-{
-	const auto p = ScaleToGeodeticSurface(position);
-	const auto h = position.subtract(p);
-	// auto height = Math.sign(h.Dot(position)) * h.length();
-	const auto height = std::copysign(h.length(), h.dot(position));
-	const auto g2d = ToGeodetic2D(p);
-	return Geodetic3D<T>{g2d, height};
-}
-
 template <typename T>
 requires std::is_floating_point_v<T>
 Vector3D<T> ScaleToGeodeticSurface(const Vector3D<T>& position)
@@ -4018,6 +3993,16 @@ Vector3D<T> ScaleToGeodeticSurface(const Vector3D<T>& position)
 
 template <typename T>
 requires std::is_floating_point_v<T>
+Vector3D<T> GeodeticSurfaceNormal(const Vector3D<T>& positionOnEllipsoid)
+{
+	return positionOnEllipsoid.multiply(Vector3D<T>{
+				1 / WGS84_Ellipsoid::a2,
+				1 / WGS84_Ellipsoid::a2,
+				1 / WGS84_Ellipsoid::b2}).normalize();
+}
+
+template <typename T>
+requires std::is_floating_point_v<T>
 Geodetic2D<T> ToGeodetic2D(const Vector3D<T>& positionOnEllipsoid)
 {
 	auto n = GeodeticSurfaceNormal(positionOnEllipsoid);
@@ -4029,12 +4014,14 @@ Geodetic2D<T> ToGeodetic2D(const Vector3D<T>& positionOnEllipsoid)
 
 template <typename T>
 requires std::is_floating_point_v<T>
-Vector3D<T> GeodeticSurfaceNormal(const Vector3D<T>& positionOnEllipsoid)
+Geodetic3D<T> ToGeodetic3D(const Vector3D<T>& position)
 {
-	return positionOnEllipsoid.multiply(Vector3D<T>{
-				1 / WGS84_Ellipsoid::a2,
-				1 / WGS84_Ellipsoid::a2,
-				1 / WGS84_Ellipsoid::b2}).normalize();
+	const auto p = ScaleToGeodeticSurface(position);
+	const auto h = position.subtract(p);
+	// auto height = Math.sign(h.Dot(position)) * h.length();
+	const auto height = std::copysign(h.length(), h.dot(position));
+	const auto g2d = ToGeodetic2D(p);
+	return Geodetic3D<T>{g2d, height};
 }
 
 void ecef_to_geodetic(const double x, const double y, const double z,
