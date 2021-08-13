@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include "wgs84-utils.hpp"
+#include "ellipsoid-wgs84.hpp"
 
 #include <cmath>
 #include <string>
@@ -78,12 +78,12 @@ constexpr int _lines_common_first_decls = 4;
 		if (z == 0) /* center of earth */ \
 		{ \
 			lat_rad = 0; \
-			ht = -WGS84_Ellipsoid::a; \
+			ht = -WGS84<double>.a; \
 		} \
 		else \
 		{ \
 			lat_rad = std::copysign(M_PI_2, z); \
-			ht = std::abs(z) - WGS84_Ellipsoid::b; \
+			ht = std::abs(z) - WGS84<double>.b; \
 		} \
 		return; \
 	} \
@@ -91,7 +91,7 @@ constexpr int _lines_common_first_decls = 4;
 	if (z == 0) /* on the equatorial plane */ \
 	{ \
 		lat_rad = 0; \
-		ht = w - WGS84_Ellipsoid::a; \
+		ht = w - WGS84<double>.a; \
 		return; \
 	} \
 	[[gnu::unused]] const auto z2 = z * z; \
@@ -239,11 +239,11 @@ requires std::is_floating_point_v<T>
 void get_f_fp(const T w, const T z, const T sin_lat, const T cos_lat,
               T& f, T& fp)
 {
-	const auto d2 = 1 - WGS84_Ellipsoid::e2 * sin_lat * sin_lat;
+	const auto d2 = 1 - WGS84<T>.e2 * sin_lat * sin_lat;
 	const auto d = std::sqrt(d2);
-	const auto Rn = WGS84_Ellipsoid::a / d;
-	f = Rn * WGS84_Ellipsoid::e2 * sin_lat * cos_lat - w * sin_lat + z * cos_lat;
-	fp = Rn * (d2 - (1 - WGS84_Ellipsoid::e2) / d2) - w * cos_lat - z * sin_lat;
+	const auto Rn = WGS84<T>.a / d;
+	f = Rn * WGS84<T>.e2 * sin_lat * cos_lat - w * sin_lat + z * cos_lat;
+	fp = Rn * (d2 - (1 - WGS84<T>.e2) / d2) - w * cos_lat - z * sin_lat;
 }
 
 constexpr int _lines_f_fp = 8;
@@ -254,12 +254,12 @@ requires std::is_floating_point_v<T>
 void get_f_fp_fpp(const T w, const T z, const T sin_lat, const T cos_lat,
                   T& f, T& fp, T& fpp)
 {
-	const auto d2 = 1 - WGS84_Ellipsoid::e2 * sin_lat * sin_lat;
+	const auto d2 = 1 - WGS84<T>.e2 * sin_lat * sin_lat;
 	const auto d = std::sqrt(d2);
-	const auto Rn = WGS84_Ellipsoid::a / d;
-	f = Rn * WGS84_Ellipsoid::e2 * sin_lat * cos_lat - w * sin_lat + z * cos_lat;
-	fp = Rn * (d2 - (1 - WGS84_Ellipsoid::e2) / d2) - w * cos_lat - z * sin_lat;
-	fpp = -Rn * WGS84_Ellipsoid::e2 * sin_lat * cos_lat * (d2 + 3 * (1 - WGS84_Ellipsoid::e2) / d2) / d2 + w * sin_lat - z * cos_lat;
+	const auto Rn = WGS84<T>.a / d;
+	f = Rn * WGS84<T>.e2 * sin_lat * cos_lat - w * sin_lat + z * cos_lat;
+	fp = Rn * (d2 - (1 - WGS84<T>.e2) / d2) - w * cos_lat - z * sin_lat;
+	fpp = -Rn * WGS84<T>.e2 * sin_lat * cos_lat * (d2 + 3 * (1 - WGS84<T>.e2) / d2) / d2 + w * sin_lat - z * cos_lat;
 }
 
 constexpr int _lines_f_fp_fpp = 9;
@@ -317,14 +317,14 @@ requires std::is_floating_point_v<T>
 auto ligas_f1(const T w, const T we,
               const T z, const T ze)
 {
-	return (1 - WGS84_Ellipsoid::e2) * we * (ze - z) - ze * (we - w);
+	return (1 - WGS84<T>.e2) * we * (ze - z) - ze * (we - w);
 }
 
 template <typename T>
 requires std::is_floating_point_v<T>
 auto ligas_f2(const T we, const T ze)
 {
-	return (1 - WGS84_Ellipsoid::e2) * we * we + ze * ze - WGS84_Ellipsoid::b2;
+	return (1 - WGS84<T>.e2) * we * we + ze * ze - WGS84<T>.b2;
 }
 
 template <typename T>
@@ -359,9 +359,9 @@ requires std::is_floating_point_v<T>
 void ligas_Jacobian(const T w, const T we, const T z, const T ze,
                     T result[2][2])
 {
-	result[0][0] = (1 - WGS84_Ellipsoid::e2) * (ze - z) - ze;
-	result[0][1] = (1 - WGS84_Ellipsoid::e2) * we - (we - w);
-	result[1][0] = 2 * (1 - WGS84_Ellipsoid::e2) * we;
+	result[0][0] = (1 - WGS84<T>.e2) * (ze - z) - ze;
+	result[0][1] = (1 - WGS84<T>.e2) * we - (we - w);
+	result[1][0] = 2 * (1 - WGS84<T>.e2) * we;
 	result[1][1] = 2 * ze;
 }
 
@@ -371,11 +371,11 @@ template <typename T>
 requires std::is_floating_point_v<T>
 auto lin_wang_1995_delta_m(const T w2, const T z2, const T m)
 {
-	const auto tmp_a = WGS84_Ellipsoid::a + 2 * m / WGS84_Ellipsoid::a;
-	const auto tmp_b = WGS84_Ellipsoid::b + 2 * m / WGS84_Ellipsoid::b;
+	const auto tmp_a = WGS84<T>.a + 2 * m / WGS84<T>.a;
+	const auto tmp_b = WGS84<T>.b + 2 * m / WGS84<T>.b;
 
 	const auto f = w2 / (tmp_a * tmp_a) + z2 / (tmp_b * tmp_b) - 1;
-	const auto fp = -4 * (w2 / (WGS84_Ellipsoid::a * CB(tmp_a)) + z2 / (WGS84_Ellipsoid::b * CB(tmp_b)));
+	const auto fp = -4 * (w2 / (WGS84<T>.a * CB(tmp_a)) + z2 / (WGS84<T>.b * CB(tmp_b)));
 
 	return f / fp;
 }
@@ -386,13 +386,13 @@ template <typename T>
 requires std::is_floating_point_v<T>
 auto shu_2010_delta_k(const T w2, const T z2, const T k)
 {
-	const auto p = WGS84_Ellipsoid::a + WGS84_Ellipsoid::b * k;
-	const auto q = WGS84_Ellipsoid::b + WGS84_Ellipsoid::a * k;
+	const auto p = WGS84<T>.a + WGS84<T>.b * k;
+	const auto q = WGS84<T>.b + WGS84<T>.a * k;
 	const auto p2 = p * p;
 	const auto q2 = q * q;
 
 	const auto f = p2 * q2 - w2 * q2 - z2 * p2;
-	const auto fp = 2 * (WGS84_Ellipsoid::b * p * (q2 - z2) + WGS84_Ellipsoid::a * q * (p2 - w2));
+	const auto fp = 2 * (WGS84<T>.b * p * (q2 - z2) + WGS84<T>.a * q * (p2 - w2));
 
 	return f / fp;
 }
@@ -427,10 +427,10 @@ COMMON_FIRST_DECLS
 
 	// a*e2/(1-f) == b*ep2
 	// SDW: NaNs at the poles
-	//const auto E = (WGS84_Ellipsoid::b * std::abs(z) - WGS84_Ellipsoid::a2 * WGS84_Ellipsoid::e2) / (WGS84_Ellipsoid::a * w);
-	//const auto F = (WGS84_Ellipsoid::b * std::abs(z) + WGS84_Ellipsoid::a2 * WGS84_Ellipsoid::e2) / (WGS84_Ellipsoid::a * w);
-	const auto E = ((1 - WGS84_Ellipsoid::f) * std::abs(z) - WGS84_Ellipsoid::a * WGS84_Ellipsoid::e2) / w;
-	const auto F = ((1 - WGS84_Ellipsoid::f) * std::abs(z) + WGS84_Ellipsoid::a * WGS84_Ellipsoid::e2) / w;
+	//const auto E = (WGS84<double>.b * std::abs(z) - WGS84<double>.a2 * WGS84<double>.e2) / (WGS84<double>.a * w);
+	//const auto F = (WGS84<double>.b * std::abs(z) + WGS84<double>.a2 * WGS84<double>.e2) / (WGS84<double>.a * w);
+	const auto E = ((1 - WGS84<double>.f) * std::abs(z) - WGS84<double>.a * WGS84<double>.e2) / w;
+	const auto F = ((1 - WGS84<double>.f) * std::abs(z) + WGS84<double>.a * WGS84<double>.e2) / w;
 
 	const auto P = 4 * (E * F + 1) / 3;
 	const auto Q = 2 * (E * E - F * F);
@@ -451,7 +451,7 @@ COMMON_FIRST_DECLS
 
 	// https://en.wikipedia.org/wiki/Tangent_half-angle_formula
 	auto sin_lat = 1 - t * t;
-	auto cos_lat = 2 * t * (1 - WGS84_Ellipsoid::f);
+	auto cos_lat = 2 * t * (1 - WGS84<double>.f);
 
 	if (z < 0)
 		sin_lat = -sin_lat;
@@ -460,10 +460,10 @@ COMMON_FIRST_DECLS
 
 	// http://www.astro.uni.torun.pl/~kb/Papers/ASS/Geod-ASS.htm
 	// SDW: this does not work
-	//ht = (r - WGS84_Ellipsoid::a * t) * cos_lat + (z - WGS84_Ellipsoid::b) * sin_lat;
+	//ht = (r - WGS84<double>.a * t) * cos_lat + (z - WGS84<double>.b) * sin_lat;
 
 	normalize(cos_lat, sin_lat);
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int _line_end = __LINE__;
 
@@ -500,17 +500,17 @@ COMMON_FIRST_DECLS
 
 	// (i = 0) geocentric to parametric
 	auto sin_lat = z;
-	auto cos_lat = w * (1 - WGS84_Ellipsoid::f);
+	auto cos_lat = w * (1 - WGS84<double>.f);
 	normalize(cos_lat, sin_lat);
 
 	// (i = 1) parametric to geodetic
-	sin_lat = z + WGS84_Ellipsoid::b * WGS84_Ellipsoid::ep2 * CB(sin_lat);
-	cos_lat = w - WGS84_Ellipsoid::a * WGS84_Ellipsoid::e2 * CB(cos_lat);
+	sin_lat = z + WGS84<double>.b * WGS84<double>.ep2 * CB(sin_lat);
+	cos_lat = w - WGS84<double>.a * WGS84<double>.e2 * CB(cos_lat);
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
 	normalize(cos_lat, sin_lat);
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int _line_end = __LINE__;
 
@@ -547,25 +547,25 @@ COMMON_FIRST_DECLS
 
 	// (i = 0) geocentric to parametric
 	auto sin_lat = z;
-	auto cos_lat = w * (1 - WGS84_Ellipsoid::f);
+	auto cos_lat = w * (1 - WGS84<double>.f);
 	normalize(cos_lat, sin_lat);
 
 	// (i = 1) parametric to geodetic
-	sin_lat = z + WGS84_Ellipsoid::b * WGS84_Ellipsoid::ep2 * CB(sin_lat);
-	cos_lat = w - WGS84_Ellipsoid::a * WGS84_Ellipsoid::e2 * CB(cos_lat);
+	sin_lat = z + WGS84<double>.b * WGS84<double>.ep2 * CB(sin_lat);
+	cos_lat = w - WGS84<double>.a * WGS84<double>.e2 * CB(cos_lat);
 
 	// geodetic to parametric
-	sin_lat *= (1 - WGS84_Ellipsoid::f);
+	sin_lat *= (1 - WGS84<double>.f);
 	normalize(cos_lat, sin_lat);
 
 	// (i = 2) parametric to geodetic
-	sin_lat = z + WGS84_Ellipsoid::b * WGS84_Ellipsoid::ep2 * CB(sin_lat);
-	cos_lat = w - WGS84_Ellipsoid::a * WGS84_Ellipsoid::e2 * CB(cos_lat);
+	sin_lat = z + WGS84<double>.b * WGS84<double>.ep2 * CB(sin_lat);
+	cos_lat = w - WGS84<double>.a * WGS84<double>.e2 * CB(cos_lat);
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
 	normalize(cos_lat, sin_lat);
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int _line_end = __LINE__;
 
@@ -603,20 +603,20 @@ COMMON_FIRST_DECLS
 	const auto r = std::sqrt(w2 + z2);
 
 	// (i = 0) ??? to parametric
-	auto sin_lat = z * (1 - WGS84_Ellipsoid::f + WGS84_Ellipsoid::a * WGS84_Ellipsoid::e2 / r);
+	auto sin_lat = z * (1 - WGS84<double>.f + WGS84<double>.a * WGS84<double>.e2 / r);
 	// SDW: this is not more accurate
-	//auto sin_lat = z * (1 - WGS84_Ellipsoid::f) + WGS84_Ellipsoid::a * WGS84_Ellipsoid::e2 * (z / r);
+	//auto sin_lat = z * (1 - WGS84<double>.f) + WGS84<double>.a * WGS84<double>.e2 * (z / r);
 	auto cos_lat = w;
 	normalize(cos_lat, sin_lat);
 
 	// (i = 1) parametric to geodetic
-	sin_lat = z + WGS84_Ellipsoid::b * WGS84_Ellipsoid::ep2 * CB(sin_lat);
-	cos_lat = w - WGS84_Ellipsoid::a * WGS84_Ellipsoid::e2 * CB(cos_lat);
+	sin_lat = z + WGS84<double>.b * WGS84<double>.ep2 * CB(sin_lat);
+	cos_lat = w - WGS84<double>.a * WGS84<double>.e2 * CB(cos_lat);
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
 	normalize(cos_lat, sin_lat);
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int _line_end = __LINE__;
 
@@ -653,28 +653,28 @@ COMMON_FIRST_DECLS
 	const auto r = std::sqrt(w2 + z2);
 
 	// (i = 0) ??? to parametric
-	auto sin_lat = z * (1 - WGS84_Ellipsoid::f + WGS84_Ellipsoid::a * WGS84_Ellipsoid::e2 / r);
+	auto sin_lat = z * (1 - WGS84<double>.f + WGS84<double>.a * WGS84<double>.e2 / r);
 	// SDW: this is not more accurate
-	//auto sin_lat = z * (1 - WGS84_Ellipsoid::f) + WGS84_Ellipsoid::a * WGS84_Ellipsoid::e2 * (z / r);
+	//auto sin_lat = z * (1 - WGS84<double>.f) + WGS84<double>.a * WGS84<double>.e2 * (z / r);
 	auto cos_lat = w;
 	normalize(cos_lat, sin_lat);
 
 	// (i = 1) parametric to geodetic
-	sin_lat = z + WGS84_Ellipsoid::b * WGS84_Ellipsoid::ep2 * CB(sin_lat);
-	cos_lat = w - WGS84_Ellipsoid::a * WGS84_Ellipsoid::e2 * CB(cos_lat);
+	sin_lat = z + WGS84<double>.b * WGS84<double>.ep2 * CB(sin_lat);
+	cos_lat = w - WGS84<double>.a * WGS84<double>.e2 * CB(cos_lat);
 
 	// geodetic to parametric
-	sin_lat *= (1 - WGS84_Ellipsoid::f);
+	sin_lat *= (1 - WGS84<double>.f);
 	normalize(cos_lat, sin_lat);
 
 	// (i = 2) parametric to geodetic
-	sin_lat = z + WGS84_Ellipsoid::b * WGS84_Ellipsoid::ep2 * CB(sin_lat);
-	cos_lat = w - WGS84_Ellipsoid::a * WGS84_Ellipsoid::e2 * CB(cos_lat);
+	sin_lat = z + WGS84<double>.b * WGS84<double>.ep2 * CB(sin_lat);
+	cos_lat = w - WGS84<double>.a * WGS84<double>.e2 * CB(cos_lat);
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
 	normalize(cos_lat, sin_lat);
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int _line_end = __LINE__;
 
@@ -711,22 +711,22 @@ COMMON_FIRST_DECLS
 	const auto r = std::sqrt(w2 + z2);
 	double aD_b;
 
-	if (r <= 2E6 + (WGS84_Ellipsoid::a + WGS84_Ellipsoid::b) / 2)
+	if (r <= 2E6 + (WGS84<double>.a + WGS84<double>.b) / 2)
 	{
 		// region 1
 		aD_b = 1.0026;
 	}
-	else if (r <= 6E6 + (WGS84_Ellipsoid::a + WGS84_Ellipsoid::b) / 2)
+	else if (r <= 6E6 + (WGS84<double>.a + WGS84<double>.b) / 2)
 	{
 		// region 2
 		aD_b = 1.00092592;
 	}
-	else if (r <= 18E6 + (WGS84_Ellipsoid::a + WGS84_Ellipsoid::b) / 2)
+	else if (r <= 18E6 + (WGS84<double>.a + WGS84<double>.b) / 2)
 	{
 		// region 3
 		aD_b = 0.999250297;
 	}
-	else // if (r <= 1E9 + (WGS84_Ellipsoid::a + WGS84_Ellipsoid::b) / 2)
+	else // if (r <= 1E9 + (WGS84<double>.a + WGS84<double>.b) / 2)
 	{
 		// region 4
 		aD_b = 0.997523508;
@@ -738,13 +738,13 @@ COMMON_FIRST_DECLS
 	normalize(cos_lat, sin_lat);
 
 	// (i = 1) parametric to geodetic
-	sin_lat = z + WGS84_Ellipsoid::b * WGS84_Ellipsoid::ep2 * CB(sin_lat);
-	cos_lat = w - WGS84_Ellipsoid::a * WGS84_Ellipsoid::e2 * CB(cos_lat);
+	sin_lat = z + WGS84<double>.b * WGS84<double>.ep2 * CB(sin_lat);
+	cos_lat = w - WGS84<double>.a * WGS84<double>.e2 * CB(cos_lat);
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
 	normalize(cos_lat, sin_lat);
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int _line_end = __LINE__;
 
@@ -781,22 +781,22 @@ COMMON_FIRST_DECLS
 	const auto r = std::sqrt(w2 + z2);
 	double aD_b;
 
-	if (r <= 2E6 + (WGS84_Ellipsoid::a + WGS84_Ellipsoid::b)/2)
+	if (r <= 2E6 + (WGS84<double>.a + WGS84<double>.b)/2)
 	{
 		// region 1
 		aD_b = 1.0026;
 	}
-	else if (r <= 6E6 + (WGS84_Ellipsoid::a + WGS84_Ellipsoid::b)/2)
+	else if (r <= 6E6 + (WGS84<double>.a + WGS84<double>.b)/2)
 	{
 		// region 2
 		aD_b = 1.00092592;
 	}
-	else if (r <= 18E6 + (WGS84_Ellipsoid::a + WGS84_Ellipsoid::b)/2)
+	else if (r <= 18E6 + (WGS84<double>.a + WGS84<double>.b)/2)
 	{
 		// region 3
 		aD_b = 0.999250297;
 	}
-	else // if (r <= 1E9 + (WGS84_Ellipsoid::a + WGS84_Ellipsoid::b)/2)
+	else // if (r <= 1E9 + (WGS84<double>.a + WGS84<double>.b)/2)
 	{
 		// region 4
 		aD_b = 0.997523508;
@@ -808,21 +808,21 @@ COMMON_FIRST_DECLS
 	normalize(cos_lat, sin_lat);
 
 	// (i = 1) parametric to geodetic
-	sin_lat = z + WGS84_Ellipsoid::b * WGS84_Ellipsoid::ep2 * CB(sin_lat);
-	cos_lat = w - WGS84_Ellipsoid::a * WGS84_Ellipsoid::e2 * CB(cos_lat);
+	sin_lat = z + WGS84<double>.b * WGS84<double>.ep2 * CB(sin_lat);
+	cos_lat = w - WGS84<double>.a * WGS84<double>.e2 * CB(cos_lat);
 
 	// geodetic to parametric
-	sin_lat *= (1 - WGS84_Ellipsoid::f);
+	sin_lat *= (1 - WGS84<double>.f);
 	normalize(cos_lat, sin_lat);
 
 	// (i = 2) parametric to geodetic
-	sin_lat = z + WGS84_Ellipsoid::b * WGS84_Ellipsoid::ep2 * CB(sin_lat);
-	cos_lat = w - WGS84_Ellipsoid::a * WGS84_Ellipsoid::e2 * CB(cos_lat);
+	sin_lat = z + WGS84<double>.b * WGS84<double>.ep2 * CB(sin_lat);
+	cos_lat = w - WGS84<double>.a * WGS84<double>.e2 * CB(cos_lat);
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
 	normalize(cos_lat, sin_lat);
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int _line_end = __LINE__;
 
@@ -880,8 +880,8 @@ COMMON_FIRST_DECLS
 
 	double sin_lat = 0;
 	double cos_lat = 0;
-	constexpr auto c = WGS84_Ellipsoid::a * WGS84_Ellipsoid::e2;
-	constexpr auto ep = 1 - WGS84_Ellipsoid::f;
+	constexpr auto c = WGS84<double>.a * WGS84<double>.e2;
+	constexpr auto ep = 1 - WGS84<double>.f;
 	const auto zp = ep * std::abs(z);
 	const auto u = 2 * (zp - c);
 	const auto v = 2 * (zp + c);
@@ -922,7 +922,7 @@ COMMON_FIRST_DECLS
 	/*
 	// SDW: This does not work
 	sin_lat = z;
-	cos_lat = w * (1 - WGS84_Ellipsoid::f);
+	cos_lat = w * (1 - WGS84<double>.f);
 
 	t = std::tan(sin_lat / cos_lat);
 	*/
@@ -961,9 +961,9 @@ COMMON_FIRST_DECLS
 
 	// SDW: This function doesn't work, so don't worry about optimizing it.
 #ifdef USE_CUSTOM_HT
-	ht = (2 * w * ep * t + z * (1 - t * t) - WGS84_Ellipsoid::a * ep * (1 + t * t)) / std::sqrt(SQ(1 + t * t) - 4 * WGS84_Ellipsoid::e2 * t * t);
+	ht = (2 * w * ep * t + z * (1 - t * t) - WGS84<double>.a * ep * (1 + t * t)) / std::sqrt(SQ(1 + t * t) - 4 * WGS84<double>.e2 * t * t);
 #else
-	ht = get_ht_r(w, z, lat_rad);
+	ht = WGS84<double>.get_ht(w, z, lat_rad);
 #endif
 }
 constexpr int _line_end = __LINE__;
@@ -1024,8 +1024,8 @@ COMMON_FIRST_DECLS
 
 	double sin_lat = 0;
 	double cos_lat = 0;
-	constexpr auto c = WGS84_Ellipsoid::a * WGS84_Ellipsoid::e2;
-	constexpr auto ep = 1 - WGS84_Ellipsoid::f;
+	constexpr auto c = WGS84<double>.a * WGS84<double>.e2;
+	constexpr auto ep = 1 - WGS84<double>.f;
 	const auto zp = ep * std::abs(z);
 	const auto u = 2 * (zp - c);
 	const auto v = 2 * (zp + c);
@@ -1066,7 +1066,7 @@ COMMON_FIRST_DECLS
 	/*
 	// SDW: This does not work
 	sin_lat = z;
-	cos_lat = w * (1 - WGS84_Ellipsoid::f);
+	cos_lat = w * (1 - WGS84<double>.f);
 
 	t = std::tan(sin_lat / cos_lat);
 	*/
@@ -1105,9 +1105,9 @@ COMMON_FIRST_DECLS
 
 	// SDW: This function doesn't work, so don't worry about optimizing it.
 #ifdef USE_CUSTOM_HT
-	ht = (2 * w * ep * t + z * (1 - t * t) - WGS84_Ellipsoid::a * ep * (1 + t * t)) / std::sqrt(SQ(1 + t * t) - 4 * WGS84_Ellipsoid::e2 * t * t);
+	ht = (2 * w * ep * t + z * (1 - t * t) - WGS84<double>.a * ep * (1 + t * t)) / std::sqrt(SQ(1 + t * t) - 4 * WGS84<double>.e2 * t * t);
 #else
-	ht = get_ht_r(w, z, lat_rad);
+	ht = WGS84<double>.get_ht(w, z, lat_rad);
 #endif
 }
 constexpr int _line_end = __LINE__;
@@ -1144,9 +1144,9 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 {
 COMMON_FIRST_DECLS
 
-	const auto z_c = z * (1 - WGS84_Ellipsoid::f);
-	const auto w_c = w * (1 - WGS84_Ellipsoid::f);
-	const auto c = WGS84_Ellipsoid::a * WGS84_Ellipsoid::e2;
+	const auto z_c = z * (1 - WGS84<double>.f);
+	const auto w_c = w * (1 - WGS84<double>.f);
+	const auto c = WGS84<double>.a * WGS84<double>.e2;
 
 	double S_n;
 	double C_n;
@@ -1169,12 +1169,12 @@ COMMON_FIRST_DECLS
 
 	auto sin_lat = S_n;
 	auto cos_lat = C_n;
-	cos_lat *= (1 - WGS84_Ellipsoid::f);
+	cos_lat *= (1 - WGS84<double>.f);
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
 	normalize(cos_lat, sin_lat);
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int _line_end = __LINE__;
 
@@ -1208,9 +1208,9 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 {
 COMMON_FIRST_DECLS
 
-	const auto z_c = z * (1 - WGS84_Ellipsoid::f);
-	const auto w_c = w * (1 - WGS84_Ellipsoid::f);
-	const auto c = WGS84_Ellipsoid::a * WGS84_Ellipsoid::e2;
+	const auto z_c = z * (1 - WGS84<double>.f);
+	const auto w_c = w * (1 - WGS84<double>.f);
+	const auto c = WGS84<double>.a * WGS84<double>.e2;
 
 	double S_n;
 	double C_n;
@@ -1233,12 +1233,12 @@ COMMON_FIRST_DECLS
 
 	auto sin_lat = S_n;
 	auto cos_lat = C_n;
-	cos_lat *= (1 - WGS84_Ellipsoid::f);
+	cos_lat *= (1 - WGS84<double>.f);
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
 	normalize(cos_lat, sin_lat);
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int _line_end = __LINE__;
 
@@ -1270,7 +1270,7 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 {
 COMMON_FIRST_DECLS
 
-	constexpr auto e4 = WGS84_Ellipsoid::e2 * WGS84_Ellipsoid::e2;
+	constexpr auto e4 = WGS84<double>.e2 * WGS84<double>.e2;
 
 	//const auto w = hypot(x, y);
 	//const double sin_lambda = w != 0 ? y / w : 0;
@@ -1280,9 +1280,9 @@ COMMON_FIRST_DECLS
 	double cos_lat;
 	// Treat prolate spheroids by swapping w and z here and by switching
 	// the arguments to phi = atan2(...) at the end.
-	const auto p = w2 / WGS84_Ellipsoid::a2;
-	// (1 - WGS84_Ellipsoid::e2) / WGS84_Ellipsoid::a2 == 1 / (Rp * Rp)
-	const auto q = (z2 / WGS84_Ellipsoid::a2) * (1 - WGS84_Ellipsoid::e2);
+	const auto p = w2 / WGS84<double>.a2;
+	// (1 - WGS84<double>.e2) / WGS84<double>.a2 == 1 / (Rp * Rp)
+	const auto q = (z2 / WGS84<double>.a2) * (1 - WGS84<double>.e2);
 	const auto r = (p + q - e4) / 6;
 	if (!(e4 * q == 0 && r <= 0))
 	{
@@ -1319,18 +1319,18 @@ COMMON_FIRST_DECLS
 		// e2*e2 * q / (v - u) because u ~ e^4 when q is small and u < 0.
 		const auto uv = u < 0 ? e4 * q / (v - u) : u + v; // u+v, guaranteed positive
 		// Need to guard against w_ going negative due to roundoff in uv - q.
-		const auto w_ = std::max(0.0, 0.5 * WGS84_Ellipsoid::e2 * (uv - q) / v);
+		const auto w_ = std::max(0.0, 0.5 * WGS84<double>.e2 * (uv - q) / v);
 		// Rearrange expression for k to avoid loss of accuracy due to
 		// subtraction.  Division by 0 not possible because uv > 0, w_ >= 0.
 		const auto k = uv / (std::sqrt(uv + w_ * w_) + w_);
-		const auto k1 = WGS84_Ellipsoid::f >= 0 ? k : k - WGS84_Ellipsoid::e2;
-		const auto k2 = WGS84_Ellipsoid::f >= 0 ? k + WGS84_Ellipsoid::e2 : k;
+		const auto k1 = WGS84<double>.f >= 0 ? k : k - WGS84<double>.e2;
+		const auto k2 = WGS84<double>.f >= 0 ? k + WGS84<double>.e2 : k;
 		const auto H = hypot(z/k1, w/k2);
 		sin_lat = (z/k1) / H;
 		cos_lat = (w/k2) / H;
 #ifdef USE_CUSTOM_HT
 		const auto d = k1 * w / k2;
-		ht = (1 - (1 - WGS84_Ellipsoid::e2)/k1) * hypot(d, z);
+		ht = (1 - (1 - WGS84<double>.e2)/k1) * hypot(d, z);
 #endif
 	}
 	else
@@ -1342,8 +1342,8 @@ COMMON_FIRST_DECLS
 		// in formula for ht.  So handle this case by taking the limits:
 		// f > 0: z -> 0, k      ->   e2 * sqrt(q)/sqrt(e2*e2 - p)
 		// f < 0: w -> 0, k + e2 -> - e2 * sqrt(q)/sqrt(e2*e2 - p)
-		const auto zz = std::sqrt((WGS84_Ellipsoid::f >= 0 ? e4 - p : p) / (1 - WGS84_Ellipsoid::e2));
-		const auto xx = std::sqrt( WGS84_Ellipsoid::f <  0 ? e4 - p : p);
+		const auto zz = std::sqrt((WGS84<double>.f >= 0 ? e4 - p : p) / (1 - WGS84<double>.e2));
+		const auto xx = std::sqrt( WGS84<double>.f <  0 ? e4 - p : p);
 		const auto H = hypot(zz, xx);
 		sin_lat = zz / H;
 		cos_lat = xx / H;
@@ -1351,7 +1351,7 @@ COMMON_FIRST_DECLS
 			sin_lat = -sin_lat; // for tiny negative z (not for prolate)
 
 #ifdef USE_CUSTOM_HT
-		ht = -WGS84_Ellipsoid::a * (WGS84_Ellipsoid::f >= 0 ? (1 - WGS84_Ellipsoid::e2) : 1) * H / WGS84_Ellipsoid::e2;
+		ht = -WGS84<double>.a * (WGS84<double>.f >= 0 ? (1 - WGS84<double>.e2) : 1) * H / WGS84<double>.e2;
 		// (1-e2)/e2 == 1/ep2
 #endif
 	}
@@ -1361,8 +1361,8 @@ COMMON_FIRST_DECLS
 
 #ifdef USE_CUSTOM_HT
 #else
-	// sin and cos are sufficiently accurate (and normalized) to be used in the get_ht function, but this is more accurate
-	ht = get_ht_r(w, z, lat_rad);
+	// sin and cos are sufficiently accurate (and normalized) to be used in the WGS84<double>.get_ht function, but this is more accurate
+	ht = WGS84<double>.get_ht(w, z, lat_rad);
 #endif
 }
 constexpr int _line_end = __LINE__;
@@ -1398,7 +1398,7 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 {
 COMMON_FIRST_DECLS
 
-	constexpr auto e4 = WGS84_Ellipsoid::e2 * WGS84_Ellipsoid::e2;
+	constexpr auto e4 = WGS84<double>.e2 * WGS84<double>.e2;
 
 	//const auto w = hypot(x, y);
 	//const double sin_lambda = w != 0 ? y / w : 0;
@@ -1408,9 +1408,9 @@ COMMON_FIRST_DECLS
 	double cos_lat;
 	// Treat prolate spheroids by swapping w and z here and by switching
 	// the arguments to phi = atan2(...) at the end.
-	const auto p = w2 / WGS84_Ellipsoid::a2;
-	// (1 - WGS84_Ellipsoid::e2) / WGS84_Ellipsoid::a2 == 1 / (Rp * Rp)
-	const auto q = (z2 / WGS84_Ellipsoid::a2) * (1 - WGS84_Ellipsoid::e2);
+	const auto p = w2 / WGS84<double>.a2;
+	// (1 - WGS84<double>.e2) / WGS84<double>.a2 == 1 / (Rp * Rp)
+	const auto q = (z2 / WGS84<double>.a2) * (1 - WGS84<double>.e2);
 	const auto r = (p + q - e4) / 6;
 	if (!(e4 * q == 0 && r <= 0))
 	{
@@ -1447,18 +1447,18 @@ COMMON_FIRST_DECLS
 		// e2*e2 * q / (v - u) because u ~ e^4 when q is small and u < 0.
 		const auto uv = u < 0 ? e4 * q / (v - u) : u + v; // u+v, guaranteed positive
 		// Need to guard against w_ going negative due to roundoff in uv - q.
-		const auto w_ = std::max(0.0, 0.5 * WGS84_Ellipsoid::e2 * (uv - q) / v);
+		const auto w_ = std::max(0.0, 0.5 * WGS84<double>.e2 * (uv - q) / v);
 		// Rearrange expression for k to avoid loss of accuracy due to
 		// subtraction.  Division by 0 not possible because uv > 0, w_ >= 0.
 		const auto k = uv / (std::sqrt(uv + w_ * w_) + w_);
-		const auto k1 = WGS84_Ellipsoid::f >= 0 ? k : k - WGS84_Ellipsoid::e2;
-		const auto k2 = WGS84_Ellipsoid::f >= 0 ? k + WGS84_Ellipsoid::e2 : k;
+		const auto k1 = WGS84<double>.f >= 0 ? k : k - WGS84<double>.e2;
+		const auto k2 = WGS84<double>.f >= 0 ? k + WGS84<double>.e2 : k;
 		const auto H = hypot(z/k1, w/k2);
 		sin_lat = (z/k1) / H;
 		cos_lat = (w/k2) / H;
 #ifdef USE_CUSTOM_HT
 		const auto d = k1 * w / k2;
-		ht = (1 - (1 - WGS84_Ellipsoid::e2)/k1) * hypot(d, z);
+		ht = (1 - (1 - WGS84<double>.e2)/k1) * hypot(d, z);
 #endif
 	}
 	else
@@ -1470,8 +1470,8 @@ COMMON_FIRST_DECLS
 		// in formula for ht.  So handle this case by taking the limits:
 		// f > 0: z -> 0, k      ->   e2 * sqrt(q)/sqrt(e2*e2 - p)
 		// f < 0: w -> 0, k + e2 -> - e2 * sqrt(q)/sqrt(e2*e2 - p)
-		const auto zz = std::sqrt((WGS84_Ellipsoid::f >= 0 ? e4 - p : p) / (1 - WGS84_Ellipsoid::e2));
-		const auto xx = std::sqrt( WGS84_Ellipsoid::f <  0 ? e4 - p : p);
+		const auto zz = std::sqrt((WGS84<double>.f >= 0 ? e4 - p : p) / (1 - WGS84<double>.e2));
+		const auto xx = std::sqrt( WGS84<double>.f <  0 ? e4 - p : p);
 		const auto H = hypot(zz, xx);
 		sin_lat = zz / H;
 		cos_lat = xx / H;
@@ -1479,7 +1479,7 @@ COMMON_FIRST_DECLS
 			sin_lat = -sin_lat; // for tiny negative z (not for prolate)
 
 #ifdef USE_CUSTOM_HT
-		ht = -WGS84_Ellipsoid::a * (WGS84_Ellipsoid::f >= 0 ? (1 - WGS84_Ellipsoid::e2) : 1) * H / WGS84_Ellipsoid::e2;
+		ht = -WGS84<double>.a * (WGS84<double>.f >= 0 ? (1 - WGS84<double>.e2) : 1) * H / WGS84<double>.e2;
 		// (1-e2)/e2 == 1/ep2
 #endif
 	}
@@ -1489,8 +1489,8 @@ COMMON_FIRST_DECLS
 
 #ifdef USE_CUSTOM_HT
 #else
-	// sin and cos are sufficiently accurate (and normalized) to be used in the get_ht function, but this is more accurate
-	ht = get_ht_r(w, z, lat_rad);
+	// sin and cos are sufficiently accurate (and normalized) to be used in the WGS84<double>.get_ht function, but this is more accurate
+	ht = WGS84<double>.get_ht(w, z, lat_rad);
 #endif
 }
 constexpr int _line_end = __LINE__;
@@ -1527,21 +1527,21 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 {
 COMMON_FIRST_DECLS
 
-	constexpr auto e4 = WGS84_Ellipsoid::e2 * WGS84_Ellipsoid::e2;
+	constexpr auto e4 = WGS84<double>.e2 * WGS84<double>.e2;
 
 	// UPPER BOUNDS ON POINT
 
-	//const auto ARat1  = std::pow((WGS84_Ellipsoid::a + 50005), 2);
-	constexpr auto ARat1  = SQ(WGS84_Ellipsoid::a + 50005);
-	//const auto ARat2  = (ARat1) / std::pow((WGS84_Ellipsoid::b + 50005), 2);
-	constexpr auto ARat2  = (ARat1) / SQ(WGS84_Ellipsoid::b + 50005);
+	//const auto ARat1  = std::pow((WGS84<double>.a + 50005), 2);
+	constexpr auto ARat1  = SQ(WGS84<double>.a + 50005);
+	//const auto ARat2  = (ARat1) / std::pow((WGS84<double>.b + 50005), 2);
+	constexpr auto ARat2  = (ARat1) / SQ(WGS84<double>.b + 50005);
 
 	// LOWER BOUNDS ON POINT
 
-	//const auto BRat1  = std::pow((WGS84_Ellipsoid::a - 10005), 2);
-	constexpr auto BRat1  = SQ(WGS84_Ellipsoid::a - 10005);
-	//const auto BRat2  = (BRat1) / std::pow((WGS84_Ellipsoid::b - 10005), 2);
-	constexpr auto BRat2  = (BRat1) / SQ(WGS84_Ellipsoid::b - 10005);
+	//const auto BRat1  = std::pow((WGS84<double>.a - 10005), 2);
+	constexpr auto BRat1  = SQ(WGS84<double>.a - 10005);
+	//const auto BRat2  = (BRat1) / std::pow((WGS84<double>.b - 10005), 2);
+	constexpr auto BRat2  = (BRat1) / SQ(WGS84<double>.b - 10005);
 
 	constexpr auto B1 = 0.100225438677758E+01;
 	constexpr auto B2 = -0.393246903633930E-04;
@@ -1577,7 +1577,7 @@ COMMON_FIRST_DECLS
 					lat_rad = M_PI_2;
 					//lon_rad = 0;
 					//ht = z;
-					ht = z - WGS84_Ellipsoid::b;
+					ht = z - WGS84<double>.b;
 					return;
 				}
 				else
@@ -1587,7 +1587,7 @@ COMMON_FIRST_DECLS
 						lat_rad = -M_PI_2;
 						//lon_rad = 0;
 						//ht = z;
-						ht = -(z + WGS84_Ellipsoid::b);
+						ht = -(z + WGS84<double>.b);
 						return;
 					}
 					else
@@ -1623,13 +1623,13 @@ COMMON_FIRST_DECLS
 #ifdef USE_CUSTOM_HT
 		/* ****************************************************************
 
-		COMPUTE H IN LINE SQUARE ROOT OF 1-WGS84_Ellipsoid::e2*SIN*SIN.  USE SHORT BINOMIAL
+		COMPUTE H IN LINE SQUARE ROOT OF 1-WGS84<double>.e2*SIN*SIN.  USE SHORT BINOMIAL
 		EXPANSION PLUS ONE ITERATION OF NEWTON'S METHOD FOR SQUARE ROOTS.
 		*/
 
 		s12 = top2 / rr;
 
-		rnn = WGS84_Ellipsoid::a / ((0.25 - 0.25 * WGS84_Ellipsoid::e2 * s12 + .9999944354799 / 4) + (0.25 - 0.25 * WGS84_Ellipsoid::e2 * s12) / (0.25 - 0.25 * WGS84_Ellipsoid::e2 * s12 + .9999944354799 / 4));
+		rnn = WGS84<double>.a / ((0.25 - 0.25 * WGS84<double>.e2 * s12 + .9999944354799 / 4) + (0.25 - 0.25 * WGS84<double>.e2 * s12) / (0.25 - 0.25 * WGS84<double>.e2 * s12 + .9999944354799 / 4));
 		s1 = top / q;
 
 		/******************************************************************/
@@ -1642,8 +1642,8 @@ COMMON_FIRST_DECLS
 		}
 		else
 		{
-			//ht = z / s1 + ((WGS84_Ellipsoid::e2 - 1) * rnn);
-			ht = z / s1 - (1 - WGS84_Ellipsoid::e2) * rnn;
+			//ht = z / s1 + ((WGS84<double>.e2 - 1) * rnn);
+			ht = z / s1 - (1 - WGS84<double>.e2) * rnn;
 		}
 #endif
 		//lat_rad = std::atan(top / w);
@@ -1653,10 +1653,10 @@ COMMON_FIRST_DECLS
 	/* POINT ABOVE 50 KILOMETERS OR BELOW -10 KILOMETERS  */
 	else /* Do Exact Solution  ************ */
 	{
-		cf = 54 * WGS84_Ellipsoid::b2 * z2;
+		cf = 54 * WGS84<double>.b2 * z2;
 
-		//gee = w2 - ((WGS84_Ellipsoid::e2 - 1) * z2) - WGS84_Ellipsoid::e2 * (WGS84_Ellipsoid::a2 - WGS84_Ellipsoid::b2);
-		gee = w2 + (1 - WGS84_Ellipsoid::e2) * z2 - WGS84_Ellipsoid::e2 * (WGS84_Ellipsoid::a2 - WGS84_Ellipsoid::b2);
+		//gee = w2 - ((WGS84<double>.e2 - 1) * z2) - WGS84<double>.e2 * (WGS84<double>.a2 - WGS84<double>.b2);
+		gee = w2 + (1 - WGS84<double>.e2) * z2 - WGS84<double>.e2 * (WGS84<double>.a2 - WGS84<double>.b2);
 
 		alpha = cf / (gee * gee);
 
@@ -1676,42 +1676,42 @@ COMMON_FIRST_DECLS
 
 		q = std::sqrt(xarg);
 
-		r2= -p * (2 * (1 - WGS84_Ellipsoid::e2) * z2 / (q * (1 + q)) + w2);
+		r2= -p * (2 * (1 - WGS84<double>.e2) * z2 / (q * (1 + q)) + w2);
 
 		r1 = (1 + (1 / q));
 
-		r2 /= WGS84_Ellipsoid::a2;
+		r2 /= WGS84<double>.a2;
 
 		/* DUE TO PRECISION ERRORS THE ARGUMENT MAY BECOME NEGATIVE IF SO SET THE ARGUMENT TO ZERO.*/
 
 		if (r1 + r2 > 0)
 		{
-			ro = WGS84_Ellipsoid::a * std::sqrt(0.5 * (r1 + r2));
+			ro = WGS84<double>.a * std::sqrt(0.5 * (r1 + r2));
 		}
 		else
 		{
 			ro = 0;
 		}
 
-		ro = ro - p * WGS84_Ellipsoid::e2 * w / (1 + q);
+		ro = ro - p * WGS84<double>.e2 * w / (1 + q);
 
-		// unused expression arg0 = std::pow((w - WGS84_Ellipsoid::e2 * ro),2) + z2;
+		// unused expression arg0 = std::pow((w - WGS84<double>.e2 * ro),2) + z2;
 
-		roe = WGS84_Ellipsoid::e2 * ro;
+		roe = WGS84<double>.e2 * ro;
 		//arg = std::pow((w - roe), 2) + z2;
 		arg = SQ(w - roe) + z2;
-		v = std::sqrt(arg - WGS84_Ellipsoid::e2 * z2);
+		v = std::sqrt(arg - WGS84<double>.e2 * z2);
 
-		zo = (WGS84_Ellipsoid::b2 / WGS84_Ellipsoid::a) * z / v;
+		zo = (WGS84<double>.b2 / WGS84<double>.a) * z / v;
 
 #ifdef USE_CUSTOM_HT
 		// b2/a == b*(1-f)
-		ht = std::sqrt(arg) * (1 - (WGS84_Ellipsoid::b2 / WGS84_Ellipsoid::a) / v);
+		ht = std::sqrt(arg) * (1 - (WGS84<double>.b2 / WGS84<double>.a) / v);
 #endif
 
 		// (a2-b2)/b2 == ep2
-		//top = z + ((WGS84_Ellipsoid::a2 - WGS84_Ellipsoid::b2) / WGS84_Ellipsoid::b2) * zo;
-		top = z + WGS84_Ellipsoid::ep2 * zo;
+		//top = z + ((WGS84<double>.a2 - WGS84<double>.b2) / WGS84<double>.b2) * zo;
+		top = z + WGS84<double>.ep2 * zo;
 
 		//lat_rad = std::atan(top / w);
 		lat_rad = std::atan2(top, w);
@@ -1722,7 +1722,7 @@ COMMON_FIRST_DECLS
 
 #ifdef USE_CUSTOM_HT
 #else
-	ht = get_ht_r(w, z, lat_rad);
+	ht = WGS84<double>.get_ht(w, z, lat_rad);
 #endif
 }
 constexpr int _line_end = __LINE__;
@@ -1758,21 +1758,21 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 {
 COMMON_FIRST_DECLS
 
-	constexpr auto e4 = WGS84_Ellipsoid::e2 * WGS84_Ellipsoid::e2;
+	constexpr auto e4 = WGS84<double>.e2 * WGS84<double>.e2;
 
 	// UPPER BOUNDS ON POINT
 
-	//const auto ARat1  = std::pow((WGS84_Ellipsoid::a + 50005), 2);
-	constexpr auto ARat1  = SQ(WGS84_Ellipsoid::a + 50005);
-	//const auto ARat2  = (ARat1) / std::pow((WGS84_Ellipsoid::b + 50005), 2);
-	constexpr auto ARat2  = (ARat1) / SQ(WGS84_Ellipsoid::b + 50005);
+	//const auto ARat1  = std::pow((WGS84<double>.a + 50005), 2);
+	constexpr auto ARat1  = SQ(WGS84<double>.a + 50005);
+	//const auto ARat2  = (ARat1) / std::pow((WGS84<double>.b + 50005), 2);
+	constexpr auto ARat2  = (ARat1) / SQ(WGS84<double>.b + 50005);
 
 	// LOWER BOUNDS ON POINT
 
-	//const auto BRat1  = std::pow((WGS84_Ellipsoid::a - 10005), 2);
-	constexpr auto BRat1  = SQ(WGS84_Ellipsoid::a - 10005);
-	//const auto BRat2  = (BRat1) / std::pow((WGS84_Ellipsoid::b - 10005), 2);
-	constexpr auto BRat2  = (BRat1) / SQ(WGS84_Ellipsoid::b - 10005);
+	//const auto BRat1  = std::pow((WGS84<double>.a - 10005), 2);
+	constexpr auto BRat1  = SQ(WGS84<double>.a - 10005);
+	//const auto BRat2  = (BRat1) / std::pow((WGS84<double>.b - 10005), 2);
+	constexpr auto BRat2  = (BRat1) / SQ(WGS84<double>.b - 10005);
 
 	constexpr auto B1 = 0.100225438677758E+01;
 	constexpr auto B2 = -0.393246903633930E-04;
@@ -1808,7 +1808,7 @@ COMMON_FIRST_DECLS
 					lat_rad = M_PI_2;
 					//lon_rad = 0;
 					//ht = z;
-					ht = z - WGS84_Ellipsoid::b;
+					ht = z - WGS84<double>.b;
 					return;
 				}
 				else
@@ -1818,7 +1818,7 @@ COMMON_FIRST_DECLS
 						lat_rad = -M_PI_2;
 						//lon_rad = 0;
 						//ht = z;
-						ht = -(z + WGS84_Ellipsoid::b);
+						ht = -(z + WGS84<double>.b);
 						return;
 					}
 					else
@@ -1854,13 +1854,13 @@ COMMON_FIRST_DECLS
 #ifdef USE_CUSTOM_HT
 		/* ****************************************************************
 
-		COMPUTE H IN LINE SQUARE ROOT OF 1-WGS84_Ellipsoid::e2*SIN*SIN.  USE SHORT BINOMIAL
+		COMPUTE H IN LINE SQUARE ROOT OF 1-WGS84<double>.e2*SIN*SIN.  USE SHORT BINOMIAL
 		EXPANSION PLUS ONE ITERATION OF NEWTON'S METHOD FOR SQUARE ROOTS.
 		*/
 
 		s12 = top2 / rr;
 
-		rnn = WGS84_Ellipsoid::a / ((0.25 - 0.25 * WGS84_Ellipsoid::e2 * s12 + .9999944354799 / 4) + (0.25 - 0.25 * WGS84_Ellipsoid::e2 * s12) / (0.25 - 0.25 * WGS84_Ellipsoid::e2 * s12 + .9999944354799 / 4));
+		rnn = WGS84<double>.a / ((0.25 - 0.25 * WGS84<double>.e2 * s12 + .9999944354799 / 4) + (0.25 - 0.25 * WGS84<double>.e2 * s12) / (0.25 - 0.25 * WGS84<double>.e2 * s12 + .9999944354799 / 4));
 		s1 = top / q;
 
 		/******************************************************************/
@@ -1873,8 +1873,8 @@ COMMON_FIRST_DECLS
 		}
 		else
 		{
-			//ht = z / s1 + ((WGS84_Ellipsoid::e2 - 1) * rnn);
-			ht = z / s1 - (1 - WGS84_Ellipsoid::e2) * rnn;
+			//ht = z / s1 + ((WGS84<double>.e2 - 1) * rnn);
+			ht = z / s1 - (1 - WGS84<double>.e2) * rnn;
 		}
 #endif
 		//lat_rad = std::atan(top / w);
@@ -1884,10 +1884,10 @@ COMMON_FIRST_DECLS
 	/* POINT ABOVE 50 KILOMETERS OR BELOW -10 KILOMETERS  */
 	else /* Do Exact Solution  ************ */
 	{
-		cf = 54 * WGS84_Ellipsoid::b2 * z2;
+		cf = 54 * WGS84<double>.b2 * z2;
 
-		//gee = w2 - ((WGS84_Ellipsoid::e2 - 1) * z2) - WGS84_Ellipsoid::e2 * (WGS84_Ellipsoid::a2 - WGS84_Ellipsoid::b2);
-		gee = w2 + (1 - WGS84_Ellipsoid::e2) * z2 - WGS84_Ellipsoid::e2 * (WGS84_Ellipsoid::a2 - WGS84_Ellipsoid::b2);
+		//gee = w2 - ((WGS84<double>.e2 - 1) * z2) - WGS84<double>.e2 * (WGS84<double>.a2 - WGS84<double>.b2);
+		gee = w2 + (1 - WGS84<double>.e2) * z2 - WGS84<double>.e2 * (WGS84<double>.a2 - WGS84<double>.b2);
 
 		alpha = cf / (gee * gee);
 
@@ -1907,42 +1907,42 @@ COMMON_FIRST_DECLS
 
 		q = std::sqrt(xarg);
 
-		r2= -p * (2 * (1 - WGS84_Ellipsoid::e2) * z2 / (q * (1 + q)) + w2);
+		r2= -p * (2 * (1 - WGS84<double>.e2) * z2 / (q * (1 + q)) + w2);
 
 		r1 = (1 + (1 / q));
 
-		r2 /= WGS84_Ellipsoid::a2;
+		r2 /= WGS84<double>.a2;
 
 		/* DUE TO PRECISION ERRORS THE ARGUMENT MAY BECOME NEGATIVE IF SO SET THE ARGUMENT TO ZERO.*/
 
 		if (r1 + r2 > 0)
 		{
-			ro = WGS84_Ellipsoid::a * std::sqrt(0.5 * (r1 + r2));
+			ro = WGS84<double>.a * std::sqrt(0.5 * (r1 + r2));
 		}
 		else
 		{
 			ro = 0;
 		}
 
-		ro = ro - p * WGS84_Ellipsoid::e2 * w / (1 + q);
+		ro = ro - p * WGS84<double>.e2 * w / (1 + q);
 
-		// unused expression arg0 = std::pow((w - WGS84_Ellipsoid::e2 * ro),2) + z2;
+		// unused expression arg0 = std::pow((w - WGS84<double>.e2 * ro),2) + z2;
 
-		roe = WGS84_Ellipsoid::e2 * ro;
+		roe = WGS84<double>.e2 * ro;
 		//arg = std::pow((w - roe), 2) + z2;
 		arg = SQ(w - roe) + z2;
-		v = std::sqrt(arg - WGS84_Ellipsoid::e2 * z2);
+		v = std::sqrt(arg - WGS84<double>.e2 * z2);
 
-		zo = (WGS84_Ellipsoid::b2 / WGS84_Ellipsoid::a) * z / v;
+		zo = (WGS84<double>.b2 / WGS84<double>.a) * z / v;
 
 #ifdef USE_CUSTOM_HT
 		// b2/a == b*(1-f)
-		ht = std::sqrt(arg) * (1 - (WGS84_Ellipsoid::b2 / WGS84_Ellipsoid::a) / v);
+		ht = std::sqrt(arg) * (1 - (WGS84<double>.b2 / WGS84<double>.a) / v);
 #endif
 
 		// (a2-b2)/b2 == ep2
-		//top = z + ((WGS84_Ellipsoid::a2 - WGS84_Ellipsoid::b2) / WGS84_Ellipsoid::b2) * zo;
-		top = z + WGS84_Ellipsoid::ep2 * zo;
+		//top = z + ((WGS84<double>.a2 - WGS84<double>.b2) / WGS84<double>.b2) * zo;
+		top = z + WGS84<double>.ep2 * zo;
 
 		//lat_rad = std::atan(top / w);
 		lat_rad = std::atan2(top, w);
@@ -1953,7 +1953,7 @@ COMMON_FIRST_DECLS
 
 #ifdef USE_CUSTOM_HT
 #else
-	ht = get_ht_r(w, z, lat_rad);
+	ht = WGS84<double>.get_ht(w, z, lat_rad);
 #endif
 }
 constexpr int _line_end = __LINE__;
@@ -1989,12 +1989,12 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 COMMON_FIRST_DECLS
 
 	const auto r = std::sqrt(w2 + z2);
-	const auto e_ = WGS84_Ellipsoid::a * WGS84_Ellipsoid::e2 / r;
+	const auto e_ = WGS84<double>.a * WGS84<double>.e2 / r;
 	const auto c = w / r;
 	const auto s = z / r;
 
 	const auto cos_lat_lat_ = 1 - 0.5 * e_ * e_ * s * s * c * c;
-	const auto sin_lat_lat_ = s * c * (1 + e_ - (2 * e_ - 0.5 * WGS84_Ellipsoid::e2) * s * s);
+	const auto sin_lat_lat_ = s * c * (1 + e_ - (2 * e_ - 0.5 * WGS84<double>.e2) * s * s);
 
 	const auto s2 = s * cos_lat_lat_ + c * sin_lat_lat_;
 	const auto c2 = c * cos_lat_lat_ - s * sin_lat_lat_;
@@ -2009,10 +2009,10 @@ COMMON_FIRST_DECLS
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
 	// SDW: This function doesn't work, so don't worry about optimizing it.
-	ht = get_ht_r(w, z, lat_rad);
+	ht = WGS84<double>.get_ht(w, z, lat_rad);
 /*
 #ifdef USE_CUSTOM_HT
-	ht = r - WGS84_Ellipsoid::a + 0.5 * WGS84_Ellipsoid::a * WGS84_Ellipsoid::e2 * s * s * (1 + e_ - (0.25 * WGS84_Ellipsoid::e2 - e_) * s * s);
+	ht = r - WGS84<double>.a + 0.5 * WGS84<double>.a * WGS84<double>.e2 * s * s * (1 + e_ - (0.25 * WGS84<double>.e2 - e_) * s * s);
 #else
 #endif
 */
@@ -2050,7 +2050,7 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 COMMON_FIRST_DECLS
 
 	auto sin_lat = z;
-	auto cos_lat = w * (1 - WGS84_Ellipsoid::e2);
+	auto cos_lat = w * (1 - WGS84<double>.e2);
 	lat_rad = std::atan2(sin_lat, cos_lat);
 	normalize(sin_lat, cos_lat);
 
@@ -2062,7 +2062,7 @@ COMMON_FIRST_DECLS
 		cos_lat = std::cos(lat_rad);
 	}
 
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int _line_end = __LINE__;
 
@@ -2097,7 +2097,7 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 COMMON_FIRST_DECLS
 
 	auto sin_lat = z;
-	auto cos_lat = w * (1 - WGS84_Ellipsoid::e2);
+	auto cos_lat = w * (1 - WGS84<double>.e2);
 	lat_rad = std::atan2(sin_lat, cos_lat);
 	normalize(sin_lat, cos_lat);
 
@@ -2109,7 +2109,7 @@ COMMON_FIRST_DECLS
 		cos_lat = std::cos(lat_rad);
 	}
 
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int _line_end = __LINE__;
 
@@ -2144,7 +2144,7 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 COMMON_FIRST_DECLS
 
 	auto sin_lat = z;
-	auto cos_lat = w * (1 - WGS84_Ellipsoid::e2);
+	auto cos_lat = w * (1 - WGS84<double>.e2);
 	normalize(sin_lat, cos_lat);
 
 	for (int i = 1; i <= max_iterations; ++i)
@@ -2162,7 +2162,7 @@ COMMON_FIRST_DECLS
 	}
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int _line_end = __LINE__;
 
@@ -2197,7 +2197,7 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 COMMON_FIRST_DECLS
 
 	auto sin_lat = z;
-	auto cos_lat = w * (1 - WGS84_Ellipsoid::e2);
+	auto cos_lat = w * (1 - WGS84<double>.e2);
 	normalize(sin_lat, cos_lat);
 
 	for (int i = 1; i <= max_iterations; ++i)
@@ -2215,7 +2215,7 @@ COMMON_FIRST_DECLS
 	}
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int _line_end = __LINE__;
 
@@ -2247,51 +2247,51 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 {
 COMMON_FIRST_DECLS
 
-	constexpr auto e4 = WGS84_Ellipsoid::e2 * WGS84_Ellipsoid::e2;
+	constexpr auto e4 = WGS84<double>.e2 * WGS84<double>.e2;
 
-	const auto F = 54 * WGS84_Ellipsoid::b2 * z2;
-	//const auto G = w2 + (1 - WGS84_Ellipsoid::e2) * z2 - WGS84_Ellipsoid::a2 * WGS84_Ellipsoid::e2 * WGS84_Ellipsoid::e2;
+	const auto F = 54 * WGS84<double>.b2 * z2;
+	//const auto G = w2 + (1 - WGS84<double>.e2) * z2 - WGS84<double>.a2 * WGS84<double>.e2 * WGS84<double>.e2;
 	// (a2-b2)*e2 == a2*e4
-	const auto G = w2 + (1 - WGS84_Ellipsoid::e2) * z2 - WGS84_Ellipsoid::a2 * e4;
+	const auto G = w2 + (1 - WGS84<double>.e2) * z2 - WGS84<double>.a2 * e4;
 	const auto C = e4 * F * w2 / CB(G);
 	const auto S = std::cbrt(1 + C + std::sqrt(C * (C + 2)));
 	const auto tmp1 = S + 1 / S + 1;
 	const auto P = F / (3 * tmp1 * tmp1 * G * G);
 	const auto Q = std::sqrt(1 + 2 * e4 * P);
 
-	const auto r0_1 = -P * WGS84_Ellipsoid::e2 * w / (1 + Q);
-	const auto r0_2 = 0.5 * WGS84_Ellipsoid::a2 * (1 + 1 / Q);
-	const auto r0_3 = (P * (1 - WGS84_Ellipsoid::e2) * z2) / (Q * (1 + Q));
+	const auto r0_1 = -P * WGS84<double>.e2 * w / (1 + Q);
+	const auto r0_2 = 0.5 * WGS84<double>.a2 * (1 + 1 / Q);
+	const auto r0_3 = (P * (1 - WGS84<double>.e2) * z2) / (Q * (1 + Q));
 	const auto r0_4 = P * w2 / 2;
 
 	// std::abs needed for large heights
 	const auto r0 = r0_1 + std::sqrt(std::abs(r0_2 - r0_3 - r0_4));
-	const auto V = hypot(w - WGS84_Ellipsoid::e2 * r0, (1 - WGS84_Ellipsoid::f) * z);
+	const auto V = hypot(w - WGS84<double>.e2 * r0, (1 - WGS84<double>.f) * z);
 	//const auto z0 = b2 * z / (a * V);
 	// b2/a == a*(1-e2)
 	//const auto z0 = a * (1-e2) * (z / V);
 
-	//A = z + WGS84_Ellipsoid::ep2 * z0;
-	//A = z + WGS84_Ellipsoid::ep2 * WGS84_Ellipsoid::a * (1 - WGS84_Ellipsoid::e2) * (z / V);
+	//A = z + WGS84<double>.ep2 * z0;
+	//A = z + WGS84<double>.ep2 * WGS84<double>.a * (1 - WGS84<double>.e2) * (z / V);
 	// ep2 == e2/(1-e2)
-	auto sin_lat = z * (1 + WGS84_Ellipsoid::a * WGS84_Ellipsoid::e2 / V);
+	auto sin_lat = z * (1 + WGS84<double>.a * WGS84<double>.e2 / V);
 	// SDW: this is more accurate
-	//auto sin_lat = z + WGS84_Ellipsoid::a * WGS84_Ellipsoid::e2 * z / V;
+	//auto sin_lat = z + WGS84<double>.a * WGS84<double>.e2 * z / V;
 	auto cos_lat = w;
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
 #ifdef USE_CUSTOM_HT
-	const auto U = hypot(w - WGS84_Ellipsoid::e2 * r0, z);
-	//ht = U * (1 - WGS84_Ellipsoid::b2 / (WGS84_Ellipsoid::a * V));
+	const auto U = hypot(w - WGS84<double>.e2 * r0, z);
+	//ht = U * (1 - WGS84<double>.b2 / (WGS84<double>.a * V));
 	// b2/a == (1-e2)*a
 	// SDW: this is more accurate
-	ht = U * (1 - (1 - WGS84_Ellipsoid::e2) * WGS84_Ellipsoid::a / V);
+	ht = U * (1 - (1 - WGS84<double>.e2) * WGS84<double>.a / V);
 	// SDW: accuracy is comparable to above, but no obvious benefit
-	//ht = U - U * (1 - WGS84_Ellipsoid::e2) * (WGS84_Ellipsoid::a / V);
+	//ht = U - U * (1 - WGS84<double>.e2) * (WGS84<double>.a / V);
 #else
 	normalize(cos_lat, sin_lat);
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 #endif
 }
 constexpr int _line_end = __LINE__;
@@ -2325,51 +2325,51 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 {
 COMMON_FIRST_DECLS
 
-	constexpr auto e4 = WGS84_Ellipsoid::e2 * WGS84_Ellipsoid::e2;
+	constexpr auto e4 = WGS84<double>.e2 * WGS84<double>.e2;
 
-	const auto F = 54 * WGS84_Ellipsoid::b2 * z2;
-	//const auto G = w2 + (1 - WGS84_Ellipsoid::e2) * z2 - WGS84_Ellipsoid::a2 * WGS84_Ellipsoid::e2 * WGS84_Ellipsoid::e2;
+	const auto F = 54 * WGS84<double>.b2 * z2;
+	//const auto G = w2 + (1 - WGS84<double>.e2) * z2 - WGS84<double>.a2 * WGS84<double>.e2 * WGS84<double>.e2;
 	// (a2-b2)*e2 == a2*e4
-	const auto G = w2 + (1 - WGS84_Ellipsoid::e2) * z2 - WGS84_Ellipsoid::a2 * e4;
+	const auto G = w2 + (1 - WGS84<double>.e2) * z2 - WGS84<double>.a2 * e4;
 	const auto C = e4 * F * w2 / CB(G);
 	const auto S = std::cbrt(1 + C + std::sqrt(C * (C + 2)));
 	const auto tmp1 = S + 1 / S + 1;
 	const auto P = F / (3 * tmp1 * tmp1 * G * G);
 	const auto Q = std::sqrt(1 + 2 * e4 * P);
 
-	const auto r0_1 = -P * WGS84_Ellipsoid::e2 * w / (1 + Q);
-	const auto r0_2 = 0.5 * WGS84_Ellipsoid::a2 * (1 + 1 / Q);
-	const auto r0_3 = (P * (1 - WGS84_Ellipsoid::e2) * z2) / (Q * (1 + Q));
+	const auto r0_1 = -P * WGS84<double>.e2 * w / (1 + Q);
+	const auto r0_2 = 0.5 * WGS84<double>.a2 * (1 + 1 / Q);
+	const auto r0_3 = (P * (1 - WGS84<double>.e2) * z2) / (Q * (1 + Q));
 	const auto r0_4 = P * w2 / 2;
 
 	// std::abs needed for large heights
 	const auto r0 = r0_1 + std::sqrt(std::abs(r0_2 - r0_3 - r0_4));
-	const auto V = hypot(w - WGS84_Ellipsoid::e2 * r0, (1 - WGS84_Ellipsoid::f) * z);
+	const auto V = hypot(w - WGS84<double>.e2 * r0, (1 - WGS84<double>.f) * z);
 	//const auto z0 = b2 * z / (a * V);
 	// b2/a == a*(1-e2)
 	//const auto z0 = a * (1-e2) * (z / V);
 
-	//A = z + WGS84_Ellipsoid::ep2 * z0;
-	//A = z + WGS84_Ellipsoid::ep2 * WGS84_Ellipsoid::a * (1 - WGS84_Ellipsoid::e2) * (z / V);
+	//A = z + WGS84<double>.ep2 * z0;
+	//A = z + WGS84<double>.ep2 * WGS84<double>.a * (1 - WGS84<double>.e2) * (z / V);
 	// ep2 == e2/(1-e2)
-	auto sin_lat = z * (1 + WGS84_Ellipsoid::a * WGS84_Ellipsoid::e2 / V);
+	auto sin_lat = z * (1 + WGS84<double>.a * WGS84<double>.e2 / V);
 	// SDW: this is more accurate
-	//auto sin_lat = z + WGS84_Ellipsoid::a * WGS84_Ellipsoid::e2 * z / V;
+	//auto sin_lat = z + WGS84<double>.a * WGS84<double>.e2 * z / V;
 	auto cos_lat = w;
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
 #ifdef USE_CUSTOM_HT
-	const auto U = hypot(w - WGS84_Ellipsoid::e2 * r0, z);
-	//ht = U * (1 - WGS84_Ellipsoid::b2 / (WGS84_Ellipsoid::a * V));
+	const auto U = hypot(w - WGS84<double>.e2 * r0, z);
+	//ht = U * (1 - WGS84<double>.b2 / (WGS84<double>.a * V));
 	// b2/a == (1-e2)*a
 	// SDW: this is more accurate
-	ht = U * (1 - (1 - WGS84_Ellipsoid::e2) * WGS84_Ellipsoid::a / V);
+	ht = U * (1 - (1 - WGS84<double>.e2) * WGS84<double>.a / V);
 	// SDW: accuracy is comparable to above, but no obvious benefit
-	//ht = U - U * (1 - WGS84_Ellipsoid::e2) * (WGS84_Ellipsoid::a / V);
+	//ht = U - U * (1 - WGS84<double>.e2) * (WGS84<double>.a / V);
 #else
 	normalize(cos_lat, sin_lat);
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 #endif
 }
 constexpr int _line_end = __LINE__;
@@ -2406,7 +2406,7 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 COMMON_FIRST_DECLS
 
 	auto sin_lat = z;
-	auto cos_lat = w * (1 - WGS84_Ellipsoid::e2);
+	auto cos_lat = w * (1 - WGS84<double>.e2);
 	lat_rad = std::atan2(sin_lat, cos_lat);
 	normalize(sin_lat, cos_lat);
 
@@ -2418,7 +2418,7 @@ COMMON_FIRST_DECLS
 		cos_lat = std::cos(lat_rad);
 	}
 
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int _line_end = __LINE__;
 
@@ -2453,7 +2453,7 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 COMMON_FIRST_DECLS
 
 	auto sin_lat = z;
-	auto cos_lat = w * (1 - WGS84_Ellipsoid::e2);
+	auto cos_lat = w * (1 - WGS84<double>.e2);
 	lat_rad = std::atan2(sin_lat, cos_lat);
 	normalize(sin_lat, cos_lat);
 
@@ -2465,7 +2465,7 @@ COMMON_FIRST_DECLS
 		cos_lat = std::cos(lat_rad);
 	}
 
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int _line_end = __LINE__;
 
@@ -2500,7 +2500,7 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 COMMON_FIRST_DECLS
 
 	auto sin_lat = z;
-	auto cos_lat = w * (1 - WGS84_Ellipsoid::e2);
+	auto cos_lat = w * (1 - WGS84<double>.e2);
 	normalize(sin_lat, cos_lat);
 
 	for (int i = 1; i <= max_iterations; ++i)
@@ -2518,7 +2518,7 @@ COMMON_FIRST_DECLS
 	}
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int _line_end = __LINE__;
 
@@ -2553,7 +2553,7 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 COMMON_FIRST_DECLS
 
 	auto sin_lat = z;
-	auto cos_lat = w * (1 - WGS84_Ellipsoid::e2);
+	auto cos_lat = w * (1 - WGS84<double>.e2);
 	normalize(sin_lat, cos_lat);
 
 	for (int i = 1; i <= max_iterations; ++i)
@@ -2571,7 +2571,7 @@ COMMON_FIRST_DECLS
 	}
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int _line_end = __LINE__;
 
@@ -2607,18 +2607,18 @@ COMMON_FIRST_DECLS
 	// SDW: This threshold is too large to be accurate.
 	constexpr double MACHEPS = 1.1920929E-7;
 	constexpr auto eps = 1000.0 * MACHEPS; // Convergence criterion
-	constexpr auto eps_a = eps * WGS84_Ellipsoid::a;
+	constexpr auto eps_a = eps * WGS84<double>.a;
 #else
 	constexpr double eps_a = 1E-4;
 #endif
 
-	ht = -WGS84_Ellipsoid::a;
+	ht = -WGS84<double>.a;
 
 	double sin_lat = 0;
 	double ZdZ = 0;
 	double Nh = 0;
 	double Rn = 0;
-	auto dZ = WGS84_Ellipsoid::e2 * z;
+	auto dZ = WGS84<double>.e2 * z;
 	double dZ_new = 0;
 
 	while (std::abs(dZ - dZ_new) > eps_a)
@@ -2626,9 +2626,9 @@ COMMON_FIRST_DECLS
 		ZdZ = z + dZ;
 		Nh = hypot(w, ZdZ);
 		sin_lat = ZdZ / Nh;
-		Rn = get_Rn(sin_lat);
+		Rn = WGS84<double>.get_Rn(sin_lat);
 		dZ = dZ_new;
-		dZ_new = Rn * WGS84_Ellipsoid::e2 * sin_lat;
+		dZ_new = Rn * WGS84<double>.e2 * sin_lat;
 	}
 
 	lat_rad = std::atan2(ZdZ, w);
@@ -2636,7 +2636,7 @@ COMMON_FIRST_DECLS
 	// SDW: This is not accurate.
 	//ht = Nh - Rn;
 
-	ht = get_ht_r(w, z, lat_rad);
+	ht = WGS84<double>.get_ht(w, z, lat_rad);
 }
 constexpr int _line_end = __LINE__;
 
@@ -2670,9 +2670,9 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 {
 COMMON_FIRST_DECLS
 
-	const auto a2 = WGS84_Ellipsoid::a2;
-	const auto b2 = WGS84_Ellipsoid::b2;
-	const auto a_e2 = WGS84_Ellipsoid::a * WGS84_Ellipsoid::e2;
+	const auto a2 = WGS84<double>.a2;
+	const auto b2 = WGS84<double>.b2;
+	const auto a_e2 = WGS84<double>.a * WGS84<double>.e2;
 
 	double sin_lat;
 	double cos_lat;
@@ -2685,22 +2685,22 @@ COMMON_FIRST_DECLS
 		// region 1: the point lies on or outside the ellipse
 
 		sin_lat = z;
-		cos_lat = w * (1 - WGS84_Ellipsoid::f);
+		cos_lat = w * (1 - WGS84<double>.f);
 	}
 	else // w2 / a2 + z2 / b2 < 1
 	{
-		if (w <= a_e2 + z / (1 - WGS84_Ellipsoid::f))
+		if (w <= a_e2 + z / (1 - WGS84<double>.f))
 		{
 			// region 2: the point lies inside the ellipse with high latitude and passes through the 2 vertices of the evolute
 
-			sin_lat = z * (1 - WGS84_Ellipsoid::f) + a_e2;
+			sin_lat = z * (1 - WGS84<double>.f) + a_e2;
 			cos_lat = w;
 		}
-		else // w > a_e2 + z / (1 - WGS84_Ellipsoid::f)
+		else // w > a_e2 + z / (1 - WGS84<double>.f)
 		{
 			// region 3: the point lies inside the ellipse with low latitude and passes through the 2 vertices of the evolute
 
-			sin_lat = z * (1 - WGS84_Ellipsoid::f);
+			sin_lat = z * (1 - WGS84<double>.f);
 			cos_lat = w - a_e2;
 		}
 	}
@@ -2714,16 +2714,16 @@ COMMON_FIRST_DECLS
 
 	// SDW: this probably isn't right
 
-	sin_lat = z * (1 - WGS84_Ellipsoid::f) + a_e2 * sin_lat;
+	sin_lat = z * (1 - WGS84<double>.f) + a_e2 * sin_lat;
 	cos_lat = w;
 
 	// parametric to geodetic
-	cos_lat *= (1 - WGS84_Ellipsoid::f);
+	cos_lat *= (1 - WGS84<double>.f);
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
 	normalize(cos_lat, sin_lat);
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int _line_end = __LINE__;
 
@@ -2764,8 +2764,8 @@ COMMON_FIRST_DECLS
 	double f_X[2];
 	double X_delta[2];
 
-	auto we = w * WGS84_Ellipsoid::a / r;
-	auto ze = z * WGS84_Ellipsoid::b / r;
+	auto we = w * WGS84<double>.a / r;
+	auto ze = z * WGS84<double>.b / r;
 
 	for (int i = 1; i <= max_iterations; ++i)
 	{
@@ -2779,7 +2779,7 @@ COMMON_FIRST_DECLS
 	}
 
 	auto sin_lat = ze;
-	auto cos_lat = we * (1 - WGS84_Ellipsoid::e2);
+	auto cos_lat = we * (1 - WGS84<double>.e2);
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
@@ -2793,7 +2793,7 @@ COMMON_FIRST_DECLS
 	}
 #else
 	normalize(cos_lat, sin_lat);
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 #endif
 }
 constexpr int _line_end = __LINE__;
@@ -2835,8 +2835,8 @@ COMMON_FIRST_DECLS
 	double f_X[2];
 	double X_delta[2];
 
-	auto we = w * WGS84_Ellipsoid::a / r;
-	auto ze = z * WGS84_Ellipsoid::b / r;
+	auto we = w * WGS84<double>.a / r;
+	auto ze = z * WGS84<double>.b / r;
 
 	for (int i = 1; i <= max_iterations; ++i)
 	{
@@ -2850,7 +2850,7 @@ COMMON_FIRST_DECLS
 	}
 
 	auto sin_lat = ze;
-	auto cos_lat = we * (1 - WGS84_Ellipsoid::e2);
+	auto cos_lat = we * (1 - WGS84<double>.e2);
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
@@ -2864,7 +2864,7 @@ COMMON_FIRST_DECLS
 	}
 #else
 	normalize(cos_lat, sin_lat);
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 #endif
 }
 constexpr int _line_end = __LINE__;
@@ -2900,14 +2900,14 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 COMMON_FIRST_DECLS
 
 #if 0
-	const auto tmp_a = WGS84_Ellipsoid::a2 * z2 + WGS84_Ellipsoid::b2 * w2;
-	const auto tmp_b = 2 * (WGS84_Ellipsoid::a2 * WGS84_Ellipsoid::a2 * z2 + WGS84_Ellipsoid::b2 * WGS84_Ellipsoid::b2 * w2);
+	const auto tmp_a = WGS84<double>.a2 * z2 + WGS84<double>.b2 * w2;
+	const auto tmp_b = 2 * (WGS84<double>.a2 * WGS84<double>.a2 * z2 + WGS84<double>.b2 * WGS84<double>.b2 * w2);
 
-	auto m = (WGS84_Ellipsoid::a * WGS84_Ellipsoid::b * CB(std::sqrt(tmp_a)) - WGS84_Ellipsoid::a2 * WGS84_Ellipsoid::b2 * tmp_a) / tmp_b;
+	auto m = (WGS84<double>.a * WGS84<double>.b * CB(std::sqrt(tmp_a)) - WGS84<double>.a2 * WGS84<double>.b2 * tmp_a) / tmp_b;
 #else
-	const auto tmp = z2 / WGS84_Ellipsoid::b2 + w2 / WGS84_Ellipsoid::a2;
+	const auto tmp = z2 / WGS84<double>.b2 + w2 / WGS84<double>.a2;
 
-	auto m = 0.5 * WGS84_Ellipsoid::a2 * WGS84_Ellipsoid::b2 * tmp * (std::sqrt(tmp) - 1) / (z2 / (1 - WGS84_Ellipsoid::e2) + w2 * (1 - WGS84_Ellipsoid::e2));
+	auto m = 0.5 * WGS84<double>.a2 * WGS84<double>.b2 * tmp * (std::sqrt(tmp) - 1) / (z2 / (1 - WGS84<double>.e2) + w2 * (1 - WGS84<double>.e2));
 #endif
 
 	for (int i = 1; i <= max_iterations; ++i)
@@ -2915,11 +2915,11 @@ COMMON_FIRST_DECLS
 		m -= lin_wang_1995_delta_m(w2, z2, m);
 	}
 
-	const auto we = std::abs(w / (1 + 2 * m / WGS84_Ellipsoid::a2));
-	const auto ze =         (z / (1 + 2 * m / WGS84_Ellipsoid::b2));
+	const auto we = std::abs(w / (1 + 2 * m / WGS84<double>.a2));
+	const auto ze =         (z / (1 + 2 * m / WGS84<double>.b2));
 
 	auto sin_lat = ze;
-	auto cos_lat = we * (1 - WGS84_Ellipsoid::e2);
+	auto cos_lat = we * (1 - WGS84<double>.e2);
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
@@ -2932,7 +2932,7 @@ COMMON_FIRST_DECLS
 	}
 #else
 	normalize(cos_lat, sin_lat);
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 #endif
 }
 constexpr int _line_end = __LINE__;
@@ -2968,14 +2968,14 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 COMMON_FIRST_DECLS
 
 #if 0
-	const auto tmp_a = WGS84_Ellipsoid::a2 * z2 + WGS84_Ellipsoid::b2 * w2;
-	const auto tmp_b = 2 * (WGS84_Ellipsoid::a2 * WGS84_Ellipsoid::a2 * z2 + WGS84_Ellipsoid::b2 * WGS84_Ellipsoid::b2 * w2);
+	const auto tmp_a = WGS84<double>.a2 * z2 + WGS84<double>.b2 * w2;
+	const auto tmp_b = 2 * (WGS84<double>.a2 * WGS84<double>.a2 * z2 + WGS84<double>.b2 * WGS84<double>.b2 * w2);
 
-	auto m = (WGS84_Ellipsoid::a * WGS84_Ellipsoid::b * CB(std::sqrt(tmp_a)) - WGS84_Ellipsoid::a2 * WGS84_Ellipsoid::b2 * tmp_a) / tmp_b;
+	auto m = (WGS84<double>.a * WGS84<double>.b * CB(std::sqrt(tmp_a)) - WGS84<double>.a2 * WGS84<double>.b2 * tmp_a) / tmp_b;
 #else
-	const auto tmp = z2 / WGS84_Ellipsoid::b2 + w2 / WGS84_Ellipsoid::a2;
+	const auto tmp = z2 / WGS84<double>.b2 + w2 / WGS84<double>.a2;
 
-	auto m = 0.5 * WGS84_Ellipsoid::a2 * WGS84_Ellipsoid::b2 * tmp * (std::sqrt(tmp) - 1) / (z2 / (1 - WGS84_Ellipsoid::e2) + w2 * (1 - WGS84_Ellipsoid::e2));
+	auto m = 0.5 * WGS84<double>.a2 * WGS84<double>.b2 * tmp * (std::sqrt(tmp) - 1) / (z2 / (1 - WGS84<double>.e2) + w2 * (1 - WGS84<double>.e2));
 #endif
 
 	for (int i = 1; i <= max_iterations; ++i)
@@ -2983,11 +2983,11 @@ COMMON_FIRST_DECLS
 		m -= lin_wang_1995_delta_m(w2, z2, m);
 	}
 
-	const auto we = std::abs(w / (1 + 2 * m / WGS84_Ellipsoid::a2));
-	const auto ze =         (z / (1 + 2 * m / WGS84_Ellipsoid::b2));
+	const auto we = std::abs(w / (1 + 2 * m / WGS84<double>.a2));
+	const auto ze =         (z / (1 + 2 * m / WGS84<double>.b2));
 
 	auto sin_lat = ze;
-	auto cos_lat = we * (1 - WGS84_Ellipsoid::e2);
+	auto cos_lat = we * (1 - WGS84<double>.e2);
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
@@ -3000,7 +3000,7 @@ COMMON_FIRST_DECLS
 	}
 #else
 	normalize(cos_lat, sin_lat);
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 #endif
 }
 constexpr int _line_end = __LINE__;
@@ -3037,14 +3037,14 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 COMMON_FIRST_DECLS
 
 #if 0
-	const auto tmp_a = WGS84_Ellipsoid::a2 * z2 + WGS84_Ellipsoid::b2 * w2;
-	const auto tmp_b = 2 * (WGS84_Ellipsoid::a2 * WGS84_Ellipsoid::a2 * z2 + WGS84_Ellipsoid::b2 * WGS84_Ellipsoid::b2 * w2);
+	const auto tmp_a = WGS84<double>.a2 * z2 + WGS84<double>.b2 * w2;
+	const auto tmp_b = 2 * (WGS84<double>.a2 * WGS84<double>.a2 * z2 + WGS84<double>.b2 * WGS84<double>.b2 * w2);
 
-	auto m = (WGS84_Ellipsoid::a * WGS84_Ellipsoid::b * CB(std::sqrt(tmp_a)) - WGS84_Ellipsoid::a2 * WGS84_Ellipsoid::b2 * tmp_a) / tmp_b;
+	auto m = (WGS84<double>.a * WGS84<double>.b * CB(std::sqrt(tmp_a)) - WGS84<double>.a2 * WGS84<double>.b2 * tmp_a) / tmp_b;
 #else
-	const auto tmp = z2 / WGS84_Ellipsoid::b2 + w2 / WGS84_Ellipsoid::a2;
+	const auto tmp = z2 / WGS84<double>.b2 + w2 / WGS84<double>.a2;
 
-	auto m = 0.5 * WGS84_Ellipsoid::a2 * WGS84_Ellipsoid::b2 * tmp * (std::sqrt(tmp) - 1) / (z2 / (1 - WGS84_Ellipsoid::e2) + w2 * (1 - WGS84_Ellipsoid::e2));
+	auto m = 0.5 * WGS84<double>.a2 * WGS84<double>.b2 * tmp * (std::sqrt(tmp) - 1) / (z2 / (1 - WGS84<double>.e2) + w2 * (1 - WGS84<double>.e2));
 #endif
 
 	for (int i = 1; i <= max_iterations; ++i)
@@ -3052,11 +3052,11 @@ COMMON_FIRST_DECLS
 		m -= lin_wang_1995_delta_m(w2, z2, m);
 	}
 
-	const auto we = std::abs(w / (1 + 2 * m / WGS84_Ellipsoid::a2));
-	const auto ze =         (z / (1 + 2 * m / WGS84_Ellipsoid::b2));
+	const auto we = std::abs(w / (1 + 2 * m / WGS84<double>.a2));
+	const auto ze =         (z / (1 + 2 * m / WGS84<double>.b2));
 
 	auto sin_lat = ze;
-	auto cos_lat = we * (1 - WGS84_Ellipsoid::e2);
+	auto cos_lat = we * (1 - WGS84<double>.e2);
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
@@ -3069,7 +3069,7 @@ COMMON_FIRST_DECLS
 	}
 #else
 	normalize(cos_lat, sin_lat);
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 #endif
 }
 constexpr int _line_end = __LINE__;
@@ -3107,14 +3107,14 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 COMMON_FIRST_DECLS
 
 #if 0
-	const auto tmp_a = WGS84_Ellipsoid::a2 * z2 + WGS84_Ellipsoid::b2 * w2;
-	const auto tmp_b = 2 * (WGS84_Ellipsoid::a2 * WGS84_Ellipsoid::a2 * z2 + WGS84_Ellipsoid::b2 * WGS84_Ellipsoid::b2 * w2);
+	const auto tmp_a = WGS84<double>.a2 * z2 + WGS84<double>.b2 * w2;
+	const auto tmp_b = 2 * (WGS84<double>.a2 * WGS84<double>.a2 * z2 + WGS84<double>.b2 * WGS84<double>.b2 * w2);
 
-	auto m = (WGS84_Ellipsoid::a * WGS84_Ellipsoid::b * CB(std::sqrt(tmp_a)) - WGS84_Ellipsoid::a2 * WGS84_Ellipsoid::b2 * tmp_a) / tmp_b;
+	auto m = (WGS84<double>.a * WGS84<double>.b * CB(std::sqrt(tmp_a)) - WGS84<double>.a2 * WGS84<double>.b2 * tmp_a) / tmp_b;
 #else
-	const auto tmp = z2 / WGS84_Ellipsoid::b2 + w2 / WGS84_Ellipsoid::a2;
+	const auto tmp = z2 / WGS84<double>.b2 + w2 / WGS84<double>.a2;
 
-	auto m = 0.5 * WGS84_Ellipsoid::a2 * WGS84_Ellipsoid::b2 * tmp * (std::sqrt(tmp) - 1) / (z2 / (1 - WGS84_Ellipsoid::e2) + w2 * (1 - WGS84_Ellipsoid::e2));
+	auto m = 0.5 * WGS84<double>.a2 * WGS84<double>.b2 * tmp * (std::sqrt(tmp) - 1) / (z2 / (1 - WGS84<double>.e2) + w2 * (1 - WGS84<double>.e2));
 #endif
 
 	for (int i = 1; i <= max_iterations; ++i)
@@ -3122,11 +3122,11 @@ COMMON_FIRST_DECLS
 		m -= lin_wang_1995_delta_m(w2, z2, m);
 	}
 
-	const auto we = std::abs(w / (1 + 2 * m / WGS84_Ellipsoid::a2));
-	const auto ze =         (z / (1 + 2 * m / WGS84_Ellipsoid::b2));
+	const auto we = std::abs(w / (1 + 2 * m / WGS84<double>.a2));
+	const auto ze =         (z / (1 + 2 * m / WGS84<double>.b2));
 
 	auto sin_lat = ze;
-	auto cos_lat = we * (1 - WGS84_Ellipsoid::e2);
+	auto cos_lat = we * (1 - WGS84<double>.e2);
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
@@ -3139,7 +3139,7 @@ COMMON_FIRST_DECLS
 	}
 #else
 	normalize(cos_lat, sin_lat);
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 #endif
 }
 constexpr int _line_end = __LINE__;
@@ -3180,13 +3180,13 @@ COMMON_FIRST_DECLS
 	// lat_c == geocentric latitude
 	// r == geocentric distance, units of a
 
-	lat_rad = lat_c + WGS84_Ellipsoid::f * std::sin(2 * lat_c) / r + WGS84_Ellipsoid::f * WGS84_Ellipsoid::f * ((1 / (w2 + z2) - 1 / (4 * r)) * std::sin(4 * lat_c));
+	lat_rad = lat_c + WGS84<double>.f * std::sin(2 * lat_c) / r + WGS84<double>.f * WGS84<double>.f * ((1 / (w2 + z2) - 1 / (4 * r)) * std::sin(4 * lat_c));
 
 	// SDW: This function doesn't work, so don't worry about optimizing it.
-	ht = get_ht_r(w, z, lat_rad);
+	ht = WGS84<double>.get_ht(w, z, lat_rad);
 /*
 #ifdef USE_CUSTOM_HT
-	ht = (r - 1) + WGS84_Ellipsoid::f * 0.5 * (1 - std::cos(2 * lat_c)) + WGS84_Ellipsoid::f * WGS84_Ellipsoid::f * ((1 / (4 * r) - 1 / 16.0)) * (1 - std::cos(4 * lat_c));
+	ht = (r - 1) + WGS84<double>.f * 0.5 * (1 - std::cos(2 * lat_c)) + WGS84<double>.f * WGS84<double>.f * ((1 / (4 * r) - 1 / 16.0)) * (1 - std::cos(4 * lat_c));
 #else
 #endif
 */
@@ -3230,23 +3230,23 @@ COMMON_FIRST_DECLS
 	double Rn = 1;
 
 	auto sin_lat = z * (Rn + ht);
-	auto cos_lat = w * (Rn * (1 - WGS84_Ellipsoid::e2) + ht);
+	auto cos_lat = w * (Rn * (1 - WGS84<double>.e2) + ht);
 
 	for (int i = 1; i <= max_iterations; ++i)
 	{
 		normalize(cos_lat, sin_lat);
-		Rn = get_Rn(sin_lat);
-		// SDW: this is the only call to the get_ht with extra Rn arg
-		ht = get_ht(w, z, sin_lat, cos_lat, Rn);
+		Rn = WGS84<double>.get_Rn(sin_lat);
+		// SDW: this is the only call to the WGS84<double>.get_ht with extra Rn arg
+		ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat, Rn);
 
 		sin_lat = z * (Rn + ht);
-		cos_lat = w * (Rn * (1 - WGS84_Ellipsoid::e2) + ht);
+		cos_lat = w * (Rn * (1 - WGS84<double>.e2) + ht);
 	}
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
 	normalize(cos_lat, sin_lat);
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int _line_end = __LINE__;
 
@@ -3284,23 +3284,23 @@ COMMON_FIRST_DECLS
 	double Rn = 1;
 
 	auto sin_lat = z * (Rn + ht);
-	auto cos_lat = w * (Rn * (1 - WGS84_Ellipsoid::e2) + ht);
+	auto cos_lat = w * (Rn * (1 - WGS84<double>.e2) + ht);
 
 	for (int i = 1; i <= max_iterations; ++i)
 	{
 		normalize(cos_lat, sin_lat);
-		Rn = get_Rn(sin_lat);
-		// SDW: this is the only call to the get_ht with extra Rn arg
-		ht = get_ht(w, z, sin_lat, cos_lat, Rn);
+		Rn = WGS84<double>.get_Rn(sin_lat);
+		// SDW: this is the only call to the WGS84<double>.get_ht with extra Rn arg
+		ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat, Rn);
 
 		sin_lat = z * (Rn + ht);
-		cos_lat = w * (Rn * (1 - WGS84_Ellipsoid::e2) + ht);
+		cos_lat = w * (Rn * (1 - WGS84<double>.e2) + ht);
 	}
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
 	normalize(cos_lat, sin_lat);
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int _line_end = __LINE__;
 
@@ -3335,20 +3335,20 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 COMMON_FIRST_DECLS
 
 	auto sin_lat = z;
-	auto cos_lat = w * (1 - WGS84_Ellipsoid::e2);
+	auto cos_lat = w * (1 - WGS84<double>.e2);
 
 	for (int i = 1; i <= max_iterations; ++i)
 	{
 		normalize(cos_lat, sin_lat);
-		const auto Rn = get_Rn(sin_lat);
-		sin_lat = z + Rn * sin_lat * WGS84_Ellipsoid::e2 / 2;
-		cos_lat = w - Rn * cos_lat * WGS84_Ellipsoid::e2 / 2;
+		const auto Rn = WGS84<double>.get_Rn(sin_lat);
+		sin_lat = z + Rn * sin_lat * WGS84<double>.e2 / 2;
+		cos_lat = w - Rn * cos_lat * WGS84<double>.e2 / 2;
 	}
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
 	normalize(cos_lat, sin_lat);
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int _line_end = __LINE__;
 
@@ -3389,20 +3389,20 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 COMMON_FIRST_DECLS
 
 	auto sin_lat = z;
-	auto cos_lat = w * (1 - WGS84_Ellipsoid::e2);
+	auto cos_lat = w * (1 - WGS84<double>.e2);
 
 	for (int i = 1; i <= max_iterations; ++i)
 	{
 		normalize(cos_lat, sin_lat);
-		const auto Rn = get_Rn(sin_lat);
-		sin_lat = z + Rn * sin_lat * WGS84_Ellipsoid::e2 / 2;
-		cos_lat = w - Rn * cos_lat * WGS84_Ellipsoid::e2 / 2;
+		const auto Rn = WGS84<double>.get_Rn(sin_lat);
+		sin_lat = z + Rn * sin_lat * WGS84<double>.e2 / 2;
+		cos_lat = w - Rn * cos_lat * WGS84<double>.e2 / 2;
 	}
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
 	normalize(cos_lat, sin_lat);
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int _line_end = __LINE__;
 
@@ -3443,7 +3443,7 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 COMMON_FIRST_DECLS
 
 	auto sin_lat = z;
-	auto cos_lat = w * (1 - WGS84_Ellipsoid::e2);
+	auto cos_lat = w * (1 - WGS84<double>.e2);
 	lat_rad = std::atan2(sin_lat, cos_lat);
 	normalize(sin_lat, cos_lat);
 
@@ -3455,7 +3455,7 @@ COMMON_FIRST_DECLS
 		cos_lat = std::cos(lat_rad);
 	}
 
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int _line_end = __LINE__;
 
@@ -3490,7 +3490,7 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 COMMON_FIRST_DECLS
 
 	auto sin_lat = z;
-	auto cos_lat = w * (1 - WGS84_Ellipsoid::e2);
+	auto cos_lat = w * (1 - WGS84<double>.e2);
 	lat_rad = std::atan2(sin_lat, cos_lat);
 	normalize(sin_lat, cos_lat);
 
@@ -3502,7 +3502,7 @@ COMMON_FIRST_DECLS
 		cos_lat = std::cos(lat_rad);
 	}
 
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int _line_end = __LINE__;
 
@@ -3537,7 +3537,7 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 COMMON_FIRST_DECLS
 
 	auto sin_lat = z;
-	auto cos_lat = w * (1 - WGS84_Ellipsoid::e2);
+	auto cos_lat = w * (1 - WGS84<double>.e2);
 	normalize(sin_lat, cos_lat);
 
 	for (int i = 1; i <= max_iterations; ++i)
@@ -3555,7 +3555,7 @@ COMMON_FIRST_DECLS
 	}
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int _line_end = __LINE__;
 
@@ -3590,7 +3590,7 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 COMMON_FIRST_DECLS
 
 	auto sin_lat = z;
-	auto cos_lat = w * (1 - WGS84_Ellipsoid::e2);
+	auto cos_lat = w * (1 - WGS84<double>.e2);
 	normalize(sin_lat, cos_lat);
 
 	for (int i = 1; i <= max_iterations; ++i)
@@ -3608,7 +3608,7 @@ COMMON_FIRST_DECLS
 	}
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int _line_end = __LINE__;
 
@@ -3640,12 +3640,12 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 {
 COMMON_FIRST_DECLS
 
-	constexpr auto a1 = WGS84_Ellipsoid::a * WGS84_Ellipsoid::e2;
+	constexpr auto a1 = WGS84<double>.a * WGS84<double>.e2;
 	constexpr auto a2 = a1 * a1;
-	constexpr auto a3 = a1 * WGS84_Ellipsoid::e2 / 2;
+	constexpr auto a3 = a1 * WGS84<double>.e2 / 2;
 	constexpr auto a4 = 2.5 * a2;
 	constexpr auto a5 = a1 + a3;
-	//constexpr auto a6 = (1 - WGS84_Ellipsoid::e2);
+	//constexpr auto a6 = (1 - WGS84<double>.e2);
 
 	const auto r2 = w2 + z2;
 	const auto r = std::sqrt(r2);
@@ -3681,10 +3681,10 @@ COMMON_FIRST_DECLS
 		}
 	}
 
-	const auto d2 = 1 - WGS84_Ellipsoid::e2 * ss;
-	const auto Rn = WGS84_Ellipsoid::a / std::sqrt(d2);
-	const auto Rm = (1 - WGS84_Ellipsoid::e2) * Rn / d2;
-	const auto rf = (1 - WGS84_Ellipsoid::e2) * Rn;
+	const auto d2 = 1 - WGS84<double>.e2 * ss;
+	const auto Rn = WGS84<double>.a / std::sqrt(d2);
+	const auto Rm = (1 - WGS84<double>.e2) * Rn / d2;
+	const auto rf = (1 - WGS84<double>.e2) * Rn;
 	u = w - Rn * c;
 	v = z - rf * s;
 	const auto f = c * u + s * v;
@@ -3696,7 +3696,7 @@ COMMON_FIRST_DECLS
 #ifdef USE_CUSTOM_HT
 	ht = f + m * p / 2;
 #else
-	ht = get_ht_r(w, z, lat_rad);
+	ht = WGS84<double>.get_ht(w, z, lat_rad);
 #endif
 }
 constexpr int _line_end = __LINE__;
@@ -3735,12 +3735,12 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 {
 COMMON_FIRST_DECLS
 
-	constexpr auto a1 = WGS84_Ellipsoid::a * WGS84_Ellipsoid::e2;
+	constexpr auto a1 = WGS84<double>.a * WGS84<double>.e2;
 	constexpr auto a2 = a1 * a1;
-	constexpr auto a3 = a1 * WGS84_Ellipsoid::e2 / 2;
+	constexpr auto a3 = a1 * WGS84<double>.e2 / 2;
 	constexpr auto a4 = 2.5 * a2;
 	constexpr auto a5 = a1 + a3;
-	//constexpr auto a6 = (1 - WGS84_Ellipsoid::e2);
+	//constexpr auto a6 = (1 - WGS84<double>.e2);
 
 	const auto r2 = w2 + z2;
 	const auto r = std::sqrt(r2);
@@ -3776,10 +3776,10 @@ COMMON_FIRST_DECLS
 		}
 	}
 
-	const auto d2 = 1 - WGS84_Ellipsoid::e2 * ss;
-	const auto Rn = WGS84_Ellipsoid::a / std::sqrt(d2);
-	const auto Rm = (1 - WGS84_Ellipsoid::e2) * Rn / d2;
-	const auto rf = (1 - WGS84_Ellipsoid::e2) * Rn;
+	const auto d2 = 1 - WGS84<double>.e2 * ss;
+	const auto Rn = WGS84<double>.a / std::sqrt(d2);
+	const auto Rm = (1 - WGS84<double>.e2) * Rn / d2;
+	const auto rf = (1 - WGS84<double>.e2) * Rn;
 	u = w - Rn * c;
 	v = z - rf * s;
 	const auto f = c * u + s * v;
@@ -3791,7 +3791,7 @@ COMMON_FIRST_DECLS
 #ifdef USE_CUSTOM_HT
 	ht = f + m * p / 2;
 #else
-	ht = get_ht_r(w, z, lat_rad);
+	ht = WGS84<double>.get_ht(w, z, lat_rad);
 #endif
 }
 constexpr int _line_end = __LINE__;
@@ -3944,13 +3944,13 @@ auto ScaleToGeodeticSurface(const Vector3D<T>& position)
 	const auto z2 = z * z;
 
 	auto beta = 1 / std::sqrt(
-			x2 / WGS84_Ellipsoid::a2 +
-			y2 / WGS84_Ellipsoid::a2 +
-			z2 / WGS84_Ellipsoid::b2);
+			x2 / WGS84<T>.a2 +
+			y2 / WGS84<T>.a2 +
+			z2 / WGS84<T>.b2);
 	auto n = Vector3D<T>{
-			beta * x / WGS84_Ellipsoid::a2,
-			beta * y / WGS84_Ellipsoid::a2,
-			beta * z / WGS84_Ellipsoid::b2}.length();
+			beta * x / WGS84<T>.a2,
+			beta * y / WGS84<T>.a2,
+			beta * z / WGS84<T>.b2}.length();
 	auto alpha = (1 - beta) * (position.length() / n);
 
 	T da = 0;
@@ -3965,8 +3965,8 @@ auto ScaleToGeodeticSurface(const Vector3D<T>& position)
 	{
 		alpha -= s / dSdA;
 
-		da = 1 + alpha / WGS84_Ellipsoid::a2;
-		db = 1 + alpha / WGS84_Ellipsoid::b2;
+		da = 1 + alpha / WGS84<T>.a2;
+		db = 1 + alpha / WGS84<T>.b2;
 
 		auto da2 = da * da;
 		auto db2 = db * db;
@@ -3974,14 +3974,14 @@ auto ScaleToGeodeticSurface(const Vector3D<T>& position)
 		auto da3 = da * da2;
 		auto db3 = db * db2;
 
-		s = x2 / (WGS84_Ellipsoid::a2 * da2) +
-			y2 / (WGS84_Ellipsoid::a2 * da2) +
-			z2 / (WGS84_Ellipsoid::b2 * db2) - 1;
+		s = x2 / (WGS84<T>.a2 * da2) +
+			y2 / (WGS84<T>.a2 * da2) +
+			z2 / (WGS84<T>.b2 * db2) - 1;
 
 		dSdA = -2 * (
-				x2 / (WGS84_Ellipsoid::a2 * WGS84_Ellipsoid::a2 * da3) +
-				y2 / (WGS84_Ellipsoid::a2 * WGS84_Ellipsoid::a2 * da3) +
-				z2 / (WGS84_Ellipsoid::b2 * WGS84_Ellipsoid::b2 * db3));
+				x2 / (WGS84<T>.a2 * WGS84<T>.a2 * da3) +
+				y2 / (WGS84<T>.a2 * WGS84<T>.a2 * da3) +
+				z2 / (WGS84<T>.b2 * WGS84<T>.b2 * db3));
 	}
 	while (std::abs(s) > dist_threshold);
 
@@ -3996,9 +3996,9 @@ requires std::is_floating_point_v<T>
 auto GeodeticSurfaceNormal(const Vector3D<T>& positionOnEllipsoid)
 {
 	return positionOnEllipsoid.multiply(Vector3D<T>{
-				1 / WGS84_Ellipsoid::a2,
-				1 / WGS84_Ellipsoid::a2,
-				1 / WGS84_Ellipsoid::b2}).normalize();
+				1 / WGS84<T>.a2,
+				1 / WGS84<T>.a2,
+				1 / WGS84<T>.b2}).normalize();
 }
 
 template <typename T>
@@ -4066,12 +4066,12 @@ COMMON_FIRST_DECLS_CHECKED
 
 	// a2 - b2 = a2 * e2
 	// SDW: NaNs at the equator
-	//const auto M = 0.5 * (WGS84_Ellipsoid::a * w - WGS84_Ellipsoid::a2 * WGS84_Ellipsoid::e2) / (WGS84_Ellipsoid::b * std::abs(z));
-	//const auto N = 0.5 * (WGS84_Ellipsoid::a * w + WGS84_Ellipsoid::a2 * WGS84_Ellipsoid::e2) / (WGS84_Ellipsoid::b * std::abs(z));
-	//const auto M = 0.5 * WGS84_Ellipsoid::a * (w - WGS84_Ellipsoid::a * WGS84_Ellipsoid::e2) / (WGS84_Ellipsoid::b * std::abs(z));
-	//const auto N = 0.5 * WGS84_Ellipsoid::a * (w + WGS84_Ellipsoid::a * WGS84_Ellipsoid::e2) / (WGS84_Ellipsoid::b * std::abs(z));
-	const auto M = 0.5 * (w - WGS84_Ellipsoid::a * WGS84_Ellipsoid::e2) / ((1 - WGS84_Ellipsoid::f) * std::abs(z));
-	const auto N = 0.5 * (w + WGS84_Ellipsoid::a * WGS84_Ellipsoid::e2) / ((1 - WGS84_Ellipsoid::f) * std::abs(z));
+	//const auto M = 0.5 * (WGS84<double>.a * w - WGS84<double>.a2 * WGS84<double>.e2) / (WGS84<double>.b * std::abs(z));
+	//const auto N = 0.5 * (WGS84<double>.a * w + WGS84<double>.a2 * WGS84<double>.e2) / (WGS84<double>.b * std::abs(z));
+	//const auto M = 0.5 * WGS84<double>.a * (w - WGS84<double>.a * WGS84<double>.e2) / (WGS84<double>.b * std::abs(z));
+	//const auto N = 0.5 * WGS84<double>.a * (w + WGS84<double>.a * WGS84<double>.e2) / (WGS84<double>.b * std::abs(z));
+	const auto M = 0.5 * (w - WGS84<double>.a * WGS84<double>.e2) / ((1 - WGS84<double>.f) * std::abs(z));
+	const auto N = 0.5 * (w + WGS84<double>.a * WGS84<double>.e2) / ((1 - WGS84<double>.f) * std::abs(z));
 
 	const auto V = 4 * M * N + 1;
 	const auto W = 2 * (N * N - M * M);
@@ -4086,7 +4086,7 @@ COMMON_FIRST_DECLS_CHECKED
 	// https://en.wikipedia.org/wiki/Tangent_half-angle_formula
 	// ##### XXX: but this is u**2 - 1 instead of 1 - u**2
 	auto sin_lat = 2 * u;
-	auto cos_lat = (u * u - 1) * (1 - WGS84_Ellipsoid::f);
+	auto cos_lat = (u * u - 1) * (1 - WGS84<double>.f);
 
 	if (z < 0)
 		sin_lat = -sin_lat;
@@ -4094,7 +4094,7 @@ COMMON_FIRST_DECLS_CHECKED
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
 	normalize(cos_lat, sin_lat);
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int _line_end = __LINE__;
 
@@ -4127,14 +4127,14 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 {
 COMMON_FIRST_DECLS
 
-	constexpr auto e4 = WGS84_Ellipsoid::e2 * WGS84_Ellipsoid::e2;
+	constexpr auto e4 = WGS84<double>.e2 * WGS84<double>.e2;
 
-	const auto alpha = (w2 + WGS84_Ellipsoid::a2 * e4) / (1 - WGS84_Ellipsoid::e2);
+	const auto alpha = (w2 + WGS84<double>.a2 * e4) / (1 - WGS84<double>.e2);
 	const auto alpha2 = alpha * alpha;
 
 	// e2/(1-e2) == ep2
-	//const auto beta = (w2 - WGS84_Ellipsoid::e2 * WGS84_Ellipsoid::a2) / (1 - WGS84_Ellipsoid::e2);
-	const auto beta = (w2 - WGS84_Ellipsoid::a2 * e4) / (1 - WGS84_Ellipsoid::e2);
+	//const auto beta = (w2 - WGS84<double>.e2 * WGS84<double>.a2) / (1 - WGS84<double>.e2);
+	const auto beta = (w2 - WGS84<double>.a2 * e4) / (1 - WGS84<double>.e2);
 	const auto beta2 = beta * beta;
 
 	const auto q = 1 + 13.5 * z2 * (alpha2 - beta2) / CB(beta + z2);
@@ -4152,7 +4152,7 @@ COMMON_FIRST_DECLS
 
 	auto root_2 = std::sqrt(std::abs(z2 / 4 - beta / 2 - t + 0.25 * alpha * z / sqrt_t));
 	// SDW: this doesn't work either
-	//auto root_2 = std::sqrt(std::abs(z2 / 4 - beta / 2 - t + 0.25 * WGS84_Ellipsoid::a * z / sqrt_t));
+	//auto root_2 = std::sqrt(std::abs(z2 / 4 - beta / 2 - t + 0.25 * WGS84<double>.a * z / sqrt_t));
 	if (z < 0)
 		root_2 = -root_2;
 
@@ -4175,7 +4175,7 @@ COMMON_FIRST_DECLS
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
 	// SDW: This function doesn't work, so don't worry about optimizing it.
-	ht = get_ht_r(w, z, lat_rad);
+	ht = WGS84<double>.get_ht(w, z, lat_rad);
 }
 constexpr int _line_end = __LINE__;
 
@@ -4219,32 +4219,32 @@ COMMON_FIRST_DECLS
 	double sin_lat = 0;
 	double cos_lat = 0;
 
-	ze = WGS84_Ellipsoid::b * z / r;
+	ze = WGS84<double>.b * z / r;
 
-	we_N = hypot(w, z + WGS84_Ellipsoid::ep2 * ze);
+	we_N = hypot(w, z + WGS84<double>.ep2 * ze);
 	m = w / we_N;
 	n = z / we_N;
-	r_ = m * m + n * n / (1 - WGS84_Ellipsoid::e2);
-	s = m * w + z / (1 - WGS84_Ellipsoid::e2);
-	t = w2 + z2 / (1 - WGS84_Ellipsoid::e2) - WGS84_Ellipsoid::a2;
+	r_ = m * m + n * n / (1 - WGS84<double>.e2);
+	s = m * w + z / (1 - WGS84<double>.e2);
+	t = w2 + z2 / (1 - WGS84<double>.e2) - WGS84<double>.a2;
 	ht = (s - std::sqrt(std::abs(s * s - r_ * t))) / r_;
 
 	// i = 1
 	ze = z - n * ht;
 
-	we_N = hypot(w, z + WGS84_Ellipsoid::ep2 * ze);
+	we_N = hypot(w, z + WGS84<double>.ep2 * ze);
 	m = w / we_N;
 	n = z / we_N;
-	r_ = m * m + n * n / (1 - WGS84_Ellipsoid::e2);
-	s = m * w + z / (1 - WGS84_Ellipsoid::e2);
-	t = w2 + z2 / (1 - WGS84_Ellipsoid::e2) - WGS84_Ellipsoid::a2;
+	r_ = m * m + n * n / (1 - WGS84<double>.e2);
+	s = m * w + z / (1 - WGS84<double>.e2);
+	t = w2 + z2 / (1 - WGS84<double>.e2) - WGS84<double>.a2;
 	ht = (s - std::sqrt(std::abs(s * s - r_ * t))) / r_;
 
 	ze = z - n * ht;
-	sin_lat = z + WGS84_Ellipsoid::ep2 * ze;
+	sin_lat = z + WGS84<double>.ep2 * ze;
 	cos_lat = w;
 	// SDW: is this necessary?
-	sin_lat *= (1 - WGS84_Ellipsoid::f);
+	sin_lat *= (1 - WGS84<double>.f);
 	//normalize(cos_lat, sin_lat);
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
@@ -4288,21 +4288,21 @@ COMMON_FIRST_DECLS
 	double sin_lat = z / r;
 	double cos_lat = 0;
 
-	ze = WGS84_Ellipsoid::b * sin_lat;
-	sin_lat = z + WGS84_Ellipsoid::ep2 * ze;
+	ze = WGS84<double>.b * sin_lat;
+	sin_lat = z + WGS84<double>.ep2 * ze;
 	cos_lat = w;
 
 	// i = 1
-	sin_lat *= (1 - WGS84_Ellipsoid::f);
+	sin_lat *= (1 - WGS84<double>.f);
 	normalize(cos_lat, sin_lat);
-	ze = WGS84_Ellipsoid::b * sin_lat;
-	sin_lat = z + WGS84_Ellipsoid::ep2 * ze;
+	ze = WGS84<double>.b * sin_lat;
+	sin_lat = z + WGS84<double>.ep2 * ze;
 	cos_lat = w;
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
 	normalize(cos_lat, sin_lat);
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int _line_end = __LINE__;
 
@@ -4343,28 +4343,28 @@ COMMON_FIRST_DECLS
 	double sin_lat = z / r;
 	double cos_lat = 0;
 
-	ze = WGS84_Ellipsoid::b * sin_lat;
-	sin_lat = z + WGS84_Ellipsoid::ep2 * ze;
+	ze = WGS84<double>.b * sin_lat;
+	sin_lat = z + WGS84<double>.ep2 * ze;
 	cos_lat = w;
 
 	// i = 1
-	sin_lat *= (1 - WGS84_Ellipsoid::f);
+	sin_lat *= (1 - WGS84<double>.f);
 	normalize(cos_lat, sin_lat);
-	ze = WGS84_Ellipsoid::b * sin_lat;
-	sin_lat = z + WGS84_Ellipsoid::ep2 * ze;
+	ze = WGS84<double>.b * sin_lat;
+	sin_lat = z + WGS84<double>.ep2 * ze;
 	cos_lat = w;
 
 	// i = 2
-	sin_lat *= (1 - WGS84_Ellipsoid::f);
+	sin_lat *= (1 - WGS84<double>.f);
 	normalize(cos_lat, sin_lat);
-	ze = WGS84_Ellipsoid::b * sin_lat;
-	sin_lat = z + WGS84_Ellipsoid::ep2 * ze;
+	ze = WGS84<double>.b * sin_lat;
+	sin_lat = z + WGS84<double>.ep2 * ze;
 	cos_lat = w;
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
 	normalize(cos_lat, sin_lat);
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int _line_end = __LINE__;
 
@@ -4406,29 +4406,29 @@ COMMON_FIRST_DECLS
 	double cos_lat = 0;
 	double tmp = 0;
 
-	ze = WGS84_Ellipsoid::b * sin_lat;
+	ze = WGS84<double>.b * sin_lat;
 
-	sin_lat = z + WGS84_Ellipsoid::ep2 * ze;
+	sin_lat = z + WGS84<double>.ep2 * ze;
 	cos_lat = w;
-	sin_lat *= (1 - WGS84_Ellipsoid::f);
+	sin_lat *= (1 - WGS84<double>.f);
 
 	// i = 1
 	normalize(cos_lat, sin_lat);
 #if 0
-	tmp = WGS84_Ellipsoid::a * WGS84_Ellipsoid::e2 * CB(cos_lat) / w;
-	ze = (WGS84_Ellipsoid::b * sin_lat - ze * tmp) / (1 - tmp);
+	tmp = WGS84<double>.a * WGS84<double>.e2 * CB(cos_lat) / w;
+	ze = (WGS84<double>.b * sin_lat - ze * tmp) / (1 - tmp);
 #else
-	tmp = WGS84_Ellipsoid::a * WGS84_Ellipsoid::e2 * CB(cos_lat);
-	ze = (WGS84_Ellipsoid::b * sin_lat * w - ze * tmp) / (w - tmp);
+	tmp = WGS84<double>.a * WGS84<double>.e2 * CB(cos_lat);
+	ze = (WGS84<double>.b * sin_lat * w - ze * tmp) / (w - tmp);
 #endif
 
-	sin_lat = z + WGS84_Ellipsoid::ep2 * ze;
+	sin_lat = z + WGS84<double>.ep2 * ze;
 	cos_lat = w;
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
 	normalize(cos_lat, sin_lat);
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int _line_end = __LINE__;
 
@@ -4470,43 +4470,43 @@ COMMON_FIRST_DECLS
 	double cos_lat = 0;
 	double tmp = 0;
 
-	ze = WGS84_Ellipsoid::b * sin_lat;
+	ze = WGS84<double>.b * sin_lat;
 
-	sin_lat = z + WGS84_Ellipsoid::ep2 * ze;
+	sin_lat = z + WGS84<double>.ep2 * ze;
 	cos_lat = w;
-	sin_lat *= (1 - WGS84_Ellipsoid::f);
+	sin_lat *= (1 - WGS84<double>.f);
 
 	// i = 1
 	normalize(cos_lat, sin_lat);
 #if 0
-	tmp = WGS84_Ellipsoid::a * WGS84_Ellipsoid::e2 * CB(cos_lat) / w;
-	ze = (WGS84_Ellipsoid::b * sin_lat - ze * tmp) / (1 - tmp);
+	tmp = WGS84<double>.a * WGS84<double>.e2 * CB(cos_lat) / w;
+	ze = (WGS84<double>.b * sin_lat - ze * tmp) / (1 - tmp);
 #else
-	tmp = WGS84_Ellipsoid::a * WGS84_Ellipsoid::e2 * CB(cos_lat);
-	ze = (WGS84_Ellipsoid::b * sin_lat * w - ze * tmp) / (w - tmp);
+	tmp = WGS84<double>.a * WGS84<double>.e2 * CB(cos_lat);
+	ze = (WGS84<double>.b * sin_lat * w - ze * tmp) / (w - tmp);
 #endif
 
-	sin_lat = z + WGS84_Ellipsoid::ep2 * ze;
+	sin_lat = z + WGS84<double>.ep2 * ze;
 	cos_lat = w;
-	sin_lat *= (1 - WGS84_Ellipsoid::f);
+	sin_lat *= (1 - WGS84<double>.f);
 
 	// i = 2
 	normalize(cos_lat, sin_lat);
 #if 0
-	tmp = WGS84_Ellipsoid::a * WGS84_Ellipsoid::e2 * CB(cos_lat) / w;
-	ze = (WGS84_Ellipsoid::b * sin_lat - ze * tmp) / (1 - tmp);
+	tmp = WGS84<double>.a * WGS84<double>.e2 * CB(cos_lat) / w;
+	ze = (WGS84<double>.b * sin_lat - ze * tmp) / (1 - tmp);
 #else
-	tmp = WGS84_Ellipsoid::a * WGS84_Ellipsoid::e2 * CB(cos_lat);
-	ze = (WGS84_Ellipsoid::b * sin_lat * w - ze * tmp) / (w - tmp);
+	tmp = WGS84<double>.a * WGS84<double>.e2 * CB(cos_lat);
+	ze = (WGS84<double>.b * sin_lat * w - ze * tmp) / (w - tmp);
 #endif
 
-	sin_lat = z + WGS84_Ellipsoid::ep2 * ze;
+	sin_lat = z + WGS84<double>.ep2 * ze;
 	cos_lat = w;
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
 	normalize(cos_lat, sin_lat);
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int _line_end = __LINE__;
 
@@ -4542,7 +4542,7 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 COMMON_FIRST_DECLS
 
 	auto sin_lat = z;
-	auto cos_lat = w * (1 - WGS84_Ellipsoid::e2);
+	auto cos_lat = w * (1 - WGS84<double>.e2);
 	lat_rad = std::atan2(sin_lat, cos_lat);
 	normalize(sin_lat, cos_lat);
 
@@ -4554,7 +4554,7 @@ COMMON_FIRST_DECLS
 		cos_lat = std::cos(lat_rad);
 	}
 
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int _line_end = __LINE__;
 
@@ -4589,7 +4589,7 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 COMMON_FIRST_DECLS
 
 	auto sin_lat = z;
-	auto cos_lat = w * (1 - WGS84_Ellipsoid::e2);
+	auto cos_lat = w * (1 - WGS84<double>.e2);
 	lat_rad = std::atan2(sin_lat, cos_lat);
 	normalize(sin_lat, cos_lat);
 
@@ -4601,7 +4601,7 @@ COMMON_FIRST_DECLS
 		cos_lat = std::cos(lat_rad);
 	}
 
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int _line_end = __LINE__;
 
@@ -4636,7 +4636,7 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 COMMON_FIRST_DECLS
 
 	auto sin_lat = z;
-	auto cos_lat = w * (1 - WGS84_Ellipsoid::e2);
+	auto cos_lat = w * (1 - WGS84<double>.e2);
 	normalize(sin_lat, cos_lat);
 
 	for (int i = 1; i <= max_iterations; ++i)
@@ -4654,7 +4654,7 @@ COMMON_FIRST_DECLS
 	}
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int _line_end = __LINE__;
 
@@ -4689,7 +4689,7 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 COMMON_FIRST_DECLS
 
 	auto sin_lat = z;
-	auto cos_lat = w * (1 - WGS84_Ellipsoid::e2);
+	auto cos_lat = w * (1 - WGS84<double>.e2);
 	normalize(sin_lat, cos_lat);
 
 	for (int i = 1; i <= max_iterations; ++i)
@@ -4707,7 +4707,7 @@ COMMON_FIRST_DECLS
 	}
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int _line_end = __LINE__;
 
@@ -4738,7 +4738,7 @@ template <typename T>
 requires std::is_floating_point_v<T>
 auto gee(const T h, const T rn)
 {
-	return (rn + h) / ((1 - WGS84_Ellipsoid::e2) * rn + h);
+	return (rn + h) / ((1 - WGS84<T>.e2) * rn + h);
 }
 
 /*
@@ -4805,8 +4805,8 @@ void set_gc_to_gd_constants(SRM_GC_GD_Specific_Constants<T>& gc_gd_spec)
 	T f1 = NAN;
 	T f2 = NAN;
 
-	//if (WGS84_Ellipsoid::e > 1E-12)
-	if (WGS84_Ellipsoid::e2 > 1E-24)
+	//if (WGS84<T>.e > 1E-12)
+	if (WGS84<T>.e2 > 1E-24)
 	{
 		del[0] = 3E4;
 		del[1] = 5E4;
@@ -4820,39 +4820,39 @@ void set_gc_to_gd_constants(SRM_GC_GD_Specific_Constants<T>& gc_gd_spec)
 		{
 			hmx = hmn + del[i];
 
-			g1 = gee(hmn, WGS84_Ellipsoid::a);  /* changed 0 to 1E-14 */
-			g2 = gee(hmx, WGS84_Ellipsoid::a);
+			g1 = gee(hmn, WGS84<T>.a);  /* changed 0 to 1E-14 */
+			g2 = gee(hmx, WGS84<T>.a);
 
-			g3 = gee(hmx, WGS84_Ellipsoid::a / (1 - WGS84_Ellipsoid::f));
-			g4 = gee(hmn, WGS84_Ellipsoid::a / (1 - WGS84_Ellipsoid::f));
+			g3 = gee(hmx, WGS84<T>.a / (1 - WGS84<T>.f));
+			g4 = gee(hmn, WGS84<T>.a / (1 - WGS84<T>.f));
 
 			hm = (hmx - hmn) * 0.5;
 
-			gm = gee(hm, WGS84_Ellipsoid::a / std::sqrt(1 - WGS84_Ellipsoid::e2 / 2));
+			gm = gee(hm, WGS84<T>.a / std::sqrt(1 - WGS84<T>.e2 / 2));
 
-			d1 = SQ(WGS84_Ellipsoid::b + hmx) * g3 - SQ(WGS84_Ellipsoid::b + hmn) * g4;
-			d1 = d1 / (SQ(WGS84_Ellipsoid::b + hmx) - SQ(WGS84_Ellipsoid::b + hmn));
+			d1 = SQ(WGS84<T>.b + hmx) * g3 - SQ(WGS84<T>.b + hmn) * g4;
+			d1 = d1 / (SQ(WGS84<T>.b + hmx) - SQ(WGS84<T>.b + hmn));
 
-			d2 = -(g4 - g3) / (SQ(WGS84_Ellipsoid::b + hmx) - SQ(WGS84_Ellipsoid::b + hmn));
+			d2 = -(g4 - g3) / (SQ(WGS84<T>.b + hmx) - SQ(WGS84<T>.b + hmn));
 
-			d3 = SQ(WGS84_Ellipsoid::b + hmx) * d2 - g3;
+			d3 = SQ(WGS84<T>.b + hmx) * d2 - g3;
 
-			d4 = SQ(WGS84_Ellipsoid::b + hmx) * (g3 - d1);
+			d4 = SQ(WGS84<T>.b + hmx) * (g3 - d1);
 
-			d5 = (g1 + d3) /  SQ(WGS84_Ellipsoid::a + hmn) - (g2 + d3) / SQ(WGS84_Ellipsoid::a + hmx);
+			d5 = (g1 + d3) /  SQ(WGS84<T>.a + hmn) - (g2 + d3) / SQ(WGS84<T>.a + hmx);
 
 			d5 = d5 / (g2 - g1);
 
-			d6 = 1 / SQ(WGS84_Ellipsoid::a + hmx) - 1 / SQ(WGS84_Ellipsoid::a + hmn);
+			d6 = 1 / SQ(WGS84<T>.a + hmx) - 1 / SQ(WGS84<T>.a + hmn);
 
 			d6 = d6 * d4 / (g2 - g1);
 
 			sm = M_SQRT1_2;  /*sin(π/4) == 1/sqrt(2)*/
 
-			//rnm = WGS84_Ellipsoid::a / std::sqrt(1 - WGS84_Ellipsoid::e2 * sm * sm);
-			rnm = get_Rn(sm);
+			//rnm = WGS84<T>.a / std::sqrt(1 - WGS84<T>.e2 * sm * sm);
+			rnm = WGS84<double>.get_Rn(sm);
 
-			zm = ((1 - WGS84_Ellipsoid::e2) * rnm + hm) * sm;
+			zm = ((1 - WGS84<T>.e2) * rnm + hm) * sm;
 			wm = (rnm + hm) * M_SQRT1_2;  /*cos(π/4) == 1/sqrt(2)*/
 
 			z2 = zm * zm;
@@ -4862,9 +4862,9 @@ void set_gc_to_gd_constants(SRM_GC_GD_Specific_Constants<T>& gc_gd_spec)
 
 			d8 = (z2 * gm - d4 - z2 * d1 + gm * w2 * d6) / w2;
 
-			d9 = (g2 + d3) / SQ(WGS84_Ellipsoid::a + hmx) + g2 * d5;
+			d9 = (g2 + d3) / SQ(WGS84<T>.a + hmx) + g2 * d5;
 
-			d10 = -d4 / SQ(WGS84_Ellipsoid::a + hmx) + d6 * g2;
+			d10 = -d4 / SQ(WGS84<T>.a + hmx) + d6 * g2;
 
 			a4 = (d8 - d10) / (d9 + d7);
 			a2 = d9 * a4 + d10;
@@ -4878,8 +4878,8 @@ void set_gc_to_gd_constants(SRM_GC_GD_Specific_Constants<T>& gc_gd_spec)
 			gc_gd_spec.b4[i] = a4;
 			gc_gd_spec.b5[i] = a5;
 
-			f1 = SQ(WGS84_Ellipsoid::a + hmn - 1E-8);
-			f2 = SQ(WGS84_Ellipsoid::b + hmn - 1E-8);
+			f1 = SQ(WGS84<T>.a + hmn - 1E-8);
+			f2 = SQ(WGS84<T>.b + hmn - 1E-8);
 
 			gc_gd_spec.u[i] = f1 / f2;
 			gc_gd_spec.v[i] = f1;
@@ -4902,11 +4902,11 @@ Algorithm derived by Ralph Toms, SRI.
 #define COMPUTE_RN_FAST(arg,answer) \
 {\
   const auto _alpha = 1.004244;\
-  const auto _d1 = -0.5 * WGS84_Ellipsoid::e2;\
+  const auto _d1 = -0.5 * WGS84<double>.e2;\
   const auto _x = _d1 * arg;\
   const auto _ak = 0.5 + _x;\
   const auto _z = 1 - _alpha * _x;\
-  answer = WGS84_Ellipsoid::a * _z * (1.5 - _ak * _z * _z);\
+  answer = WGS84<double>.a * _z * (1.5 - _ak * _z * _z);\
 }
 
 //unsigned int SRM_ChangeGC_GD(
@@ -4918,7 +4918,7 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 {
 COMMON_FIRST_DECLS
 
-	constexpr auto e4 = WGS84_Ellipsoid::e2 * WGS84_Ellipsoid::e2;
+	constexpr auto e4 = WGS84<double>.e2 * WGS84<double>.e2;
 
 	constexpr short int REGION_1 = 0;
 	constexpr short int REGION_2 = 1;
@@ -4980,8 +4980,8 @@ COMMON_FIRST_DECLS
 
 	bool done_by_special_case = false;
 
-	//if (std::abs(WGS84_Ellipsoid::e) <= 1E-12)
-	if (WGS84_Ellipsoid::e2 <= 1E-24)
+	//if (std::abs(WGS84<double>.e) <= 1E-12)
+	if (WGS84<double>.e2 <= 1E-24)
 	{
 		const auto r = std::sqrt(w2 + z2);
 
@@ -4989,8 +4989,8 @@ COMMON_FIRST_DECLS
 		/*lon_rad=std::atan2(y, x);*/
 		/*This is done below at the end to avoid duplicating the code*/
 		lat_rad = std::atan2(z /*z*/, w);
-		//ht = std::sqrt(w2 + z2) - WGS84_Ellipsoid::a;
-		ht = r - WGS84_Ellipsoid::a;
+		//ht = std::sqrt(w2 + z2) - WGS84<double>.a;
+		ht = r - WGS84<double>.a;
 		region = REGION_SPHERICAL;
 		goto END_REGION_CHECK;
 	}
@@ -5015,7 +5015,7 @@ COMMON_FIRST_DECLS
 					{
 						lat_rad = M_PI_2;
 						//lon_rad = 0;
-						ht = z - WGS84_Ellipsoid::b;
+						ht = z - WGS84<double>.b;
 
 						done_by_special_case = true;
 
@@ -5024,7 +5024,7 @@ COMMON_FIRST_DECLS
 					{
 						lat_rad = -M_PI_2;
 						//lon_rad =  0;
-						ht = -(z + WGS84_Ellipsoid::b);
+						ht = -(z + WGS84<double>.b);
 
 						done_by_special_case = true;
 
@@ -5139,8 +5139,8 @@ END_REGION_CHECK:
 			}
 			else
 			{
-				//ht = q / ga + WGS84_Ellipsoid::a * (-(1 - WGS84_Ellipsoid::e2)) * Rn / WGS84_Ellipsoid::a;
-				ht = q / ga - (1 - WGS84_Ellipsoid::e2) * Rn;
+				//ht = q / ga + WGS84<double>.a * (-(1 - WGS84<double>.e2)) * Rn / WGS84<double>.a;
+				ht = q / ga - (1 - WGS84<double>.e2) * Rn;
 			}
 #endif
 
@@ -5156,7 +5156,7 @@ END_REGION_CHECK:
 			{
 
 				/* correct g by using it as a first guess into the bowring formula*/
-				top = z * ga * (1 - WGS84_Ellipsoid::f);
+				top = z * ga * (1 - WGS84<double>.f);
 				top2 = top * top;
 
 				rr = top2 + w2;
@@ -5171,8 +5171,8 @@ END_REGION_CHECK:
 					cn = w / q;
 					s3 = CB(sn);
 					c3 = CB(cn);
-					top = z + WGS84_Ellipsoid::b * WGS84_Ellipsoid::ep2 * s3;
-					bot = w - WGS84_Ellipsoid::e2 * WGS84_Ellipsoid::a * c3;
+					top = z + WGS84<double>.b * WGS84<double>.ep2 * s3;
+					bot = w - WGS84<double>.e2 * WGS84<double>.a * c3;
 				}
 				top2 = top * top;
 
@@ -5194,7 +5194,7 @@ END_REGION_CHECK:
 					}
 					else
 					{
-						ht = z * q / top - (1 - WGS84_Ellipsoid::e2) * Rn;
+						ht = z * q / top - (1 - WGS84<double>.e2) * Rn;
 					}
 				}
 #endif
@@ -5228,8 +5228,8 @@ END_REGION_CHECK:
 				}
 #endif
 
-				cf = 54 * WGS84_Ellipsoid::b2 * z2;
-				gee = w2 + (1 - WGS84_Ellipsoid::e2) * z2 - WGS84_Ellipsoid::a2 * e4;
+				cf = 54 * WGS84<double>.b2 * z2;
+				gee = w2 + (1 - WGS84<double>.e2) * z2 - WGS84<double>.a2 * e4;
 				{
 					alpha = cf / (gee * gee);
 					cl = e4 * w2 * alpha / gee;
@@ -5249,35 +5249,35 @@ END_REGION_CHECK:
 				q = std::sqrt(xarg);
 
 				{
-					r_2 = -p * (2 * (1 - WGS84_Ellipsoid::e2) * z2 / (q * (1 + q)) + w2);
+					r_2 = -p * (2 * (1 - WGS84<double>.e2) * z2 / (q * (1 + q)) + w2);
 					r_1 = 1 + 1 / q;
-					r_2 /= WGS84_Ellipsoid::a2;
+					r_2 /= WGS84<double>.a2;
 					/*
 					 * DUE TO PRECISION ERRORS THE ARGUMENT MAY BECOME
 					 * NEGATIVE. IF SO SET THE ARGUMENT TO ZERO.
 					 */
 					if (r_1 + r_2 > 0)
 					{
-						ro = WGS84_Ellipsoid::a * std::sqrt(0.5 * (r_1 + r_2));
+						ro = WGS84<double>.a * std::sqrt(0.5 * (r_1 + r_2));
 					}
 					else
 					{
 						ro = 0;
 					}
-					ro -= p * WGS84_Ellipsoid::e2 * w / (1 + q);
+					ro -= p * WGS84<double>.e2 * w / (1 + q);
 				}
 
-				roe = WGS84_Ellipsoid::e2 * ro;
+				roe = WGS84<double>.e2 * ro;
 				arg = SQ(w - roe) + z2;
-				v   = std::sqrt(arg - WGS84_Ellipsoid::e2 * z2);
+				v   = std::sqrt(arg - WGS84<double>.e2 * z2);
 				{
-					zo = WGS84_Ellipsoid::a * (1 - WGS84_Ellipsoid::e2) * z / v;
+					zo = WGS84<double>.a * (1 - WGS84<double>.e2) * z / v;
 #ifdef USE_CUSTOM_HT
-					ht = std::sqrt(arg) * (1 - WGS84_Ellipsoid::a * (1 - WGS84_Ellipsoid::e2) / v);
+					ht = std::sqrt(arg) * (1 - WGS84<double>.a * (1 - WGS84<double>.e2) / v);
 #endif
 				}
 
-				top = z + WGS84_Ellipsoid::ep2 * zo;
+				top = z + WGS84<double>.ep2 * zo;
 				lat_rad = std::atan2(top, w);
 
 				/************************************************************
@@ -5316,7 +5316,7 @@ END_REGION_CHECK:
 
 #ifdef USE_CUSTOM_HT
 #else
-	ht = get_ht_r(w, z, lat_rad);
+	ht = WGS84<double>.get_ht(w, z, lat_rad);
 #endif
 }
 #undef COMPUTE_RN_FAST
@@ -5351,7 +5351,7 @@ template <typename T>
 requires std::is_floating_point_v<T>
 auto gee(const T h, const T rn)
 {
-	return (rn + h) / ((1 - WGS84_Ellipsoid::e2) * rn + h);
+	return (rn + h) / ((1 - WGS84<T>.e2) * rn + h);
 }
 
 /*
@@ -5418,8 +5418,8 @@ void set_gc_to_gd_constants(SRM_GC_GD_Specific_Constants<T>& gc_gd_spec)
 	T f1 = NAN;
 	T f2 = NAN;
 
-	//if (WGS84_Ellipsoid::e > 1E-12)
-	if (WGS84_Ellipsoid::e2 > 1E-24)
+	//if (WGS84<T>.e > 1E-12)
+	if (WGS84<T>.e2 > 1E-24)
 	{
 		del[0] = 3E4;
 		del[1] = 5E4;
@@ -5433,39 +5433,39 @@ void set_gc_to_gd_constants(SRM_GC_GD_Specific_Constants<T>& gc_gd_spec)
 		{
 			hmx = hmn + del[i];
 
-			g1 = gee(hmn, WGS84_Ellipsoid::a);  /* changed 0 to 1E-14 */
-			g2 = gee(hmx, WGS84_Ellipsoid::a);
+			g1 = gee(hmn, WGS84<T>.a);  /* changed 0 to 1E-14 */
+			g2 = gee(hmx, WGS84<T>.a);
 
-			g3 = gee(hmx, WGS84_Ellipsoid::a / (1 - WGS84_Ellipsoid::f));
-			g4 = gee(hmn, WGS84_Ellipsoid::a / (1 - WGS84_Ellipsoid::f));
+			g3 = gee(hmx, WGS84<T>.a / (1 - WGS84<T>.f));
+			g4 = gee(hmn, WGS84<T>.a / (1 - WGS84<T>.f));
 
 			hm = (hmx - hmn) * 0.5;
 
-			gm = gee(hm, WGS84_Ellipsoid::a / std::sqrt(1 - WGS84_Ellipsoid::e2 / 2));
+			gm = gee(hm, WGS84<T>.a / std::sqrt(1 - WGS84<T>.e2 / 2));
 
-			d1 = SQ(WGS84_Ellipsoid::b + hmx) * g3 - SQ(WGS84_Ellipsoid::b + hmn) * g4;
-			d1 = d1 / (SQ(WGS84_Ellipsoid::b + hmx) - SQ(WGS84_Ellipsoid::b + hmn));
+			d1 = SQ(WGS84<T>.b + hmx) * g3 - SQ(WGS84<T>.b + hmn) * g4;
+			d1 = d1 / (SQ(WGS84<T>.b + hmx) - SQ(WGS84<T>.b + hmn));
 
-			d2 = -(g4 - g3) / (SQ(WGS84_Ellipsoid::b + hmx) - SQ(WGS84_Ellipsoid::b + hmn));
+			d2 = -(g4 - g3) / (SQ(WGS84<T>.b + hmx) - SQ(WGS84<T>.b + hmn));
 
-			d3 = SQ(WGS84_Ellipsoid::b + hmx) * d2 - g3;
+			d3 = SQ(WGS84<T>.b + hmx) * d2 - g3;
 
-			d4 = SQ(WGS84_Ellipsoid::b + hmx) * (g3 - d1);
+			d4 = SQ(WGS84<T>.b + hmx) * (g3 - d1);
 
-			d5 = (g1 + d3) /  SQ(WGS84_Ellipsoid::a + hmn) - (g2 + d3) / SQ(WGS84_Ellipsoid::a + hmx);
+			d5 = (g1 + d3) /  SQ(WGS84<T>.a + hmn) - (g2 + d3) / SQ(WGS84<T>.a + hmx);
 
 			d5 = d5 / (g2 - g1);
 
-			d6 = 1 / SQ(WGS84_Ellipsoid::a + hmx) - 1 / SQ(WGS84_Ellipsoid::a + hmn);
+			d6 = 1 / SQ(WGS84<T>.a + hmx) - 1 / SQ(WGS84<T>.a + hmn);
 
 			d6 = d6 * d4 / (g2 - g1);
 
 			sm = M_SQRT1_2;  /*sin(π/4) == 1/sqrt(2)*/
 
-			//rnm = WGS84_Ellipsoid::a / std::sqrt(1 - WGS84_Ellipsoid::e2 * sm * sm);
-			rnm = get_Rn(sm);
+			//rnm = WGS84<T>.a / std::sqrt(1 - WGS84<T>.e2 * sm * sm);
+			rnm = WGS84<double>.get_Rn(sm);
 
-			zm = ((1 - WGS84_Ellipsoid::e2) * rnm + hm) * sm;
+			zm = ((1 - WGS84<T>.e2) * rnm + hm) * sm;
 			wm = (rnm + hm) * M_SQRT1_2;  /*cos(π/4) == 1/sqrt(2)*/
 
 			z2 = zm * zm;
@@ -5475,9 +5475,9 @@ void set_gc_to_gd_constants(SRM_GC_GD_Specific_Constants<T>& gc_gd_spec)
 
 			d8 = (z2 * gm - d4 - z2 * d1 + gm * w2 * d6) / w2;
 
-			d9 = (g2 + d3) / SQ(WGS84_Ellipsoid::a + hmx) + g2 * d5;
+			d9 = (g2 + d3) / SQ(WGS84<T>.a + hmx) + g2 * d5;
 
-			d10 = -d4 / SQ(WGS84_Ellipsoid::a + hmx) + d6 * g2;
+			d10 = -d4 / SQ(WGS84<T>.a + hmx) + d6 * g2;
 
 			a4 = (d8 - d10) / (d9 + d7);
 			a2 = d9 * a4 + d10;
@@ -5491,8 +5491,8 @@ void set_gc_to_gd_constants(SRM_GC_GD_Specific_Constants<T>& gc_gd_spec)
 			gc_gd_spec.b4[i] = a4;
 			gc_gd_spec.b5[i] = a5;
 
-			f1 = SQ(WGS84_Ellipsoid::a + hmn - 1E-8);
-			f2 = SQ(WGS84_Ellipsoid::b + hmn - 1E-8);
+			f1 = SQ(WGS84<T>.a + hmn - 1E-8);
+			f2 = SQ(WGS84<T>.b + hmn - 1E-8);
 
 			gc_gd_spec.u[i] = f1 / f2;
 			gc_gd_spec.v[i] = f1;
@@ -5515,11 +5515,11 @@ Algorithm derived by Ralph Toms, SRI.
 #define COMPUTE_RN_FAST(arg,answer) \
 {\
   const auto _alpha = 1.004244;\
-  const auto _d1 = -0.5 * WGS84_Ellipsoid::e2;\
+  const auto _d1 = -0.5 * WGS84<double>.e2;\
   const auto _x = _d1 * arg;\
   const auto _ak = 0.5 + _x;\
   const auto _z = 1 - _alpha * _x;\
-  answer = WGS84_Ellipsoid::a * _z * (1.5 - _ak * _z * _z);\
+  answer = WGS84<double>.a * _z * (1.5 - _ak * _z * _z);\
 }
 
 //unsigned int SRM_ChangeGC_GD(
@@ -5531,7 +5531,7 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 {
 COMMON_FIRST_DECLS
 
-	constexpr auto e4 = WGS84_Ellipsoid::e2 * WGS84_Ellipsoid::e2;
+	constexpr auto e4 = WGS84<double>.e2 * WGS84<double>.e2;
 
 	constexpr short int REGION_1 = 0;
 	constexpr short int REGION_2 = 1;
@@ -5593,8 +5593,8 @@ COMMON_FIRST_DECLS
 
 	bool done_by_special_case = false;
 
-	//if (std::abs(WGS84_Ellipsoid::e) <= 1E-12)
-	if (WGS84_Ellipsoid::e2 <= 1E-24)
+	//if (std::abs(WGS84<double>.e) <= 1E-12)
+	if (WGS84<double>.e2 <= 1E-24)
 	{
 		const auto r = std::sqrt(w2 + z2);
 
@@ -5602,8 +5602,8 @@ COMMON_FIRST_DECLS
 		/*lon_rad=std::atan2(y, x);*/
 		/*This is done below at the end to avoid duplicating the code*/
 		lat_rad = std::atan2(z /*z*/, w);
-		//ht = std::sqrt(w2 + z2) - WGS84_Ellipsoid::a;
-		ht = r - WGS84_Ellipsoid::a;
+		//ht = std::sqrt(w2 + z2) - WGS84<double>.a;
+		ht = r - WGS84<double>.a;
 		region = REGION_SPHERICAL;
 		goto END_REGION_CHECK;
 	}
@@ -5628,7 +5628,7 @@ COMMON_FIRST_DECLS
 					{
 						lat_rad = M_PI_2;
 						//lon_rad = 0;
-						ht = z - WGS84_Ellipsoid::b;
+						ht = z - WGS84<double>.b;
 
 						done_by_special_case = true;
 
@@ -5637,7 +5637,7 @@ COMMON_FIRST_DECLS
 					{
 						lat_rad = -M_PI_2;
 						//lon_rad =  0;
-						ht = -(z + WGS84_Ellipsoid::b);
+						ht = -(z + WGS84<double>.b);
 
 						done_by_special_case = true;
 
@@ -5753,8 +5753,8 @@ END_REGION_CHECK:
 			}
 			else
 			{
-				//ht = q / ga + WGS84_Ellipsoid::a * (-(1 - WGS84_Ellipsoid::e2)) * Rn / WGS84_Ellipsoid::a;
-				ht = q / ga - (1 - WGS84_Ellipsoid::e2) * Rn;
+				//ht = q / ga + WGS84<double>.a * (-(1 - WGS84<double>.e2)) * Rn / WGS84<double>.a;
+				ht = q / ga - (1 - WGS84<double>.e2) * Rn;
 			}
 #endif
 
@@ -5771,7 +5771,7 @@ END_REGION_CHECK:
 			{
 
 				/* correct g by using it as a first guess into the bowring formula*/
-				top = z * ga * (1 - WGS84_Ellipsoid::f);
+				top = z * ga * (1 - WGS84<double>.f);
 				top2 = top * top;
 
 				rr = top2 + w2;
@@ -5786,8 +5786,8 @@ END_REGION_CHECK:
 					cn = w / q;
 					s3 = CB(sn);
 					c3 = CB(cn);
-					top = z + WGS84_Ellipsoid::b * WGS84_Ellipsoid::ep2 * s3;
-					bot = w - WGS84_Ellipsoid::e2 * WGS84_Ellipsoid::a * c3;
+					top = z + WGS84<double>.b * WGS84<double>.ep2 * s3;
+					bot = w - WGS84<double>.e2 * WGS84<double>.a * c3;
 				}
 				top2 = top * top;
 
@@ -5809,7 +5809,7 @@ END_REGION_CHECK:
 					}
 					else
 					{
-						ht = z * q / top - (1 - WGS84_Ellipsoid::e2) * Rn;
+						ht = z * q / top - (1 - WGS84<double>.e2) * Rn;
 					}
 				}
 #endif
@@ -5843,8 +5843,8 @@ END_REGION_CHECK:
 				}
 #endif
 
-				cf = 54 * WGS84_Ellipsoid::b2 * z2;
-				gee = w2 + (1 - WGS84_Ellipsoid::e2) * z2 - WGS84_Ellipsoid::a2 * e4;
+				cf = 54 * WGS84<double>.b2 * z2;
+				gee = w2 + (1 - WGS84<double>.e2) * z2 - WGS84<double>.a2 * e4;
 				{
 					alpha = cf / (gee * gee);
 					cl = e4 * w2 * alpha / gee;
@@ -5864,35 +5864,35 @@ END_REGION_CHECK:
 				q = std::sqrt(xarg);
 
 				{
-					r_2 = -p * (2 * (1 - WGS84_Ellipsoid::e2) * z2 / (q * (1 + q)) + w2);
+					r_2 = -p * (2 * (1 - WGS84<double>.e2) * z2 / (q * (1 + q)) + w2);
 					r_1 = 1 + 1 / q;
-					r_2 /= WGS84_Ellipsoid::a2;
+					r_2 /= WGS84<double>.a2;
 					/*
 					 * DUE TO PRECISION ERRORS THE ARGUMENT MAY BECOME
 					 * NEGATIVE. IF SO SET THE ARGUMENT TO ZERO.
 					 */
 					if (r_1 + r_2 > 0)
 					{
-						ro = WGS84_Ellipsoid::a * std::sqrt(0.5 * (r_1 + r_2));
+						ro = WGS84<double>.a * std::sqrt(0.5 * (r_1 + r_2));
 					}
 					else
 					{
 						ro = 0;
 					}
-					ro -= p * WGS84_Ellipsoid::e2 * w / (1 + q);
+					ro -= p * WGS84<double>.e2 * w / (1 + q);
 				}
 
-				roe = WGS84_Ellipsoid::e2 * ro;
+				roe = WGS84<double>.e2 * ro;
 				arg = SQ(w - roe) + z2;
-				v   = std::sqrt(arg - WGS84_Ellipsoid::e2 * z2);
+				v   = std::sqrt(arg - WGS84<double>.e2 * z2);
 				{
-					zo = WGS84_Ellipsoid::a * (1 - WGS84_Ellipsoid::e2) * z / v;
+					zo = WGS84<double>.a * (1 - WGS84<double>.e2) * z / v;
 #ifdef USE_CUSTOM_HT
-					ht = std::sqrt(arg) * (1 - WGS84_Ellipsoid::a * (1 - WGS84_Ellipsoid::e2) / v);
+					ht = std::sqrt(arg) * (1 - WGS84<double>.a * (1 - WGS84<double>.e2) / v);
 #endif
 				}
 
-				top = z + WGS84_Ellipsoid::ep2 * zo;
+				top = z + WGS84<double>.ep2 * zo;
 				lat_rad = std::atan2(top, w);
 
 				/************************************************************
@@ -5931,7 +5931,7 @@ END_REGION_CHECK:
 
 #ifdef USE_CUSTOM_HT
 #else
-	ht = get_ht_r(w, z, lat_rad);
+	ht = WGS84<double>.get_ht(w, z, lat_rad);
 #endif
 }
 #undef COMPUTE_RN_FAST
@@ -5969,27 +5969,27 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 {
 COMMON_FIRST_DECLS
 
-	const auto tmp = WGS84_Ellipsoid::a2 * z2 + WGS84_Ellipsoid::b2 * w2;
-	auto k = (w2 + z2) * (std::sqrt(tmp) - WGS84_Ellipsoid::a * WGS84_Ellipsoid::b) / tmp;
+	const auto tmp = WGS84<double>.a2 * z2 + WGS84<double>.b2 * w2;
+	auto k = (w2 + z2) * (std::sqrt(tmp) - WGS84<double>.a * WGS84<double>.b) / tmp;
 
 	for (int i = 1; i <= max_iterations; ++i)
 	{
 		k -= shu_2010_delta_k(w2, z2, k);
 	}
 
-	const auto p = WGS84_Ellipsoid::a + WGS84_Ellipsoid::b * k;
-	const auto q = WGS84_Ellipsoid::b + WGS84_Ellipsoid::a * k;
+	const auto p = WGS84<double>.a + WGS84<double>.b * k;
+	const auto q = WGS84<double>.b + WGS84<double>.a * k;
 
 	auto sin_lat = z * p;
-	auto cos_lat = w * q * (1 - WGS84_Ellipsoid::f);
+	auto cos_lat = w * q * (1 - WGS84<double>.f);
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
 #ifdef USE_CUSTOM_HT
-	ht = k * hypot(w * WGS84_Ellipsoid::b / p, z * WGS84_Ellipsoid::a / q);
+	ht = k * hypot(w * WGS84<double>.b / p, z * WGS84<double>.a / q);
 #else
 	normalize(cos_lat, sin_lat);
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 #endif
 }
 constexpr int _line_end = __LINE__;
@@ -6024,27 +6024,27 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 {
 COMMON_FIRST_DECLS
 
-	const auto tmp = WGS84_Ellipsoid::a2 * z2 + WGS84_Ellipsoid::b2 * w2;
-	auto k = (w2 + z2) * (std::sqrt(tmp) - WGS84_Ellipsoid::a * WGS84_Ellipsoid::b) / tmp;
+	const auto tmp = WGS84<double>.a2 * z2 + WGS84<double>.b2 * w2;
+	auto k = (w2 + z2) * (std::sqrt(tmp) - WGS84<double>.a * WGS84<double>.b) / tmp;
 
 	for (int i = 1; i <= max_iterations; ++i)
 	{
 		k -= shu_2010_delta_k(w2, z2, k);
 	}
 
-	const auto p = WGS84_Ellipsoid::a + WGS84_Ellipsoid::b * k;
-	const auto q = WGS84_Ellipsoid::b + WGS84_Ellipsoid::a * k;
+	const auto p = WGS84<double>.a + WGS84<double>.b * k;
+	const auto q = WGS84<double>.b + WGS84<double>.a * k;
 
 	auto sin_lat = z * p;
-	auto cos_lat = w * q * (1 - WGS84_Ellipsoid::f);
+	auto cos_lat = w * q * (1 - WGS84<double>.f);
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
 #ifdef USE_CUSTOM_HT
-	ht = k * hypot(w * WGS84_Ellipsoid::b / p, z * WGS84_Ellipsoid::a / q);
+	ht = k * hypot(w * WGS84<double>.b / p, z * WGS84<double>.a / q);
 #else
 	normalize(cos_lat, sin_lat);
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 #endif
 }
 constexpr int _line_end = __LINE__;
@@ -6080,27 +6080,27 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 {
 COMMON_FIRST_DECLS
 
-	const auto tmp = WGS84_Ellipsoid::a2 * z2 + WGS84_Ellipsoid::b2 * w2;
-	auto k = (w2 + z2) * (std::sqrt(tmp) - WGS84_Ellipsoid::a * WGS84_Ellipsoid::b) / tmp;
+	const auto tmp = WGS84<double>.a2 * z2 + WGS84<double>.b2 * w2;
+	auto k = (w2 + z2) * (std::sqrt(tmp) - WGS84<double>.a * WGS84<double>.b) / tmp;
 
 	for (int i = 1; i <= max_iterations; ++i)
 	{
 		k -= shu_2010_delta_k(w2, z2, k);
 	}
 
-	const auto p = WGS84_Ellipsoid::a + WGS84_Ellipsoid::b * k;
-	const auto q = WGS84_Ellipsoid::b + WGS84_Ellipsoid::a * k;
+	const auto p = WGS84<double>.a + WGS84<double>.b * k;
+	const auto q = WGS84<double>.b + WGS84<double>.a * k;
 
 	auto sin_lat = z * p;
-	auto cos_lat = w * q * (1 - WGS84_Ellipsoid::f);
+	auto cos_lat = w * q * (1 - WGS84<double>.f);
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
 #ifdef USE_CUSTOM_HT
-	ht = k * hypot(w * WGS84_Ellipsoid::b / p, z * WGS84_Ellipsoid::a / q);
+	ht = k * hypot(w * WGS84<double>.b / p, z * WGS84<double>.a / q);
 #else
 	normalize(cos_lat, sin_lat);
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 #endif
 }
 constexpr int _line_end = __LINE__;
@@ -6137,27 +6137,27 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 {
 COMMON_FIRST_DECLS
 
-	const auto tmp = WGS84_Ellipsoid::a2 * z2 + WGS84_Ellipsoid::b2 * w2;
-	auto k = (w2 + z2) * (std::sqrt(tmp) - WGS84_Ellipsoid::a * WGS84_Ellipsoid::b) / tmp;
+	const auto tmp = WGS84<double>.a2 * z2 + WGS84<double>.b2 * w2;
+	auto k = (w2 + z2) * (std::sqrt(tmp) - WGS84<double>.a * WGS84<double>.b) / tmp;
 
 	for (int i = 1; i <= max_iterations; ++i)
 	{
 		k -= shu_2010_delta_k(w2, z2, k);
 	}
 
-	const auto p = WGS84_Ellipsoid::a + WGS84_Ellipsoid::b * k;
-	const auto q = WGS84_Ellipsoid::b + WGS84_Ellipsoid::a * k;
+	const auto p = WGS84<double>.a + WGS84<double>.b * k;
+	const auto q = WGS84<double>.b + WGS84<double>.a * k;
 
 	auto sin_lat = z * p;
-	auto cos_lat = w * q * (1 - WGS84_Ellipsoid::f);
+	auto cos_lat = w * q * (1 - WGS84<double>.f);
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
 #ifdef USE_CUSTOM_HT
-	ht = k * hypot(w * WGS84_Ellipsoid::b / p, z * WGS84_Ellipsoid::a / q);
+	ht = k * hypot(w * WGS84<double>.b / p, z * WGS84<double>.a / q);
 #else
 	normalize(cos_lat, sin_lat);
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 #endif
 }
 constexpr int _line_end = __LINE__;
@@ -6192,14 +6192,14 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 COMMON_FIRST_DECLS
 
 	// b2 / (a2 - b2) == 1 / ep2
-	const auto p = 1 / WGS84_Ellipsoid::ep2;
-	const auto q = WGS84_Ellipsoid::b2 * (WGS84_Ellipsoid::a2 * w2 + WGS84_Ellipsoid::b2 * z2 - SQ(WGS84_Ellipsoid::a2 - WGS84_Ellipsoid::b2)) / (SQ(WGS84_Ellipsoid::a2 - WGS84_Ellipsoid::b2) * z2);
-	//const auto r = -SQ(WGS84_Ellipsoid::b2) / ((WGS84_Ellipsoid::a2 - WGS84_Ellipsoid::b2) * z2);
+	const auto p = 1 / WGS84<double>.ep2;
+	const auto q = WGS84<double>.b2 * (WGS84<double>.a2 * w2 + WGS84<double>.b2 * z2 - SQ(WGS84<double>.a2 - WGS84<double>.b2)) / (SQ(WGS84<double>.a2 - WGS84<double>.b2) * z2);
+	//const auto r = -SQ(WGS84<double>.b2) / ((WGS84<double>.a2 - WGS84<double>.b2) * z2);
 	// SDW: NaNs at the equator
-	const auto s = -POW6(WGS84_Ellipsoid::b) / (SQ(WGS84_Ellipsoid::a2 - WGS84_Ellipsoid::b2) * z2);
+	const auto s = -POW6(WGS84<double>.b) / (SQ(WGS84<double>.a2 - WGS84<double>.b2) * z2);
 
 	const auto f = -SQ(q) / 12;
-	const auto h = -CB(q) / 108 - 0.5 * WGS84_Ellipsoid::a2 * POW4(WGS84_Ellipsoid::b2) * w2 / (POW4(WGS84_Ellipsoid::a2 - WGS84_Ellipsoid::b2) * POW4(z));
+	const auto h = -CB(q) / 108 - 0.5 * WGS84<double>.a2 * POW4(WGS84<double>.b2) * w2 / (POW4(WGS84<double>.a2 - WGS84<double>.b2) * POW4(z));
 
 	const auto g = SQ(h) / 4 + CB(f) / 27;
 
@@ -6216,11 +6216,11 @@ COMMON_FIRST_DECLS
 
 	auto z_ = z * k;
 
-	auto w_ = WGS84_Ellipsoid::a * std::sqrt(1 - SQ(z_ / WGS84_Ellipsoid::b));
+	auto w_ = WGS84<double>.a * std::sqrt(1 - SQ(z_ / WGS84<double>.b));
 
-	const auto Ne = std::sqrt(POW4(WGS84_Ellipsoid::a) * SQ(z_) + POW4(WGS84_Ellipsoid::b) * SQ(w_)) / WGS84_Ellipsoid::b2;
+	const auto Ne = std::sqrt(POW4(WGS84<double>.a) * SQ(z_) + POW4(WGS84<double>.b) * SQ(w_)) / WGS84<double>.b2;
 
-	auto sin_lat = (WGS84_Ellipsoid::a2 / WGS84_Ellipsoid::b2) * z_ / Ne;
+	auto sin_lat = (WGS84<double>.a2 / WGS84<double>.b2) * z_ / Ne;
 
 	// clamp to valid range
 	if (sin_lat < -1) { sin_lat = -1; }
@@ -6229,7 +6229,7 @@ COMMON_FIRST_DECLS
 	lat_rad = std::asin(sin_lat);
 
 	// SDW: This function doesn't work, so don't worry about optimizing it.
-	ht = get_ht_r(w, z, lat_rad);
+	ht = WGS84<double>.get_ht(w, z, lat_rad);
 }
 constexpr int _line_end = __LINE__;
 
@@ -6261,15 +6261,15 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 {
 COMMON_FIRST_DECLS
 
-	const auto p = std::abs(z) / WGS84_Ellipsoid::ep2;
-	const auto s = w2 / (WGS84_Ellipsoid::e2 * WGS84_Ellipsoid::ep2);
-	//const auto q = p * p - WGS84_Ellipsoid::b2 + w2 / (WGS84_Ellipsoid::e2 * WGS84_Ellipsoid::ep2);
-	const auto q = p * p - WGS84_Ellipsoid::b2 + s;
+	const auto p = std::abs(z) / WGS84<double>.ep2;
+	const auto s = w2 / (WGS84<double>.e2 * WGS84<double>.ep2);
+	//const auto q = p * p - WGS84<double>.b2 + w2 / (WGS84<double>.e2 * WGS84<double>.ep2);
+	const auto q = p * p - WGS84<double>.b2 + s;
 
 	const auto u = p / std::sqrt(q);
-	const auto v = WGS84_Ellipsoid::b2 * u * u / q;
+	const auto v = WGS84<double>.b2 * u * u / q;
 
-	//const auto P = 27 * WGS84_Ellipsoid::a2 * (w2) * z2 / (WGS84_Ellipsoid::ep2 * WGS84_Ellipsoid::ep2 * WGS84_Ellipsoid::ep2 * WGS84_Ellipsoid::ep2);
+	//const auto P = 27 * WGS84<double>.a2 * (w2) * z2 / (WGS84<double>.ep2 * WGS84<double>.ep2 * WGS84<double>.ep2 * WGS84<double>.ep2);
 	const auto P = 27 * v * s / q;
 	const auto Q_ = std::sqrt(P + 1) + std::sqrt(P);
 	//const auto Q = std::pow(std::sqrt(P + q * q * q) + std::sqrt(P), 2.0/3.0);
@@ -6288,9 +6288,9 @@ COMMON_FIRST_DECLS
 	if (z < 0)
 		Z = -Z;
 
-	const auto Ne = WGS84_Ellipsoid::a * std::sqrt(1 + Z * Z * WGS84_Ellipsoid::ep2 / WGS84_Ellipsoid::b2);
+	const auto Ne = WGS84<double>.a * std::sqrt(1 + Z * Z * WGS84<double>.ep2 / WGS84<double>.b2);
 
-	auto sin_lat = (WGS84_Ellipsoid::ep2 + 1) * (Z / Ne);
+	auto sin_lat = (WGS84<double>.ep2 + 1) * (Z / Ne);
 
 	// clamp to valid range
 	if (sin_lat < -1) { sin_lat = -1; }
@@ -6298,7 +6298,7 @@ COMMON_FIRST_DECLS
 
 	lat_rad = std::asin(sin_lat);
 
-	ht = get_ht_r(w, z, lat_rad);
+	ht = WGS84<double>.get_ht(w, z, lat_rad);
 }
 constexpr int _line_end = __LINE__;
 
@@ -6333,12 +6333,12 @@ COMMON_FIRST_DECLS
 	const auto w4 = w2 * w2;
 	const auto z4 = z2 * z2;
 
-	const auto a2 = WGS84_Ellipsoid::a2;
-	const auto e2 = WGS84_Ellipsoid::e2;
+	const auto a2 = WGS84<double>.a2;
+	const auto e2 = WGS84<double>.e2;
 	const auto a4 = a2 * a2;
 
 	const auto a_0 = z4;
-	const auto a_1 = -2 * WGS84_Ellipsoid::a2 * SQ(e2) * z2 - 2 * w2 * z2 - 2 * z4 - 2 * e2 * z4;
+	const auto a_1 = -2 * WGS84<double>.a2 * SQ(e2) * z2 - 2 * w2 * z2 - 2 * z4 - 2 * e2 * z4;
 	const auto a_2 = a4 * POW4(e2) - 2 * a2 * e2 * w2 + w4 + 4 * a2 * SQ(e2) * z2 + 2 * a2 * CB(e2) * z2
 		+ 2 * w2 * z2 + 4 * e2 * w2 * z2 + z4 + 4 * e2 * z4 + SQ(e2) * z4;
 	const auto a_3 = -2 * a4 * POW4(e2) + 2 * a2 * SQ(e2) * w2 + 2 * a2 * CB(e2) * w2 - 2 * e2 * w4
@@ -6372,11 +6372,11 @@ COMMON_FIRST_DECLS
 	lat_rad = std::asin(sin_lat);
 
 	// SDW: This function doesn't work, so don't worry about optimizing it.
-	ht = get_ht_r(w, z, lat_rad);
+	ht = WGS84<double>.get_ht(w, z, lat_rad);
 /*
 #ifdef USE_CUSTOM_HT
-	const auto Rn = get_Rn(sin_lat);
-	ht = (std::abs(z) + w * Rn * std::cos(lat_rad + (1 - WGS84_Ellipsoid::e2)) * std::abs(sin_lat)) / (std::cos(lat_rad) + std::abs(sin_lat));
+	const auto Rn = WGS84<double>.get_Rn(sin_lat);
+	ht = (std::abs(z) + w * Rn * std::cos(lat_rad + (1 - WGS84<double>.e2)) * std::abs(sin_lat)) / (std::cos(lat_rad) + std::abs(sin_lat));
 #else
 #endif
 */
@@ -6413,12 +6413,12 @@ COMMON_FIRST_DECLS
 
 	// p == a/b-1
 	// a/b == 1/(1-f)
-	const auto p = 1 / (1 - WGS84_Ellipsoid::f) - 1;
+	const auto p = 1 / (1 - WGS84<double>.f) - 1;
 	ht = 0;
 	double lat_c = 0;
 
 	const auto r = std::sqrt(w2 + z2);
-	const auto h0 = r - WGS84_Ellipsoid::b;
+	const auto h0 = r - WGS84<double>.b;
 	// SDW: these do not work
 	//const auto lat0 = std::atan2(z, r - w);
 	const auto lat0 = 2 * std::atan2(r - w, z);
@@ -6433,51 +6433,51 @@ COMMON_FIRST_DECLS
 	//const auto cos5_lat0 = POW5(cos_lat0);
 	const auto cos6_lat0 = POW6(cos_lat0);
 
-	const auto h0pb = h0 + WGS84_Ellipsoid::b;
-	const auto h0mb = h0 - WGS84_Ellipsoid::b;
-	//const auto h0p3b = h0 + 3 * WGS84_Ellipsoid::b;
-	const auto h0m3b = h0 - 3 * WGS84_Ellipsoid::b;
+	const auto h0pb = h0 + WGS84<double>.b;
+	const auto h0mb = h0 - WGS84<double>.b;
+	//const auto h0p3b = h0 + 3 * WGS84<double>.b;
+	const auto h0m3b = h0 - 3 * WGS84<double>.b;
 
 	const auto sin_2lat0 = std::sin(2 * lat0);
 	const auto sin2_2lat0 = sin_2lat0 * sin_2lat0;
 
-	const auto C1 = -4 * CB(h0) + 37 * CB(WGS84_Ellipsoid::b) - 66 * WGS84_Ellipsoid::b2 * h0 + 33 * WGS84_Ellipsoid::b * h0 * h0;
-	const auto C2 = CB(h0) - 31 * CB(WGS84_Ellipsoid::b) + 75 * WGS84_Ellipsoid::b2 * h0 - 33 * WGS84_Ellipsoid::b * h0 * h0;
-	const auto C3 = 3 * WGS84_Ellipsoid::b * (WGS84_Ellipsoid::b2 + 3 * h0 * h0 - 6 * WGS84_Ellipsoid::b * h0);
-	const auto C4 = 139 * CB(WGS84_Ellipsoid::b) - 5 * CB(h0) + 49 * WGS84_Ellipsoid::b * h0 * h0 - 143 * WGS84_Ellipsoid::b2 * h0;
-	const auto C5 = CB(h0) - 127 * CB(WGS84_Ellipsoid::b) + 163 * WGS84_Ellipsoid::b2 * h0 - 45 * WGS84_Ellipsoid::b * h0 * h0;
-	const auto C6 = 4 * WGS84_Ellipsoid::b * (-10 * WGS84_Ellipsoid::b * h0 + h0 * h0 + 5 * WGS84_Ellipsoid::b2);
-	const auto C7 = 4 * POW4(h0) + 118 * POW4(WGS84_Ellipsoid::b) + 198 * WGS84_Ellipsoid::b2 * h0 * h0 - 266 * CB(WGS84_Ellipsoid::b) * h0 - 54 * WGS84_Ellipsoid::b * CB(h0);
-	const auto C8 = -155 * POW4(WGS84_Ellipsoid::b) - 2 * POW4(h0) + 67 * WGS84_Ellipsoid::b * CB(h0) + 421 * CB(WGS84_Ellipsoid::b) * h0 - 315 * WGS84_Ellipsoid::b2 * h0 * h0;
-	const auto C9 = 49 * POW4(WGS84_Ellipsoid::b) - 15 * WGS84_Ellipsoid::b * CB(h0) - 185 * CB(WGS84_Ellipsoid::b) * h0 + 135 * CB(WGS84_Ellipsoid::b) * h0 * h0;
-	const auto C10 = 2 * WGS84_Ellipsoid::b2 * (10 * WGS84_Ellipsoid::b * h0 - 5 * h0 * h0 - WGS84_Ellipsoid::b2);
+	const auto C1 = -4 * CB(h0) + 37 * CB(WGS84<double>.b) - 66 * WGS84<double>.b2 * h0 + 33 * WGS84<double>.b * h0 * h0;
+	const auto C2 = CB(h0) - 31 * CB(WGS84<double>.b) + 75 * WGS84<double>.b2 * h0 - 33 * WGS84<double>.b * h0 * h0;
+	const auto C3 = 3 * WGS84<double>.b * (WGS84<double>.b2 + 3 * h0 * h0 - 6 * WGS84<double>.b * h0);
+	const auto C4 = 139 * CB(WGS84<double>.b) - 5 * CB(h0) + 49 * WGS84<double>.b * h0 * h0 - 143 * WGS84<double>.b2 * h0;
+	const auto C5 = CB(h0) - 127 * CB(WGS84<double>.b) + 163 * WGS84<double>.b2 * h0 - 45 * WGS84<double>.b * h0 * h0;
+	const auto C6 = 4 * WGS84<double>.b * (-10 * WGS84<double>.b * h0 + h0 * h0 + 5 * WGS84<double>.b2);
+	const auto C7 = 4 * POW4(h0) + 118 * POW4(WGS84<double>.b) + 198 * WGS84<double>.b2 * h0 * h0 - 266 * CB(WGS84<double>.b) * h0 - 54 * WGS84<double>.b * CB(h0);
+	const auto C8 = -155 * POW4(WGS84<double>.b) - 2 * POW4(h0) + 67 * WGS84<double>.b * CB(h0) + 421 * CB(WGS84<double>.b) * h0 - 315 * WGS84<double>.b2 * h0 * h0;
+	const auto C9 = 49 * POW4(WGS84<double>.b) - 15 * WGS84<double>.b * CB(h0) - 185 * CB(WGS84<double>.b) * h0 + 135 * CB(WGS84<double>.b) * h0 * h0;
+	const auto C10 = 2 * WGS84<double>.b2 * (10 * WGS84<double>.b * h0 - 5 * h0 * h0 - WGS84<double>.b2);
 
-	const auto h1 = -WGS84_Ellipsoid::b * cos2_lat0;
-	const auto lat1 = (WGS84_Ellipsoid::b - h0) * sin_2lat0 / (2 * (h0pb));
+	const auto h1 = -WGS84<double>.b * cos2_lat0;
+	const auto lat1 = (WGS84<double>.b - h0) * sin_2lat0 / (2 * (h0pb));
 	ht += p * h1;
 	lat_c += p * lat1;
 
-	const auto h2 = -WGS84_Ellipsoid::b * (h0m3b) * sin2_2lat0 / (8 * (h0pb));
-	const auto lat2 = (h0 * h0 - 4 * WGS84_Ellipsoid::b * h0 + 3 * WGS84_Ellipsoid::b2) * std::sin(4 * lat0) / (8 * h0pb * h0pb) + sin_2lat0 / 4;
+	const auto h2 = -WGS84<double>.b * (h0m3b) * sin2_2lat0 / (8 * (h0pb));
+	const auto lat2 = (h0 * h0 - 4 * WGS84<double>.b * h0 + 3 * WGS84<double>.b2) * std::sin(4 * lat0) / (8 * h0pb * h0pb) + sin_2lat0 / 4;
 	ht += p * p * h2;
 	lat_c += p * p * lat2;
 
-	const auto h3 = WGS84_Ellipsoid::b * sin2_2lat0 * (h0m3b * h0m3b * cos2_lat0 + 4 * WGS84_Ellipsoid::b * (h0mb)) / (8 * h0pb * h0pb);
+	const auto h3 = WGS84<double>.b * sin2_2lat0 * (h0m3b * h0m3b * cos2_lat0 + 4 * WGS84<double>.b * (h0mb)) / (8 * h0pb * h0pb);
 	const auto lat3 = sin_2lat0 * (C1 * cos4_lat0 + C2 * cos2_lat0 + C3) / (6 * CB(h0pb));
 	ht += CB(p) * h3;
 	lat_c += CB(p) * lat3;
 
-	const auto h4 = WGS84_Ellipsoid::b * sin2_2lat0 * (C4 * cos4_lat0 + C5 * cos2_lat0 + C6) / (32 * CB(h0pb));
+	const auto h4 = WGS84<double>.b * sin2_2lat0 * (C4 * cos4_lat0 + C5 * cos2_lat0 + C6) / (32 * CB(h0pb));
 	const auto lat4 = sin_2lat0 * (C7 * cos6_lat0 + C8 * cos4_lat0 + C9 * cos2_lat0 + C10) / (4 * POW4(h0pb));
 	ht += POW4(p) * h4;
 	lat_c += POW4(p) * lat4;
 
 	// SDW: this is wrong
-	//lat_rad = std::atan2((1 - WGS84_Ellipsoid::f) * std::cos(lat_c), std::sin(lat_c));
+	//lat_rad = std::atan2((1 - WGS84<double>.f) * std::cos(lat_c), std::sin(lat_c));
 
 	auto sin_lat = std::sin(lat_c);
 	auto cos_lat = std::cos(lat_c);
-	cos_lat *= (1 - WGS84_Ellipsoid::f);
+	cos_lat *= (1 - WGS84<double>.f);
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 }
@@ -6511,10 +6511,10 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 {
 COMMON_FIRST_DECLS
 
-	constexpr auto e4 = WGS84_Ellipsoid::e2 * WGS84_Ellipsoid::e2;
+	constexpr auto e4 = WGS84<double>.e2 * WGS84<double>.e2;
 
-	const auto p = w2 / WGS84_Ellipsoid::a2;
-	const auto q = (1 - WGS84_Ellipsoid::e2) * z2 / WGS84_Ellipsoid::a2;
+	const auto p = w2 / WGS84<double>.a2;
+	const auto q = (1 - WGS84<double>.e2) * z2 / WGS84<double>.a2;
 	const auto r = (p + q - e4) / 6;
 	const auto r3 = CB(r);
 
@@ -6523,15 +6523,15 @@ COMMON_FIRST_DECLS
 
 	const auto u = r * (1 + t + 1 / t);
 	const auto v = std::sqrt(u * u + e4 * q);
-	const auto w_ = 0.5 * WGS84_Ellipsoid::e2 * (u + v - q) / v;
+	const auto w_ = 0.5 * WGS84<double>.e2 * (u + v - q) / v;
 	const auto k = std::sqrt(u + v + w_ * w_) - w_;
 
-	const auto D = k * w / (k + WGS84_Ellipsoid::e2);
+	const auto D = k * w / (k + WGS84<double>.e2);
 	const auto tmp = hypot(D, z);
 
 	lat_rad = 2 * std::atan2(z, D + tmp);
 
-	ht = get_ht_r(w, z, lat_rad);
+	ht = WGS84<double>.get_ht(w, z, lat_rad);
 }
 constexpr int _line_end = __LINE__;
 
@@ -6563,16 +6563,16 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 {
 COMMON_FIRST_DECLS
 
-	constexpr auto e4 = WGS84_Ellipsoid::e2 * WGS84_Ellipsoid::e2;
+	constexpr auto e4 = WGS84<double>.e2 * WGS84<double>.e2;
 
-	const auto p = w2 / WGS84_Ellipsoid::a2;
-	const auto q = (z2 / WGS84_Ellipsoid::a2) * (1 - WGS84_Ellipsoid::e2);
+	const auto p = w2 / WGS84<double>.a2;
+	const auto q = (z2 / WGS84<double>.a2) * (1 - WGS84<double>.e2);
 	const auto r = (p + q - e4) / 6;
 	const auto r3 = CB(r);
 
 	const auto e4pq = e4 * p * q;
-	//const auto sqrt_e4pq = WGS84_Ellipsoid::e2 * std::sqrt(p * q);
-	const auto sqrt_e4pq = WGS84_Ellipsoid::e2 * (1 - WGS84_Ellipsoid::f) * std::abs(z) * w / WGS84_Ellipsoid::a2;
+	//const auto sqrt_e4pq = WGS84<double>.e2 * std::sqrt(p * q);
+	const auto sqrt_e4pq = WGS84<double>.e2 * (1 - WGS84<double>.f) * std::abs(z) * w / WGS84<double>.a2;
 
 	const auto tmp1 = 8 * r3 + e4pq;
 
@@ -6584,15 +6584,15 @@ COMMON_FIRST_DECLS
 		const auto u = r + 0.5 * std::cbrt(SQ(tmp2 + sqrt_e4pq)) + 0.5 * std::cbrt(SQ(tmp2 - sqrt_e4pq));
 
 		const auto v = std::sqrt(u * u + e4 * q);
-		const auto w_ = 0.5 * WGS84_Ellipsoid::e2 * ((u + v) - q) / v;
+		const auto w_ = 0.5 * WGS84<double>.e2 * ((u + v) - q) / v;
 		const auto k = (u + v) / (std::sqrt(w_ * w_ + u + v) + w_);
-		const auto D = k * w / (k + WGS84_Ellipsoid::e2);
+		const auto D = k * w / (k + WGS84<double>.e2);
 
 		const auto tmp3 = hypot(D, z);
 		lat_rad = 2 * std::atan2(z, tmp3 + D);
 #ifdef USE_CUSTOM_HT
-		//ht = (k + WGS84_Ellipsoid::e2 - 1) * tmp3 / k;
-		ht = (k - (1 - WGS84_Ellipsoid::e2)) * tmp3 / k;
+		//ht = (k + WGS84<double>.e2 - 1) * tmp3 / k;
+		ht = (k - (1 - WGS84<double>.e2)) * tmp3 / k;
 #endif
 	}
 	// inside the evolute and not in the singular disc
@@ -6611,31 +6611,31 @@ COMMON_FIRST_DECLS
 			const auto u = r * (1 - 2 * sin(2 * tmp4 + M_PI / 6));
 
 			const auto v = std::sqrt(u * u + e4 * q);
-			const auto w_ = 0.5 * WGS84_Ellipsoid::e2 * ((u + v) - q) / v;
+			const auto w_ = 0.5 * WGS84<double>.e2 * ((u + v) - q) / v;
 			const auto k = (u + v) / (std::sqrt(w_ * w_ + (u + v)) + w_);
-			const auto D = k * w / (k + WGS84_Ellipsoid::e2);
+			const auto D = k * w / (k + WGS84<double>.e2);
 
 			const auto tmp3 = hypot(D, z);
 			lat_rad = 2 * std::atan2(z, tmp3 + D);
 #ifdef USE_CUSTOM_HT
-			//ht = (k + WGS84_Ellipsoid::e2 - 1) * tmp3 / k;
-			ht = (k - (1 - WGS84_Ellipsoid::e2)) * tmp3 / k;
+			//ht = (k + WGS84<double>.e2 - 1) * tmp3 / k;
+			ht = (k - (1 - WGS84<double>.e2)) * tmp3 / k;
 #endif
 		}
 		// in the singular disc
 		else // if (q == 0 && p <= e2*e2)
 		{
-			const auto tmp3 = std::sqrt(WGS84_Ellipsoid::e2 - p);
-			lat_rad = 2 * std::atan2(std::sqrt(e4 - p), (WGS84_Ellipsoid::e * tmp3 + (1 - WGS84_Ellipsoid::f) * std::sqrt(p)));
+			const auto tmp3 = std::sqrt(WGS84<double>.e2 - p);
+			lat_rad = 2 * std::atan2(std::sqrt(e4 - p), (WGS84<double>.e * tmp3 + (1 - WGS84<double>.f) * std::sqrt(p)));
 #ifdef USE_CUSTOM_HT
-			ht = -WGS84_Ellipsoid::a * (1 - WGS84_Ellipsoid::f) * tmp3 / WGS84_Ellipsoid::e;
+			ht = -WGS84<double>.a * (1 - WGS84<double>.f) * tmp3 / WGS84<double>.e;
 #endif
 		}
 	}
 
 #ifdef USE_CUSTOM_HT
 #else
-	ht = get_ht_r(w, z, lat_rad);
+	ht = WGS84<double>.get_ht(w, z, lat_rad);
 #endif
 }
 constexpr int _line_end = __LINE__;
@@ -6669,16 +6669,16 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 {
 COMMON_FIRST_DECLS
 
-	constexpr auto e4 = WGS84_Ellipsoid::e2 * WGS84_Ellipsoid::e2;
+	constexpr auto e4 = WGS84<double>.e2 * WGS84<double>.e2;
 
-	const auto p = w2 / WGS84_Ellipsoid::a2;
-	const auto q = (z2 / WGS84_Ellipsoid::a2) * (1 - WGS84_Ellipsoid::e2);
+	const auto p = w2 / WGS84<double>.a2;
+	const auto q = (z2 / WGS84<double>.a2) * (1 - WGS84<double>.e2);
 	const auto r = (p + q - e4) / 6;
 	const auto r3 = CB(r);
 
 	const auto e4pq = e4 * p * q;
-	//const auto sqrt_e4pq = WGS84_Ellipsoid::e2 * std::sqrt(p * q);
-	const auto sqrt_e4pq = WGS84_Ellipsoid::e2 * (1 - WGS84_Ellipsoid::f) * std::abs(z) * w / WGS84_Ellipsoid::a2;
+	//const auto sqrt_e4pq = WGS84<double>.e2 * std::sqrt(p * q);
+	const auto sqrt_e4pq = WGS84<double>.e2 * (1 - WGS84<double>.f) * std::abs(z) * w / WGS84<double>.a2;
 
 	const auto tmp1 = 8 * r3 + e4pq;
 
@@ -6690,15 +6690,15 @@ COMMON_FIRST_DECLS
 		const auto u = r + 0.5 * std::cbrt(SQ(tmp2 + sqrt_e4pq)) + 0.5 * std::cbrt(SQ(tmp2 - sqrt_e4pq));
 
 		const auto v = std::sqrt(u * u + e4 * q);
-		const auto w_ = 0.5 * WGS84_Ellipsoid::e2 * ((u + v) - q) / v;
+		const auto w_ = 0.5 * WGS84<double>.e2 * ((u + v) - q) / v;
 		const auto k = (u + v) / (std::sqrt(w_ * w_ + u + v) + w_);
-		const auto D = k * w / (k + WGS84_Ellipsoid::e2);
+		const auto D = k * w / (k + WGS84<double>.e2);
 
 		const auto tmp3 = hypot(D, z);
 		lat_rad = 2 * std::atan2(z, tmp3 + D);
 #ifdef USE_CUSTOM_HT
-		//ht = (k + WGS84_Ellipsoid::e2 - 1) * tmp3 / k;
-		ht = (k - (1 - WGS84_Ellipsoid::e2)) * tmp3 / k;
+		//ht = (k + WGS84<double>.e2 - 1) * tmp3 / k;
+		ht = (k - (1 - WGS84<double>.e2)) * tmp3 / k;
 #endif
 	}
 	// inside the evolute and not in the singular disc
@@ -6717,31 +6717,31 @@ COMMON_FIRST_DECLS
 			const auto u = r * (1 - 2 * sin(2 * tmp4 + M_PI / 6));
 
 			const auto v = std::sqrt(u * u + e4 * q);
-			const auto w_ = 0.5 * WGS84_Ellipsoid::e2 * ((u + v) - q) / v;
+			const auto w_ = 0.5 * WGS84<double>.e2 * ((u + v) - q) / v;
 			const auto k = (u + v) / (std::sqrt(w_ * w_ + (u + v)) + w_);
-			const auto D = k * w / (k + WGS84_Ellipsoid::e2);
+			const auto D = k * w / (k + WGS84<double>.e2);
 
 			const auto tmp3 = hypot(D, z);
 			lat_rad = 2 * std::atan2(z, tmp3 + D);
 #ifdef USE_CUSTOM_HT
-			//ht = (k + WGS84_Ellipsoid::e2 - 1) * tmp3 / k;
-			ht = (k - (1 - WGS84_Ellipsoid::e2)) * tmp3 / k;
+			//ht = (k + WGS84<double>.e2 - 1) * tmp3 / k;
+			ht = (k - (1 - WGS84<double>.e2)) * tmp3 / k;
 #endif
 		}
 		// in the singular disc
 		else // if (q == 0 && p <= e2*e2)
 		{
-			const auto tmp3 = std::sqrt(WGS84_Ellipsoid::e2 - p);
-			lat_rad = 2 * std::atan2(std::sqrt(e4 - p), (WGS84_Ellipsoid::e * tmp3 + (1 - WGS84_Ellipsoid::f) * std::sqrt(p)));
+			const auto tmp3 = std::sqrt(WGS84<double>.e2 - p);
+			lat_rad = 2 * std::atan2(std::sqrt(e4 - p), (WGS84<double>.e * tmp3 + (1 - WGS84<double>.f) * std::sqrt(p)));
 #ifdef USE_CUSTOM_HT
-			ht = -WGS84_Ellipsoid::a * (1 - WGS84_Ellipsoid::f) * tmp3 / WGS84_Ellipsoid::e;
+			ht = -WGS84<double>.a * (1 - WGS84<double>.f) * tmp3 / WGS84<double>.e;
 #endif
 		}
 	}
 
 #ifdef USE_CUSTOM_HT
 #else
-	ht = get_ht_r(w, z, lat_rad);
+	ht = WGS84<double>.get_ht(w, z, lat_rad);
 #endif
 }
 constexpr int _line_end = __LINE__;
@@ -6777,15 +6777,15 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 {
 COMMON_FIRST_DECLS_CHECKED
 
-	const auto A = WGS84_Ellipsoid::b * z;
-	const auto B = 2 * WGS84_Ellipsoid::a * w;
-	constexpr auto C = 2 * WGS84_Ellipsoid::a2 * WGS84_Ellipsoid::e2;
+	const auto A = WGS84<double>.b * z;
+	const auto B = 2 * WGS84<double>.a * w;
+	constexpr auto C = 2 * WGS84<double>.a2 * WGS84<double>.e2;
 
 	// SDW: NaNs at the poles
-	//const auto tan_lat_0 = z / ((1 - WGS84_Ellipsoid::f) * w);
+	//const auto tan_lat_0 = z / ((1 - WGS84<double>.f) * w);
 
 	auto sin_lat = z;
-	auto cos_lat = w * (1 - WGS84_Ellipsoid::f);
+	auto cos_lat = w * (1 - WGS84<double>.f);
 
 	/*
 	** +- sqrt(1+cot^2) == 1/sin
@@ -6805,7 +6805,7 @@ COMMON_FIRST_DECLS_CHECKED
 
 	// https://en.wikipedia.org/wiki/Tangent_half-angle_formula
 	sin_lat = 2 * t;
-	cos_lat = (1 - t * t) * (1 - WGS84_Ellipsoid::f);
+	cos_lat = (1 - t * t) * (1 - WGS84<double>.f);
 
 	/*
 	** 2 * tan(x/2) / (1 - tan(x/2)^2) == tan(x)
@@ -6815,14 +6815,14 @@ COMMON_FIRST_DECLS_CHECKED
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
 	// SDW: This is not accurate.
-	//auto tan_lat = 2 * t / ((1 - WGS84_Ellipsoid::f) * (1 - t * t));
+	//auto tan_lat = 2 * t / ((1 - WGS84<double>.f) * (1 - t * t));
 	// std::sqrt(1 + 1 / (tan_lat * tan_lat)) == 1 / std::abs(sin_lat);
-	//ht = std::copysign(z - WGS84_Ellipsoid::b * 2 * t / (1 + t * t), lat_rad) * std::sqrt(1 + 1 / (tan_lat * tan_lat));
+	//ht = std::copysign(z - WGS84<double>.b * 2 * t / (1 + t * t), lat_rad) * std::sqrt(1 + 1 / (tan_lat * tan_lat));
 	// SDW: This is not accurate.
-	//ht = std::copysign(z - WGS84_Ellipsoid::b * 2 * t / (1 + t * t), lat_rad) / std::abs(sin_lat);
+	//ht = std::copysign(z - WGS84<double>.b * 2 * t / (1 + t * t), lat_rad) / std::abs(sin_lat);
 
 	normalize(cos_lat, sin_lat);
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int _line_end = __LINE__;
 
@@ -6857,15 +6857,15 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 {
 COMMON_FIRST_DECLS_CHECKED
 
-	const auto A = WGS84_Ellipsoid::b * z;
-	const auto B = 2 * WGS84_Ellipsoid::a * w;
-	constexpr auto C = 2 * WGS84_Ellipsoid::a2 * WGS84_Ellipsoid::e2;
+	const auto A = WGS84<double>.b * z;
+	const auto B = 2 * WGS84<double>.a * w;
+	constexpr auto C = 2 * WGS84<double>.a2 * WGS84<double>.e2;
 
 	// SDW: NaNs at the poles
-	//const auto tan_lat_0 = z / ((1 - WGS84_Ellipsoid::f) * w);
+	//const auto tan_lat_0 = z / ((1 - WGS84<double>.f) * w);
 
 	auto sin_lat = z;
-	auto cos_lat = w * (1 - WGS84_Ellipsoid::f);
+	auto cos_lat = w * (1 - WGS84<double>.f);
 
 	/*
 	** +- sqrt(1+cot^2) == 1/sin
@@ -6885,7 +6885,7 @@ COMMON_FIRST_DECLS_CHECKED
 
 	// https://en.wikipedia.org/wiki/Tangent_half-angle_formula
 	sin_lat = 2 * t;
-	cos_lat = (1 - t * t) * (1 - WGS84_Ellipsoid::f);
+	cos_lat = (1 - t * t) * (1 - WGS84<double>.f);
 
 	/*
 	** 2 * tan(x/2) / (1 - tan(x/2)^2) == tan(x)
@@ -6895,14 +6895,14 @@ COMMON_FIRST_DECLS_CHECKED
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
 	// SDW: This is not accurate.
-	//auto tan_lat = 2 * t / ((1 - WGS84_Ellipsoid::f) * (1 - t * t));
+	//auto tan_lat = 2 * t / ((1 - WGS84<double>.f) * (1 - t * t));
 	// std::sqrt(1 + 1 / (tan_lat * tan_lat)) == 1 / std::abs(sin_lat);
-	//ht = std::copysign(z - WGS84_Ellipsoid::b * 2 * t / (1 + t * t), lat_rad) * std::sqrt(1 + 1 / (tan_lat * tan_lat));
+	//ht = std::copysign(z - WGS84<double>.b * 2 * t / (1 + t * t), lat_rad) * std::sqrt(1 + 1 / (tan_lat * tan_lat));
 	// SDW: This is not accurate.
-	//ht = std::copysign(z - WGS84_Ellipsoid::b * 2 * t / (1 + t * t), lat_rad) / std::abs(sin_lat);
+	//ht = std::copysign(z - WGS84<double>.b * 2 * t / (1 + t * t), lat_rad) / std::abs(sin_lat);
 
 	normalize(cos_lat, sin_lat);
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int _line_end = __LINE__;
 
@@ -6936,10 +6936,10 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 COMMON_FIRST_DECLS
 
 	// Eq.(9);
-	const auto alpha = w2 / WGS84_Ellipsoid::a2 + z2 / WGS84_Ellipsoid::b2;
-	const auto beta = w2 / WGS84_Ellipsoid::b2 + z2 / WGS84_Ellipsoid::a2;
-	//const auto gamma = WGS84_Ellipsoid::b / WGS84_Ellipsoid::a + WGS84_Ellipsoid::a / WGS84_Ellipsoid::b;
-	constexpr auto gamma = (1 - WGS84_Ellipsoid::f) + 1 / (1 - WGS84_Ellipsoid::f);
+	const auto alpha = w2 / WGS84<double>.a2 + z2 / WGS84<double>.b2;
+	const auto beta = w2 / WGS84<double>.b2 + z2 / WGS84<double>.a2;
+	//const auto gamma = WGS84<double>.b / WGS84<double>.a + WGS84<double>.a / WGS84<double>.b;
+	constexpr auto gamma = (1 - WGS84<double>.f) + 1 / (1 - WGS84<double>.f);
 	constexpr auto gamma2 = gamma * gamma;
 	constexpr auto gamma4 = gamma2 * gamma2;
 
@@ -6990,11 +6990,11 @@ COMMON_FIRST_DECLS
 	//eigenvalue or eigen-root that we publish
 	const auto lmt = t0 - gamma / 2;
 
-	const auto w0 = w * (WGS84_Ellipsoid::a / (WGS84_Ellipsoid::a + WGS84_Ellipsoid::b * lmt));
-	const auto z0 = z * (WGS84_Ellipsoid::b / (WGS84_Ellipsoid::b + WGS84_Ellipsoid::a * lmt));
+	const auto w0 = w * (WGS84<double>.a / (WGS84<double>.a + WGS84<double>.b * lmt));
+	const auto z0 = z * (WGS84<double>.b / (WGS84<double>.b + WGS84<double>.a * lmt));
 
 	auto sin_lat = z0;
-	auto cos_lat = w0 * (1 - WGS84_Ellipsoid::e2);
+	auto cos_lat = w0 * (1 - WGS84<double>.e2);
 
 	lat_rad = std::atan2(sin_lat, cos_lat); //[-π/2,+π/2]
 
@@ -7003,7 +7003,7 @@ COMMON_FIRST_DECLS
 	//ht = std::copysign(hypot(x - x0, y - y0, z - z0), lmt);
 
 	normalize(cos_lat, sin_lat);
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int _line_end = __LINE__;
 
@@ -7035,13 +7035,13 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 {
 COMMON_FIRST_DECLS
 
-	constexpr auto l = WGS84_Ellipsoid::e2 / 2;
+	constexpr auto l = WGS84<double>.e2 / 2;
 	constexpr auto l2 = l * l;
-	const auto m = w2 / WGS84_Ellipsoid::a2;
-	//const auto n = SQ(z * (1 - WGS84_Ellipsoid::e2) / WGS84_Ellipsoid::b);
-	//const auto n = z2 * SQ((1 - WGS84_Ellipsoid::e2)) / WGS84_Ellipsoid::b2;
-	//const auto n = (z2 / WGS84_Ellipsoid::a2) * (1 - WGS84_Ellipsoid::e2); // (1-e2) / a2 == 1/(Rp**2)
-	const auto n = (1 - WGS84_Ellipsoid::e2) * z2 / WGS84_Ellipsoid::a2;
+	const auto m = w2 / WGS84<double>.a2;
+	//const auto n = SQ(z * (1 - WGS84<double>.e2) / WGS84<double>.b);
+	//const auto n = z2 * SQ((1 - WGS84<double>.e2)) / WGS84<double>.b2;
+	//const auto n = (z2 / WGS84<double>.a2) * (1 - WGS84<double>.e2); // (1-e2) / a2 == 1/(Rp**2)
+	const auto n = (1 - WGS84<double>.e2) * z2 / WGS84<double>.a2;
 
 	const auto i = -(2 * l2 + m + n) / 2;
 	const auto k = l2 * (l2 - m - n);
@@ -7060,7 +7060,7 @@ COMMON_FIRST_DECLS
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
 	normalize(cos_lat, sin_lat);
-	ht = get_ht(w, z, sin_lat, cos_lat);
+	ht = WGS84<double>.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int _line_end = __LINE__;
 
