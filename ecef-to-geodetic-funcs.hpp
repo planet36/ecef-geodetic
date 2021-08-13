@@ -3947,17 +3947,17 @@ auto ScaleToGeodeticSurface(const Vector3D<T>& position)
 			x2 / WGS84_Ellipsoid::a2 +
 			y2 / WGS84_Ellipsoid::a2 +
 			z2 / WGS84_Ellipsoid::b2);
-	auto n = Vector3D<T>(
+	auto n = Vector3D<T>{
 			beta * x / WGS84_Ellipsoid::a2,
 			beta * y / WGS84_Ellipsoid::a2,
-			beta * z / WGS84_Ellipsoid::b2).length();
+			beta * z / WGS84_Ellipsoid::b2}.length();
 	auto alpha = (1 - beta) * (position.length() / n);
 
-	double da = 0;
-	double db = 0;
+	T da = 0;
+	T db = 0;
 
-	double s = 0;
-	double dSdA = 1;
+	T s = 0;
+	T dSdA = 1;
 
 	constexpr T dist_threshold = 1E-10;
 
