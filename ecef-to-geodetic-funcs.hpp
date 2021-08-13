@@ -246,7 +246,7 @@ void get_f_fp(const T w, const T z, const T sin_lat, const T cos_lat,
 	fp = Rn * (d2 - (1 - WGS84<T>.e2) / d2) - w * cos_lat - z * sin_lat;
 }
 
-constexpr int _lines_f_fp = 8;
+constexpr int _lines_f_fp = 7;
 
 /// get f, f', f''
 template <typename T>
@@ -262,7 +262,7 @@ void get_f_fp_fpp(const T w, const T z, const T sin_lat, const T cos_lat,
 	fpp = -Rn * WGS84<T>.e2 * sin_lat * cos_lat * (d2 + 3 * (1 - WGS84<T>.e2) / d2) / d2 + w * sin_lat - z * cos_lat;
 }
 
-constexpr int _lines_f_fp_fpp = 9;
+constexpr int _lines_f_fp_fpp = 8;
 
 template <typename T>
 requires std::is_floating_point_v<T>
@@ -274,7 +274,7 @@ auto newton_raphson_delta_lat(const T w, const T z,
 	return f / fp;
 }
 
-constexpr int _lines_newton_raphson_delta_lat = 6 + _lines_f_fp;
+constexpr int _lines_newton_raphson_delta_lat = 5 + _lines_f_fp;
 
 template <typename T>
 requires std::is_floating_point_v<T>
@@ -286,7 +286,7 @@ auto householder_delta_lat(const T w, const T z,
 	return (f / fp) * (1 + 0.5 * f * fpp / (fp * fp));
 }
 
-constexpr int _lines_householder_delta_lat = 6 + _lines_f_fp_fpp;
+constexpr int _lines_householder_delta_lat = 5 + _lines_f_fp_fpp;
 
 template <typename T>
 requires std::is_floating_point_v<T>
@@ -298,7 +298,7 @@ auto schroder_delta_lat(const T w, const T z,
 	return (f * fp) / (fp * fp - f * fpp);
 }
 
-constexpr int _lines_schroder_delta_lat = 6 + _lines_f_fp_fpp;
+constexpr int _lines_schroder_delta_lat = 5 + _lines_f_fp_fpp;
 
 template <typename T>
 requires std::is_floating_point_v<T>
@@ -310,7 +310,7 @@ auto halley_delta_lat(const T w, const T z,
 	return (f * fp) / (fp * fp - 0.5 * f * fpp);
 }
 
-constexpr int _lines_halley_delta_lat = 6 + _lines_f_fp_fpp;
+constexpr int _lines_halley_delta_lat = 5 + _lines_f_fp_fpp;
 
 template <typename T>
 requires std::is_floating_point_v<T>
@@ -365,7 +365,7 @@ void ligas_Jacobian(const T w, const T we, const T z, const T ze,
 	result[1][1] = 2 * ze;
 }
 
-constexpr int _lines_ligas_util = 38;
+constexpr int _lines_ligas_util = 3 + 3 + 3 + 8 + 4 + 6;
 
 template <typename T>
 requires std::is_floating_point_v<T>
@@ -380,7 +380,7 @@ auto lin_wang_1995_delta_m(const T w2, const T z2, const T m)
 	return f / fp;
 }
 
-constexpr int _lines_lin_wang_1995_delta_m = 10;
+constexpr int _lines_lin_wang_1995_delta_m = 9;
 
 template <typename T>
 requires std::is_floating_point_v<T>
@@ -397,7 +397,7 @@ auto shu_2010_delta_k(const T w2, const T z2, const T k)
 	return f / fp;
 }
 
-constexpr int _lines_shu_2010_delta_k = 12;
+constexpr int _lines_shu_2010_delta_k = 11;
 
 template <typename T>
 requires std::is_floating_point_v<T>
@@ -413,7 +413,7 @@ auto wu_2003_delta_t(const T A, const T B, const T C, const T t)
 	return f / fp;
 }
 
-constexpr int _lines_wu_2003_delta_t = 11;
+constexpr int _lines_wu_2003_delta_t = 10;
 
 namespace borkowski_1989
 // {{{
