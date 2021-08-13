@@ -3825,16 +3825,20 @@ namespace openglobe
 {
 
 constexpr int _line_begin = __LINE__;
+template <typename T>
+requires std::is_floating_point_v<T>
 struct Vector3D
 {
-	double x;
-	double y;
-	double z;
+	T x{};
+	T y{};
+	T z{};
+
+	Vector3D() = default;
 
 	Vector3D(
-		const double _x = 0,
-		const double _y = 0,
-		const double _z = 0):
+		const T _x,
+		const T _y,
+		const T _z):
 		x(_x),
 		y(_y),
 		z(_z)
@@ -3850,69 +3854,77 @@ struct Vector3D
 		return std::sqrt(length_sq());
 	}
 
-	Vector3D normalize() const
+	auto normalize() const
 	{
 		const auto l = length();
 
 		if (l == 0)
 		{
-			return Vector3D();
+			return Vector3D<T>{};
 		}
 
 		return this->scale(1 / l);
 	}
 
-	Vector3D scale(const double s) const
+	auto scale(const T s) const
 	{
-		return Vector3D(x*s, y*s, z*s);
+		return Vector3D<T>{x*s, y*s, z*s};
 	}
 
-	auto dot(const Vector3D& that) const
+	auto dot(const Vector3D<T>& that) const
 	{
 		return this->x * that.x + this->y * that.y + this->z * that.z;
 	}
 
-	Vector3D subtract(const Vector3D& that) const
+	auto subtract(const Vector3D<T>& that) const
 	{
-		return Vector3D(this->x - that.x, this->y - that.y, this->z - that.z);
+		return Vector3D<T>{this->x - that.x, this->y - that.y, this->z - that.z};
 	}
 
-	Vector3D multiply(const Vector3D& that) const
+	auto multiply(const Vector3D<T>& that) const
 	{
-		return Vector3D(this->x * that.x, this->y * that.y, this->z * that.z);
+		return Vector3D<T>{this->x * that.x, this->y * that.y, this->z * that.z};
 	}
 };
 
+template <typename T>
+requires std::is_floating_point_v<T>
 struct Geodetic2D
 {
-	double lat_rad;
-	double lon_rad;
+	T lat_rad{};
+	T lon_rad{};
+
+	Geodetic2D() = default;
 
 	Geodetic2D(
-		const double _lat_rad = 0,
-		const double _lon_rad = 0):
+		const T _lat_rad,
+		const T _lon_rad):
 		lat_rad(_lat_rad),
 		lon_rad(_lon_rad)
 	{}
 
 };
 
+template <typename T>
+requires std::is_floating_point_v<T>
 struct Geodetic3D
 {
-	double lat_rad;
-	double lon_rad;
-	double ht;
+	T lat_rad{};
+	T lon_rad{};
+	T ht{};
+
+	Geodetic3D() = default;
 
 	Geodetic3D(
-		const double _lat_rad = 0,
-		const double _lon_rad = 0,
-		const double _ht = 0):
+		const T _lat_rad,
+		const T _lon_rad,
+		const T _ht):
 		lat_rad(_lat_rad),
 		lon_rad(_lon_rad),
 		ht(_ht)
 	{}
 
-	Geodetic3D(const Geodetic2D& g, double _ht = 0):
+	Geodetic3D(const Geodetic2D<T>& g, T _ht = 0):
 		lat_rad(g.lat_rad),
 		lon_rad(g.lon_rad),
 		ht(_ht)
@@ -3920,21 +3932,33 @@ struct Geodetic3D
 };
 
 // forward declarations
-Vector3D ScaleToGeodeticSurface(const Vector3D& position);
-Geodetic2D ToGeodetic2D(const Vector3D& positionOnEllipsoid);
-Vector3D GeodeticSurfaceNormal(const Vector3D& positionOnEllipsoid);
+template <typename T>
+requires std::is_floating_point_v<T>
+Vector3D<T> ScaleToGeodeticSurface(const Vector3D<T>& position);
 
-Geodetic3D ToGeodetic3D(const Vector3D& position)
+template <typename T>
+requires std::is_floating_point_v<T>
+Geodetic2D<T> ToGeodetic2D(const Vector3D<T>& positionOnEllipsoid);
+
+template <typename T>
+requires std::is_floating_point_v<T>
+Vector3D<T> GeodeticSurfaceNormal(const Vector3D<T>& positionOnEllipsoid);
+
+template <typename T>
+requires std::is_floating_point_v<T>
+Geodetic3D<T> ToGeodetic3D(const Vector3D<T>& position)
 {
 	const auto p = ScaleToGeodeticSurface(position);
 	const auto h = position.subtract(p);
 	// auto height = Math.sign(h.Dot(position)) * h.length();
 	const auto height = std::copysign(h.length(), h.dot(position));
 	const auto g2d = ToGeodetic2D(p);
-	return Geodetic3D(g2d, height);
+	return Geodetic3D<T>{g2d, height};
 }
 
-Vector3D ScaleToGeodeticSurface(const Vector3D& position)
+template <typename T>
+requires std::is_floating_point_v<T>
+Vector3D<T> ScaleToGeodeticSurface(const Vector3D<T>& position)
 {
 	const auto x = position.x;
 	const auto y = position.y;
@@ -3948,7 +3972,7 @@ Vector3D ScaleToGeodeticSurface(const Vector3D& position)
 			x2 / WGS84_Ellipsoid::a2 +
 			y2 / WGS84_Ellipsoid::a2 +
 			z2 / WGS84_Ellipsoid::b2);
-	auto n = Vector3D(
+	auto n = Vector3D<T>(
 			beta * x / WGS84_Ellipsoid::a2,
 			beta * y / WGS84_Ellipsoid::a2,
 			beta * z / WGS84_Ellipsoid::b2).length();
@@ -3959,6 +3983,8 @@ Vector3D ScaleToGeodeticSurface(const Vector3D& position)
 
 	double s = 0;
 	double dSdA = 1;
+
+	constexpr T dist_threshold = 1E-10;
 
 	do
 	{
@@ -3977,40 +4003,44 @@ Vector3D ScaleToGeodeticSurface(const Vector3D& position)
 			y2 / (WGS84_Ellipsoid::a2 * da2) +
 			z2 / (WGS84_Ellipsoid::b2 * db2) - 1;
 
-		dSdA = -2 *
-			(x2 / (WGS84_Ellipsoid::a2 * WGS84_Ellipsoid::a2 * da3) +
-			 y2 / (WGS84_Ellipsoid::a2 * WGS84_Ellipsoid::a2 * da3) +
-			 z2 / (WGS84_Ellipsoid::b2 * WGS84_Ellipsoid::b2 * db3));
+		dSdA = -2 * (
+				x2 / (WGS84_Ellipsoid::a2 * WGS84_Ellipsoid::a2 * da3) +
+				y2 / (WGS84_Ellipsoid::a2 * WGS84_Ellipsoid::a2 * da3) +
+				z2 / (WGS84_Ellipsoid::b2 * WGS84_Ellipsoid::b2 * db3));
 	}
-	while (std::abs(s) > 1E-10);
+	while (std::abs(s) > dist_threshold);
 
-	return Vector3D(
+	return Vector3D<T>{
 			x / da,
 			y / da,
-			z / db);
+			z / db};
 }
 
-Geodetic2D ToGeodetic2D(const Vector3D& positionOnEllipsoid)
+template <typename T>
+requires std::is_floating_point_v<T>
+Geodetic2D<T> ToGeodetic2D(const Vector3D<T>& positionOnEllipsoid)
 {
-	Vector3D n = GeodeticSurfaceNormal(positionOnEllipsoid);
-	return Geodetic2D(
+	auto n = GeodeticSurfaceNormal(positionOnEllipsoid);
+	return Geodetic2D<T>{
 			std::asin(n.z / n.length()), // lat_rad
 			/*std::atan2(n.y, n.x)*/0 // lon_rad is already calculated
-		);
+		};
 }
 
-Vector3D GeodeticSurfaceNormal(const Vector3D& positionOnEllipsoid)
+template <typename T>
+requires std::is_floating_point_v<T>
+Vector3D<T> GeodeticSurfaceNormal(const Vector3D<T>& positionOnEllipsoid)
 {
-	return positionOnEllipsoid.multiply(Vector3D(
+	return positionOnEllipsoid.multiply(Vector3D<T>{
 				1 / WGS84_Ellipsoid::a2,
 				1 / WGS84_Ellipsoid::a2,
-				1 / WGS84_Ellipsoid::b2)).normalize();
+				1 / WGS84_Ellipsoid::b2}).normalize();
 }
 
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
-	const Vector3D position(x, y, z);
+	const Vector3D<double> position{x, y, z};
 	const auto result = ToGeodetic3D(position);
 	lat_rad = result.lat_rad;
 	lon_rad = result.lon_rad;
