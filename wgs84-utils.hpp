@@ -10,6 +10,7 @@
 #pragma once
 
 #include <cmath>
+#include <type_traits>
 
 namespace WGS84_Ellipsoid
 // {{{
@@ -78,7 +79,9 @@ Equation (4-15)
 \param sin_lat sine of the geodetic latitude
 \return the radius of curvature in the prime vertical (meters)
 */
-double get_Rn(const double sin_lat)
+template <typename T>
+requires std::is_floating_point_v<T>
+auto get_Rn(const T sin_lat)
 {
 	const auto d2 = 1 - WGS84_Ellipsoid::e2 * sin_lat * sin_lat;
 	const auto d = std::sqrt(d2);
@@ -91,7 +94,9 @@ double get_Rn(const double sin_lat)
 \param sin_lat sine of the geodetic latitude
 \return ellipsoid radius (meters)
 */
-double get_R(const double sin_lat)
+template <typename T>
+requires std::is_floating_point_v<T>
+auto get_R(const T sin_lat)
 {
 	return get_Rn(sin_lat) * std::sqrt(
 			1 - WGS84_Ellipsoid::e2 * sin_lat * sin_lat * (2 - WGS84_Ellipsoid::e2));
@@ -141,9 +146,11 @@ h = z / sin - Rn * (1-e2)
 \param Rn prime vertical radius of curvature (meters)
 \return ellipsoid height (meters)
 */
-double get_ht(
-	const double w, const double z,
-	const double sin_lat, const double cos_lat, const double Rn)
+template <typename T>
+requires std::is_floating_point_v<T>
+auto get_ht(
+	const T w, const T z,
+	const T sin_lat, const T cos_lat, const T Rn)
 {
 	// https://www.gnu.org/software/libc/manual/html_node/Mathematical-Constants.html
 	// cos(45 deg) == 1/sqrt(2)
@@ -165,9 +172,11 @@ double get_ht(
 \param cos_lat cosine of the geodetic latitude
 \return ellipsoid height (meters)
 */
-double get_ht(
-	const double w, const double z,
-	const double sin_lat, const double cos_lat)
+template <typename T>
+requires std::is_floating_point_v<T>
+auto get_ht(
+	const T w, const T z,
+	const T sin_lat, const T cos_lat)
 {
 	return get_ht(w, z, sin_lat, cos_lat, get_Rn(sin_lat));
 }
@@ -179,11 +188,12 @@ double get_ht(
 \param lat_rad geodetic latitude (radians)
 \return ellipsoid height (meters)
 */
-double get_ht_r(const double w, const double z, const double lat_rad)
+template <typename T>
+requires std::is_floating_point_v<T>
+auto get_ht_r(const T w, const T z, const T lat_rad)
 {
 	const auto sin_lat = std::sin(lat_rad);
 	const auto cos_lat = std::cos(lat_rad);
 
 	return get_ht(w, z, sin_lat, cos_lat);
 }
-
