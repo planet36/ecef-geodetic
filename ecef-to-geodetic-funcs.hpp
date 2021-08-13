@@ -54,15 +54,15 @@ void normalize(T& x, T& y)
 #define POW5(X) ((X) * (X) * (X) * (X) * (X))
 #define POW6(X) ((X) * (X) * (X) * (X) * (X) * (X))
 
-// these are the lines in the common first decls
-constexpr int _lines_common_first_decls = 4;
-
 // common declarations for the ECEF-to-geodetic functions
 #define COMMON_FIRST_DECLS \
 	const auto w2 = x * x + y * y; \
 	const auto w = std::sqrt(w2); \
 	[[gnu::unused]] const auto z2 = z * z; \
 	lon_rad = std::atan2(y, x); \
+
+// these are the lines in the common first decls
+constexpr int _lines_common_first_decls = 4;
 
 // common declarations for the ECEF-to-geodetic functions
 // that need code for corner cases (i.e. equator or the poles)
@@ -4020,18 +4020,18 @@ constexpr int _line_end = __LINE__;
 
 constexpr int _lines_extra = 0;
 
+// this algorithm does not include the common declarations
 const auto func_info = func_info_t(
 	/*.func_ref                    =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ // this algorithm does not include the common declarations
-	/*.needs_code_for_corner_cases =*/ _line_end - _line_begin + _lines_extra - _lines_common_first_decls,
-	/*.ilog10_mean_dist_err        =*/ false,
-	/*.algo_author                 =*/ -5,
+	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra - _lines_common_first_decls,
+	/*.needs_code_for_corner_cases =*/ false,
+	/*.ilog10_mean_dist_err        =*/ -5,
+	/*.algo_author                 =*/ "Cozzi and Ohlarik",
 	/*.code_copyright              =*/ "Cozzi and Ohlarik",
-	/*.license                     =*/ "Cozzi and Ohlarik",
-	/*.orig_impl_lang              =*/ "MIT",
-	/*.url                         =*/ "C#",
-	/*.citation                    =*/ "https://github.com/virtualglobebook/OpenGlobe/blob/master/Source/Core/Geometry/Ellipsoid.cs",
-	R"(OpenGlobe)" // citation
+	/*.license                     =*/ "MIT",
+	/*.orig_impl_lang              =*/ "C#",
+	/*.url                         =*/ "https://github.com/virtualglobebook/OpenGlobe/blob/master/Source/Core/Geometry/Ellipsoid.cs",
+	/*.citation                    =*/ R"(OpenGlobe file:Source/Core/Geometry/Ellipsoid.cs)"
 );
 
 }
