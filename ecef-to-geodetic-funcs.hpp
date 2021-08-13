@@ -4717,7 +4717,9 @@ namespace sedris
 {
 
 constexpr int _line_begin = __LINE__;
-auto gee(const double h, const double rn)
+template <typename T>
+requires std::is_floating_point_v<T>
+auto gee(const T h, const T rn)
 {
 	return (rn + h) / ((1 - WGS84_Ellipsoid::e2) * rn + h);
 }
@@ -4727,18 +4729,22 @@ auto gee(const double h, const double rn)
  *
  *   Used to hold precomputed constants specific to a GC to GD transformation
  */
+template <typename T>
+requires std::is_floating_point_v<T>
 struct SRM_GC_GD_Specific_Constants
 {
-	double b1[5];
-	double b2[5];
-	double b3[5];
-	double b4[5];
-	double b5[5];
-	double u[5];
-	double v[5];
+	T b1[5];
+	T b2[5];
+	T b3[5];
+	T b4[5];
+	T b5[5];
+	T u[5];
+	T v[5];
 };
 
-void set_gc_to_gd_constants(SRM_GC_GD_Specific_Constants& gc_gd_spec)
+template <typename T>
+requires std::is_floating_point_v<T>
+void set_gc_to_gd_constants(SRM_GC_GD_Specific_Constants<T>& gc_gd_spec)
 {
 	/*old function prototype
 	void tf_set_gc_to_gd_constants
@@ -4749,38 +4755,38 @@ void set_gc_to_gd_constants(SRM_GC_GD_Specific_Constants& gc_gd_spec)
 	)
 */
 
-	double del[5] = {NAN, NAN, NAN, NAN, NAN};
-	double hmn = NAN;
-	double hmx = NAN;
-	double g1 = NAN;
-	double g2 = NAN;
-	double g3 = NAN;
-	double g4 = NAN;
-	double gm = NAN;
-	double hm = NAN;
-	double d1 = NAN;
-	double d2 = NAN;
-	double d3 = NAN;
-	double d4 = NAN;
-	double d5 = NAN;
-	double d6 = NAN;
-	double sm = NAN;
-	double rnm = NAN;
-	double zm = NAN;
-	double wm = NAN;
-	double z2 = NAN;
-	double w2 = NAN;
-	double d7 = NAN;
-	double d8 = NAN;
-	double d9 = NAN;
-	double d10 = NAN;
-	double a1 = NAN;
-	double a2 = NAN;
-	double a3 = NAN;
-	double a4 = NAN;
-	double a5 = NAN;
-	double f1 = NAN;
-	double f2 = NAN;
+	T del[5] = {NAN, NAN, NAN, NAN, NAN};
+	T hmn = NAN;
+	T hmx = NAN;
+	T g1 = NAN;
+	T g2 = NAN;
+	T g3 = NAN;
+	T g4 = NAN;
+	T gm = NAN;
+	T hm = NAN;
+	T d1 = NAN;
+	T d2 = NAN;
+	T d3 = NAN;
+	T d4 = NAN;
+	T d5 = NAN;
+	T d6 = NAN;
+	T sm = NAN;
+	T rnm = NAN;
+	T zm = NAN;
+	T wm = NAN;
+	T z2 = NAN;
+	T w2 = NAN;
+	T d7 = NAN;
+	T d8 = NAN;
+	T d9 = NAN;
+	T d10 = NAN;
+	T a1 = NAN;
+	T a2 = NAN;
+	T a3 = NAN;
+	T a4 = NAN;
+	T a5 = NAN;
+	T f1 = NAN;
+	T f2 = NAN;
 
 	//if (WGS84_Ellipsoid::e > 1E-12)
 	if (WGS84_Ellipsoid::e2 > 1E-24)
@@ -4943,7 +4949,7 @@ COMMON_FIRST_DECLS
 
 	short int region = REGION_UNDEFINED;
 
-	static SRM_GC_GD_Specific_Constants gc_gd_spec;
+	static SRM_GC_GD_Specific_Constants<double> gc_gd_spec;
 
 	static bool first_run = true;
 
@@ -5324,7 +5330,9 @@ namespace sedris_customht
 #define USE_CUSTOM_HT
 
 constexpr int _line_begin = __LINE__;
-auto gee(const double h, const double rn)
+template <typename T>
+requires std::is_floating_point_v<T>
+auto gee(const T h, const T rn)
 {
 	return (rn + h) / ((1 - WGS84_Ellipsoid::e2) * rn + h);
 }
@@ -5334,18 +5342,22 @@ auto gee(const double h, const double rn)
  *
  *   Used to hold precomputed constants specific to a GC to GD transformation
  */
+template <typename T>
+requires std::is_floating_point_v<T>
 struct SRM_GC_GD_Specific_Constants
 {
-	double b1[5];
-	double b2[5];
-	double b3[5];
-	double b4[5];
-	double b5[5];
-	double u[5];
-	double v[5];
+	T b1[5];
+	T b2[5];
+	T b3[5];
+	T b4[5];
+	T b5[5];
+	T u[5];
+	T v[5];
 };
 
-void set_gc_to_gd_constants(SRM_GC_GD_Specific_Constants& gc_gd_spec)
+template <typename T>
+requires std::is_floating_point_v<T>
+void set_gc_to_gd_constants(SRM_GC_GD_Specific_Constants<T>& gc_gd_spec)
 {
 	/*old function prototype
 	void tf_set_gc_to_gd_constants
@@ -5356,38 +5368,38 @@ void set_gc_to_gd_constants(SRM_GC_GD_Specific_Constants& gc_gd_spec)
 	)
 */
 
-	double del[5] = {NAN, NAN, NAN, NAN, NAN};
-	double hmn = NAN;
-	double hmx = NAN;
-	double g1 = NAN;
-	double g2 = NAN;
-	double g3 = NAN;
-	double g4 = NAN;
-	double gm = NAN;
-	double hm = NAN;
-	double d1 = NAN;
-	double d2 = NAN;
-	double d3 = NAN;
-	double d4 = NAN;
-	double d5 = NAN;
-	double d6 = NAN;
-	double sm = NAN;
-	double rnm = NAN;
-	double zm = NAN;
-	double wm = NAN;
-	double z2 = NAN;
-	double w2 = NAN;
-	double d7 = NAN;
-	double d8 = NAN;
-	double d9 = NAN;
-	double d10 = NAN;
-	double a1 = NAN;
-	double a2 = NAN;
-	double a3 = NAN;
-	double a4 = NAN;
-	double a5 = NAN;
-	double f1 = NAN;
-	double f2 = NAN;
+	T del[5] = {NAN, NAN, NAN, NAN, NAN};
+	T hmn = NAN;
+	T hmx = NAN;
+	T g1 = NAN;
+	T g2 = NAN;
+	T g3 = NAN;
+	T g4 = NAN;
+	T gm = NAN;
+	T hm = NAN;
+	T d1 = NAN;
+	T d2 = NAN;
+	T d3 = NAN;
+	T d4 = NAN;
+	T d5 = NAN;
+	T d6 = NAN;
+	T sm = NAN;
+	T rnm = NAN;
+	T zm = NAN;
+	T wm = NAN;
+	T z2 = NAN;
+	T w2 = NAN;
+	T d7 = NAN;
+	T d8 = NAN;
+	T d9 = NAN;
+	T d10 = NAN;
+	T a1 = NAN;
+	T a2 = NAN;
+	T a3 = NAN;
+	T a4 = NAN;
+	T a5 = NAN;
+	T f1 = NAN;
+	T f2 = NAN;
 
 	//if (WGS84_Ellipsoid::e > 1E-12)
 	if (WGS84_Ellipsoid::e2 > 1E-24)
@@ -5550,7 +5562,7 @@ COMMON_FIRST_DECLS
 
 	short int region = REGION_UNDEFINED;
 
-	static SRM_GC_GD_Specific_Constants gc_gd_spec;
+	static SRM_GC_GD_Specific_Constants<double> gc_gd_spec;
 
 	static bool first_run = true;
 
