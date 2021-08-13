@@ -3933,7 +3933,7 @@ struct Geodetic3D
 
 template <typename T>
 requires std::is_floating_point_v<T>
-Vector3D<T> ScaleToGeodeticSurface(const Vector3D<T>& position)
+auto ScaleToGeodeticSurface(const Vector3D<T>& position)
 {
 	const auto x = position.x;
 	const auto y = position.y;
@@ -3993,7 +3993,7 @@ Vector3D<T> ScaleToGeodeticSurface(const Vector3D<T>& position)
 
 template <typename T>
 requires std::is_floating_point_v<T>
-Vector3D<T> GeodeticSurfaceNormal(const Vector3D<T>& positionOnEllipsoid)
+auto GeodeticSurfaceNormal(const Vector3D<T>& positionOnEllipsoid)
 {
 	return positionOnEllipsoid.multiply(Vector3D<T>{
 				1 / WGS84_Ellipsoid::a2,
@@ -4003,7 +4003,7 @@ Vector3D<T> GeodeticSurfaceNormal(const Vector3D<T>& positionOnEllipsoid)
 
 template <typename T>
 requires std::is_floating_point_v<T>
-Geodetic2D<T> ToGeodetic2D(const Vector3D<T>& positionOnEllipsoid)
+auto ToGeodetic2D(const Vector3D<T>& positionOnEllipsoid)
 {
 	auto n = GeodeticSurfaceNormal(positionOnEllipsoid);
 	return Geodetic2D<T>{
@@ -4014,7 +4014,7 @@ Geodetic2D<T> ToGeodetic2D(const Vector3D<T>& positionOnEllipsoid)
 
 template <typename T>
 requires std::is_floating_point_v<T>
-Geodetic3D<T> ToGeodetic3D(const Vector3D<T>& position)
+auto ToGeodetic3D(const Vector3D<T>& position)
 {
 	const auto p = ScaleToGeodeticSurface(position);
 	const auto h = position.subtract(p);
