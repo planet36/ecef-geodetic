@@ -13,8 +13,11 @@
 
 #include <cmath>
 #include <string>
+#include <type_traits>
 
-double hypot(const double x, const double y)
+template <typename T>
+requires std::is_floating_point_v<T>
+auto hypot(const T x, const T y)
 {
 #if 0
 	// SDW: this is a little more accurate, but much slower
@@ -31,7 +34,9 @@ double hypot(const double x, const double y)
 \sa https://mathworld.wolfram.com/UnitVector.html
 \param[in,out] x,y the vector coordinates
 */
-void normalize(double& x, double& y)
+template <typename T>
+requires std::is_floating_point_v<T>
+void normalize(T& x, T& y)
 {
 	const auto h = hypot(x, y);
 	x /= h;
@@ -58,9 +63,6 @@ constexpr int _lines_common_first_decls = 4;
 	const auto w = std::sqrt(w2); \
 	[[gnu::unused]] const auto z2 = z * z; \
 	lon_rad = std::atan2(y, x); \
-
-// these are the lines in the common first decls (checked)
-constexpr int _lines_common_first_decls_checked = 28;
 
 // common declarations for the ECEF-to-geodetic functions
 // that need code for corner cases (i.e. equator or the poles)
@@ -94,12 +96,16 @@ constexpr int _lines_common_first_decls_checked = 28;
 	} \
 	[[gnu::unused]] const auto z2 = z * z; \
 
+// these are the lines in the common first decls (checked)
+constexpr int _lines_common_first_decls_checked = 28;
+
 //#undef COMMON_FIRST_DECLS
 //#define COMMON_FIRST_DECLS COMMON_FIRST_DECLS_CHECKED
 
 struct func_info_t
 {
-	void (&func_ref)(const double, const double, const double, double&, double&, double&);
+	void (&func_ref)(const double, const double, const double,
+	                 double&, double&, double&);
 	int                    num_lines;
 	const bool             needs_code_for_corner_cases;
 	const int              ilog10_mean_dist_err;
@@ -111,7 +117,8 @@ struct func_info_t
 	const std::string_view citation;
 
 	func_info_t(
-			void (&_func_ref)(const double, const double, const double, double&, double&, double&),
+			void (&_func_ref)(const double, const double, const double,
+			                  double&, double&, double&),
 			const int              _num_lines,
 			const bool             _needs_code_for_corner_cases,
 			const int              _ilog10_mean_dist_err,
@@ -227,7 +234,8 @@ struct func_info_t
 */
 
 /// get f, f'
-void get_f_fp(const double w, const double z, const double sin_lat, const double cos_lat, double& f, double& fp)
+void get_f_fp(const double w, const double z, const double sin_lat, const double cos_lat,
+              double& f, double& fp)
 {
 	const auto d2 = 1 - WGS84_Ellipsoid::e2 * sin_lat * sin_lat;
 	const auto d = std::sqrt(d2);
@@ -239,7 +247,8 @@ void get_f_fp(const double w, const double z, const double sin_lat, const double
 constexpr int _lines_f_fp = 8;
 
 /// get f, f', f''
-void get_f_fp_fpp(const double w, const double z, const double sin_lat, const double cos_lat, double& f, double& fp, double& fpp)
+void get_f_fp_fpp(const double w, const double z, const double sin_lat, const double cos_lat,
+                  double& f, double& fp, double& fpp)
 {
 	const auto d2 = 1 - WGS84_Ellipsoid::e2 * sin_lat * sin_lat;
 	const auto d = std::sqrt(d2);
@@ -251,7 +260,8 @@ void get_f_fp_fpp(const double w, const double z, const double sin_lat, const do
 
 constexpr int _lines_f_fp_fpp = 9;
 
-double newton_raphson_delta_lat(const double w, const double z, const double sin_lat, const double cos_lat)
+auto newton_raphson_delta_lat(const double w, const double z,
+                              const double sin_lat, const double cos_lat)
 {
 	double f, fp;
 	get_f_fp(w, z, sin_lat, cos_lat, f, fp);
@@ -260,7 +270,8 @@ double newton_raphson_delta_lat(const double w, const double z, const double sin
 
 constexpr int _lines_newton_raphson_delta_lat = 6 + _lines_f_fp;
 
-double householder_delta_lat(const double w, const double z, const double sin_lat, const double cos_lat)
+auto householder_delta_lat(const double w, const double z,
+                           const double sin_lat, const double cos_lat)
 {
 	double f, fp, fpp;
 	get_f_fp_fpp(w, z, sin_lat, cos_lat, f, fp, fpp);
@@ -269,7 +280,8 @@ double householder_delta_lat(const double w, const double z, const double sin_la
 
 constexpr int _lines_householder_delta_lat = 6 + _lines_f_fp_fpp;
 
-double schroder_delta_lat(const double w, const double z, const double sin_lat, const double cos_lat)
+auto schroder_delta_lat(const double w, const double z,
+                        const double sin_lat, const double cos_lat)
 {
 	double f, fp, fpp;
 	get_f_fp_fpp(w, z, sin_lat, cos_lat, f, fp, fpp);
@@ -278,7 +290,8 @@ double schroder_delta_lat(const double w, const double z, const double sin_lat, 
 
 constexpr int _lines_schroder_delta_lat = 6 + _lines_f_fp_fpp;
 
-double halley_delta_lat(const double w, const double z, const double sin_lat, const double cos_lat)
+auto halley_delta_lat(const double w, const double z,
+                      const double sin_lat, const double cos_lat)
 {
 	double f, fp, fpp;
 	get_f_fp_fpp(w, z, sin_lat, cos_lat, f, fp, fpp);
@@ -287,17 +300,18 @@ double halley_delta_lat(const double w, const double z, const double sin_lat, co
 
 constexpr int _lines_halley_delta_lat = 6 + _lines_f_fp_fpp;
 
-double ligas_f1(const double w, const double we, const double z, const double ze)
+auto ligas_f1(const double w, const double we,
+              const double z, const double ze)
 {
 	return (1 - WGS84_Ellipsoid::e2) * we * (ze - z) - ze * (we - w);
 }
 
-double ligas_f2(const double we, const double ze)
+auto ligas_f2(const double we, const double ze)
 {
 	return (1 - WGS84_Ellipsoid::e2) * we * we + ze * ze - WGS84_Ellipsoid::b2;
 }
 
-double det(const double A[2][2])
+auto det(const double A[2][2])
 {
 	return A[0][0] * A[1][1] - A[0][1] * A[1][0];
 }
@@ -318,7 +332,8 @@ void mul(const double A[2][2], const double X[2], double result[2])
 	result[1] = A[1][0] * X[0] + A[1][1] * X[1];
 }
 
-void ligas_Jacobian(const double w, const double we, const double z, const double ze, double result[2][2])
+void ligas_Jacobian(const double w, const double we, const double z, const double ze,
+                    double result[2][2])
 {
 	result[0][0] = (1 - WGS84_Ellipsoid::e2) * (ze - z) - ze;
 	result[0][1] = (1 - WGS84_Ellipsoid::e2) * we - (we - w);
@@ -328,7 +343,7 @@ void ligas_Jacobian(const double w, const double we, const double z, const doubl
 
 constexpr int _lines_ligas_util = 38;
 
-double lin_wang_1995_delta_m(const double w2, const double z2, const double m)
+auto lin_wang_1995_delta_m(const double w2, const double z2, const double m)
 {
 	const auto tmp_a = WGS84_Ellipsoid::a + 2 * m / WGS84_Ellipsoid::a;
 	const auto tmp_b = WGS84_Ellipsoid::b + 2 * m / WGS84_Ellipsoid::b;
@@ -341,7 +356,7 @@ double lin_wang_1995_delta_m(const double w2, const double z2, const double m)
 
 constexpr int _lines_lin_wang_1995_delta_m = 10;
 
-double shu_2010_delta_k(const double w2, const double z2, const double k)
+auto shu_2010_delta_k(const double w2, const double z2, const double k)
 {
 	const auto p = WGS84_Ellipsoid::a + WGS84_Ellipsoid::b * k;
 	const auto q = WGS84_Ellipsoid::b + WGS84_Ellipsoid::a * k;
@@ -356,7 +371,7 @@ double shu_2010_delta_k(const double w2, const double z2, const double k)
 
 constexpr int _lines_shu_2010_delta_k = 12;
 
-double wu_2003_delta_t(const double A, const double B, const double C, const double t)
+auto wu_2003_delta_t(const double A, const double B, const double C, const double t)
 {
 	const auto t2 = t * t;
 	const auto t3 = t * t * t;
@@ -375,7 +390,8 @@ namespace borkowski_1989
 {
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -408,9 +424,7 @@ COMMON_FIRST_DECLS
 	auto cos_lat = 2 * t * (1 - WGS84_Ellipsoid::f);
 
 	if (z < 0)
-	{
 		sin_lat = -sin_lat;
-	}
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
@@ -449,7 +463,8 @@ namespace bowring_1976_1
 constexpr int max_iterations = 1;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -495,7 +510,8 @@ namespace bowring_1976_2
 constexpr int max_iterations = 2;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -549,7 +565,8 @@ namespace bowring_1985_1
 constexpr int max_iterations = 1;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -598,7 +615,8 @@ namespace bowring_1985_2
 constexpr int max_iterations = 2;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -655,7 +673,8 @@ namespace bowring_toms_1995_1
 constexpr int max_iterations = 1;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -724,29 +743,30 @@ namespace bowring_toms_1995_2
 constexpr int max_iterations = 2;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
 	const auto r = std::sqrt(w2 + z2);
 	double aD_b;
 
-	if (r <= 2E6 + (WGS84_Ellipsoid::a+WGS84_Ellipsoid::b)/2)
+	if (r <= 2E6 + (WGS84_Ellipsoid::a + WGS84_Ellipsoid::b)/2)
 	{
 		// region 1
 		aD_b = 1.0026;
 	}
-	else if (r <= 6E6 + (WGS84_Ellipsoid::a+WGS84_Ellipsoid::b)/2)
+	else if (r <= 6E6 + (WGS84_Ellipsoid::a + WGS84_Ellipsoid::b)/2)
 	{
 		// region 2
 		aD_b = 1.00092592;
 	}
-	else if (r <= 18E6 + (WGS84_Ellipsoid::a+WGS84_Ellipsoid::b)/2)
+	else if (r <= 18E6 + (WGS84_Ellipsoid::a + WGS84_Ellipsoid::b)/2)
 	{
 		// region 3
 		aD_b = 0.999250297;
 	}
-	else // if (r <= 1E9 + (WGS84_Ellipsoid::a+WGS84_Ellipsoid::b)/2)
+	else // if (r <= 1E9 + (WGS84_Ellipsoid::a + WGS84_Ellipsoid::b)/2)
 	{
 		// region 4
 		aD_b = 0.997523508;
@@ -817,7 +837,8 @@ double fpp(const double t, const double u, [[gnu::unused]] const double v, const
 }
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -893,9 +914,7 @@ COMMON_FIRST_DECLS
 #endif
 
 	if (z < 0)
-	{
 		sin_lat = -sin_lat;
-	}
 
 	/*
 	** 2 * tan(x/2) / (1 - tan(x/2)^2) == tan(x)
@@ -956,7 +975,8 @@ double fpp(const double t, const double u, [[gnu::unused]] const double v, const
 }
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -1032,9 +1052,7 @@ COMMON_FIRST_DECLS
 #endif
 
 	if (z < 0)
-	{
 		sin_lat = -sin_lat;
-	}
 
 	/*
 	** 2 * tan(x/2) / (1 - tan(x/2)^2) == tan(x)
@@ -1079,7 +1097,8 @@ namespace fukushima_2006_1
 constexpr int max_iterations = 1;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -1142,7 +1161,8 @@ namespace fukushima_2006_2
 constexpr int max_iterations = 2;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -1203,7 +1223,8 @@ namespace geographiclib
 {
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -1285,9 +1306,7 @@ COMMON_FIRST_DECLS
 		sin_lat = zz / H;
 		cos_lat = xx / H;
 		if (z < 0)
-		{
 			sin_lat = -sin_lat; // for tiny negative z (not for prolate)
-		}
 
 #ifdef USE_CUSTOM_HT
 		ht = -WGS84_Ellipsoid::a * (WGS84_Ellipsoid::f >= 0 ? (1 - WGS84_Ellipsoid::e2) : 1) * H / WGS84_Ellipsoid::e2;
@@ -1332,7 +1351,8 @@ namespace geographiclib_customht
 #define USE_CUSTOM_HT
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -1414,9 +1434,7 @@ COMMON_FIRST_DECLS
 		sin_lat = zz / H;
 		cos_lat = xx / H;
 		if (z < 0)
-		{
 			sin_lat = -sin_lat; // for tiny negative z (not for prolate)
-		}
 
 #ifdef USE_CUSTOM_HT
 		ht = -WGS84_Ellipsoid::a * (WGS84_Ellipsoid::f >= 0 ? (1 - WGS84_Ellipsoid::e2) : 1) * H / WGS84_Ellipsoid::e2;
@@ -1462,7 +1480,8 @@ namespace geotransformCpp
 
 constexpr int _line_begin = __LINE__;
 //void Gcc_To_Gdc_Converter::Convert(int count, const Gcc_Coord_3d gcc[], Gdc_Coord_3d gdc[] )
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -1692,7 +1711,8 @@ namespace geotransformCpp_customht
 
 constexpr int _line_begin = __LINE__;
 //void Gcc_To_Gdc_Converter::Convert(int count, const Gcc_Coord_3d gcc[], Gdc_Coord_3d gdc[] )
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -1921,7 +1941,8 @@ namespace gersten_1961
 {
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -1941,9 +1962,7 @@ COMMON_FIRST_DECLS
 	auto cos_lat = c2;
 
 	if (z < 0)
-	{
 		sin_lat = -sin_lat;
-	}
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
@@ -1983,7 +2002,8 @@ namespace halley_1
 constexpr int max_iterations = 1;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -2029,7 +2049,8 @@ namespace halley_2
 constexpr int max_iterations = 2;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -2075,7 +2096,8 @@ namespace halley_quick_1
 constexpr int max_iterations = 1;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -2127,7 +2149,8 @@ namespace halley_quick_2
 constexpr int max_iterations = 2;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -2177,7 +2200,8 @@ namespace heikkinen_1982
 {
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -2254,7 +2278,8 @@ namespace heikkinen_1982_customht
 #define USE_CUSTOM_HT
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -2333,7 +2358,8 @@ namespace householder_1
 constexpr int max_iterations = 1;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -2379,7 +2405,8 @@ namespace householder_2
 constexpr int max_iterations = 2;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -2425,7 +2452,8 @@ namespace householder_quick_1
 constexpr int max_iterations = 1;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -2477,7 +2505,8 @@ namespace householder_quick_2
 constexpr int max_iterations = 2;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -2527,7 +2556,8 @@ namespace jat_spacetime_geodetic
 {
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -2593,7 +2623,8 @@ namespace jones_2002_1
 constexpr int max_iterations = 1;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -2679,7 +2710,8 @@ namespace ligas_2011_I_1
 constexpr int max_iterations = 1;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -2749,7 +2781,8 @@ namespace ligas_2011_I_2
 constexpr int max_iterations = 2;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -2819,7 +2852,8 @@ namespace lin_wang_1995_1
 constexpr int max_iterations = 1;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -2886,7 +2920,8 @@ namespace lin_wang_1995_2
 constexpr int max_iterations = 2;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -2954,7 +2989,8 @@ namespace lin_wang_1995_customht_1
 constexpr int max_iterations = 1;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -3023,7 +3059,8 @@ namespace lin_wang_1995_customht_2
 constexpr int max_iterations = 2;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -3089,7 +3126,8 @@ namespace long_1974
 {
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -3141,7 +3179,8 @@ namespace naive_I_1
 constexpr int max_iterations = 1;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -3194,7 +3233,8 @@ namespace naive_I_2
 constexpr int max_iterations = 2;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -3247,7 +3287,8 @@ namespace naive_II_1
 constexpr int max_iterations = 1;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -3300,7 +3341,8 @@ namespace naive_II_2
 constexpr int max_iterations = 2;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -3353,7 +3395,8 @@ namespace newton_raphson_1
 constexpr int max_iterations = 1;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -3399,7 +3442,8 @@ namespace newton_raphson_2
 constexpr int max_iterations = 2;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -3445,7 +3489,8 @@ namespace newton_raphson_quick_1
 constexpr int max_iterations = 1;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -3497,7 +3542,8 @@ namespace newton_raphson_quick_2
 constexpr int max_iterations = 2;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -3547,7 +3593,8 @@ namespace olson_1996
 {
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -3641,7 +3688,8 @@ namespace olson_1996_customht
 #define USE_CUSTOM_HT
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -3836,11 +3884,11 @@ Vector3D GeodeticSurfaceNormal(const Vector3D& positionOnEllipsoid);
 
 Geodetic3D ToGeodetic3D(const Vector3D& position)
 {
-	const Vector3D p = ScaleToGeodeticSurface(position);
-	const Vector3D h = position.subtract(p);
-	// double height = Math.sign(h.Dot(position)) * h.length();
+	const auto p = ScaleToGeodeticSurface(position);
+	const auto h = position.subtract(p);
+	// auto height = Math.sign(h.Dot(position)) * h.length();
 	const auto height = std::copysign(h.length(), h.dot(position));
-	const Geodetic2D g2d = ToGeodetic2D(p);
+	const auto g2d = ToGeodetic2D(p);
 	return Geodetic3D(g2d, height);
 }
 
@@ -3911,10 +3959,14 @@ Geodetic2D ToGeodetic2D(const Vector3D& positionOnEllipsoid)
 
 Vector3D GeodeticSurfaceNormal(const Vector3D& positionOnEllipsoid)
 {
-	return positionOnEllipsoid.multiply(Vector3D(1 / WGS84_Ellipsoid::a2, 1 / WGS84_Ellipsoid::a2, 1 / WGS84_Ellipsoid::b2)).normalize();
+	return positionOnEllipsoid.multiply(Vector3D(
+				1 / WGS84_Ellipsoid::a2,
+				1 / WGS84_Ellipsoid::a2,
+				1 / WGS84_Ellipsoid::b2)).normalize();
 }
 
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 	const Vector3D position(x, y, z);
 	const auto result = ToGeodetic3D(position);
@@ -3948,7 +4000,8 @@ namespace ozone_1985
 {
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS_CHECKED
 
@@ -3977,9 +4030,7 @@ COMMON_FIRST_DECLS_CHECKED
 	auto cos_lat = (u * u - 1) * (1 - WGS84_Ellipsoid::f);
 
 	if (z < 0)
-	{
 		sin_lat = -sin_lat;
-	}
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
@@ -4012,7 +4063,8 @@ namespace paul_1973
 {
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -4037,17 +4089,13 @@ COMMON_FIRST_DECLS
 	auto sqrt_t = std::sqrt(std::abs(t));
 #if 0
 	if (z < 0)
-	{
 		sqrt_t = -sqrt_t;
-	}
 
 	auto root_2 = std::sqrt(std::abs(z2 / 4 - beta / 2 - t + 0.25 * alpha * z / sqrt_t));
 	// SDW: this doesn't work either
 	//auto root_2 = std::sqrt(std::abs(z2 / 4 - beta / 2 - t + 0.25 * WGS84_Ellipsoid::a * z / sqrt_t));
 	if (z < 0)
-	{
 		root_2 = -root_2;
-	}
 
 	const auto sigma = root_1 + root_2;
 
@@ -4060,9 +4108,7 @@ COMMON_FIRST_DECLS
 
 	/*
 	if (z < 0)
-	{
 		sin_lat = -sin_lat;
-	}
 	*/
 
 	//tan_lat = (z / 2 + root_1 + std::sqrt(z2 / 4 - beta / 2 - t + alpha * z / (4 * root_1))) / w;
@@ -4096,7 +4142,8 @@ namespace pollard_2002_ht_1
 {
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -4171,7 +4218,8 @@ namespace pollard_2002_naive_1
 constexpr int max_iterations = 1;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -4225,7 +4273,8 @@ namespace pollard_2002_naive_2
 constexpr int max_iterations = 2;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -4286,7 +4335,8 @@ namespace pollard_2002_newton_1
 constexpr int max_iterations = 1;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -4349,7 +4399,8 @@ namespace pollard_2002_newton_2
 constexpr int max_iterations = 2;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -4426,7 +4477,8 @@ namespace schroder_1
 constexpr int max_iterations = 1;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -4472,7 +4524,8 @@ namespace schroder_2
 constexpr int max_iterations = 2;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -4518,7 +4571,8 @@ namespace schroder_quick_1
 constexpr int max_iterations = 1;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -4570,7 +4624,8 @@ namespace schroder_quick_2
 constexpr int max_iterations = 2;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -4620,7 +4675,7 @@ namespace sedris
 {
 
 constexpr int _line_begin = __LINE__;
-double gee(const double h, const double rn)
+auto gee(const double h, const double rn)
 {
 	return (rn + h) / ((1 - WGS84_Ellipsoid::e2) * rn + h);
 }
@@ -4793,7 +4848,8 @@ Algorithm derived by Ralph Toms, SRI.
 	//void                   *constants,
 	//const double          source_generic_coord[4],
 	//double          dest_generic_coord[4],
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -5226,7 +5282,7 @@ namespace sedris_customht
 #define USE_CUSTOM_HT
 
 constexpr int _line_begin = __LINE__;
-double gee(const double h, const double rn)
+auto gee(const double h, const double rn)
 {
 	return (rn + h) / ((1 - WGS84_Ellipsoid::e2) * rn + h);
 }
@@ -5399,7 +5455,8 @@ Algorithm derived by Ralph Toms, SRI.
 	//void                   *constants,
 	//const double          source_generic_coord[4],
 	//double          dest_generic_coord[4],
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -5836,7 +5893,8 @@ namespace shu_2010_1
 constexpr int max_iterations = 1;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -5890,7 +5948,8 @@ namespace shu_2010_2
 constexpr int max_iterations = 2;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -5945,7 +6004,8 @@ namespace shu_2010_customht_1
 constexpr int max_iterations = 1;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -6001,7 +6061,8 @@ namespace shu_2010_customht_2
 constexpr int max_iterations = 2;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -6054,7 +6115,8 @@ namespace sofair_1993
 {
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -6123,7 +6185,8 @@ namespace sofair_2000
 {
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -6152,9 +6215,7 @@ COMMON_FIRST_DECLS
 	//const auto Z = std::copysign(std::sqrt(q), z) * (w_ + std::sqrt(std::sqrt(t * t + v) - u * w_ - t / 2 - 0.25));
 	auto Z = std::sqrt(q) * (w_ + std::sqrt(std::sqrt(t * t + v) - u * w_ - t / 2 - 0.25));
 	if (z < 0)
-	{
 		Z = -Z;
-	}
 
 	const auto Ne = WGS84_Ellipsoid::a * std::sqrt(1 + Z * Z * WGS84_Ellipsoid::ep2 / WGS84_Ellipsoid::b2);
 
@@ -6193,7 +6254,8 @@ namespace sudano_1997
 {
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -6234,9 +6296,7 @@ COMMON_FIRST_DECLS
 	auto sin_lat = std::sqrt(s2);
 
 	if (z < 0)
-	{
 		sin_lat = -sin_lat;
-	}
 
 	lat_rad = std::asin(sin_lat);
 
@@ -6275,7 +6335,8 @@ namespace turner_2013
 {
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -6374,7 +6435,8 @@ namespace vermeille_2004
 {
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -6425,7 +6487,8 @@ namespace vermeille_2011
 {
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -6530,7 +6593,8 @@ namespace vermeille_2011_customht
 #define USE_CUSTOM_HT
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -6637,7 +6701,8 @@ namespace wu_2003_1
 constexpr int max_iterations = 1;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS_CHECKED
 
@@ -6716,7 +6781,8 @@ namespace wu_2003_2
 constexpr int max_iterations = 2;
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS_CHECKED
 
@@ -6793,7 +6859,8 @@ namespace zhang_2005
 {
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -6892,7 +6959,8 @@ namespace zhu_1993
 {
 
 constexpr int _line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z, double& lat_rad, double& lon_rad, double& ht)
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -6944,4 +7012,3 @@ Zhu, Jijie. (1993). Exact Conversion of Earth-Centered Earth-Fixed Coordinates t
 
 }
 // }}}
-
