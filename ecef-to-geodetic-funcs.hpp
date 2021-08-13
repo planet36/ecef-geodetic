@@ -234,8 +234,10 @@ struct func_info_t
 */
 
 /// get f, f'
-void get_f_fp(const double w, const double z, const double sin_lat, const double cos_lat,
-              double& f, double& fp)
+template <typename T>
+requires std::is_floating_point_v<T>
+void get_f_fp(const T w, const T z, const T sin_lat, const T cos_lat,
+              T& f, T& fp)
 {
 	const auto d2 = 1 - WGS84_Ellipsoid::e2 * sin_lat * sin_lat;
 	const auto d = std::sqrt(d2);
@@ -247,8 +249,10 @@ void get_f_fp(const double w, const double z, const double sin_lat, const double
 constexpr int _lines_f_fp = 8;
 
 /// get f, f', f''
-void get_f_fp_fpp(const double w, const double z, const double sin_lat, const double cos_lat,
-                  double& f, double& fp, double& fpp)
+template <typename T>
+requires std::is_floating_point_v<T>
+void get_f_fp_fpp(const T w, const T z, const T sin_lat, const T cos_lat,
+                  T& f, T& fp, T& fpp)
 {
 	const auto d2 = 1 - WGS84_Ellipsoid::e2 * sin_lat * sin_lat;
 	const auto d = std::sqrt(d2);
@@ -260,63 +264,79 @@ void get_f_fp_fpp(const double w, const double z, const double sin_lat, const do
 
 constexpr int _lines_f_fp_fpp = 9;
 
-auto newton_raphson_delta_lat(const double w, const double z,
-                              const double sin_lat, const double cos_lat)
+template <typename T>
+requires std::is_floating_point_v<T>
+auto newton_raphson_delta_lat(const T w, const T z,
+                              const T sin_lat, const T cos_lat)
 {
-	double f, fp;
+	T f, fp;
 	get_f_fp(w, z, sin_lat, cos_lat, f, fp);
 	return f / fp;
 }
 
 constexpr int _lines_newton_raphson_delta_lat = 6 + _lines_f_fp;
 
-auto householder_delta_lat(const double w, const double z,
-                           const double sin_lat, const double cos_lat)
+template <typename T>
+requires std::is_floating_point_v<T>
+auto householder_delta_lat(const T w, const T z,
+                           const T sin_lat, const T cos_lat)
 {
-	double f, fp, fpp;
+	T f, fp, fpp;
 	get_f_fp_fpp(w, z, sin_lat, cos_lat, f, fp, fpp);
 	return (f / fp) * (1 + 0.5 * f * fpp / (fp * fp));
 }
 
 constexpr int _lines_householder_delta_lat = 6 + _lines_f_fp_fpp;
 
-auto schroder_delta_lat(const double w, const double z,
-                        const double sin_lat, const double cos_lat)
+template <typename T>
+requires std::is_floating_point_v<T>
+auto schroder_delta_lat(const T w, const T z,
+                        const T sin_lat, const T cos_lat)
 {
-	double f, fp, fpp;
+	T f, fp, fpp;
 	get_f_fp_fpp(w, z, sin_lat, cos_lat, f, fp, fpp);
 	return (f * fp) / (fp * fp - f * fpp);
 }
 
 constexpr int _lines_schroder_delta_lat = 6 + _lines_f_fp_fpp;
 
-auto halley_delta_lat(const double w, const double z,
-                      const double sin_lat, const double cos_lat)
+template <typename T>
+requires std::is_floating_point_v<T>
+auto halley_delta_lat(const T w, const T z,
+                      const T sin_lat, const T cos_lat)
 {
-	double f, fp, fpp;
+	T f, fp, fpp;
 	get_f_fp_fpp(w, z, sin_lat, cos_lat, f, fp, fpp);
 	return (f * fp) / (fp * fp - 0.5 * f * fpp);
 }
 
 constexpr int _lines_halley_delta_lat = 6 + _lines_f_fp_fpp;
 
-auto ligas_f1(const double w, const double we,
-              const double z, const double ze)
+template <typename T>
+requires std::is_floating_point_v<T>
+auto ligas_f1(const T w, const T we,
+              const T z, const T ze)
 {
 	return (1 - WGS84_Ellipsoid::e2) * we * (ze - z) - ze * (we - w);
 }
 
-auto ligas_f2(const double we, const double ze)
+template <typename T>
+requires std::is_floating_point_v<T>
+auto ligas_f2(const T we, const T ze)
 {
 	return (1 - WGS84_Ellipsoid::e2) * we * we + ze * ze - WGS84_Ellipsoid::b2;
 }
 
-auto det(const double A[2][2])
+template <typename T>
+requires std::is_floating_point_v<T>
+auto det(const T A[2][2])
 {
 	return A[0][0] * A[1][1] - A[0][1] * A[1][0];
 }
 
-void inv(const double A[2][2], double result[2][2])
+template <typename T>
+requires std::is_floating_point_v<T>
+void inv(const T A[2][2], T result[2][2])
 {
 	const auto d = det(A);
 
@@ -326,14 +346,18 @@ void inv(const double A[2][2], double result[2][2])
 	result[1][1] = +A[0][0] / d;
 }
 
-void mul(const double A[2][2], const double X[2], double result[2])
+template <typename T>
+requires std::is_floating_point_v<T>
+void mul(const T A[2][2], const T X[2], T result[2])
 {
 	result[0] = A[0][0] * X[0] + A[0][1] * X[1];
 	result[1] = A[1][0] * X[0] + A[1][1] * X[1];
 }
 
-void ligas_Jacobian(const double w, const double we, const double z, const double ze,
-                    double result[2][2])
+template <typename T>
+requires std::is_floating_point_v<T>
+void ligas_Jacobian(const T w, const T we, const T z, const T ze,
+                    T result[2][2])
 {
 	result[0][0] = (1 - WGS84_Ellipsoid::e2) * (ze - z) - ze;
 	result[0][1] = (1 - WGS84_Ellipsoid::e2) * we - (we - w);
@@ -343,7 +367,9 @@ void ligas_Jacobian(const double w, const double we, const double z, const doubl
 
 constexpr int _lines_ligas_util = 38;
 
-auto lin_wang_1995_delta_m(const double w2, const double z2, const double m)
+template <typename T>
+requires std::is_floating_point_v<T>
+auto lin_wang_1995_delta_m(const T w2, const T z2, const T m)
 {
 	const auto tmp_a = WGS84_Ellipsoid::a + 2 * m / WGS84_Ellipsoid::a;
 	const auto tmp_b = WGS84_Ellipsoid::b + 2 * m / WGS84_Ellipsoid::b;
@@ -356,7 +382,9 @@ auto lin_wang_1995_delta_m(const double w2, const double z2, const double m)
 
 constexpr int _lines_lin_wang_1995_delta_m = 10;
 
-auto shu_2010_delta_k(const double w2, const double z2, const double k)
+template <typename T>
+requires std::is_floating_point_v<T>
+auto shu_2010_delta_k(const T w2, const T z2, const T k)
 {
 	const auto p = WGS84_Ellipsoid::a + WGS84_Ellipsoid::b * k;
 	const auto q = WGS84_Ellipsoid::b + WGS84_Ellipsoid::a * k;
@@ -371,7 +399,9 @@ auto shu_2010_delta_k(const double w2, const double z2, const double k)
 
 constexpr int _lines_shu_2010_delta_k = 12;
 
-auto wu_2003_delta_t(const double A, const double B, const double C, const double t)
+template <typename T>
+requires std::is_floating_point_v<T>
+auto wu_2003_delta_t(const T A, const T B, const T C, const T t)
 {
 	const auto t2 = t * t;
 	const auto t3 = t * t * t;
@@ -818,19 +848,25 @@ namespace fukushima_1999_1
 // {{{
 {
 
-double f(const double t, const double u, const double v, const double w)
+template <typename T>
+requires std::is_floating_point_v<T>
+auto f(const T t, const T u, const T v, const T w)
 {
 	// w * t**4 + u * t**3 + v * t - w
 	return w * t * t * t * t + u * t * t * t + v * t - w;
 }
 
-double fp(const double t, const double u, const double v, const double w)
+template <typename T>
+requires std::is_floating_point_v<T>
+auto fp(const T t, const T u, const T v, const T w)
 {
 	// 4 * w * t**3 + 3 * u * t**2 + v
 	return 4 * w * t * t * t + 3 * u * t * t + v;
 }
 
-double fpp(const double t, const double u, [[gnu::unused]] const double v, const double w)
+template <typename T>
+requires std::is_floating_point_v<T>
+auto fpp(const T t, const T u, [[gnu::unused]] const T v, const T w)
 {
 	// 12 * w * t**2 + 6 * u * t
 	return 12 * w * t * t + 6 * u * t;
@@ -956,19 +992,25 @@ namespace fukushima_1999_customht_1
 {
 #define USE_CUSTOM_HT
 
-double f(const double t, const double u, const double v, const double w)
+template <typename T>
+requires std::is_floating_point_v<T>
+auto f(const T t, const T u, const T v, const T w)
 {
 	// w * t**4 + u * t**3 + v * t - w
 	return w * t * t * t * t + u * t * t * t + v * t - w;
 }
 
-double fp(const double t, const double u, const double v, const double w)
+template <typename T>
+requires std::is_floating_point_v<T>
+auto fp(const T t, const T u, const T v, const T w)
 {
 	// 4 * w * t**3 + 3 * u * t**2 + v
 	return 4 * w * t * t * t + 3 * u * t * t + v;
 }
 
-double fpp(const double t, const double u, [[gnu::unused]] const double v, const double w)
+template <typename T>
+requires std::is_floating_point_v<T>
+auto fpp(const T t, const T u, [[gnu::unused]] const T v, const T w)
 {
 	// 12 * w * t**2 + 6 * u * t
 	return 12 * w * t * t + 6 * u * t;
