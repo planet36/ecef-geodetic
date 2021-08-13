@@ -5,6 +5,20 @@
 /**
 \file
 \author Steven Ward
+Source:
+NGA.STND.0036_1.0.0_WGS84 2014-07-08
+
+\sa https://web.archive.org/web/20181220230431/https://earth-info.nga.mil/GandG/publications/NGA_STND_0036_1_0_0_WGS84/NGA.STND.0036_1.0.0_WGS84.pdf
+
+\verbatim
+NATIONAL GEOSPATIAL-INTELLIGENCE AGENCY (NGA)
+STANDARDIZATION DOCUMENT
+DEPARTMENT OF DEFENSE
+WORLD GEODETIC SYSTEM 1984
+Its Definition and Relationships with Local Geodetic Systems
+2014-07-08
+Version 1.0.0
+\endverbatim
 */
 
 #pragma once
@@ -12,62 +26,95 @@
 #include <cmath>
 #include <type_traits>
 
+/**
+Some of the following values are not included:
+
+Table 3.2 Special WGS 84 Parameters
+
+Table 3.3 Other Fundamental Constants and Best Accepted Values
+
+Table 3.4 Special WGS 84 Parameters
+
+(some of) Table 3.5 WGS 84 Ellipsoid Derived Geometric Constants
+
+(some of) Table 3.6 WGS 84 Derived Physical Constants
+
+Table 3.7 WGS 84 Derived Moments of Inertia
+*/
 namespace WGS84_Ellipsoid
 // {{{
 {
+	// defining parameters
 
-// defining parameters
+	/// semi-major axis (equatorial radius of the earth) (meters)
+	constexpr double a = 6'378'137.0L;
 
-/// semi-major axis (equatorial radius of the earth) (meters)
-constexpr double a = 6'378'137.0L;
+	/// flattening factor of the earth
+	constexpr double f = 1 / 298.257223563L; // (a-b)/a
 
-/// flattening factor of the earth
-constexpr double f = 1 / 298.257223563L; // (a-b)/a
+	/// geocentric gravitational constant (m^3/s^2)
+	constexpr double GM = 3.986004418E14L;
 
-// derived geometric constants
+	/// nominal mean angular velocity of the earth (rad/s)
+	constexpr double omega = 7.292115E-5L;
 
-/// semi-minor axis (polar radius of the earth) (meters)
-constexpr auto b = a*(1-f);
+	// derived geometric constants
 
-/// a squared
-constexpr auto a2 = a*a;
+	/// semi-minor axis (polar radius of the earth) (meters)
+	constexpr auto b = a*(1-f);
 
-/// b squared
-constexpr auto b2 = b*b;
+	/// a squared
+	constexpr auto a2 = a*a;
 
-/// second flattening
-constexpr auto fp = f/(1-f); // (a-b)/b
+	/// b squared
+	constexpr auto b2 = b*b;
 
-/// third flattening
-constexpr auto n = f/(2-f); // (a-b)/(a+b)
+	/// second flattening
+	constexpr auto fp = f/(1-f); // (a-b)/b
 
-/// first eccentricity squared
-constexpr auto e2 = f*(2-f); // (a2-b2)/a2
+	/// third flattening
+	constexpr auto n = f/(2-f); // (a-b)/(a+b)
 
-/// first eccentricity
-constexpr auto e = std::sqrt(e2);
+	/// first eccentricity squared
+	constexpr auto e2 = f*(2-f); // (a2-b2)/a2
 
-/// second eccentricity squared
-constexpr auto ep2 = e2/(1-e2); // (a2-b2)/b2
+	/// first eccentricity
+	constexpr auto e = std::sqrt(e2);
 
-/// second eccentricity
-constexpr auto ep = std::sqrt(ep2);
+	/// second eccentricity squared
+	constexpr auto ep2 = e2/(1-e2); // (a2-b2)/b2
 
-/// third eccentricity squared
-constexpr auto epp2 = e2/(2-e2); // (a2-b2)/(a2+b2)
+	/// second eccentricity
+	constexpr auto ep = std::sqrt(ep2);
 
-/// third eccentricity
-constexpr auto epp = std::sqrt(epp2);
+	/// third eccentricity squared
+	constexpr auto epp2 = e2/(2-e2); // (a2-b2)/(a2+b2)
 
-/// linear eccentricity squared
-constexpr auto c2 = a2 - b2;
+	/// third eccentricity
+	constexpr auto epp = std::sqrt(epp2);
 
-/// linear eccentricity
-constexpr auto c = std::sqrt(c2);
+	/// linear eccentricity squared
+	constexpr auto c2 = a2 - b2;
 
-/// angular eccentricity
-constexpr auto alpha = std::asin(e); // std::acos(b/a)
+	/// linear eccentricity
+	constexpr auto c = std::sqrt(c2);
 
+	/// angular eccentricity
+	constexpr auto alpha = std::asin(e); // std::acos(b/a)
+
+	// derived physical constants
+
+	/// normal gravity at the equator (on the ellipsoid) (m/s^2)
+	constexpr double gamma_e = 9.7803253359L;
+
+	/// normal gravity at the poles (on the ellipsoid) (m/s^2)
+	constexpr double gamma_p = 9.8321849379L;
+
+	/// Somigliana's Formula - normal gravity formula constant
+	constexpr auto k = (1 - f) * gamma_p / gamma_e - 1;
+
+	/// normal gravity formula constant
+	constexpr auto m = omega * omega * a2 * b / GM;
 }
 //}}}
 
@@ -87,19 +134,6 @@ auto get_Rn(const T sin_lat)
 	const auto d = std::sqrt(d2);
 
 	return WGS84_Ellipsoid::a / d;
-}
-
-/// get the ellipsoid radius (meters)
-/**
-\param sin_lat sine of the geodetic latitude
-\return ellipsoid radius (meters)
-*/
-template <typename T>
-requires std::is_floating_point_v<T>
-auto get_R(const T sin_lat)
-{
-	return get_Rn(sin_lat) * std::sqrt(
-			1 - WGS84_Ellipsoid::e2 * sin_lat * sin_lat * (2 - WGS84_Ellipsoid::e2));
 }
 
 /**
@@ -124,7 +158,21 @@ auto get_R(const T sin_lat)
 *      = R_N * sqrt(1 - e2 * sin(φ)**2 * (2 - e2))
 */
 
-/// get the ellipsoid height (meters)
+/// get the ellipsoid radius (meters)
+/**
+\sa https://www.oc.nps.edu/oc2902w/geodesy/radiigeo.pdf
+\param sin_lat sine of the geodetic latitude
+\return the ellipsoid radius (meters)
+*/
+template <typename T>
+requires std::is_floating_point_v<T>
+auto get_R(const T sin_lat)
+{
+	return get_Rn(sin_lat) * std::sqrt(
+			1 - WGS84_Ellipsoid::e2 * sin_lat * sin_lat * (2 - WGS84_Ellipsoid::e2));
+}
+
+/// get the height above the ellipsoid (meters)
 /**
 Source: Rapp, page 122 (132)
 
@@ -144,53 +192,48 @@ h = z / sin - Rn * (1-e2)
 \param sin_lat sine of the geodetic latitude
 \param cos_lat cosine of the geodetic latitude
 \param Rn prime vertical radius of curvature (meters)
-\return ellipsoid height (meters)
+\return the height above the ellipsoid (meters)
 */
 template <typename T>
 requires std::is_floating_point_v<T>
-auto get_ht(
-	const T w, const T z,
-	const T sin_lat, const T cos_lat, const T Rn)
+auto get_ht(const T w, const T z,
+            const T sin_lat, const T cos_lat, const T Rn)
 {
 	// https://www.gnu.org/software/libc/manual/html_node/Mathematical-Constants.html
 	// cos(45 deg) == 1/sqrt(2)
 	if (cos_lat > M_SQRT1_2) // Equatorial
-	{
 		return w / cos_lat - Rn;
-	}
 	else // Polar
-	{
 		return z / sin_lat - Rn * (1 - WGS84_Ellipsoid::e2);
-	}
 }
 
-/// get the ellipsoid height (meters)
+/// get the height above the ellipsoid (meters)
 /**
 \param w distance from the rotational (i.e. Z) axis (meters)
 \param z distance above the equatorial (i.e. X-Y) plane (meters)
 \param sin_lat sine of the geodetic latitude
 \param cos_lat cosine of the geodetic latitude
-\return ellipsoid height (meters)
+\return the height above the ellipsoid (meters)
 */
 template <typename T>
 requires std::is_floating_point_v<T>
-auto get_ht(
-	const T w, const T z,
-	const T sin_lat, const T cos_lat)
+auto get_ht(const T w, const T z,
+            const T sin_lat, const T cos_lat)
 {
 	return get_ht(w, z, sin_lat, cos_lat, get_Rn(sin_lat));
 }
 
-/// get the ellipsoid height (meters)
+/// get the height above the ellipsoid (meters)
 /**
 \param w distance from the rotational (i.e. Z) axis (meters)
 \param z distance above the equatorial (i.e. X-Y) plane (meters)
 \param lat_rad geodetic latitude (radians)
-\return ellipsoid height (meters)
+\return the height above the ellipsoid (meters)
 */
 template <typename T>
 requires std::is_floating_point_v<T>
-auto get_ht_r(const T w, const T z, const T lat_rad)
+auto get_ht(const T w, const T z,
+            const T lat_rad)
 {
 	const auto sin_lat = std::sin(lat_rad);
 	const auto cos_lat = std::cos(lat_rad);
