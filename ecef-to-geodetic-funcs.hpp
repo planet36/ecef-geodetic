@@ -952,11 +952,9 @@ COMMON_FIRST_DECLS
 	if (z < 0)
 		sin_lat = -sin_lat;
 
-	/*
-	** 2 * tan(x/2) / (1 - tan(x/2)^2) == tan(x)
-	**
-	** https://www.wolframalpha.com/input/?i=2+*+tan(x%2F2)+%2F+(1+-+tan(x%2F2)%5E2),+tan(x)
-	*/
+	// 2 * tan(x/2) / (1 - tan(x/2)^2) == tan(x)
+	// https://www.wolframalpha.com/input/?i=2+*+tan(x%2F2)+%2F+(1+-+tan(x%2F2)%5E2),+tan(x)
+
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
 	// SDW: This function doesn't work, so don't worry about optimizing it.
@@ -1096,11 +1094,9 @@ COMMON_FIRST_DECLS
 	if (z < 0)
 		sin_lat = -sin_lat;
 
-	/*
-	** 2 * tan(x/2) / (1 - tan(x/2)^2) == tan(x)
-	**
-	** https://www.wolframalpha.com/input/?i=2+*+tan(x%2F2)+%2F+(1+-+tan(x%2F2)%5E2),+tan(x)
-	*/
+	// 2 * tan(x/2) / (1 - tan(x/2)^2) == tan(x)
+	// https://www.wolframalpha.com/input/?i=2+*+tan(x%2F2)+%2F+(1+-+tan(x%2F2)%5E2),+tan(x)
+
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
 	// SDW: This function doesn't work, so don't worry about optimizing it.
