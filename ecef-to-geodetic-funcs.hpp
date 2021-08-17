@@ -962,7 +962,8 @@ COMMON_FIRST_DECLS
 #ifdef USE_CUSTOM_HT
 	ht = (2 * w * ep * t + z * (1 - t * t) - ell.a * ep * (1 + t * t)) / std::sqrt(SQ(1 + t * t) - 4 * ell.e2 * t * t);
 #else
-	ht = ell.get_ht(w, z, lat_rad);
+	normalize(cos_lat, sin_lat);
+	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 #endif
 }
 constexpr int _line_end = __LINE__;
@@ -1103,7 +1104,8 @@ COMMON_FIRST_DECLS
 #ifdef USE_CUSTOM_HT
 	ht = (2 * w * ep * t + z * (1 - t * t) - ell.a * ep * (1 + t * t)) / std::sqrt(SQ(1 + t * t) - 4 * ell.e2 * t * t);
 #else
-	ht = ell.get_ht(w, z, lat_rad);
+	normalize(cos_lat, sin_lat);
+	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 #endif
 }
 constexpr int _line_end = __LINE__;
@@ -2004,7 +2006,8 @@ COMMON_FIRST_DECLS
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
-	ht = ell.get_ht(w, z, lat_rad);
+	normalize(cos_lat, sin_lat);
+	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 /*
 #ifdef USE_CUSTOM_HT
 	ht = r - ell.a + 0.5 * ell.a * ell.e2 * s * s * (1 + e_ - (0.25 * ell.e2 - e_) * s * s);
@@ -4168,7 +4171,8 @@ COMMON_FIRST_DECLS
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
-	ht = ell.get_ht(w, z, lat_rad);
+	normalize(cos_lat, sin_lat);
+	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int _line_end = __LINE__;
 
