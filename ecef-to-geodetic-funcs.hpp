@@ -959,7 +959,6 @@ COMMON_FIRST_DECLS
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
-	// SDW: This function doesn't work, so don't worry about optimizing it.
 #ifdef USE_CUSTOM_HT
 	ht = (2 * w * ep * t + z * (1 - t * t) - ell.a * ep * (1 + t * t)) / std::sqrt(SQ(1 + t * t) - 4 * ell.e2 * t * t);
 #else
@@ -1101,7 +1100,6 @@ COMMON_FIRST_DECLS
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
-	// SDW: This function doesn't work, so don't worry about optimizing it.
 #ifdef USE_CUSTOM_HT
 	ht = (2 * w * ep * t + z * (1 - t * t) - ell.a * ep * (1 + t * t)) / std::sqrt(SQ(1 + t * t) - 4 * ell.e2 * t * t);
 #else
@@ -2006,7 +2004,6 @@ COMMON_FIRST_DECLS
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
-	// SDW: This function doesn't work, so don't worry about optimizing it.
 	ht = ell.get_ht(w, z, lat_rad);
 /*
 #ifdef USE_CUSTOM_HT
@@ -3180,7 +3177,6 @@ COMMON_FIRST_DECLS
 
 	lat_rad = lat_c + ell.f * std::sin(2 * lat_c) / r + ell.f * ell.f * ((1 / (w2 + z2) - 1 / (4 * r)) * std::sin(4 * lat_c));
 
-	// SDW: This function doesn't work, so don't worry about optimizing it.
 	ht = ell.get_ht(w, z, lat_rad);
 /*
 #ifdef USE_CUSTOM_HT
@@ -4172,7 +4168,6 @@ COMMON_FIRST_DECLS
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
-	// SDW: This function doesn't work, so don't worry about optimizing it.
 	ht = ell.get_ht(w, z, lat_rad);
 }
 constexpr int _line_end = __LINE__;
@@ -6226,7 +6221,6 @@ COMMON_FIRST_DECLS
 
 	lat_rad = std::asin(sin_lat);
 
-	// SDW: This function doesn't work, so don't worry about optimizing it.
 	ht = ell.get_ht(w, z, lat_rad);
 }
 constexpr int _line_end = __LINE__;
@@ -6369,7 +6363,6 @@ COMMON_FIRST_DECLS
 
 	lat_rad = std::asin(sin_lat);
 
-	// SDW: This function doesn't work, so don't worry about optimizing it.
 	ht = ell.get_ht(w, z, lat_rad);
 /*
 #ifdef USE_CUSTOM_HT
@@ -6805,11 +6798,9 @@ COMMON_FIRST_DECLS_CHECKED
 	sin_lat = 2 * t;
 	cos_lat = (1 - t * t) * (1 - ell.f);
 
-	/*
-	** 2 * tan(x/2) / (1 - tan(x/2)^2) == tan(x)
-	**
-	** https://www.wolframalpha.com/input/?i=2+*+tan(x%2F2)+%2F+(1+-+tan(x%2F2)%5E2),+tan(x)
-	*/
+	// 2 * tan(x/2) / (1 - tan(x/2)^2) == tan(x)
+	// https://www.wolframalpha.com/input/?i=2+*+tan(x%2F2)+%2F+(1+-+tan(x%2F2)%5E2),+tan(x)
+
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
 	// SDW: This is not accurate.
@@ -6885,11 +6876,9 @@ COMMON_FIRST_DECLS_CHECKED
 	sin_lat = 2 * t;
 	cos_lat = (1 - t * t) * (1 - ell.f);
 
-	/*
-	** 2 * tan(x/2) / (1 - tan(x/2)^2) == tan(x)
-	**
-	** https://www.wolframalpha.com/input/?i=2+*+tan(x%2F2)+%2F+(1+-+tan(x%2F2)%5E2),+tan(x)
-	*/
+	// 2 * tan(x/2) / (1 - tan(x/2)^2) == tan(x)
+	// https://www.wolframalpha.com/input/?i=2+*+tan(x%2F2)+%2F+(1+-+tan(x%2F2)%5E2),+tan(x)
+
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
 	// SDW: This is not accurate.
