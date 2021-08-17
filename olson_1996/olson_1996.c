@@ -1,19 +1,18 @@
 #include <math.h>
 
-/// Convert ECEF to Geodetic
+/// convert from ECEF to geodetic
 /**
-* D. K. Olson, "Converting Earth-centered, Earth-fixed coordinates to geodetic coordinates," in IEEE Transactions on Aerospace and Electronic Systems, vol. 32, no. 1, pp. 473-476, Jan. 1996.
-* doi: 10.1109/7.481290
-* URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=481290&isnumber=10254
-*
-* U.S. Government work, U.S. copyright does not apply.
-*
-* \param x X coordinate (meters)
-* \param y Y coordinate (meters)
-* \param z Z coordinate (meters)
-* \param[out] lat geodetic latitude (radians)
-* \param[out] lon geodetic longitude (radians)
-* \param[out] ht ellipsoid height (meters)
+D. K. Olson, "Converting Earth-centered, Earth-fixed coordinates to geodetic coordinates," in IEEE Transactions on Aerospace and Electronic Systems, vol. 32, no. 1, pp. 473-476, Jan. 1996, doi: 10.1109/7.481290.
+
+U.S. Government work, U.S. copyright does not apply.
+
+\sa https://ieeexplore.ieee.org/document/481290
+\param x X coordinate (meters)
+\param y Y coordinate (meters)
+\param z Z coordinate (meters)
+\param[out] lat geodetic latitude (radians)
+\param[out] lon geodetic longitude (radians)
+\param[out] ht ellipsoid height (meters)
 */
 void
 latlon (x,y,z,lat,lon,ht)/*c code*/
