@@ -12,8 +12,8 @@
 #include "ellipsoid-wgs84.hpp"
 
 #include <cmath>
+#include <concepts>
 #include <string>
-#include <type_traits>
 
 /// the ellipsoid to use
 constexpr auto ell = WGS84<double>;
@@ -27,8 +27,7 @@ constexpr auto ell = WGS84<double>;
 \param[in,out] x,y the vector coordinates
 \return the 2D hypotenuse
 */
-template <typename T>
-requires std::is_floating_point_v<T>
+template <std::floating_point T>
 auto hypot(const T x, const T y)
 {
 #if 0
@@ -46,8 +45,7 @@ auto hypot(const T x, const T y)
 \sa https://mathworld.wolfram.com/UnitVector.html
 \param[in,out] x,y the vector coordinates
 */
-template <typename T>
-requires std::is_floating_point_v<T>
+template <std::floating_point T>
 void normalize(T& x, T& y)
 {
 	const auto h = hypot(x, y);
@@ -62,8 +60,7 @@ void normalize(T& x, T& y)
 \param sin_x the sine of the angle
 \return the cosine of the angle
 */
-template <typename T>
-requires std::is_floating_point_v<T>
+template <std::floating_point T>
 auto cos_from_sin(const T sin_x)
 {
 	return std::sqrt(1 - sin_x * sin_x);
@@ -260,8 +257,7 @@ struct func_info_t
 */
 
 /// get f, f'
-template <typename T>
-requires std::is_floating_point_v<T>
+template <std::floating_point T>
 void get_f_fp(const T w, const T z, const T sin_lat, const T cos_lat,
               T& f, T& fp)
 {
@@ -275,8 +271,7 @@ void get_f_fp(const T w, const T z, const T sin_lat, const T cos_lat,
 constexpr int _lines_f_fp = 7;
 
 /// get f, f', f''
-template <typename T>
-requires std::is_floating_point_v<T>
+template <std::floating_point T>
 void get_f_fp_fpp(const T w, const T z, const T sin_lat, const T cos_lat,
                   T& f, T& fp, T& fpp)
 {
@@ -290,8 +285,7 @@ void get_f_fp_fpp(const T w, const T z, const T sin_lat, const T cos_lat,
 
 constexpr int _lines_f_fp_fpp = 8;
 
-template <typename T>
-requires std::is_floating_point_v<T>
+template <std::floating_point T>
 auto newton_raphson_delta_lat(const T w, const T z,
                               const T sin_lat, const T cos_lat)
 {
@@ -302,8 +296,7 @@ auto newton_raphson_delta_lat(const T w, const T z,
 
 constexpr int _lines_newton_raphson_delta_lat = 5 + _lines_f_fp;
 
-template <typename T>
-requires std::is_floating_point_v<T>
+template <std::floating_point T>
 auto householder_delta_lat(const T w, const T z,
                            const T sin_lat, const T cos_lat)
 {
@@ -314,8 +307,7 @@ auto householder_delta_lat(const T w, const T z,
 
 constexpr int _lines_householder_delta_lat = 5 + _lines_f_fp_fpp;
 
-template <typename T>
-requires std::is_floating_point_v<T>
+template <std::floating_point T>
 auto schroder_delta_lat(const T w, const T z,
                         const T sin_lat, const T cos_lat)
 {
@@ -326,8 +318,7 @@ auto schroder_delta_lat(const T w, const T z,
 
 constexpr int _lines_schroder_delta_lat = 5 + _lines_f_fp_fpp;
 
-template <typename T>
-requires std::is_floating_point_v<T>
+template <std::floating_point T>
 auto halley_delta_lat(const T w, const T z,
                       const T sin_lat, const T cos_lat)
 {
@@ -338,30 +329,26 @@ auto halley_delta_lat(const T w, const T z,
 
 constexpr int _lines_halley_delta_lat = 5 + _lines_f_fp_fpp;
 
-template <typename T>
-requires std::is_floating_point_v<T>
+template <std::floating_point T>
 auto ligas_f1(const T w, const T we,
               const T z, const T ze)
 {
 	return (1 - WGS84<T>.e2) * we * (ze - z) - ze * (we - w);
 }
 
-template <typename T>
-requires std::is_floating_point_v<T>
+template <std::floating_point T>
 auto ligas_f2(const T we, const T ze)
 {
 	return (1 - WGS84<T>.e2) * we * we + ze * ze - WGS84<T>.b2;
 }
 
-template <typename T>
-requires std::is_floating_point_v<T>
+template <std::floating_point T>
 auto det(const T A[2][2])
 {
 	return A[0][0] * A[1][1] - A[0][1] * A[1][0];
 }
 
-template <typename T>
-requires std::is_floating_point_v<T>
+template <std::floating_point T>
 void inv(const T A[2][2], T result[2][2])
 {
 	const auto d = det(A);
@@ -372,16 +359,14 @@ void inv(const T A[2][2], T result[2][2])
 	result[1][1] = +A[0][0] / d;
 }
 
-template <typename T>
-requires std::is_floating_point_v<T>
+template <std::floating_point T>
 void mul(const T A[2][2], const T X[2], T result[2])
 {
 	result[0] = A[0][0] * X[0] + A[0][1] * X[1];
 	result[1] = A[1][0] * X[0] + A[1][1] * X[1];
 }
 
-template <typename T>
-requires std::is_floating_point_v<T>
+template <std::floating_point T>
 void ligas_Jacobian(const T w, const T we, const T z, const T ze,
                     T result[2][2])
 {
@@ -393,8 +378,7 @@ void ligas_Jacobian(const T w, const T we, const T z, const T ze,
 
 constexpr int _lines_ligas_util = 3 + 3 + 3 + 8 + 4 + 6;
 
-template <typename T>
-requires std::is_floating_point_v<T>
+template <std::floating_point T>
 auto lin_wang_1995_delta_m(const T w2, const T z2, const T m)
 {
 	const auto tmp_a = WGS84<T>.a + 2 * m / WGS84<T>.a;
@@ -408,8 +392,7 @@ auto lin_wang_1995_delta_m(const T w2, const T z2, const T m)
 
 constexpr int _lines_lin_wang_1995_delta_m = 9;
 
-template <typename T>
-requires std::is_floating_point_v<T>
+template <std::floating_point T>
 auto shu_2010_delta_k(const T w2, const T z2, const T k)
 {
 	const auto p = WGS84<T>.a + WGS84<T>.b * k;
@@ -425,8 +408,7 @@ auto shu_2010_delta_k(const T w2, const T z2, const T k)
 
 constexpr int _lines_shu_2010_delta_k = 11;
 
-template <typename T>
-requires std::is_floating_point_v<T>
+template <std::floating_point T>
 auto wu_2003_delta_t(const T A, const T B, const T C, const T t)
 {
 	const auto t2 = t * t;
@@ -874,24 +856,21 @@ namespace fukushima_1999_1
 // {{{
 {
 
-template <typename T>
-requires std::is_floating_point_v<T>
+template <std::floating_point T>
 auto f(const T t, const T u, const T v, const T w)
 {
 	// w * t**4 + u * t**3 + v * t - w
 	return w * t * t * t * t + u * t * t * t + v * t - w;
 }
 
-template <typename T>
-requires std::is_floating_point_v<T>
+template <std::floating_point T>
 auto fp(const T t, const T u, const T v, const T w)
 {
 	// 4 * w * t**3 + 3 * u * t**2 + v
 	return 4 * w * t * t * t + 3 * u * t * t + v;
 }
 
-template <typename T>
-requires std::is_floating_point_v<T>
+template <std::floating_point T>
 auto fpp(const T t, const T u, [[gnu::unused]] const T v, const T w)
 {
 	// 12 * w * t**2 + 6 * u * t
@@ -1016,24 +995,21 @@ namespace fukushima_1999_customht_1
 {
 #define USE_CUSTOM_HT
 
-template <typename T>
-requires std::is_floating_point_v<T>
+template <std::floating_point T>
 auto f(const T t, const T u, const T v, const T w)
 {
 	// w * t**4 + u * t**3 + v * t - w
 	return w * t * t * t * t + u * t * t * t + v * t - w;
 }
 
-template <typename T>
-requires std::is_floating_point_v<T>
+template <std::floating_point T>
 auto fp(const T t, const T u, const T v, const T w)
 {
 	// 4 * w * t**3 + 3 * u * t**2 + v
 	return 4 * w * t * t * t + 3 * u * t * t + v;
 }
 
-template <typename T>
-requires std::is_floating_point_v<T>
+template <std::floating_point T>
 auto fpp(const T t, const T u, [[gnu::unused]] const T v, const T w)
 {
 	// 12 * w * t**2 + 6 * u * t
@@ -3852,8 +3828,7 @@ namespace openglobe
 {
 
 constexpr int _line_begin = __LINE__;
-template <typename T>
-requires std::is_floating_point_v<T>
+template <std::floating_point T>
 struct Vector3D
 {
 	T x{};
@@ -3914,8 +3889,7 @@ struct Vector3D
 	}
 };
 
-template <typename T>
-requires std::is_floating_point_v<T>
+template <std::floating_point T>
 struct Geodetic2D
 {
 	T lat_rad{};
@@ -3932,8 +3906,7 @@ struct Geodetic2D
 
 };
 
-template <typename T>
-requires std::is_floating_point_v<T>
+template <std::floating_point T>
 struct Geodetic3D
 {
 	T lat_rad{};
@@ -3958,8 +3931,7 @@ struct Geodetic3D
 	{}
 };
 
-template <typename T>
-requires std::is_floating_point_v<T>
+template <std::floating_point T>
 auto ScaleToGeodeticSurface(const Vector3D<T>& position)
 {
 	const auto x = position.x;
@@ -4018,8 +3990,7 @@ auto ScaleToGeodeticSurface(const Vector3D<T>& position)
 			z / db};
 }
 
-template <typename T>
-requires std::is_floating_point_v<T>
+template <std::floating_point T>
 auto GeodeticSurfaceNormal(const Vector3D<T>& positionOnEllipsoid)
 {
 	return positionOnEllipsoid.multiply(Vector3D<T>{
@@ -4028,8 +3999,7 @@ auto GeodeticSurfaceNormal(const Vector3D<T>& positionOnEllipsoid)
 				1 / WGS84<T>.b2}).normalize();
 }
 
-template <typename T>
-requires std::is_floating_point_v<T>
+template <std::floating_point T>
 auto ToGeodetic2D(const Vector3D<T>& positionOnEllipsoid)
 {
 	auto n = GeodeticSurfaceNormal(positionOnEllipsoid);
@@ -4039,8 +4009,7 @@ auto ToGeodetic2D(const Vector3D<T>& positionOnEllipsoid)
 		};
 }
 
-template <typename T>
-requires std::is_floating_point_v<T>
+template <std::floating_point T>
 auto ToGeodetic3D(const Vector3D<T>& position)
 {
 	const auto p = ScaleToGeodeticSurface(position);
@@ -4761,8 +4730,7 @@ namespace sedris
 {
 
 constexpr int _line_begin = __LINE__;
-template <typename T>
-requires std::is_floating_point_v<T>
+template <std::floating_point T>
 auto gee(const T h, const T rn)
 {
 	return (rn + h) / ((1 - WGS84<T>.e2) * rn + h);
@@ -4773,8 +4741,7 @@ auto gee(const T h, const T rn)
  *
  *   Used to hold precomputed constants specific to a GC to GD transformation
  */
-template <typename T>
-requires std::is_floating_point_v<T>
+template <std::floating_point T>
 struct SRM_GC_GD_Specific_Constants
 {
 	T b1[5];
@@ -4786,8 +4753,7 @@ struct SRM_GC_GD_Specific_Constants
 	T v[5];
 };
 
-template <typename T>
-requires std::is_floating_point_v<T>
+template <std::floating_point T>
 void set_gc_to_gd_constants(SRM_GC_GD_Specific_Constants<T>& gc_gd_spec)
 {
 	/*old function prototype
@@ -5374,8 +5340,7 @@ namespace sedris_customht
 #define USE_CUSTOM_HT
 
 constexpr int _line_begin = __LINE__;
-template <typename T>
-requires std::is_floating_point_v<T>
+template <std::floating_point T>
 auto gee(const T h, const T rn)
 {
 	return (rn + h) / ((1 - WGS84<T>.e2) * rn + h);
@@ -5386,8 +5351,7 @@ auto gee(const T h, const T rn)
  *
  *   Used to hold precomputed constants specific to a GC to GD transformation
  */
-template <typename T>
-requires std::is_floating_point_v<T>
+template <std::floating_point T>
 struct SRM_GC_GD_Specific_Constants
 {
 	T b1[5];
@@ -5399,8 +5363,7 @@ struct SRM_GC_GD_Specific_Constants
 	T v[5];
 };
 
-template <typename T>
-requires std::is_floating_point_v<T>
+template <std::floating_point T>
 void set_gc_to_gd_constants(SRM_GC_GD_Specific_Constants<T>& gc_gd_spec)
 {
 	/*old function prototype
