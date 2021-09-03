@@ -15,8 +15,18 @@
 #include <string>
 #include <type_traits>
 
+/// the ellipsoid to use
 constexpr auto ell = WGS84<double>;
 
+/// get the 2D hypotenuse
+/**
+\sa https://mathworld.wolfram.com/Norm.html
+\sa https://mathworld.wolfram.com/VectorNorm.html
+\sa https://mathworld.wolfram.com/L2-Norm.html
+\sa https://en.cppreference.com/w/cpp/numeric/math/hypot
+\param[in,out] x,y the vector coordinates
+\return the 2D hypotenuse
+*/
 template <typename T>
 requires std::is_floating_point_v<T>
 auto hypot(const T x, const T y)
@@ -43,6 +53,20 @@ void normalize(T& x, T& y)
 	const auto h = hypot(x, y);
 	x /= h;
 	y /= h;
+}
+
+/// get the cosine of the angle, given the sine of the angle
+/**
+\pre original angle is in the interval [-90°, +90°]
+\pre abs(\a sin_x) <= 1
+\param sin_x the sine of the angle
+\return the cosine of the angle
+*/
+template <typename T>
+requires std::is_floating_point_v<T>
+auto cos_from_sin(const T sin_x)
+{
+	return std::sqrt(1 - sin_x * sin_x);
 }
 
 // these are the lines in the function params and after the function body
@@ -1361,6 +1385,9 @@ COMMON_FIRST_DECLS
 #else
 	// sin and cos are sufficiently accurate (and normalized) to be used in the ell.get_ht function, but this is more accurate
 	ht = ell.get_ht(w, z, lat_rad);
+	// XXX: is this better?
+	//normalize(cos_lat, sin_lat);
+	//ht = ell.get_ht(w, z, sin_lat, cos_lat);
 #endif
 }
 constexpr int _line_end = __LINE__;
@@ -1489,6 +1516,9 @@ COMMON_FIRST_DECLS
 #else
 	// sin and cos are sufficiently accurate (and normalized) to be used in the ell.get_ht function, but this is more accurate
 	ht = ell.get_ht(w, z, lat_rad);
+	// XXX: is this better?
+	//normalize(cos_lat, sin_lat);
+	//ht = ell.get_ht(w, z, sin_lat, cos_lat);
 #endif
 }
 constexpr int _line_end = __LINE__;
@@ -6225,7 +6255,9 @@ COMMON_FIRST_DECLS
 
 	lat_rad = std::asin(sin_lat);
 
-	ht = ell.get_ht(w, z, lat_rad);
+	//ht = ell.get_ht(w, z, lat_rad);
+	const auto cos_lat = cos_from_sin(sin_lat);
+	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int _line_end = __LINE__;
 
@@ -6294,7 +6326,9 @@ COMMON_FIRST_DECLS
 
 	lat_rad = std::asin(sin_lat);
 
-	ht = ell.get_ht(w, z, lat_rad);
+	//ht = ell.get_ht(w, z, lat_rad);
+	const auto cos_lat = cos_from_sin(sin_lat);
+	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int _line_end = __LINE__;
 
@@ -6367,7 +6401,9 @@ COMMON_FIRST_DECLS
 
 	lat_rad = std::asin(sin_lat);
 
-	ht = ell.get_ht(w, z, lat_rad);
+	//ht = ell.get_ht(w, z, lat_rad);
+	const auto cos_lat = cos_from_sin(sin_lat);
+	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 /*
 #ifdef USE_CUSTOM_HT
 	const auto Rn = ell.get_Rn(sin_lat);
