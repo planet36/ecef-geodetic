@@ -268,7 +268,7 @@ void get_f_fp(const T w, const T z, const T sin_lat, const T cos_lat,
 	fp = Rn * (d2 - (1 - WGS84<T>.e2) / d2) - w * cos_lat - z * sin_lat;
 }
 
-constexpr int _lines_f_fp = 7;
+constexpr int _lines_f_fp = 10;
 
 /// get f, f', f''
 template <std::floating_point T>
@@ -283,7 +283,7 @@ void get_f_fp_fpp(const T w, const T z, const T sin_lat, const T cos_lat,
 	fpp = -Rn * WGS84<T>.e2 * sin_lat * cos_lat * (d2 + 3 * (1 - WGS84<T>.e2) / d2) / d2 + w * sin_lat - z * cos_lat;
 }
 
-constexpr int _lines_f_fp_fpp = 8;
+constexpr int _lines_f_fp_fpp = 11;
 
 template <std::floating_point T>
 auto newton_raphson_delta_lat(const T w, const T z,
@@ -294,7 +294,7 @@ auto newton_raphson_delta_lat(const T w, const T z,
 	return f / fp;
 }
 
-constexpr int _lines_newton_raphson_delta_lat = 5 + _lines_f_fp;
+constexpr int _lines_newton_raphson_delta_lat = 8 + _lines_f_fp;
 
 template <std::floating_point T>
 auto householder_delta_lat(const T w, const T z,
@@ -305,7 +305,7 @@ auto householder_delta_lat(const T w, const T z,
 	return (f / fp) * (1 + 0.5 * f * fpp / (fp * fp));
 }
 
-constexpr int _lines_householder_delta_lat = 5 + _lines_f_fp_fpp;
+constexpr int _lines_householder_delta_lat = 8 + _lines_f_fp_fpp;
 
 template <std::floating_point T>
 auto schroder_delta_lat(const T w, const T z,
@@ -316,7 +316,7 @@ auto schroder_delta_lat(const T w, const T z,
 	return (f * fp) / (fp * fp - f * fpp);
 }
 
-constexpr int _lines_schroder_delta_lat = 5 + _lines_f_fp_fpp;
+constexpr int _lines_schroder_delta_lat = 8 + _lines_f_fp_fpp;
 
 template <std::floating_point T>
 auto halley_delta_lat(const T w, const T z,
@@ -327,7 +327,7 @@ auto halley_delta_lat(const T w, const T z,
 	return (f * fp) / (fp * fp - 0.5 * f * fpp);
 }
 
-constexpr int _lines_halley_delta_lat = 5 + _lines_f_fp_fpp;
+constexpr int _lines_halley_delta_lat = 8 + _lines_f_fp_fpp;
 
 template <std::floating_point T>
 auto ligas_f1(const T w, const T we,
@@ -376,7 +376,7 @@ void ligas_Jacobian(const T w, const T we, const T z, const T ze,
 	result[1][1] = 2 * ze;
 }
 
-constexpr int _lines_ligas_util = 3 + 3 + 3 + 8 + 4 + 6;
+constexpr int _lines_ligas_util = 46;
 
 template <std::floating_point T>
 auto lin_wang_1995_delta_m(const T w2, const T z2, const T m)
@@ -390,7 +390,7 @@ auto lin_wang_1995_delta_m(const T w2, const T z2, const T m)
 	return f / fp;
 }
 
-constexpr int _lines_lin_wang_1995_delta_m = 9;
+constexpr int _lines_lin_wang_1995_delta_m = 11;
 
 template <std::floating_point T>
 auto shu_2010_delta_k(const T w2, const T z2, const T k)
@@ -406,7 +406,7 @@ auto shu_2010_delta_k(const T w2, const T z2, const T k)
 	return f / fp;
 }
 
-constexpr int _lines_shu_2010_delta_k = 11;
+constexpr int _lines_shu_2010_delta_k = 13;
 
 template <std::floating_point T>
 auto wu_2003_delta_t(const T A, const T B, const T C, const T t)
@@ -421,7 +421,7 @@ auto wu_2003_delta_t(const T A, const T B, const T C, const T t)
 	return f / fp;
 }
 
-constexpr int _lines_wu_2003_delta_t = 10;
+constexpr int _lines_wu_2003_delta_t = 12;
 
 namespace borkowski_1989
 // {{{
@@ -971,7 +971,7 @@ COMMON_FIRST_DECLS
 }
 constexpr int _line_end = __LINE__;
 
-constexpr int _lines_extra = 17;
+constexpr int _lines_extra = 20;
 
 const auto func_info = func_info_t(
 	/*.func_ref                    =*/ ecef_to_geodetic,
@@ -1110,7 +1110,7 @@ COMMON_FIRST_DECLS
 }
 constexpr int _line_end = __LINE__;
 
-constexpr int _lines_extra = 17;
+constexpr int _lines_extra = 20;
 
 const auto func_info = func_info_t(
 	/*.func_ref                    =*/ ecef_to_geodetic,
@@ -4079,8 +4079,8 @@ COMMON_FIRST_DECLS_CHECKED
 	const auto G = tmp2 * tmp2 - 4 * (I - K);
 	const auto u = (tmp2 + std::sqrt(G)) / 2;
 
+	// tangent half-angle formula, but this is u**2 - 1 instead of 1 - u**2
 	// https://en.wikipedia.org/wiki/Tangent_half-angle_formula
-	// ##### XXX: but this is u**2 - 1 instead of 1 - u**2
 	auto sin_lat = 2 * u;
 	auto cos_lat = (u * u - 1) * (1 - ell.f);
 
