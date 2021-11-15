@@ -7,16 +7,16 @@ OBJS = $(SRCS:.c=.o)
 
 CPPFLAGS += -MMD -MP
 CFLAGS += -Wno-old-style-definition
-LDFLAGS += -lm
+LDLIBS += -lm
 
 ecef_to_geodetic: $(OBJS)
-	$(CC) $^ -o $@ $(LDFLAGS)
+	$(CC) $^ -o $@ $(LDLIBS)
 
 clean:
 	@$(RM) --verbose -- $(DEPS) $(OBJS) ecef_to_geodetic *.so test *~ core core.[[:digit:]]*
 
 lint:
-	clang-tidy --quiet $(SRCS) -- $(CPPFLAGS) $(CFLAGS) $(LDFLAGS)
+	clang-tidy --quiet $(SRCS) -- $(CPPFLAGS) $(CFLAGS) $(LDLIBS)
 
 # https://www.gnu.org/software/make/manual/make.html#Phony-Targets
 .PHONY: clean lint
