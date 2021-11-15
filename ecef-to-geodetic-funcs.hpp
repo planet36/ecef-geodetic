@@ -122,9 +122,6 @@ constexpr int _lines_common_first_decls = 4;
 // these are the lines in the common first decls (checked)
 constexpr int _lines_common_first_decls_checked = 28;
 
-//#undef COMMON_FIRST_DECLS
-//#define COMMON_FIRST_DECLS COMMON_FIRST_DECLS_CHECKED
-
 struct func_info_t
 {
 	void (&func_ref)(const double, const double, const double,
@@ -7073,3 +7070,11 @@ Zhu, Jijie. (1993). Exact Conversion of Earth-Centered Earth-Fixed Coordinates t
 
 }
 // }}}
+
+#undef SQ
+#undef CB
+#undef POW4
+#undef POW5
+#undef POW6
+#undef COMMON_FIRST_DECLS
+#undef COMMON_FIRST_DECLS_CHECKED
