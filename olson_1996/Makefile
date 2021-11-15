@@ -6,6 +6,7 @@ DEPS = $(SRCS:.c=.d)
 OBJS = $(SRCS:.c=.o)
 
 CPPFLAGS += -MMD -MP
+CFLAGS += -Wno-old-style-definition
 LDFLAGS += -lm
 
 ecef_to_geodetic: $(OBJS)
