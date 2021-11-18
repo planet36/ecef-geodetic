@@ -1,21 +1,19 @@
-#!/usr/bin/bash
 
-if [[ ! -f angle.hpp ]]
-then
-	curl -O 'https://raw.githubusercontent.com/planet36/dotfiles/main/link/.local/include/angle.hpp'
-fi
+ROOT_URL='https://raw.githubusercontent.com/planet36/dotfiles/main/link/.local/include'
 
-if [[ ! -f angle-utils.hpp ]]
-then
-	curl -O 'https://raw.githubusercontent.com/planet36/dotfiles/main/link/.local/include/angle-utils.hpp'
-fi
-
-if [[ ! -f ellipsoid.hpp ]]
-then
-	curl -O 'https://raw.githubusercontent.com/planet36/dotfiles/main/link/.local/include/ellipsoid.hpp'
-fi
-
-if [[ ! -f ellipsoid-wgs84.hpp ]]
-then
-	curl -O 'https://raw.githubusercontent.com/planet36/dotfiles/main/link/.local/include/ellipsoid-wgs84.hpp'
-fi
+for F in \
+angle-utils.hpp \
+angle.hpp \
+character.hpp \
+ellipsoid-wgs84.hpp \
+ellipsoid.hpp \
+math-const.hpp \
+number.hpp \
+sin_cos.hpp
+do
+	if [[ ! -f "$F" ]]
+	then
+		echo "$F"
+		curl -O "$ROOT_URL/$F"
+	fi
+done
