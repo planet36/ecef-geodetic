@@ -81,7 +81,7 @@ auto cos_from_sin(const T sin_x)
 #define COMMON_FIRST_DECLS \
 	const auto w2 = x * x + y * y; \
 	const auto w = std::sqrt(w2); \
-	[[gnu::unused]] const auto z2 = z * z; \
+	[[maybe_unused]] const auto z2 = z * z; \
 	lon_rad = std::atan2(y, x); \
 
 // these are the lines in the common first decls
@@ -117,7 +117,7 @@ constexpr int _lines_common_first_decls = 4;
 		ht = w - ell.a; \
 		return; \
 	} \
-	[[gnu::unused]] const auto z2 = z * z; \
+	[[maybe_unused]] const auto z2 = z * z; \
 
 // these are the lines in the common first decls (checked)
 constexpr int _lines_common_first_decls_checked = 28;
@@ -868,7 +868,7 @@ auto fp(const T t, const T u, const T v, const T w)
 }
 
 template <std::floating_point T>
-auto fpp(const T t, const T u, [[gnu::unused]] const T v, const T w)
+auto fpp(const T t, const T u, [[maybe_unused]] const T v, const T w)
 {
 	// 12 * w * t**2 + 6 * u * t
 	return 12 * w * t * t + 6 * u * t;
@@ -1007,7 +1007,7 @@ auto fp(const T t, const T u, const T v, const T w)
 }
 
 template <std::floating_point T>
-auto fpp(const T t, const T u, [[gnu::unused]] const T v, const T w)
+auto fpp(const T t, const T u, [[maybe_unused]] const T v, const T w)
 {
 	// 12 * w * t**2 + 6 * u * t
 	return 12 * w * t * t + 6 * u * t;
@@ -1550,7 +1550,7 @@ COMMON_FIRST_DECLS
 	constexpr auto B4 = 0.133733602228679E+14;
 	constexpr auto B5 = 0.984537701867943E+00;
 
-	[[gnu::unused]] double /*w2,w,z2,*/testu,testb,top,top2,rr,q,s12,rnn,s1,/*zp2,wp,wp2,*/cf,gee,alpha,cl,arg2,p,xarg,r2,r1,ro,
+	[[maybe_unused]] double /*w2,w,z2,*/testu,testb,top,top2,rr,q,s12,rnn,s1,/*zp2,wp,wp2,*/cf,gee,alpha,cl,arg2,p,xarg,r2,r1,ro,
 		   s,roe,arg,v,zo;
 
 	//for (int i=0; i < count; i++)
@@ -1781,7 +1781,7 @@ COMMON_FIRST_DECLS
 	constexpr auto B4 = 0.133733602228679E+14;
 	constexpr auto B5 = 0.984537701867943E+00;
 
-	[[gnu::unused]] double /*w2,w,z2,*/testu,testb,top,top2,rr,q,s12,rnn,s1,/*zp2,wp,wp2,*/cf,gee,alpha,cl,arg2,p,xarg,r2,r1,ro,
+	[[maybe_unused]] double /*w2,w,z2,*/testu,testb,top,top2,rr,q,s12,rnn,s1,/*zp2,wp,wp2,*/cf,gee,alpha,cl,arg2,p,xarg,r2,r1,ro,
 		   s,roe,arg,v,zo;
 
 	//for (int i=0; i < count; i++)
@@ -4930,7 +4930,7 @@ COMMON_FIRST_DECLS
 	double arg;
 	double p;
 	double s1;
-	[[gnu::unused]] double s12;
+	[[maybe_unused]] double s12;
 
 	double alpha;
 	double arg2;
@@ -5540,7 +5540,7 @@ COMMON_FIRST_DECLS
 	double arg;
 	double p;
 	double s1;
-	[[gnu::unused]] double s12;
+	[[maybe_unused]] double s12;
 
 	double alpha;
 	double arg2;
