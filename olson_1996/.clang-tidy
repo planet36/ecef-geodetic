@@ -1,6 +1,6 @@
 # vim: set ft=yaml:
 # https://clang.llvm.org/extra/clang-tidy/#using-clang-tidy
 ---
-Checks: 'bugprone-*,cppcoreguildlines-*,cert-*,google-*,hicpp-*,llvm-*,modernize-*,performance-*,readability-*,-bugprone-narrowing-conversions,-bugprone-signed-char-misuse,-cert-str34-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-google-readability-braces-around-statements,-hicpp-braces-around-statements,-hicpp-named-parameter,-hicpp-signed-bitwise,-llvm-else-after-return,-readability-braces-around-statements,-readability-isolate-declaration,-readability-magic-numbers,-readability-named-parameter,-readability-else-after-return,-readability-function-cognitive-complexity'
+Checks: 'bugprone-*,cppcoreguildlines-*,cert-*,google-*,hicpp-*,llvm-*,modernize-*,performance-*,readability-*,-bugprone-easily-swappable-parameters,-bugprone-narrowing-conversions,-bugprone-signed-char-misuse,-cert-str34-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-google-readability-braces-around-statements,-hicpp-braces-around-statements,-hicpp-named-parameter,-hicpp-signed-bitwise,-llvm-else-after-return,-llvm-header-guard,-readability-braces-around-statements,-readability-isolate-declaration,-readability-magic-numbers,-readability-named-parameter,-readability-else-after-return,-readability-function-cognitive-complexity'
 HeaderFilterRegex: '.*'
 ...
