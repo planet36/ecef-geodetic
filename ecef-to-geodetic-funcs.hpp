@@ -1558,8 +1558,7 @@ COMMON_FIRST_DECLS
 
 	/* CHECK FOR SPECIAL CASES*/
 
-	if (!(x == 0)) {;} /* null statement */
-	else
+	if (x == 0)
 	{
 		if (y > 0)
 		{
@@ -1637,14 +1636,10 @@ COMMON_FIRST_DECLS
 		/* TEST FOR H NEAR POLE.  if SIN(_)**2 <= SIN(45.)**2 THEN NOT NEAR A POLE.*/
 
 		if (s12 < 0.5)
-		{
 			ht = q - rnn;
-		}
 		else
-		{
 			//ht = z / s1 + ((ell.e2 - 1) * rnn);
 			ht = z / s1 - (1 - ell.e2) * rnn;
-		}
 #endif
 		//lat_rad = std::atan(top / w);
 		lat_rad = std::atan2(top, w);
@@ -1656,7 +1651,9 @@ COMMON_FIRST_DECLS
 		cf = 54 * ell.b2 * z2;
 
 		//gee = w2 - ((ell.e2 - 1) * z2) - ell.e2 * (ell.a2 - ell.b2);
-		gee = w2 + (1 - ell.e2) * z2 - ell.e2 * (ell.a2 - ell.b2);
+		// a2-b2 == a2*e2
+		//gee = w2 + (1 - ell.e2) * z2 - ell.e2 * (ell.a2 - ell.b2);
+		gee = w2 + (1 - ell.e2) * z2 - ell.e2 * ell.a2 * ell.e2;
 
 		alpha = cf / (gee * gee);
 
@@ -1685,13 +1682,9 @@ COMMON_FIRST_DECLS
 		/* DUE TO PRECISION ERRORS THE ARGUMENT MAY BECOME NEGATIVE IF SO SET THE ARGUMENT TO ZERO.*/
 
 		if (r1 + r2 > 0)
-		{
 			ro = ell.a * std::sqrt(0.5 * (r1 + r2));
-		}
 		else
-		{
 			ro = 0;
-		}
 
 		ro = ro - p * ell.e2 * w / (1 + q);
 
@@ -1702,11 +1695,14 @@ COMMON_FIRST_DECLS
 		arg = SQ(w - roe) + z2;
 		v = std::sqrt(arg - ell.e2 * z2);
 
-		zo = (ell.b2 / ell.a) * z / v;
+		// b2/a == b*(1-f) == a*(1-e2)
+		//zo = (ell.b2 / ell.a) * z / v;
+		zo = (ell.a * (1 - ell.e2)) * z / v;
 
 #ifdef USE_CUSTOM_HT
-		// b2/a == b*(1-f)
-		ht = std::sqrt(arg) * (1 - (ell.b2 / ell.a) / v);
+		// b2/a == b*(1-f) == a*(1-e2)
+		//ht = std::sqrt(arg) * (1 - (ell.b2 / ell.a) / v);
+		ht = std::sqrt(arg) * (1 - (ell.a * (1 - ell.e2)) / v);
 #endif
 
 		// (a2-b2)/b2 == ep2
@@ -1788,8 +1784,7 @@ COMMON_FIRST_DECLS
 
 	/* CHECK FOR SPECIAL CASES*/
 
-	if (!(x == 0)) {;} /* null statement */
-	else
+	if (x == 0)
 	{
 		if (y > 0)
 		{
@@ -1867,14 +1862,10 @@ COMMON_FIRST_DECLS
 		/* TEST FOR H NEAR POLE.  if SIN(_)**2 <= SIN(45.)**2 THEN NOT NEAR A POLE.*/
 
 		if (s12 < 0.5)
-		{
 			ht = q - rnn;
-		}
 		else
-		{
 			//ht = z / s1 + ((ell.e2 - 1) * rnn);
 			ht = z / s1 - (1 - ell.e2) * rnn;
-		}
 #endif
 		//lat_rad = std::atan(top / w);
 		lat_rad = std::atan2(top, w);
@@ -1886,7 +1877,9 @@ COMMON_FIRST_DECLS
 		cf = 54 * ell.b2 * z2;
 
 		//gee = w2 - ((ell.e2 - 1) * z2) - ell.e2 * (ell.a2 - ell.b2);
-		gee = w2 + (1 - ell.e2) * z2 - ell.e2 * (ell.a2 - ell.b2);
+		// a2-b2 == a2*e2
+		//gee = w2 + (1 - ell.e2) * z2 - ell.e2 * (ell.a2 - ell.b2);
+		gee = w2 + (1 - ell.e2) * z2 - ell.e2 * ell.a2 * ell.e2;
 
 		alpha = cf / (gee * gee);
 
@@ -1915,13 +1908,9 @@ COMMON_FIRST_DECLS
 		/* DUE TO PRECISION ERRORS THE ARGUMENT MAY BECOME NEGATIVE IF SO SET THE ARGUMENT TO ZERO.*/
 
 		if (r1 + r2 > 0)
-		{
 			ro = ell.a * std::sqrt(0.5 * (r1 + r2));
-		}
 		else
-		{
 			ro = 0;
-		}
 
 		ro = ro - p * ell.e2 * w / (1 + q);
 
@@ -1932,11 +1921,14 @@ COMMON_FIRST_DECLS
 		arg = SQ(w - roe) + z2;
 		v = std::sqrt(arg - ell.e2 * z2);
 
-		zo = (ell.b2 / ell.a) * z / v;
+		// b2/a == b*(1-f) == a*(1-e2)
+		//zo = (ell.b2 / ell.a) * z / v;
+		zo = (ell.a * (1 - ell.e2)) * z / v;
 
 #ifdef USE_CUSTOM_HT
-		// b2/a == b*(1-f)
-		ht = std::sqrt(arg) * (1 - (ell.b2 / ell.a) / v);
+		// b2/a == b*(1-f) == a*(1-e2)
+		//ht = std::sqrt(arg) * (1 - (ell.b2 / ell.a) / v);
+		ht = std::sqrt(arg) * (1 - (ell.a * (1 - ell.e2)) / v);
 #endif
 
 		// (a2-b2)/b2 == ep2
@@ -2858,9 +2850,7 @@ COMMON_FIRST_DECLS
 	ht = hypot(w - we, z - ze);
 
 	if (w + std::abs(z) < we + std::abs(ze))
-	{
 		ht = -ht;
-	}
 #else
 	normalize(cos_lat, sin_lat);
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
@@ -2926,9 +2916,7 @@ COMMON_FIRST_DECLS
 	ht = hypot(w - we, z - ze);
 
 	if (w + std::abs(z) < we + std::abs(ze))
-	{
 		ht = -ht;
-	}
 #else
 	normalize(cos_lat, sin_lat);
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
@@ -2994,9 +2982,7 @@ COMMON_FIRST_DECLS
 	ht = hypot(w - we, z - ze);
 
 	if (w + std::abs(z) < we + std::abs(ze))
-	{
 		ht = -ht;
-	}
 #else
 	normalize(cos_lat, sin_lat);
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
@@ -3064,9 +3050,7 @@ COMMON_FIRST_DECLS
 	ht = hypot(w - we, z - ze);
 
 	if (w + std::abs(z) < we + std::abs(ze))
-	{
 		ht = -ht;
-	}
 #else
 	normalize(cos_lat, sin_lat);
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
@@ -3135,9 +3119,7 @@ COMMON_FIRST_DECLS
 	ht = hypot(w - we, z - ze);
 
 	if (w + std::abs(z) < we + std::abs(ze))
-	{
 		ht = -ht;
-	}
 #else
 	normalize(cos_lat, sin_lat);
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
@@ -3845,9 +3827,7 @@ struct Vector3D
 		const auto l = length();
 
 		if (l == 0)
-		{
 			return Vector3D<T>{};
-		}
 
 		return this->scale(1 / l);
 	}
@@ -4773,7 +4753,7 @@ void set_gc_to_gd_constants(SRM_GC_GD_Specific_Constants<T>& gc_gd_spec)
 		del[3] = 4.5E8 - 2.2E7;
 		del[4] = 1E10;
 
-		hmn = -30000;
+		hmn = -30'000;
 
 		for (int i = 0; i < 5; i++)
 		{
@@ -5083,31 +5063,21 @@ END_REGION_CHECK:
 
 #ifdef USE_CUSTOM_HT
 				s12 = top2 / rr;
-
 #if 1
-				double Rn;
-
+				double Rn = 0;
 				/*uses a Newton-Raphson single iteration with
 				excellent first guess usin only multiplications*/
-
 				COMPUTE_RN_FAST(s12, Rn);
 #if 0
 				fprintf(stderr,"rn fast is %.15f\n",Rn);
 #endif
-
 #endif
-
 				if (s12 <= 0.5) /* If between +- 45 degrees lattitude */
-				{
 					ht = q - Rn;
-				}
 				else
-				{
 					//ht = q / ga + ell.a * (-(1 - ell.e2)) * Rn / ell.a;
 					ht = q / ga - (1 - ell.e2) * Rn;
-				}
 #endif
-
 				/******************************************************************
 				Done below at end of function as optimization
 				lon_rad = std::atan2(src.source_y, src.source_x);
@@ -5152,16 +5122,11 @@ END_REGION_CHECK:
 					/*Fast Computation of Rn = a/std::sqrt(1-Eps2*sin_squared(latitude))*/
 
 					if (s12 <= 0.5)
-					{
 						ht = w * q / bot - Rn;
-					}
 					else
-					{
 						ht = z * q / top - (1 - ell.e2) * Rn;
-					}
 				}
 #endif
-
 				lat_rad = std::atan2(top, bot);
 			}
 			break;
@@ -5169,7 +5134,6 @@ END_REGION_CHECK:
 		case REGION_5:
 			{
 				double gee;
-
 #if 0
 				/*!\note This check has been replaced by a higer level check stipulating
 				that we are at no lesser altitude than negative b.
@@ -5180,8 +5144,7 @@ END_REGION_CHECK:
 				 * the center of the earth
 				 */
 
-				if (w2 + z2 < 50000
-				   )
+				if (w2 + z2 < 50'000)
 				{
 #ifdef CONV_DEBUG
 					fprintf(f_ptr, "[SEDRIS CONVERSIONS] Point within 50 "\
@@ -5191,7 +5154,6 @@ END_REGION_CHECK:
 					return 32;
 				}
 #endif
-
 				cf = 54 * ell.b2 * z2;
 				gee = w2 + (1 - ell.e2) * z2 - ell.a2 * e4;
 				{
@@ -5221,13 +5183,9 @@ END_REGION_CHECK:
 					 * NEGATIVE. IF SO SET THE ARGUMENT TO ZERO.
 					 */
 					if (r_1 + r_2 > 0)
-					{
 						ro = ell.a * std::sqrt(0.5 * (r_1 + r_2));
-					}
 					else
-					{
 						ro = 0;
-					}
 					ro -= p * ell.e2 * w / (1 + q);
 				}
 
@@ -5389,7 +5347,7 @@ void set_gc_to_gd_constants(SRM_GC_GD_Specific_Constants<T>& gc_gd_spec)
 		del[3] = 4.5E8 - 2.2E7;
 		del[4] = 1E10;
 
-		hmn = -30000;
+		hmn = -30'000;
 
 		for (int i = 0; i < 5; i++)
 		{
@@ -5699,31 +5657,21 @@ END_REGION_CHECK:
 
 #ifdef USE_CUSTOM_HT
 				s12 = top2 / rr;
-
 #if 1
-				double Rn;
-
+				double Rn = 0;
 				/*uses a Newton-Raphson single iteration with
 				excellent first guess usin only multiplications*/
-
 				COMPUTE_RN_FAST(s12, Rn);
 #if 0
 				fprintf(stderr,"rn fast is %.15f\n",Rn);
 #endif
-
 #endif
-
 				if (s12 <= 0.5) /* If between +- 45 degrees lattitude */
-				{
 					ht = q - Rn;
-				}
 				else
-				{
 					//ht = q / ga + ell.a * (-(1 - ell.e2)) * Rn / ell.a;
 					ht = q / ga - (1 - ell.e2) * Rn;
-				}
 #endif
-
 				/******************************************************************
 				Done below at end of function as optimization
 				lon_rad = std::atan2(src.source_y, src.source_x);
@@ -5768,16 +5716,11 @@ END_REGION_CHECK:
 					/*Fast Computation of Rn = a/std::sqrt(1-Eps2*sin_squared(latitude))*/
 
 					if (s12 <= 0.5)
-					{
 						ht = w * q / bot - Rn;
-					}
 					else
-					{
 						ht = z * q / top - (1 - ell.e2) * Rn;
-					}
 				}
 #endif
-
 				lat_rad = std::atan2(top, bot);
 			}
 			break;
@@ -5785,7 +5728,6 @@ END_REGION_CHECK:
 		case REGION_5:
 			{
 				double gee;
-
 #if 0
 				/*!\note This check has been replaced by a higer level check stipulating
 				that we are at no lesser altitude than negative b.
@@ -5796,8 +5738,7 @@ END_REGION_CHECK:
 				 * the center of the earth
 				 */
 
-				if (w2 + z2 < 50000
-				   )
+				if (w2 + z2 < 50'000)
 				{
 #ifdef CONV_DEBUG
 					fprintf(f_ptr, "[SEDRIS CONVERSIONS] Point within 50 "\
@@ -5807,7 +5748,6 @@ END_REGION_CHECK:
 					return 32;
 				}
 #endif
-
 				cf = 54 * ell.b2 * z2;
 				gee = w2 + (1 - ell.e2) * z2 - ell.a2 * e4;
 				{
@@ -5837,13 +5777,9 @@ END_REGION_CHECK:
 					 * NEGATIVE. IF SO SET THE ARGUMENT TO ZERO.
 					 */
 					if (r_1 + r_2 > 0)
-					{
 						ro = ell.a * std::sqrt(0.5 * (r_1 + r_2));
-					}
 					else
-					{
 						ro = 0;
-					}
 					ro -= p * ell.e2 * w / (1 + q);
 				}
 
@@ -6157,17 +6093,24 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 {
 COMMON_FIRST_DECLS
 
-	// b2 / (a2 - b2) == 1 / ep2
+	// b2/(a2-b2) == 1/ep2
 	const auto p = 1 / ell.ep2;
-	const auto q = ell.b2 * (ell.a2 * w2 + ell.b2 * z2 - SQ(ell.a2 - ell.b2)) /
-	               (SQ(ell.a2 - ell.b2) * z2);
+	// a2-b2 == a2*e2
+	//const auto q = ell.b2 * (ell.a2 * w2 + ell.b2 * z2 - SQ(ell.a2 - ell.b2)) /
+	//               (SQ(ell.a2 - ell.b2) * z2);
+	const auto q = ell.b2 * (ell.a2 * w2 + ell.b2 * z2 - SQ(ell.a2 * ell.e2)) /
+	               (SQ(ell.a2 * ell.e2) * z2);
 	//const auto r = -SQ(ell.b2) / ((ell.a2 - ell.b2) * z2);
+	//const auto r = -SQ(ell.b2) / ((ell.a2 * ell.e2) * z2);
 	// SDW: NaNs at the equator
-	const auto s = -POW6(ell.b) / (SQ(ell.a2 - ell.b2) * z2);
+	//const auto s = -POW6(ell.b) / (SQ(ell.a2 - ell.b2) * z2);
+	const auto s = -POW6(ell.b) / (SQ(ell.a2 * ell.e2) * z2);
 
 	const auto f = -SQ(q) / 12;
+	//const auto h = -CB(q) / 108 - 0.5 * ell.a2 * POW4(ell.b2) * w2 /
+	//                              (POW4(ell.a2 - ell.b2) * POW4(z));
 	const auto h = -CB(q) / 108 - 0.5 * ell.a2 * POW4(ell.b2) * w2 /
-	                              (POW4(ell.a2 - ell.b2) * POW4(z));
+	                              (POW4(ell.a2 * ell.e2) * POW4(z));
 
 	const auto g = SQ(h) / 4 + CB(f) / 27;
 
@@ -6191,8 +6134,10 @@ COMMON_FIRST_DECLS
 	auto sin_lat = (ell.a2 / ell.b2) * z_ / Ne;
 
 	// clamp to valid range
-	if (sin_lat < -1) { sin_lat = -1; }
-	else if (sin_lat > 1) { sin_lat = 1; }
+	if (sin_lat < -1)
+		sin_lat = -1;
+	else if (sin_lat > 1)
+		sin_lat = 1;
 
 	lat_rad = std::asin(sin_lat);
 
@@ -6263,8 +6208,10 @@ COMMON_FIRST_DECLS
 	auto sin_lat = (ell.ep2 + 1) * (Z / Ne);
 
 	// clamp to valid range
-	if (sin_lat < -1) { sin_lat = -1; }
-	else if (sin_lat > 1) { sin_lat = 1; }
+	if (sin_lat < -1)
+		sin_lat = -1;
+	else if (sin_lat > 1)
+		sin_lat = 1;
 
 	lat_rad = std::asin(sin_lat);
 
