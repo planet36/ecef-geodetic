@@ -275,10 +275,11 @@ void get_f_fp_fpp(const T w, const T z, const T sin_lat, const T cos_lat,
 	const auto Rn = WGS84<T>.a / d;
 	f = Rn * WGS84<T>.e2 * sin_lat * cos_lat - w * sin_lat + z * cos_lat;
 	fp = Rn * (d2 - (1 - WGS84<T>.e2) / d2) - w * cos_lat - z * sin_lat;
-	fpp = -Rn * WGS84<T>.e2 * sin_lat * cos_lat * (d2 + 3 * (1 - WGS84<T>.e2) / d2) / d2 + w * sin_lat - z * cos_lat;
+	fpp = -Rn * WGS84<T>.e2 * sin_lat * cos_lat *
+	      (d2 + 3 * (1 - WGS84<T>.e2) / d2) / d2 + w * sin_lat - z * cos_lat;
 }
 
-constexpr int _lines_f_fp_fpp = 11;
+constexpr int _lines_f_fp_fpp = 12;
 
 template <std::floating_point T>
 auto newton_raphson_delta_lat(const T w, const T z,
@@ -1099,7 +1100,8 @@ COMMON_FIRST_DECLS
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
 #ifdef USE_CUSTOM_HT
-	ht = (2 * w * ep * t + z * (1 - t * t) - ell.a * ep * (1 + t * t)) / std::sqrt(SQ(1 + t * t) - 4 * ell.e2 * t * t);
+	ht = (2 * w * ep * t + z * (1 - t * t) - ell.a * ep * (1 + t * t)) /
+	     std::sqrt(SQ(1 + t * t) - 4 * ell.e2 * t * t);
 #else
 	normalize(cos_lat, sin_lat);
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
@@ -1155,7 +1157,8 @@ COMMON_FIRST_DECLS
 	for (int i = 1; i <= max_iterations; ++i)
 	{
 		A_n = hypot(S_n, C_n);
-		B_n = 1.5 * c * S_n * C_n * ((w * S_n - z_c * C_n) * A_n - c * S_n * C_n);
+		B_n = 1.5 * c * S_n * C_n *
+		      ((w * S_n - z_c * C_n) * A_n - c * S_n * C_n);
 
 		// SDW: at great heights (e.g. 8000 km), there is overflow
 		S_n = (z_c * CB(A_n) + c * CB(S_n)) * CB(A_n) - B_n * S_n;
@@ -1219,7 +1222,8 @@ COMMON_FIRST_DECLS
 	for (int i = 1; i <= max_iterations; ++i)
 	{
 		A_n = hypot(S_n, C_n);
-		B_n = 1.5 * c * S_n * C_n * ((w * S_n - z_c * C_n) * A_n - c * S_n * C_n);
+		B_n = 1.5 * c * S_n * C_n *
+		      ((w * S_n - z_c * C_n) * A_n - c * S_n * C_n);
 
 		// SDW: at great heights (e.g. 8000 km), there is overflow
 		S_n = (z_c * CB(A_n) + c * CB(S_n)) * CB(A_n) - B_n * S_n;
@@ -1550,8 +1554,9 @@ COMMON_FIRST_DECLS
 	constexpr auto B4 = 0.133733602228679E+14;
 	constexpr auto B5 = 0.984537701867943E+00;
 
-	[[maybe_unused]] double /*w2,w,z2,*/testu,testb,top,top2,rr,q,s12,rnn,s1,/*zp2,wp,wp2,*/cf,gee,alpha,cl,arg2,p,xarg,r2,r1,ro,
-		   s,roe,arg,v,zo;
+	[[maybe_unused]] double /*w2,w,z2,*/testu,testb,top,top2,rr,q,s12,rnn,s1,
+	                        /*zp2,wp,wp2,*/cf,gee,alpha,cl,arg2,p,xarg,r2,r1,ro,
+	                        s,roe,arg,v,zo;
 
 	//for (int i=0; i < count; i++)
 	//{
@@ -1628,7 +1633,9 @@ COMMON_FIRST_DECLS
 
 		s12 = top2 / rr;
 
-		rnn = ell.a / ((0.25 - 0.25 * ell.e2 * s12 + .9999944354799 / 4) + (0.25 - 0.25 * ell.e2 * s12) / (0.25 - 0.25 * ell.e2 * s12 + .9999944354799 / 4));
+		rnn = ell.a / ((0.25 - 0.25 * ell.e2 * s12 + .9999944354799 / 4) +
+		               (0.25 - 0.25 * ell.e2 * s12) /
+		               (0.25 - 0.25 * ell.e2 * s12 + .9999944354799 / 4));
 		s1 = top / q;
 
 		/******************************************************************/
@@ -1776,8 +1783,9 @@ COMMON_FIRST_DECLS
 	constexpr auto B4 = 0.133733602228679E+14;
 	constexpr auto B5 = 0.984537701867943E+00;
 
-	[[maybe_unused]] double /*w2,w,z2,*/testu,testb,top,top2,rr,q,s12,rnn,s1,/*zp2,wp,wp2,*/cf,gee,alpha,cl,arg2,p,xarg,r2,r1,ro,
-		   s,roe,arg,v,zo;
+	[[maybe_unused]] double /*w2,w,z2,*/testu,testb,top,top2,rr,q,s12,rnn,s1,
+	                        /*zp2,wp,wp2,*/cf,gee,alpha,cl,arg2,p,xarg,r2,r1,ro,
+	                        s,roe,arg,v,zo;
 
 	//for (int i=0; i < count; i++)
 	//{
@@ -1854,7 +1862,9 @@ COMMON_FIRST_DECLS
 
 		s12 = top2 / rr;
 
-		rnn = ell.a / ((0.25 - 0.25 * ell.e2 * s12 + .9999944354799 / 4) + (0.25 - 0.25 * ell.e2 * s12) / (0.25 - 0.25 * ell.e2 * s12 + .9999944354799 / 4));
+		rnn = ell.a / ((0.25 - 0.25 * ell.e2 * s12 + .9999944354799 / 4) +
+		               (0.25 - 0.25 * ell.e2 * s12) /
+		               (0.25 - 0.25 * ell.e2 * s12 + .9999944354799 / 4));
 		s1 = top / q;
 
 		/******************************************************************/
@@ -2896,7 +2906,8 @@ COMMON_FIRST_DECLS
 #else
 	const auto tmp = z2 / ell.b2 + w2 / ell.a2;
 
-	auto m = 0.5 * ell.a2 * ell.b2 * tmp * (std::sqrt(tmp) - 1) / (z2 / (1 - ell.e2) + w2 * (1 - ell.e2));
+	auto m = 0.5 * ell.a2 * ell.b2 * tmp * (std::sqrt(tmp) - 1) /
+	         (z2 / (1 - ell.e2) + w2 * (1 - ell.e2));
 #endif
 
 	for (int i = 1; i <= max_iterations; ++i)
@@ -2962,7 +2973,8 @@ COMMON_FIRST_DECLS
 #else
 	const auto tmp = z2 / ell.b2 + w2 / ell.a2;
 
-	auto m = 0.5 * ell.a2 * ell.b2 * tmp * (std::sqrt(tmp) - 1) / (z2 / (1 - ell.e2) + w2 * (1 - ell.e2));
+	auto m = 0.5 * ell.a2 * ell.b2 * tmp * (std::sqrt(tmp) - 1) /
+	         (z2 / (1 - ell.e2) + w2 * (1 - ell.e2));
 #endif
 
 	for (int i = 1; i <= max_iterations; ++i)
@@ -3163,7 +3175,8 @@ COMMON_FIRST_DECLS
 	// lat_c == geocentric latitude
 	// r == geocentric distance, units of a
 
-	lat_rad = lat_c + ell.f * std::sin(2 * lat_c) / r + ell.f * ell.f * ((1 / (w2 + z2) - 1 / (4 * r)) * std::sin(4 * lat_c));
+	lat_rad = lat_c + ell.f * std::sin(2 * lat_c) / r + ell.f * ell.f *
+	          ((1 / (w2 + z2) - 1 / (4 * r)) * std::sin(4 * lat_c));
 
 	ht = ell.get_ht(w, z, lat_rad);
 /*
@@ -4103,7 +4116,8 @@ COMMON_FIRST_DECLS
 	auto sin_lat = sigma + z / 2;
 	auto cos_lat = w;
 #else
-	auto sin_lat = z / 2 + sqrt_t + std::sqrt(z2 / 4 - beta / 2 - t + 0.25 * alpha * z / sqrt_t);
+	auto sin_lat = z / 2 + sqrt_t +
+	               std::sqrt(z2 / 4 - beta / 2 - t + 0.25 * alpha * z / sqrt_t);
 	auto cos_lat = w;
 #endif
 
@@ -6129,7 +6143,8 @@ COMMON_FIRST_DECLS
 
 	auto w_ = ell.a * std::sqrt(1 - SQ(z_ / ell.b));
 
-	const auto Ne = std::sqrt(POW4(ell.a) * SQ(z_) + POW4(ell.b) * SQ(w_)) / ell.b2;
+	const auto Ne = std::sqrt(POW4(ell.a) * SQ(z_) + POW4(ell.b) * SQ(w_)) /
+	                ell.b2;
 
 	auto sin_lat = (ell.a2 / ell.b2) * z_ / Ne;
 
@@ -6273,14 +6288,12 @@ COMMON_FIRST_DECLS
 			SQ(a_3) / (4 * SQ(a_4))
 			- 2 * a_2 / (3 * a_4)
 			+ std::cbrt(2 * b_2) / (3 * a_4 * b_3)
-			+ b_3 / (3 * std::cbrt(2 * a_4))
-			);
+			+ b_3 / (3 * std::cbrt(2 * a_4)));
 	const auto b_5 = SQ(a_3) / (2 * SQ(a_4))
 		- 4 * a_2 / (3 * a_4)
 		+ std::cbrt(2 * b_2) / (3 * a_4 * b_3)
 		- b_3 / (3 * std::cbrt(2 * a_4))
-		+ (CB(a_3) - 4 * a_2 * a_3 * a_4 + 8 * a_1 * SQ(a_4)) / (4 * CB(a_4) * b_4)
-		;
+		+ (CB(a_3) - 4 * a_2 * a_3 * a_4 + 8 * a_1 * SQ(a_4)) / (4 * CB(a_4) * b_4);
 
 	const auto s2 = std::sqrt(b_5) / 2 - a_3 / (4 * a_4) - b_4 / 2;
 	auto sin_lat = std::sqrt(s2);
@@ -6549,7 +6562,7 @@ COMMON_FIRST_DECLS
 		{
 			const auto tmp3 = std::sqrt(ell.e2 - p);
 			lat_rad = 2 * std::atan2(std::sqrt(e4 - p),
-			                         (ell.e * tmp3 + (1 - ell.f) * std::sqrt(p)));
+			                         ell.e * tmp3 + (1 - ell.f) * std::sqrt(p));
 #ifdef USE_CUSTOM_HT
 			ht = -ell.a * (1 - ell.f) * tmp3 / ell.e;
 #endif
@@ -6658,7 +6671,7 @@ COMMON_FIRST_DECLS
 		{
 			const auto tmp3 = std::sqrt(ell.e2 - p);
 			lat_rad = 2 * std::atan2(std::sqrt(e4 - p),
-			                         (ell.e * tmp3 + (1 - ell.f) * std::sqrt(p)));
+			                         ell.e * tmp3 + (1 - ell.f) * std::sqrt(p));
 #ifdef USE_CUSTOM_HT
 			ht = -ell.a * (1 - ell.f) * tmp3 / ell.e;
 #endif
@@ -6876,7 +6889,8 @@ COMMON_FIRST_DECLS
 	const auto G2 = G * G;
 	const auto G3 = G * G * G;
 
-	const auto es = -((alpha + beta) * (alpha + beta) / gamma2 - alpha * beta) / 32;
+	const auto es = -((alpha + beta) * (alpha + beta) / gamma2 - alpha * beta) /
+	                32;
 	//Eq.(19)
 	const auto E = -G2;
 	const auto F = G3 + es;
@@ -6892,7 +6906,8 @@ COMMON_FIRST_DECLS
 	// theoretically, -m-p/6>=0; but sometimes -m-p/6 numerical value is negative
 	const auto s0 = std::abs(-m - p / 6);
 	// theoretically, u+v=std::sqrt((p/2+2*s0)^2-r)-p/2-s0 >=0;
-	const auto uv = std::sqrt(std::abs(std::sqrt(std::abs((p / 2 + 2 * s0) * (p / 2 + 2 * s0) - r)) - p / 2 - s0));
+	const auto uv = std::sqrt(std::abs(std::sqrt(std::abs(
+	                (p / 2 + 2 * s0) * (p / 2 + 2 * s0) - r)) - p / 2 - s0));
 	// theoretically, (p/2+2*s0)^2-r>=0;
 	//auto t0 = -sign(q) * std::sqrt(s0) + uv;
 	auto t0 = -std::copysign(std::sqrt(s0), q) + uv;
@@ -6974,7 +6989,9 @@ COMMON_FIRST_DECLS
 	const auto D = std::sqrt((2 * q - mnl2) * mnl2);
 	const auto Beta = i / 3 - std::cbrt(q + D) - std::cbrt(q - D);
 	// (Beta - i) / 2 might be negative
-	const auto t = std::sqrt(std::sqrt(Beta * Beta - k) - (Beta + i) / 2) - std::copysign(std::sqrt(std::max(0.0, (Beta - i) / 2)), m - n);
+	const auto t = std::sqrt(std::sqrt(Beta * Beta - k) - (Beta + i) / 2) -
+	               std::copysign(std::sqrt(std::max(0.0, (Beta - i) / 2)),
+	                             m - n);
 
 	auto sin_lat = z;
 	auto cos_lat = w * (t - l) / (t + l);
