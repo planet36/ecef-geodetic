@@ -930,7 +930,7 @@ COMMON_FIRST_DECLS
 	t = std::tan(sin_lat / cos_lat);
 	*/
 
-	// i = 1
+	// (i = 1)
 	t -= f(t, u, v, w) / fp(t, u, v, w);
 
 	// https://en.wikipedia.org/wiki/Tangent_half-angle_formula
@@ -1069,7 +1069,7 @@ COMMON_FIRST_DECLS
 	t = std::tan(sin_lat / cos_lat);
 	*/
 
-	// i = 1
+	// (i = 1)
 	t -= f(t, u, v, w) / fp(t, u, v, w);
 
 	// https://en.wikipedia.org/wiki/Tangent_half-angle_formula
@@ -2710,7 +2710,7 @@ COMMON_FIRST_DECLS
 
 	// SDW: what is F'(u) ?
 
-	// i = 1
+	// (i = 1)
 	normalize(cos_lat, sin_lat);
 
 	// SDW: this probably isn't right
@@ -4185,7 +4185,7 @@ COMMON_FIRST_DECLS
 	t = w2 + z2 / (1 - ell.e2) - ell.a2;
 	ht = (s - std::sqrt(std::abs(s * s - r_ * t))) / r_;
 
-	// i = 1
+	// (i = 1)
 	ze = z - n * ht;
 
 	we_N = hypot(w, z + ell.ep2 * ze);
@@ -4248,12 +4248,14 @@ COMMON_FIRST_DECLS
 	sin_lat = z + ell.ep2 * ze;
 	cos_lat = w;
 
-	// i = 1
-	sin_lat *= (1 - ell.f);
-	normalize(cos_lat, sin_lat);
-	ze = ell.b * sin_lat;
-	sin_lat = z + ell.ep2 * ze;
-	cos_lat = w;
+	for (int i = 1; i <= max_iterations; ++i)
+	{
+		sin_lat *= (1 - ell.f);
+		normalize(cos_lat, sin_lat);
+		ze = ell.b * sin_lat;
+		sin_lat = z + ell.ep2 * ze;
+		cos_lat = w;
+	}
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
@@ -4303,19 +4305,14 @@ COMMON_FIRST_DECLS
 	sin_lat = z + ell.ep2 * ze;
 	cos_lat = w;
 
-	// i = 1
-	sin_lat *= (1 - ell.f);
-	normalize(cos_lat, sin_lat);
-	ze = ell.b * sin_lat;
-	sin_lat = z + ell.ep2 * ze;
-	cos_lat = w;
-
-	// i = 2
-	sin_lat *= (1 - ell.f);
-	normalize(cos_lat, sin_lat);
-	ze = ell.b * sin_lat;
-	sin_lat = z + ell.ep2 * ze;
-	cos_lat = w;
+	for (int i = 1; i <= max_iterations; ++i)
+	{
+		sin_lat *= (1 - ell.f);
+		normalize(cos_lat, sin_lat);
+		ze = ell.b * sin_lat;
+		sin_lat = z + ell.ep2 * ze;
+		cos_lat = w;
+	}
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
@@ -4366,20 +4363,21 @@ COMMON_FIRST_DECLS
 
 	sin_lat = z + ell.ep2 * ze;
 	cos_lat = w;
-	sin_lat *= (1 - ell.f);
 
-	// i = 1
-	normalize(cos_lat, sin_lat);
+	for (int i = 1; i <= max_iterations; ++i)
+	{
+		sin_lat *= (1 - ell.f);
+		normalize(cos_lat, sin_lat);
 #if 0
-	tmp = ell.a * ell.e2 * CB(cos_lat) / w;
-	ze = (ell.b * sin_lat - ze * tmp) / (1 - tmp);
+		tmp = ell.a * ell.e2 * CB(cos_lat) / w;
+		ze = (ell.b * sin_lat - ze * tmp) / (1 - tmp);
 #else
-	tmp = ell.a * ell.e2 * CB(cos_lat);
-	ze = (ell.b * sin_lat * w - ze * tmp) / (w - tmp);
+		tmp = ell.a * ell.e2 * CB(cos_lat);
+		ze = (ell.b * sin_lat * w - ze * tmp) / (w - tmp);
 #endif
-
-	sin_lat = z + ell.ep2 * ze;
-	cos_lat = w;
+		sin_lat = z + ell.ep2 * ze;
+		cos_lat = w;
+	}
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
@@ -4430,34 +4428,21 @@ COMMON_FIRST_DECLS
 
 	sin_lat = z + ell.ep2 * ze;
 	cos_lat = w;
-	sin_lat *= (1 - ell.f);
 
-	// i = 1
-	normalize(cos_lat, sin_lat);
+	for (int i = 1; i <= max_iterations; ++i)
+	{
+		sin_lat *= (1 - ell.f);
+		normalize(cos_lat, sin_lat);
 #if 0
-	tmp = ell.a * ell.e2 * CB(cos_lat) / w;
-	ze = (ell.b * sin_lat - ze * tmp) / (1 - tmp);
+		tmp = ell.a * ell.e2 * CB(cos_lat) / w;
+		ze = (ell.b * sin_lat - ze * tmp) / (1 - tmp);
 #else
-	tmp = ell.a * ell.e2 * CB(cos_lat);
-	ze = (ell.b * sin_lat * w - ze * tmp) / (w - tmp);
+		tmp = ell.a * ell.e2 * CB(cos_lat);
+		ze = (ell.b * sin_lat * w - ze * tmp) / (w - tmp);
 #endif
-
-	sin_lat = z + ell.ep2 * ze;
-	cos_lat = w;
-	sin_lat *= (1 - ell.f);
-
-	// i = 2
-	normalize(cos_lat, sin_lat);
-#if 0
-	tmp = ell.a * ell.e2 * CB(cos_lat) / w;
-	ze = (ell.b * sin_lat - ze * tmp) / (1 - tmp);
-#else
-	tmp = ell.a * ell.e2 * CB(cos_lat);
-	ze = (ell.b * sin_lat * w - ze * tmp) / (w - tmp);
-#endif
-
-	sin_lat = z + ell.ep2 * ze;
-	cos_lat = w;
+		sin_lat = z + ell.ep2 * ze;
+		cos_lat = w;
+	}
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
