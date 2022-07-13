@@ -70,54 +70,54 @@ auto cos_from_sin(const T sin_x)
 //constexpr int _lines_to_ignore = 7+2;
 
 // POW2
-#define SQ(X) ((X) * (X))
+#define SQ(X)   ((X) * (X))
 // POW3
-#define CB(X) ((X) * (X) * (X))
+#define CB(X)   ((X) * (X) * (X))
 #define POW4(X) ((X) * (X) * (X) * (X))
 #define POW5(X) ((X) * (X) * (X) * (X) * (X))
 #define POW6(X) ((X) * (X) * (X) * (X) * (X) * (X))
 
 // common declarations for the ECEF-to-geodetic functions
-#define COMMON_FIRST_DECLS \
-	const auto w2 = x * x + y * y; \
-	const auto w = std::sqrt(w2); \
+#define COMMON_FIRST_DECLS                  \
+	const auto w2 = x * x + y * y;          \
+	const auto w = std::sqrt(w2);           \
 	[[maybe_unused]] const auto z2 = z * z; \
-	lon_rad = std::atan2(y, x); \
+	lon_rad = std::atan2(y, x);
 
 // these are the lines in the common first decls
 constexpr int _lines_common_first_decls = 4;
 
 // common declarations for the ECEF-to-geodetic functions
 // that need code for corner cases (i.e. equator or the poles)
-#define COMMON_FIRST_DECLS_CHECKED \
-	const auto w2 = x * x + y * y; \
-	if (w2 != 0) \
-	{ \
-		lon_rad = std::atan2(y, x); \
-	} \
-	else /* on the axis of rotation */ \
-	{ \
-		lon_rad = 0; \
-		if (z == 0) /* center of earth */ \
-		{ \
-			lat_rad = 0; \
-			ht = -ell.a; \
-		} \
-		else \
-		{ \
+#define COMMON_FIRST_DECLS_CHECKED              \
+	const auto w2 = x * x + y * y;              \
+	if (w2 != 0)                                \
+	{                                           \
+		lon_rad = std::atan2(y, x);             \
+	}                                           \
+	else /* on the axis of rotation */          \
+	{                                           \
+		lon_rad = 0;                            \
+		if (z == 0) /* center of earth */       \
+		{                                       \
+			lat_rad = 0;                        \
+			ht = -ell.a;                        \
+		}                                       \
+		else                                    \
+		{                                       \
 			lat_rad = std::copysign(M_PI_2, z); \
-			ht = std::abs(z) - ell.b; \
-		} \
-		return; \
-	} \
-	const auto w = std::sqrt(w2); \
-	if (z == 0) /* on the equatorial plane */ \
-	{ \
-		lat_rad = 0; \
-		ht = w - ell.a; \
-		return; \
-	} \
-	[[maybe_unused]] const auto z2 = z * z; \
+			ht = std::abs(z) - ell.b;           \
+		}                                       \
+		return;                                 \
+	}                                           \
+	const auto w = std::sqrt(w2);               \
+	if (z == 0) /* on the equatorial plane */   \
+	{                                           \
+		lat_rad = 0;                            \
+		ht = w - ell.a;                         \
+		return;                                 \
+	}                                           \
+	[[maybe_unused]] const auto z2 = z * z;
 
 // these are the lines in the common first decls (checked)
 constexpr int _lines_common_first_decls_checked = 28;
@@ -136,20 +136,18 @@ struct func_info_t
 	const std::string_view url;
 	const std::string_view citation;
 
-	func_info_t(
-			void (&_func_ref)(const double, const double, const double,
-			                  double&, double&, double&),
-			const int              _num_lines,
-			const bool             _needs_code_for_corner_cases,
-			const int              _ilog10_mean_dist_err,
-			const std::string_view _algo_author,
-			const std::string_view _code_copyright,
-			const std::string_view _license,
-			const std::string_view _orig_impl_lang,
-			const std::string_view _url,
-			const std::string_view _citation
-			):
-
+	func_info_t(void (&_func_ref)(const double, const double, const double,
+	                              double&, double&, double&),
+	            const int              _num_lines,
+	            const bool             _needs_code_for_corner_cases,
+	            const int              _ilog10_mean_dist_err,
+	            const std::string_view _algo_author,
+	            const std::string_view _code_copyright,
+	            const std::string_view _license,
+	            const std::string_view _orig_impl_lang,
+	            const std::string_view _url,
+	            const std::string_view _citation
+	        ):
 		func_ref                    ( _func_ref                    ) ,
 		num_lines                   ( _num_lines                   ) ,
 		needs_code_for_corner_cases ( _needs_code_for_corner_cases ) ,
@@ -382,7 +380,8 @@ auto lin_wang_1995_delta_m(const T w2, const T z2, const T m)
 	const auto tmp_b = WGS84<T>.b + 2 * m / WGS84<T>.b;
 
 	const auto f = w2 / (tmp_a * tmp_a) + z2 / (tmp_b * tmp_b) - 1;
-	const auto fp = -4 * (w2 / (WGS84<T>.a * CB(tmp_a)) + z2 / (WGS84<T>.b * CB(tmp_b)));
+	const auto fp = -4 * (w2 / (WGS84<T>.a * CB(tmp_a)) +
+	                      z2 / (WGS84<T>.b * CB(tmp_b)));
 
 	return f / fp;
 }
@@ -398,7 +397,8 @@ auto shu_2010_delta_k(const T w2, const T z2, const T k)
 	const auto q2 = q * q;
 
 	const auto f = p2 * q2 - w2 * q2 - z2 * p2;
-	const auto fp = 2 * (WGS84<T>.b * p * (q2 - z2) + WGS84<T>.a * q * (p2 - w2));
+	const auto fp = 2 * (WGS84<T>.b * p * (q2 - z2) +
+	                     WGS84<T>.a * q * (p2 - w2));
 
 	return f / fp;
 }
@@ -786,22 +786,22 @@ COMMON_FIRST_DECLS
 	const auto r = std::sqrt(w2 + z2);
 	double aD_b;
 
-	if (r <= 2E6 + (ell.a + ell.b)/2)
+	if (r <= 2E6 + (ell.a + ell.b) / 2)
 	{
 		// region 1
 		aD_b = 1.0026;
 	}
-	else if (r <= 6E6 + (ell.a + ell.b)/2)
+	else if (r <= 6E6 + (ell.a + ell.b) / 2)
 	{
 		// region 2
 		aD_b = 1.00092592;
 	}
-	else if (r <= 18E6 + (ell.a + ell.b)/2)
+	else if (r <= 18E6 + (ell.a + ell.b) / 2)
 	{
 		// region 3
 		aD_b = 0.999250297;
 	}
-	else // if (r <= 1E9 + (ell.a + ell.b)/2)
+	else // if (r <= 1E9 + (ell.a + ell.b) / 2)
 	{
 		// region 4
 		aD_b = 0.997523508;
@@ -1320,12 +1320,12 @@ COMMON_FIRST_DECLS
 		const auto k = uv / (std::sqrt(uv + w_ * w_) + w_);
 		const auto k1 = ell.f >= 0 ? k : k - ell.e2;
 		const auto k2 = ell.f >= 0 ? k + ell.e2 : k;
-		const auto H = hypot(z/k1, w/k2);
-		sin_lat = (z/k1) / H;
-		cos_lat = (w/k2) / H;
+		const auto H = hypot(z / k1, w / k2);
+		sin_lat = (z / k1) / H;
+		cos_lat = (w / k2) / H;
 #ifdef USE_CUSTOM_HT
 		const auto d = k1 * w / k2;
-		ht = (1 - (1 - ell.e2)/k1) * hypot(d, z);
+		ht = (1 - (1 - ell.e2) / k1) * hypot(d, z);
 #endif
 	}
 	else
@@ -1451,12 +1451,12 @@ COMMON_FIRST_DECLS
 		const auto k = uv / (std::sqrt(uv + w_ * w_) + w_);
 		const auto k1 = ell.f >= 0 ? k : k - ell.e2;
 		const auto k2 = ell.f >= 0 ? k + ell.e2 : k;
-		const auto H = hypot(z/k1, w/k2);
-		sin_lat = (z/k1) / H;
-		cos_lat = (w/k2) / H;
+		const auto H = hypot(z / k1, w / k2);
+		sin_lat = (z / k1) / H;
+		cos_lat = (w / k2) / H;
 #ifdef USE_CUSTOM_HT
 		const auto d = k1 * w / k2;
-		ht = (1 - (1 - ell.e2)/k1) * hypot(d, z);
+		ht = (1 - (1 - ell.e2) / k1) * hypot(d, z);
 #endif
 	}
 	else
@@ -1533,16 +1533,16 @@ COMMON_FIRST_DECLS
 	// UPPER BOUNDS ON POINT
 
 	//const auto ARat1  = std::pow((ell.a + 50005), 2);
-	constexpr auto ARat1  = SQ(ell.a + 50005);
+	constexpr auto ARat1 = SQ(ell.a + 50005);
 	//const auto ARat2  = (ARat1) / std::pow((ell.b + 50005), 2);
-	constexpr auto ARat2  = (ARat1) / SQ(ell.b + 50005);
+	constexpr auto ARat2 = (ARat1) / SQ(ell.b + 50005);
 
 	// LOWER BOUNDS ON POINT
 
 	//const auto BRat1  = std::pow((ell.a - 10005), 2);
-	constexpr auto BRat1  = SQ(ell.a - 10005);
+	constexpr auto BRat1 = SQ(ell.a - 10005);
 	//const auto BRat2  = (BRat1) / std::pow((ell.b - 10005), 2);
-	constexpr auto BRat2  = (BRat1) / SQ(ell.b - 10005);
+	constexpr auto BRat2 = (BRat1) / SQ(ell.b - 10005);
 
 	constexpr auto B1 = 0.100225438677758E+01;
 	constexpr auto B2 = -0.393246903633930E-04;
@@ -1612,8 +1612,7 @@ COMMON_FIRST_DECLS
 	{
 		/*POINT IS BETWEEN-10 KIL AND 50 KIL, SO COMPUTE TANGENT LATITUDE */
 
-		top = z * (B1 + (B2 * w2 + B3) /
-				(B4 + w2 * B5 + z2));
+		top = z * (B1 + (B2 * w2 + B3) / (B4 + w2 * B5 + z2));
 
 		top2 = top * top;
 
@@ -1677,7 +1676,7 @@ COMMON_FIRST_DECLS
 
 		q = std::sqrt(xarg);
 
-		r2= -p * (2 * (1 - ell.e2) * z2 / (q * (1 + q)) + w2);
+		r2 = -p * (2 * (1 - ell.e2) * z2 / (q * (1 + q)) + w2);
 
 		r1 = (1 + (1 / q));
 
@@ -1717,7 +1716,7 @@ COMMON_FIRST_DECLS
 		//lat_rad = std::atan(top / w);
 		lat_rad = std::atan2(top, w);
 		//lon_rad = std::atan2(y, x);
-	}  /* end of Exact solution */
+	} /* end of Exact solution */
 
 	//} // end for
 
@@ -1764,16 +1763,16 @@ COMMON_FIRST_DECLS
 	// UPPER BOUNDS ON POINT
 
 	//const auto ARat1  = std::pow((ell.a + 50005), 2);
-	constexpr auto ARat1  = SQ(ell.a + 50005);
+	constexpr auto ARat1 = SQ(ell.a + 50005);
 	//const auto ARat2  = (ARat1) / std::pow((ell.b + 50005), 2);
-	constexpr auto ARat2  = (ARat1) / SQ(ell.b + 50005);
+	constexpr auto ARat2 = (ARat1) / SQ(ell.b + 50005);
 
 	// LOWER BOUNDS ON POINT
 
 	//const auto BRat1  = std::pow((ell.a - 10005), 2);
-	constexpr auto BRat1  = SQ(ell.a - 10005);
+	constexpr auto BRat1 = SQ(ell.a - 10005);
 	//const auto BRat2  = (BRat1) / std::pow((ell.b - 10005), 2);
-	constexpr auto BRat2  = (BRat1) / SQ(ell.b - 10005);
+	constexpr auto BRat2 = (BRat1) / SQ(ell.b - 10005);
 
 	constexpr auto B1 = 0.100225438677758E+01;
 	constexpr auto B2 = -0.393246903633930E-04;
@@ -1843,8 +1842,7 @@ COMMON_FIRST_DECLS
 	{
 		/*POINT IS BETWEEN-10 KIL AND 50 KIL, SO COMPUTE TANGENT LATITUDE */
 
-		top = z * (B1 + (B2 * w2 + B3) /
-				(B4 + w2 * B5 + z2));
+		top = z * (B1 + (B2 * w2 + B3) / (B4 + w2 * B5 + z2));
 
 		top2 = top * top;
 
@@ -1908,7 +1906,7 @@ COMMON_FIRST_DECLS
 
 		q = std::sqrt(xarg);
 
-		r2= -p * (2 * (1 - ell.e2) * z2 / (q * (1 + q)) + w2);
+		r2 = -p * (2 * (1 - ell.e2) * z2 / (q * (1 + q)) + w2);
 
 		r1 = (1 + (1 / q));
 
@@ -1948,7 +1946,7 @@ COMMON_FIRST_DECLS
 		//lat_rad = std::atan(top / w);
 		lat_rad = std::atan2(top, w);
 		//lon_rad = std::atan2(y, x);
-	}  /* end of Exact solution */
+	} /* end of Exact solution */
 
 	//} // end for
 
@@ -3045,7 +3043,8 @@ COMMON_FIRST_DECLS
 #else
 	const auto tmp = z2 / ell.b2 + w2 / ell.a2;
 
-	auto m = 0.5 * ell.a2 * ell.b2 * tmp * (std::sqrt(tmp) - 1) / (z2 / (1 - ell.e2) + w2 * (1 - ell.e2));
+	auto m = 0.5 * ell.a2 * ell.b2 * tmp * (std::sqrt(tmp) - 1) /
+	         (z2 / (1 - ell.e2) + w2 * (1 - ell.e2));
 #endif
 
 	for (int i = 1; i <= max_iterations; ++i)
@@ -3115,7 +3114,8 @@ COMMON_FIRST_DECLS
 #else
 	const auto tmp = z2 / ell.b2 + w2 / ell.a2;
 
-	auto m = 0.5 * ell.a2 * ell.b2 * tmp * (std::sqrt(tmp) - 1) / (z2 / (1 - ell.e2) + w2 * (1 - ell.e2));
+	auto m = 0.5 * ell.a2 * ell.b2 * tmp * (std::sqrt(tmp) - 1) /
+	         (z2 / (1 - ell.e2) + w2 * (1 - ell.e2));
 #endif
 
 	for (int i = 1; i <= max_iterations; ++i)
@@ -3834,24 +3834,11 @@ struct Vector3D
 
 	Vector3D() = default;
 
-	Vector3D(
-		const T _x,
-		const T _y,
-		const T _z):
-		x(_x),
-		y(_y),
-		z(_z)
-	{}
+	Vector3D(const T _x, const T _y, const T _z): x(_x), y(_y), z(_z) {}
 
-	auto length_sq() const
-	{
-		return x*x + y*y + z*z;
-	}
+	auto length_sq() const { return x * x + y * y + z * z; }
 
-	auto length() const
-	{
-		return std::sqrt(length_sq());
-	}
+	auto length() const { return std::sqrt(length_sq()); }
 
 	auto normalize() const
 	{
@@ -3865,10 +3852,7 @@ struct Vector3D
 		return this->scale(1 / l);
 	}
 
-	auto scale(const T s) const
-	{
-		return Vector3D<T>{x*s, y*s, z*s};
-	}
+	auto scale(const T s) const { return Vector3D<T>{x * s, y * s, z * s}; }
 
 	auto dot(const Vector3D<T>& that) const
 	{
@@ -3894,13 +3878,9 @@ struct Geodetic2D
 
 	Geodetic2D() = default;
 
-	Geodetic2D(
-		const T _lat_rad,
-		const T _lon_rad):
-		lat_rad(_lat_rad),
-		lon_rad(_lon_rad)
+	Geodetic2D(const T _lat_rad, const T _lon_rad):
+	lat_rad(_lat_rad), lon_rad(_lon_rad)
 	{}
-
 };
 
 template <std::floating_point T>
@@ -3912,19 +3892,12 @@ struct Geodetic3D
 
 	Geodetic3D() = default;
 
-	Geodetic3D(
-		const T _lat_rad,
-		const T _lon_rad,
-		const T _ht):
-		lat_rad(_lat_rad),
-		lon_rad(_lon_rad),
-		ht(_ht)
+	Geodetic3D(const T _lat_rad, const T _lon_rad, const T _ht):
+	lat_rad(_lat_rad), lon_rad(_lon_rad), ht(_ht)
 	{}
 
 	Geodetic3D(const Geodetic2D<T>& g, T _ht = 0):
-		lat_rad(g.lat_rad),
-		lon_rad(g.lon_rad),
-		ht(_ht)
+	lat_rad(g.lat_rad), lon_rad(g.lon_rad), ht(_ht)
 	{}
 };
 
@@ -3974,17 +3947,13 @@ auto ScaleToGeodeticSurface(const Vector3D<T>& position)
 			y2 / (WGS84<T>.a2 * da2) +
 			z2 / (WGS84<T>.b2 * db2) - 1;
 
-		dSdA = -2 * (
-				x2 / (WGS84<T>.a2 * WGS84<T>.a2 * da3) +
-				y2 / (WGS84<T>.a2 * WGS84<T>.a2 * da3) +
-				z2 / (WGS84<T>.b2 * WGS84<T>.b2 * db3));
+		dSdA = -2 * (x2 / (WGS84<T>.a2 * WGS84<T>.a2 * da3) +
+		             y2 / (WGS84<T>.a2 * WGS84<T>.a2 * da3) +
+		             z2 / (WGS84<T>.b2 * WGS84<T>.b2 * db3));
 	}
 	while (std::abs(s) > dist_threshold);
 
-	return Vector3D<T>{
-			x / da,
-			y / da,
-			z / db};
+	return Vector3D<T>{x / da, y / da, z / db};
 }
 
 template <std::floating_point T>
@@ -4810,7 +4779,7 @@ void set_gc_to_gd_constants(SRM_GC_GD_Specific_Constants<T>& gc_gd_spec)
 		{
 			hmx = hmn + del[i];
 
-			g1 = gee(hmn, WGS84<T>.a);  /* changed 0 to 1E-14 */
+			g1 = gee(hmn, WGS84<T>.a); /* changed 0 to 1E-14 */
 			g2 = gee(hmx, WGS84<T>.a);
 
 			g3 = gee(hmx, WGS84<T>.a / (1 - WGS84<T>.f));
@@ -4829,7 +4798,8 @@ void set_gc_to_gd_constants(SRM_GC_GD_Specific_Constants<T>& gc_gd_spec)
 
 			d4 = SQ(WGS84<T>.b + hmx) * (g3 - d1);
 
-			d5 = (g1 + d3) /  SQ(WGS84<T>.a + hmn) - (g2 + d3) / SQ(WGS84<T>.a + hmx);
+			d5 = (g1 + d3) / SQ(WGS84<T>.a + hmn) -
+			     (g2 + d3) / SQ(WGS84<T>.a + hmx);
 
 			d5 = d5 / (g2 - g1);
 
@@ -4837,13 +4807,13 @@ void set_gc_to_gd_constants(SRM_GC_GD_Specific_Constants<T>& gc_gd_spec)
 
 			d6 = d6 * d4 / (g2 - g1);
 
-			sm = M_SQRT1_2;  /*sin(π/4) == 1/sqrt(2)*/
+			sm = M_SQRT1_2; /*sin(π/4) == 1/sqrt(2)*/
 
 			//rnm = WGS84<T>.a / std::sqrt(1 - WGS84<T>.e2 * sm * sm);
 			rnm = ell.get_Rn(sm);
 
 			zm = ((1 - WGS84<T>.e2) * rnm + hm) * sm;
-			wm = (rnm + hm) * M_SQRT1_2;  /*cos(π/4) == 1/sqrt(2)*/
+			wm = (rnm + hm) * M_SQRT1_2; /*cos(π/4) == 1/sqrt(2)*/
 
 			z2 = zm * zm;
 			w2 = wm * wm;
@@ -4889,15 +4859,15 @@ in scope in the caller of this macro and that the A
 member contains the semi-major ellipsoid axis.
 Algorithm derived by Ralph Toms, SRI.
 */
-#define COMPUTE_RN_FAST(arg,answer) \
-{\
-  const auto _alpha = 1.004244;\
-  const auto _d1 = -0.5 * ell.e2;\
-  const auto _x = _d1 * arg;\
-  const auto _ak = 0.5 + _x;\
-  const auto _z = 1 - _alpha * _x;\
-  answer = ell.a * _z * (1.5 - _ak * _z * _z);\
-}
+#define COMPUTE_RN_FAST(arg, answer)                 \
+	{                                                \
+		const auto _alpha = 1.004244;                \
+		const auto _d1 = -0.5 * ell.e2;              \
+		const auto _x = _d1 * arg;                   \
+		const auto _ak = 0.5 + _x;                   \
+		const auto _z = 1 - _alpha * _x;             \
+		answer = ell.a * _z * (1.5 - _ak * _z * _z); \
+	}
 
 //unsigned int SRM_ChangeGC_GD(
 	//void                   *constants,
@@ -5039,7 +5009,8 @@ COMMON_FIRST_DECLS
 
 		lowerBound = w2 + gc_gd_spec.u[REGION_2] * z2;
 		upperBound = w2 + gc_gd_spec.u[REGION_3] * z2;
-		if ((lowerBound >= gc_gd_spec.v[REGION_2]) && (upperBound <= gc_gd_spec.v[REGION_3]))
+		if ((lowerBound >= gc_gd_spec.v[REGION_2]) &&
+		    (upperBound <= gc_gd_spec.v[REGION_3]))
 		{
 			region = REGION_2;
 			goto END_REGION_CHECK;
@@ -5049,7 +5020,8 @@ COMMON_FIRST_DECLS
 			/* region 3  50 - 23000 kilometers*/
 			lowerBound = upperBound;
 			upperBound = w2 + z2 * gc_gd_spec.u[REGION_4];
-			if ((lowerBound >= gc_gd_spec.v[REGION_3]) && (upperBound <= gc_gd_spec.v[REGION_4]))
+			if ((lowerBound >= gc_gd_spec.v[REGION_3]) &&
+			    (upperBound <= gc_gd_spec.v[REGION_4]))
 			{
 				region = REGION_3;
 				goto END_REGION_CHECK;
@@ -5059,7 +5031,8 @@ COMMON_FIRST_DECLS
 				/* region 1 -30 to 0 kilometers */
 				lowerBound = w2 + z2 * gc_gd_spec.u[REGION_1];
 				upperBound = w2 + z2 * gc_gd_spec.u[REGION_2];
-				if ((lowerBound >= gc_gd_spec.v[REGION_1]) && (upperBound <= gc_gd_spec.v[REGION_2]))
+				if ((lowerBound >= gc_gd_spec.v[REGION_1]) &&
+				    (upperBound <= gc_gd_spec.v[REGION_2]))
 				{
 					region = REGION_1;
 					goto END_REGION_CHECK;
@@ -5069,7 +5042,8 @@ COMMON_FIRST_DECLS
 					/* region 4  23000 to 10e6 kilometers */
 					lowerBound = upperBound;
 					upperBound = w2 + z2 * gc_gd_spec.u[REGION_5];
-					if ((lowerBound >= gc_gd_spec.v[REGION_4]) && (upperBound <= gc_gd_spec.v[REGION_5]))
+					if ((lowerBound >= gc_gd_spec.v[REGION_4]) &&
+					    (upperBound <= gc_gd_spec.v[REGION_5]))
 					{
 						region = REGION_4;
 						goto END_REGION_CHECK;
@@ -5077,9 +5051,8 @@ COMMON_FIRST_DECLS
 					else
 					{
 						/*Declare region 5 unless the following test fails*/
-						region=REGION_5;
+						region = REGION_5;
 						/* region 5 < -30 or > 10e6 kilometers*/
-
 					}
 				}
 			}
@@ -5101,50 +5074,50 @@ END_REGION_CHECK:
 		{
 		case REGION_1:
 		case REGION_2:
-			top = z * ga;
-			lat_rad = std::atan2(top, w);
-			top2 = top * top;
-			rr = top2 + w2;
-			q = std::sqrt(rr);
+			{
+				top = z * ga;
+				lat_rad = std::atan2(top, w);
+				top2 = top * top;
+				rr = top2 + w2;
+				q = std::sqrt(rr);
 
 #ifdef USE_CUSTOM_HT
-			s12 = top2 / rr;
+				s12 = top2 / rr;
 
 #if 1
-			double Rn;
+				double Rn;
 
-			/*uses a Newton-Raphson single iteration with
-			excellent first guess usin only multiplications*/
+				/*uses a Newton-Raphson single iteration with
+				excellent first guess usin only multiplications*/
 
-			COMPUTE_RN_FAST(s12, Rn);
+				COMPUTE_RN_FAST(s12, Rn);
 #if 0
-			fprintf(stderr,"rn fast is %.15f\n",Rn);
+				fprintf(stderr,"rn fast is %.15f\n",Rn);
 #endif
 
 #endif
 
-			if (s12 <= 0.5)  /* If between +- 45 degrees lattitude */
-			{
-				ht = q - Rn;
+				if (s12 <= 0.5) /* If between +- 45 degrees lattitude */
+				{
+					ht = q - Rn;
+				}
+				else
+				{
+					//ht = q / ga + ell.a * (-(1 - ell.e2)) * Rn / ell.a;
+					ht = q / ga - (1 - ell.e2) * Rn;
+				}
+#endif
+
+				/******************************************************************
+				Done below at end of function as optimization
+				lon_rad = std::atan2(src.source_y, src.source_x);
+				****************************************************************/
 			}
-			else
-			{
-				//ht = q / ga + ell.a * (-(1 - ell.e2)) * Rn / ell.a;
-				ht = q / ga - (1 - ell.e2) * Rn;
-			}
-#endif
-
-			/******************************************************************
-			Done below at end of function as optimization
-			 lon_rad = std::atan2(src.source_y, src.source_x);
-			****************************************************************/
 			break;
 
 		case REGION_3:
 		case REGION_4:
-
 			{
-
 				/* correct g by using it as a first guess into the bowring formula*/
 				top = z * ga * (1 - ell.f);
 				top2 = top * top;
@@ -5192,6 +5165,7 @@ END_REGION_CHECK:
 				lat_rad = std::atan2(top, bot);
 			}
 			break;
+
 		case REGION_5:
 			{
 				double gee;
@@ -5259,7 +5233,7 @@ END_REGION_CHECK:
 
 				roe = ell.e2 * ro;
 				arg = SQ(w - roe) + z2;
-				v   = std::sqrt(arg - ell.e2 * z2);
+				v = std::sqrt(arg - ell.e2 * z2);
 				{
 					zo = ell.a * (1 - ell.e2) * z / v;
 #ifdef USE_CUSTOM_HT
@@ -5279,6 +5253,7 @@ END_REGION_CHECK:
 				/* end of Exact solution */
 			}
 			break;
+
 		case REGION_SPHERICAL:
 			/*This case gets out of the switch statement and lets the longitude
 			 *be computed at the end of the routine with a single return statement
@@ -5420,7 +5395,7 @@ void set_gc_to_gd_constants(SRM_GC_GD_Specific_Constants<T>& gc_gd_spec)
 		{
 			hmx = hmn + del[i];
 
-			g1 = gee(hmn, WGS84<T>.a);  /* changed 0 to 1E-14 */
+			g1 = gee(hmn, WGS84<T>.a); /* changed 0 to 1E-14 */
 			g2 = gee(hmx, WGS84<T>.a);
 
 			g3 = gee(hmx, WGS84<T>.a / (1 - WGS84<T>.f));
@@ -5439,7 +5414,8 @@ void set_gc_to_gd_constants(SRM_GC_GD_Specific_Constants<T>& gc_gd_spec)
 
 			d4 = SQ(WGS84<T>.b + hmx) * (g3 - d1);
 
-			d5 = (g1 + d3) /  SQ(WGS84<T>.a + hmn) - (g2 + d3) / SQ(WGS84<T>.a + hmx);
+			d5 = (g1 + d3) / SQ(WGS84<T>.a + hmn) -
+			     (g2 + d3) / SQ(WGS84<T>.a + hmx);
 
 			d5 = d5 / (g2 - g1);
 
@@ -5447,13 +5423,13 @@ void set_gc_to_gd_constants(SRM_GC_GD_Specific_Constants<T>& gc_gd_spec)
 
 			d6 = d6 * d4 / (g2 - g1);
 
-			sm = M_SQRT1_2;  /*sin(π/4) == 1/sqrt(2)*/
+			sm = M_SQRT1_2; /*sin(π/4) == 1/sqrt(2)*/
 
 			//rnm = WGS84<T>.a / std::sqrt(1 - WGS84<T>.e2 * sm * sm);
 			rnm = ell.get_Rn(sm);
 
 			zm = ((1 - WGS84<T>.e2) * rnm + hm) * sm;
-			wm = (rnm + hm) * M_SQRT1_2;  /*cos(π/4) == 1/sqrt(2)*/
+			wm = (rnm + hm) * M_SQRT1_2; /*cos(π/4) == 1/sqrt(2)*/
 
 			z2 = zm * zm;
 			w2 = wm * wm;
@@ -5499,15 +5475,15 @@ in scope in the caller of this macro and that the A
 member contains the semi-major ellipsoid axis.
 Algorithm derived by Ralph Toms, SRI.
 */
-#define COMPUTE_RN_FAST(arg,answer) \
-{\
-  const auto _alpha = 1.004244;\
-  const auto _d1 = -0.5 * ell.e2;\
-  const auto _x = _d1 * arg;\
-  const auto _ak = 0.5 + _x;\
-  const auto _z = 1 - _alpha * _x;\
-  answer = ell.a * _z * (1.5 - _ak * _z * _z);\
-}
+#define COMPUTE_RN_FAST(arg, answer)                 \
+	{                                                \
+		const auto _alpha = 1.004244;                \
+		const auto _d1 = -0.5 * ell.e2;              \
+		const auto _x = _d1 * arg;                   \
+		const auto _ak = 0.5 + _x;                   \
+		const auto _z = 1 - _alpha * _x;             \
+		answer = ell.a * _z * (1.5 - _ak * _z * _z); \
+	}
 
 //unsigned int SRM_ChangeGC_GD(
 	//void                   *constants,
@@ -5649,7 +5625,8 @@ COMMON_FIRST_DECLS
 
 		lowerBound = w2 + gc_gd_spec.u[REGION_2] * z2;
 		upperBound = w2 + gc_gd_spec.u[REGION_3] * z2;
-		if ((lowerBound >= gc_gd_spec.v[REGION_2]) && (upperBound <= gc_gd_spec.v[REGION_3]))
+		if ((lowerBound >= gc_gd_spec.v[REGION_2]) &&
+		    (upperBound <= gc_gd_spec.v[REGION_3]))
 		{
 			region = REGION_2;
 			goto END_REGION_CHECK;
@@ -5659,7 +5636,8 @@ COMMON_FIRST_DECLS
 			/* region 3  50 - 23000 kilometers*/
 			lowerBound = upperBound;
 			upperBound = w2 + z2 * gc_gd_spec.u[REGION_4];
-			if ((lowerBound >= gc_gd_spec.v[REGION_3]) && (upperBound <= gc_gd_spec.v[REGION_4]))
+			if ((lowerBound >= gc_gd_spec.v[REGION_3]) &&
+			    (upperBound <= gc_gd_spec.v[REGION_4]))
 			{
 				region = REGION_3;
 				goto END_REGION_CHECK;
@@ -5669,7 +5647,8 @@ COMMON_FIRST_DECLS
 				/* region 1 -30 to 0 kilometers */
 				lowerBound = w2 + z2 * gc_gd_spec.u[REGION_1];
 				upperBound = w2 + z2 * gc_gd_spec.u[REGION_2];
-				if ((lowerBound >= gc_gd_spec.v[REGION_1]) && (upperBound <= gc_gd_spec.v[REGION_2]))
+				if ((lowerBound >= gc_gd_spec.v[REGION_1]) &&
+				    (upperBound <= gc_gd_spec.v[REGION_2]))
 				{
 					region = REGION_1;
 					goto END_REGION_CHECK;
@@ -5679,7 +5658,8 @@ COMMON_FIRST_DECLS
 					/* region 4  23000 to 10e6 kilometers */
 					lowerBound = upperBound;
 					upperBound = w2 + z2 * gc_gd_spec.u[REGION_5];
-					if ((lowerBound >= gc_gd_spec.v[REGION_4]) && (upperBound <= gc_gd_spec.v[REGION_5]))
+					if ((lowerBound >= gc_gd_spec.v[REGION_4]) &&
+					    (upperBound <= gc_gd_spec.v[REGION_5]))
 					{
 						region = REGION_4;
 						goto END_REGION_CHECK;
@@ -5687,9 +5667,8 @@ COMMON_FIRST_DECLS
 					else
 					{
 						/*Declare region 5 unless the following test fails*/
-						region=REGION_5;
+						region = REGION_5;
 						/* region 5 < -30 or > 10e6 kilometers*/
-
 					}
 				}
 			}
@@ -5712,51 +5691,49 @@ END_REGION_CHECK:
 		case REGION_1:
 		case REGION_2:
 			{
-			top = z * ga;
-			lat_rad = std::atan2(top, w);
-			top2 = top * top;
-			rr = top2 + w2;
-			q = std::sqrt(rr);
+				top = z * ga;
+				lat_rad = std::atan2(top, w);
+				top2 = top * top;
+				rr = top2 + w2;
+				q = std::sqrt(rr);
 
 #ifdef USE_CUSTOM_HT
-			s12 = top2 / rr;
+				s12 = top2 / rr;
 
 #if 1
-			double Rn;
+				double Rn;
 
-			/*uses a Newton-Raphson single iteration with
-			excellent first guess usin only multiplications*/
+				/*uses a Newton-Raphson single iteration with
+				excellent first guess usin only multiplications*/
 
-			COMPUTE_RN_FAST(s12, Rn);
+				COMPUTE_RN_FAST(s12, Rn);
 #if 0
-			fprintf(stderr,"rn fast is %.15f\n",Rn);
+				fprintf(stderr,"rn fast is %.15f\n",Rn);
 #endif
 
 #endif
 
-			if (s12 <= 0.5)  /* If between +- 45 degrees lattitude */
-			{
-				ht = q - Rn;
-			}
-			else
-			{
-				//ht = q / ga + ell.a * (-(1 - ell.e2)) * Rn / ell.a;
-				ht = q / ga - (1 - ell.e2) * Rn;
-			}
+				if (s12 <= 0.5) /* If between +- 45 degrees lattitude */
+				{
+					ht = q - Rn;
+				}
+				else
+				{
+					//ht = q / ga + ell.a * (-(1 - ell.e2)) * Rn / ell.a;
+					ht = q / ga - (1 - ell.e2) * Rn;
+				}
 #endif
 
-			/******************************************************************
-			Done below at end of function as optimization
-			 lon_rad = std::atan2(src.source_y, src.source_x);
-			****************************************************************/
+				/******************************************************************
+				Done below at end of function as optimization
+				lon_rad = std::atan2(src.source_y, src.source_x);
+				****************************************************************/
 			}
 			break;
 
 		case REGION_3:
 		case REGION_4:
-
 			{
-
 				/* correct g by using it as a first guess into the bowring formula*/
 				top = z * ga * (1 - ell.f);
 				top2 = top * top;
@@ -5804,6 +5781,7 @@ END_REGION_CHECK:
 				lat_rad = std::atan2(top, bot);
 			}
 			break;
+
 		case REGION_5:
 			{
 				double gee;
@@ -5871,7 +5849,7 @@ END_REGION_CHECK:
 
 				roe = ell.e2 * ro;
 				arg = SQ(w - roe) + z2;
-				v   = std::sqrt(arg - ell.e2 * z2);
+				v = std::sqrt(arg - ell.e2 * z2);
 				{
 					zo = ell.a * (1 - ell.e2) * z / v;
 #ifdef USE_CUSTOM_HT
@@ -5891,6 +5869,7 @@ END_REGION_CHECK:
 				/* end of Exact solution */
 			}
 			break;
+
 		case REGION_SPHERICAL:
 			/*This case gets out of the switch statement and lets the longitude
 			 *be computed at the end of the routine with a single return statement
@@ -6180,13 +6159,15 @@ COMMON_FIRST_DECLS
 
 	// b2 / (a2 - b2) == 1 / ep2
 	const auto p = 1 / ell.ep2;
-	const auto q = ell.b2 * (ell.a2 * w2 + ell.b2 * z2 - SQ(ell.a2 - ell.b2)) / (SQ(ell.a2 - ell.b2) * z2);
+	const auto q = ell.b2 * (ell.a2 * w2 + ell.b2 * z2 - SQ(ell.a2 - ell.b2)) /
+	               (SQ(ell.a2 - ell.b2) * z2);
 	//const auto r = -SQ(ell.b2) / ((ell.a2 - ell.b2) * z2);
 	// SDW: NaNs at the equator
 	const auto s = -POW6(ell.b) / (SQ(ell.a2 - ell.b2) * z2);
 
 	const auto f = -SQ(q) / 12;
-	const auto h = -CB(q) / 108 - 0.5 * ell.a2 * POW4(ell.b2) * w2 / (POW4(ell.a2 - ell.b2) * POW4(z));
+	const auto h = -CB(q) / 108 - 0.5 * ell.a2 * POW4(ell.b2) * w2 /
+	                              (POW4(ell.a2 - ell.b2) * POW4(z));
 
 	const auto g = SQ(h) / 4 + CB(f) / 27;
 
@@ -6272,7 +6253,8 @@ COMMON_FIRST_DECLS
 
 	//const auto Z = std::copysign((c - p + std::sqrt(2 * p2 - q - 2 * t - 2 * p * c + 4 * std::sqrt(t * t + p2 * b2))) / 2, z);
 	//const auto Z = std::copysign(std::sqrt(q), z) * (w_ + std::sqrt(std::sqrt(t * t + v) - u * w_ - t / 2 - 0.25));
-	auto Z = std::sqrt(q) * (w_ + std::sqrt(std::sqrt(t * t + v) - u * w_ - t / 2 - 0.25));
+	auto Z = std::sqrt(q) *
+	         (w_ + std::sqrt(std::sqrt(t * t + v) - u * w_ - t / 2 - 0.25));
 	if (z < 0)
 		Z = -Z;
 
@@ -6572,7 +6554,8 @@ COMMON_FIRST_DECLS
 	{
 		const auto tmp2 = std::sqrt(tmp1);
 
-		const auto u = r + 0.5 * std::cbrt(SQ(tmp2 + sqrt_e4pq)) + 0.5 * std::cbrt(SQ(tmp2 - sqrt_e4pq));
+		const auto u = r + 0.5 * std::cbrt(SQ(tmp2 + sqrt_e4pq)) +
+		               0.5 * std::cbrt(SQ(tmp2 - sqrt_e4pq));
 
 		const auto v = std::sqrt(u * u + e4 * q);
 		const auto w_ = 0.5 * ell.e2 * ((u + v) - q) / v;
@@ -6593,7 +6576,8 @@ COMMON_FIRST_DECLS
 		{
 			const auto tmp2_neg = std::sqrt(-tmp1);
 
-			const auto tmp4 = 2 * std::atan2(sqrt_e4pq, tmp2_neg + std::sqrt(-8 * r3)) / 3;
+			const auto tmp4 = 2 * std::atan2(sqrt_e4pq,
+			                                 tmp2_neg + std::sqrt(-8 * r3)) / 3;
 			//const auto u = -4 * r * std::sin(tmp4) * std::cos(M_PI / 6 + tmp4);
 			/*
 			https://www.wolframalpha.com/input/?i=-4+*+sin(x)+*+cos(pi%2F6+%2B+x)
@@ -6617,7 +6601,8 @@ COMMON_FIRST_DECLS
 		else // if (q == 0 && p <= e2*e2)
 		{
 			const auto tmp3 = std::sqrt(ell.e2 - p);
-			lat_rad = 2 * std::atan2(std::sqrt(e4 - p), (ell.e * tmp3 + (1 - ell.f) * std::sqrt(p)));
+			lat_rad = 2 * std::atan2(std::sqrt(e4 - p),
+			                         (ell.e * tmp3 + (1 - ell.f) * std::sqrt(p)));
 #ifdef USE_CUSTOM_HT
 			ht = -ell.a * (1 - ell.f) * tmp3 / ell.e;
 #endif
@@ -6678,7 +6663,8 @@ COMMON_FIRST_DECLS
 	{
 		const auto tmp2 = std::sqrt(tmp1);
 
-		const auto u = r + 0.5 * std::cbrt(SQ(tmp2 + sqrt_e4pq)) + 0.5 * std::cbrt(SQ(tmp2 - sqrt_e4pq));
+		const auto u = r + 0.5 * std::cbrt(SQ(tmp2 + sqrt_e4pq)) +
+		               0.5 * std::cbrt(SQ(tmp2 - sqrt_e4pq));
 
 		const auto v = std::sqrt(u * u + e4 * q);
 		const auto w_ = 0.5 * ell.e2 * ((u + v) - q) / v;
@@ -6699,7 +6685,8 @@ COMMON_FIRST_DECLS
 		{
 			const auto tmp2_neg = std::sqrt(-tmp1);
 
-			const auto tmp4 = 2 * std::atan2(sqrt_e4pq, tmp2_neg + std::sqrt(-8 * r3)) / 3;
+			const auto tmp4 = 2 * std::atan2(sqrt_e4pq,
+			                                 tmp2_neg + std::sqrt(-8 * r3)) / 3;
 			//const auto u = -4 * r * std::sin(tmp4) * std::cos(M_PI / 6 + tmp4);
 			/*
 			https://www.wolframalpha.com/input/?i=-4+*+sin(x)+*+cos(pi%2F6+%2B+x)
@@ -6723,7 +6710,8 @@ COMMON_FIRST_DECLS
 		else // if (q == 0 && p <= e2*e2)
 		{
 			const auto tmp3 = std::sqrt(ell.e2 - p);
-			lat_rad = 2 * std::atan2(std::sqrt(e4 - p), (ell.e * tmp3 + (1 - ell.f) * std::sqrt(p)));
+			lat_rad = 2 * std::atan2(std::sqrt(e4 - p),
+			                         (ell.e * tmp3 + (1 - ell.f) * std::sqrt(p)));
 #ifdef USE_CUSTOM_HT
 			ht = -ell.a * (1 - ell.f) * tmp3 / ell.e;
 #endif
@@ -6953,7 +6941,7 @@ COMMON_FIRST_DECLS
 	// theoretically, F+std::sqrt(E3F2)>=0; but sometimes F+std::sqrt(E3F2) numerical value is negative
 	auto m = std::cbrt(std::abs(F + std::sqrt(E3F2)));
 	// theoretically, F-std::sqrt(E3F2)>=0; but sometimes F-std::sqrt(E3F2) numerical value is negative
-	m = m - E/m;
+	m = m - E / m;
 	// theoretically, -m-p/6>=0; but sometimes -m-p/6 numerical value is negative
 	const auto s0 = std::abs(-m - p / 6);
 	// theoretically, u+v=std::sqrt((p/2+2*s0)^2-r)-p/2-s0 >=0;
