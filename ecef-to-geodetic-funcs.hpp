@@ -160,13 +160,9 @@ struct func_info_t
 		citation                    ( _citation                    )
 	{
 		if (needs_code_for_corner_cases)
-		{
 			num_lines += _lines_common_first_decls_checked;
-		}
 		else
-		{
 			num_lines += _lines_common_first_decls;
-		}
 	}
 };
 
@@ -717,26 +713,14 @@ COMMON_FIRST_DECLS
 	const auto r = std::sqrt(w2 + z2);
 	double aD_b;
 
-	if (r <= 2E6 + (ell.a + ell.b) / 2)
-	{
-		// region 1
+	if (r <= 2E6 + (ell.a + ell.b) / 2) // region 1
 		aD_b = 1.0026;
-	}
-	else if (r <= 6E6 + (ell.a + ell.b) / 2)
-	{
-		// region 2
+	else if (r <= 6E6 + (ell.a + ell.b) / 2) // region 2
 		aD_b = 1.00092592;
-	}
-	else if (r <= 18E6 + (ell.a + ell.b) / 2)
-	{
-		// region 3
+	else if (r <= 18E6 + (ell.a + ell.b) / 2) // region 3
 		aD_b = 0.999250297;
-	}
-	else // if (r <= 1E9 + (ell.a + ell.b) / 2)
-	{
-		// region 4
+	else // if (r <= 1E9 + (ell.a + ell.b) / 2) // region 4
 		aD_b = 0.997523508;
-	}
 
 	// (i = 0) geocentric to parametric
 	auto sin_lat = z * aD_b;
@@ -787,26 +771,14 @@ COMMON_FIRST_DECLS
 	const auto r = std::sqrt(w2 + z2);
 	double aD_b;
 
-	if (r <= 2E6 + (ell.a + ell.b) / 2)
-	{
-		// region 1
+	if (r <= 2E6 + (ell.a + ell.b) / 2) // region 1
 		aD_b = 1.0026;
-	}
-	else if (r <= 6E6 + (ell.a + ell.b) / 2)
-	{
-		// region 2
+	else if (r <= 6E6 + (ell.a + ell.b) / 2) // region 2
 		aD_b = 1.00092592;
-	}
-	else if (r <= 18E6 + (ell.a + ell.b) / 2)
-	{
-		// region 3
+	else if (r <= 18E6 + (ell.a + ell.b) / 2) // region 3
 		aD_b = 0.999250297;
-	}
-	else // if (r <= 1E9 + (ell.a + ell.b) / 2)
-	{
-		// region 4
+	else // if (r <= 1E9 + (ell.a + ell.b) / 2) // region 4
 		aD_b = 0.997523508;
-	}
 
 	// (i = 0) geocentric to parametric
 	auto sin_lat = z * aD_b;
@@ -893,31 +865,24 @@ COMMON_FIRST_DECLS
 
 	double t = 0;
 
-	if (tM <= 0)
+	if (tM <= 0) // Case 1
 	{
-		// Case 1
 		t = (w - c + zp) / (w - c + 2 * zp);
 	}
-	else if (tM >= 1)
+	else if (tM >= 1) // Case 2
 	{
-		// Case 2
 		t = w / (zp + c);
 	}
-	else
+	else // Case 3
 	{
-		auto fM = f(tM, u, v, w);
+		const auto fM = f(tM, u, v, w);
 
-		// Case 3
-		if (fM >= 0)
+		if (fM >= 0) // Case 3a // (same as Case 2)
 		{
-			// Case 3a
-			// (same as Case 2)
 			t = w / (zp + c);
 		}
-		else // fM < 0
+		else // fM < 0 // Case 3b // (same as Case 1)
 		{
-			// Case 3b
-			// (same as Case 1)
 			t = (w - c + zp) / (w - c + 2 * zp);
 		}
 	}
@@ -961,7 +926,8 @@ COMMON_FIRST_DECLS
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
 #ifdef USE_CUSTOM_HT
-	ht = (2 * w * ep * t + z * (1 - t * t) - ell.a * ep * (1 + t * t)) / std::sqrt(SQ(1 + t * t) - 4 * ell.e2 * t * t);
+	ht = (2 * w * ep * t + z * (1 - t * t) - ell.a * ep * (1 + t * t)) /
+	     std::sqrt(SQ(1 + t * t) - 4 * ell.e2 * t * t);
 #else
 	normalize(cos_lat, sin_lat);
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
@@ -1032,31 +998,24 @@ COMMON_FIRST_DECLS
 
 	double t = 0;
 
-	if (tM <= 0)
+	if (tM <= 0) // Case 1
 	{
-		// Case 1
 		t = (w - c + zp) / (w - c + 2 * zp);
 	}
-	else if (tM >= 1)
+	else if (tM >= 1) // Case 2
 	{
-		// Case 2
 		t = w / (zp + c);
 	}
-	else
+	else // Case 3
 	{
-		auto fM = f(tM, u, v, w);
+		const auto fM = f(tM, u, v, w);
 
-		// Case 3
-		if (fM >= 0)
+		if (fM >= 0) // Case 3a // (same as Case 2)
 		{
-			// Case 3a
-			// (same as Case 2)
 			t = w / (zp + c);
 		}
-		else // fM < 0
+		else // fM < 0 // Case 3b // (same as Case 1)
 		{
-			// Case 3b
-			// (same as Case 1)
 			t = (w - c + zp) / (w - c + 2 * zp);
 		}
 	}
@@ -2058,7 +2017,6 @@ COMMON_FIRST_DECLS
 	for (int i = 1; i <= max_iterations; ++i)
 	{
 		lat_rad -= halley_delta_lat(w, z, sin_lat, cos_lat);
-
 		sin_lat = std::sin(lat_rad);
 		cos_lat = std::cos(lat_rad);
 	}
@@ -2105,7 +2063,6 @@ COMMON_FIRST_DECLS
 	for (int i = 1; i <= max_iterations; ++i)
 	{
 		lat_rad -= halley_delta_lat(w, z, sin_lat, cos_lat);
-
 		sin_lat = std::sin(lat_rad);
 		cos_lat = std::cos(lat_rad);
 	}
@@ -2151,13 +2108,10 @@ COMMON_FIRST_DECLS
 	for (int i = 1; i <= max_iterations; ++i)
 	{
 		const auto delta_lat_rad = halley_delta_lat(w, z, sin_lat, cos_lat);
-
 		const auto sin_delta_lat = std::sin(delta_lat_rad);
 		const auto cos_delta_lat = std::cos(delta_lat_rad);
-
 		const auto next_sin_lat = sin_lat * cos_delta_lat - cos_lat * sin_delta_lat;
 		const auto next_cos_lat = cos_lat * cos_delta_lat + sin_lat * sin_delta_lat;
-
 		sin_lat = next_sin_lat;
 		cos_lat = next_cos_lat;
 	}
@@ -2204,13 +2158,10 @@ COMMON_FIRST_DECLS
 	for (int i = 1; i <= max_iterations; ++i)
 	{
 		const auto delta_lat_rad = halley_delta_lat(w, z, sin_lat, cos_lat);
-
 		const auto sin_delta_lat = std::sin(delta_lat_rad);
 		const auto cos_delta_lat = std::cos(delta_lat_rad);
-
 		const auto next_sin_lat = sin_lat * cos_delta_lat - cos_lat * sin_delta_lat;
 		const auto next_cos_lat = cos_lat * cos_delta_lat + sin_lat * sin_delta_lat;
-
 		sin_lat = next_sin_lat;
 		cos_lat = next_cos_lat;
 	}
@@ -2414,7 +2365,6 @@ COMMON_FIRST_DECLS
 	for (int i = 1; i <= max_iterations; ++i)
 	{
 		lat_rad -= householder_delta_lat(w, z, sin_lat, cos_lat);
-
 		sin_lat = std::sin(lat_rad);
 		cos_lat = std::cos(lat_rad);
 	}
@@ -2461,7 +2411,6 @@ COMMON_FIRST_DECLS
 	for (int i = 1; i <= max_iterations; ++i)
 	{
 		lat_rad -= householder_delta_lat(w, z, sin_lat, cos_lat);
-
 		sin_lat = std::sin(lat_rad);
 		cos_lat = std::cos(lat_rad);
 	}
@@ -2507,13 +2456,10 @@ COMMON_FIRST_DECLS
 	for (int i = 1; i <= max_iterations; ++i)
 	{
 		const auto delta_lat_rad = householder_delta_lat(w, z, sin_lat, cos_lat);
-
 		const auto sin_delta_lat = std::sin(delta_lat_rad);
 		const auto cos_delta_lat = std::cos(delta_lat_rad);
-
 		const auto next_sin_lat = sin_lat * cos_delta_lat - cos_lat * sin_delta_lat;
 		const auto next_cos_lat = cos_lat * cos_delta_lat + sin_lat * sin_delta_lat;
-
 		sin_lat = next_sin_lat;
 		cos_lat = next_cos_lat;
 	}
@@ -2560,13 +2506,10 @@ COMMON_FIRST_DECLS
 	for (int i = 1; i <= max_iterations; ++i)
 	{
 		const auto delta_lat_rad = householder_delta_lat(w, z, sin_lat, cos_lat);
-
 		const auto sin_delta_lat = std::sin(delta_lat_rad);
 		const auto cos_delta_lat = std::cos(delta_lat_rad);
-
 		const auto next_sin_lat = sin_lat * cos_delta_lat - cos_lat * sin_delta_lat;
 		const auto next_cos_lat = cos_lat * cos_delta_lat + sin_lat * sin_delta_lat;
-
 		sin_lat = next_sin_lat;
 		cos_lat = next_cos_lat;
 	}
@@ -2789,9 +2732,7 @@ COMMON_FIRST_DECLS
 	ht = hypot(w - we, z - ze);
 
 	if (w + std::abs(z) < we + std::abs(ze))
-	{
 		ht = -ht;
-	}
 #else
 	normalize(cos_lat, sin_lat);
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
@@ -3445,7 +3386,6 @@ COMMON_FIRST_DECLS
 	for (int i = 1; i <= max_iterations; ++i)
 	{
 		lat_rad -= newton_raphson_delta_lat(w, z, sin_lat, cos_lat);
-
 		sin_lat = std::sin(lat_rad);
 		cos_lat = std::cos(lat_rad);
 	}
@@ -3492,7 +3432,6 @@ COMMON_FIRST_DECLS
 	for (int i = 1; i <= max_iterations; ++i)
 	{
 		lat_rad -= newton_raphson_delta_lat(w, z, sin_lat, cos_lat);
-
 		sin_lat = std::sin(lat_rad);
 		cos_lat = std::cos(lat_rad);
 	}
@@ -3538,13 +3477,10 @@ COMMON_FIRST_DECLS
 	for (int i = 1; i <= max_iterations; ++i)
 	{
 		const auto delta_lat_rad = newton_raphson_delta_lat(w, z, sin_lat, cos_lat);
-
 		const auto sin_delta_lat = std::sin(delta_lat_rad);
 		const auto cos_delta_lat = std::cos(delta_lat_rad);
-
 		const auto next_sin_lat = sin_lat * cos_delta_lat - cos_lat * sin_delta_lat;
 		const auto next_cos_lat = cos_lat * cos_delta_lat + sin_lat * sin_delta_lat;
-
 		sin_lat = next_sin_lat;
 		cos_lat = next_cos_lat;
 	}
@@ -3591,13 +3527,10 @@ COMMON_FIRST_DECLS
 	for (int i = 1; i <= max_iterations; ++i)
 	{
 		const auto delta_lat_rad = newton_raphson_delta_lat(w, z, sin_lat, cos_lat);
-
 		const auto sin_delta_lat = std::sin(delta_lat_rad);
 		const auto cos_delta_lat = std::cos(delta_lat_rad);
-
 		const auto next_sin_lat = sin_lat * cos_delta_lat - cos_lat * sin_delta_lat;
 		const auto next_cos_lat = cos_lat * cos_delta_lat + sin_lat * sin_delta_lat;
-
 		sin_lat = next_sin_lat;
 		cos_lat = next_cos_lat;
 	}
@@ -4490,7 +4423,6 @@ COMMON_FIRST_DECLS
 	for (int i = 1; i <= max_iterations; ++i)
 	{
 		lat_rad -= schroder_delta_lat(w, z, sin_lat, cos_lat);
-
 		sin_lat = std::sin(lat_rad);
 		cos_lat = std::cos(lat_rad);
 	}
@@ -4537,7 +4469,6 @@ COMMON_FIRST_DECLS
 	for (int i = 1; i <= max_iterations; ++i)
 	{
 		lat_rad -= schroder_delta_lat(w, z, sin_lat, cos_lat);
-
 		sin_lat = std::sin(lat_rad);
 		cos_lat = std::cos(lat_rad);
 	}
@@ -4583,13 +4514,10 @@ COMMON_FIRST_DECLS
 	for (int i = 1; i <= max_iterations; ++i)
 	{
 		const auto delta_lat_rad = schroder_delta_lat(w, z, sin_lat, cos_lat);
-
 		const auto sin_delta_lat = std::sin(delta_lat_rad);
 		const auto cos_delta_lat = std::cos(delta_lat_rad);
-
 		const auto next_sin_lat = sin_lat * cos_delta_lat - cos_lat * sin_delta_lat;
 		const auto next_cos_lat = cos_lat * cos_delta_lat + sin_lat * sin_delta_lat;
-
 		sin_lat = next_sin_lat;
 		cos_lat = next_cos_lat;
 	}
@@ -4636,13 +4564,10 @@ COMMON_FIRST_DECLS
 	for (int i = 1; i <= max_iterations; ++i)
 	{
 		const auto delta_lat_rad = schroder_delta_lat(w, z, sin_lat, cos_lat);
-
 		const auto sin_delta_lat = std::sin(delta_lat_rad);
 		const auto cos_delta_lat = std::cos(delta_lat_rad);
-
 		const auto next_sin_lat = sin_lat * cos_delta_lat - cos_lat * sin_delta_lat;
 		const auto next_cos_lat = cos_lat * cos_delta_lat + sin_lat * sin_delta_lat;
-
 		sin_lat = next_sin_lat;
 		cos_lat = next_cos_lat;
 	}
