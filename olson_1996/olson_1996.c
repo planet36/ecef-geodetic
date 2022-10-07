@@ -1,8 +1,11 @@
+// SPDX-FileCopyrightText: Donald K. Olson
+// SPDX-License-Identifier: CC0-1.0
+
 #include <math.h>
 
 /// convert from ECEF to geodetic
 /**
-D. K. Olson, "Converting Earth-centered, Earth-fixed coordinates to geodetic coordinates," in IEEE Transactions on Aerospace and Electronic Systems, vol. 32, no. 1, pp. 473-476, Jan. 1996, doi: 10.1109/7.481290.
+Olson, D. K. (1996). Converting Earth-Centered, Earth-Fixed Coordinates to Geodetic Coordinates. IEEE Transactions on Aerospace and Electronic Systems, 32(1), 473–476. https://doi.org/10.1109/7.481290
 
 U.S. Government work, U.S. copyright does not apply.
 
