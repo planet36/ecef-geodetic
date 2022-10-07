@@ -55,7 +55,7 @@ void normalize(T& x, T& y)
 
 /// get the cosine of the angle, given the sine of the angle
 /**
-\pre original angle is in the interval [-90°, +90°]
+\pre original angle is within the interval [-90°, +90°]
 \pre abs(\a sin_x) <= 1
 \param sin_x the sine of the angle
 \return the cosine of the angle
@@ -3641,11 +3641,7 @@ const auto func_info = func_info_t(
 	/*.license                     =*/ "Public Domain",
 	/*.orig_impl_lang              =*/ "C",
 	/*.url                         =*/ "https://www.researchgate.net/publication/3002552_Converting_Earth-Centered_Earth-Fixed_Coordinates_to_Geodetic_Coordinates",
-	/*.citation                    =*/ R"(D. K. Olson, "Converting Earth-centered, Earth-fixed coordinates to geodetic coordinates," in IEEE Transactions on Aerospace and Electronic Systems, vol. 32, no. 1, pp. 473-476, Jan. 1996, doi: 10.1109/7.481290.
-URL: https://ieeexplore.ieee.org/document/481290
-
-Olson, D.K.. (1996). Converting Earth-Centered, Earth-Fixed Coordinates to Geodetic Coordinates. Aerospace and Electronic Systems, IEEE Transactions on. 32. 473 - 476. 10.1109/7.481290.
-
+	/*.citation                    =*/ R"(Olson, D. K. (1996). Converting Earth-Centered, Earth-Fixed Coordinates to Geodetic Coordinates. IEEE Transactions on Aerospace and Electronic Systems, 32(1), 473–476. https://doi.org/10.1109/7.481290
 Converted to C++ and modified by Steven Ward.  No rights reserved.)"
 );
 
@@ -3736,11 +3732,7 @@ const auto func_info = func_info_t(
 	/*.license                     =*/ "Public Domain",
 	/*.orig_impl_lang              =*/ "C",
 	/*.url                         =*/ "https://www.researchgate.net/publication/3002552_Converting_Earth-Centered_Earth-Fixed_Coordinates_to_Geodetic_Coordinates",
-	/*.citation                    =*/ R"(D. K. Olson, "Converting Earth-centered, Earth-fixed coordinates to geodetic coordinates," in IEEE Transactions on Aerospace and Electronic Systems, vol. 32, no. 1, pp. 473-476, Jan. 1996, doi: 10.1109/7.481290.
-URL: https://ieeexplore.ieee.org/document/481290
-
-Olson, D.K.. (1996). Converting Earth-Centered, Earth-Fixed Coordinates to Geodetic Coordinates. Aerospace and Electronic Systems, IEEE Transactions on. 32. 473 - 476. 10.1109/7.481290.
-
+	/*.citation                    =*/ R"(Olson, D. K. (1996). Converting Earth-Centered, Earth-Fixed Coordinates to Geodetic Coordinates. IEEE Transactions on Aerospace and Electronic Systems, 32(1), 473–476. https://doi.org/10.1109/7.481290
 Converted to C++ and modified by Steven Ward.  No rights reserved.)"
 );
 
