@@ -1,7 +1,7 @@
 # ecef-geodetic
 A collection of ECEF-to-geodetic coordinate conversion functions
 
-Here are the abstract and recommendations sections from my paper _Comparison of Earth-Centered, Earth-Fixed to Geodetic Coordinate Conversion Algorithms_ published in the [2020 SIW](https://www.sisostds.org/2020SIW.aspx) conference.
+Here are the abstract and recommendations sections from my paper _Comparison of Earth-Centered, Earth-Fixed to Geodetic Coordinate Conversion Algorithms_ published in the [2020 SIW](https://web.archive.org/web/20200813024039/https://www.sisostds.org/2020SIW.aspx) conference.
 
 ### Abstract
 > The conversion of Earth-Centered, Earth-Fixed (ECEF) coordinates to geodetic latitude is inexact, and many algorithms for it have been developed in recent decades.
