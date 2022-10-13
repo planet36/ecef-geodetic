@@ -1319,9 +1319,8 @@ COMMON_FIRST_DECLS
 
 #ifdef USE_CUSTOM_HT
 #else
-	// sin and cos are sufficiently accurate (and normalized) to be used in the ell.get_ht function, but this is more accurate
 	ht = ell.get_ht(w, z, lat_rad);
-	// XXX: is this better?
+	// This is faster but less accurate than above.
 	//normalize(cos_lat, sin_lat);
 	//ht = ell.get_ht(w, z, sin_lat, cos_lat);
 #endif
@@ -1450,9 +1449,8 @@ COMMON_FIRST_DECLS
 
 #ifdef USE_CUSTOM_HT
 #else
-	// sin and cos are sufficiently accurate (and normalized) to be used in the ell.get_ht function, but this is more accurate
 	ht = ell.get_ht(w, z, lat_rad);
-	// XXX: is this better?
+	// This is faster but less accurate than above.
 	//normalize(cos_lat, sin_lat);
 	//ht = ell.get_ht(w, z, sin_lat, cos_lat);
 #endif
