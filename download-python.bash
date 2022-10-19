@@ -1,7 +1,8 @@
 
 # scripts
 for F in \
-Nd-arange
+Nd-arange \
+plot-points.py
 do
 	if [[ ! -f "$F" ]]
 	then
