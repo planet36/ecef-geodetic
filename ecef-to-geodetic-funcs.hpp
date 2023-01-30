@@ -3581,9 +3581,9 @@ COMMON_FIRST_DECLS
 	auto u = a2 / r;
 	auto v = a3 - a4 / r;
 
-	double s;
-	double c;
-	double ss;
+	double s{};
+	double c{};
+	double ss{};
 
 	// cos(45 deg)^2 == 0.5
 	if (c2 > 0.5) // Equatorial
@@ -3672,9 +3672,9 @@ COMMON_FIRST_DECLS
 	auto u = a2 / r;
 	auto v = a3 - a4 / r;
 
-	double s;
-	double c;
-	double ss;
+	double s{};
+	double c{};
+	double ss{};
 
 	// cos(45 deg)^2 == 0.5
 	if (c2 > 0.5) // Equatorial
@@ -4604,13 +4604,13 @@ auto gee(const T h, const T rn)
 template <std::floating_point T>
 struct SRM_GC_GD_Specific_Constants
 {
-	T b1[5];
-	T b2[5];
-	T b3[5];
-	T b4[5];
-	T b5[5];
-	T u[5];
-	T v[5];
+	T b1[5]{};
+	T b2[5]{};
+	T b3[5]{};
+	T b4[5]{};
+	T b5[5]{};
+	T u[5]{};
+	T v[5]{};
 };
 
 template <std::floating_point T>
@@ -4757,7 +4757,7 @@ Algorithm derived by Ralph Toms, SRI.
 	{                                                \
 		const auto _alpha = 1.004244;                \
 		const auto _d1 = -0.5 * ell.e2;              \
-		const auto _x = _d1 * arg;                   \
+		const auto _x = _d1 * (arg);                 \
 		const auto _ak = 0.5 + _x;                   \
 		const auto _z = 1 - _alpha * _x;             \
 		answer = ell.a * _z * (1.5 - _ak * _z * _z); \
@@ -5198,13 +5198,13 @@ auto gee(const T h, const T rn)
 template <std::floating_point T>
 struct SRM_GC_GD_Specific_Constants
 {
-	T b1[5];
-	T b2[5];
-	T b3[5];
-	T b4[5];
-	T b5[5];
-	T u[5];
-	T v[5];
+	T b1[5]{};
+	T b2[5]{};
+	T b3[5]{};
+	T b4[5]{};
+	T b5[5]{};
+	T u[5]{};
+	T v[5]{};
 };
 
 template <std::floating_point T>
@@ -5351,7 +5351,7 @@ Algorithm derived by Ralph Toms, SRI.
 	{                                                \
 		const auto _alpha = 1.004244;                \
 		const auto _d1 = -0.5 * ell.e2;              \
-		const auto _x = _d1 * arg;                   \
+		const auto _x = _d1 * (arg);                 \
 		const auto _ak = 0.5 + _x;                   \
 		const auto _z = 1 - _alpha * _x;             \
 		answer = ell.a * _z * (1.5 - _ak * _z * _z); \
