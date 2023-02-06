@@ -13,6 +13,7 @@
 
 #include <cmath>
 #include <concepts>
+#include <functional>
 #include <string>
 
 /// the ellipsoid to use
@@ -124,10 +125,12 @@ constexpr int _lines_common_first_decls = 4;
 // these are the lines in the common first decls (checked)
 constexpr int _lines_common_first_decls_checked = 28;
 
+template <std::floating_point T>
+using ecef_to_geodetic_func = std::function<void(const T, const T, const T, T&, T&, T&)>;
+
 struct func_info_t
 {
-	void (&func_ref)(const double, const double, const double,
-	                 double&, double&, double&);
+	ecef_to_geodetic_func<double> func_ref;
 	int                    num_lines;
 	const bool             needs_code_for_corner_cases;
 	const int              ilog10_mean_dist_err;
@@ -138,8 +141,7 @@ struct func_info_t
 	const std::string_view url;
 	const std::string_view citation;
 
-	func_info_t(void (&_func_ref)(const double, const double, const double,
-	                              double&, double&, double&),
+	func_info_t(const ecef_to_geodetic_func<double>& _func_ref,
 	            const int              _num_lines,
 	            const bool             _needs_code_for_corner_cases,
 	            const int              _ilog10_mean_dist_err,
