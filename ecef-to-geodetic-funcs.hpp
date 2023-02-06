@@ -24,7 +24,8 @@ constexpr auto ell = WGS84<double>;
 \sa https://mathworld.wolfram.com/VectorNorm.html
 \sa https://mathworld.wolfram.com/L2-Norm.html
 \sa https://en.cppreference.com/w/cpp/numeric/math/hypot
-\param[in,out] x,y the vector coordinates
+\param[in,out] x the X coordinate
+\param[in,out] y the Y coordinate
 \return the 2D hypotenuse
 */
 template <std::floating_point T>
@@ -43,7 +44,8 @@ auto hypot(const T x, const T y)
 \pre The magnitude of &lt;\a x, \a y&gt; is non-zero.
 \sa https://mathworld.wolfram.com/NormalizedVector.html
 \sa https://mathworld.wolfram.com/UnitVector.html
-\param[in,out] x,y the vector coordinates
+\param[in,out] x the X coordinate
+\param[in,out] y the Y coordinate
 */
 template <std::floating_point T>
 void normalize(T& x, T& y)
