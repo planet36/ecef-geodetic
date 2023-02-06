@@ -130,7 +130,7 @@ using ecef_to_geodetic_func = std::function<void(const T, const T, const T, T&, 
 
 struct func_info_t
 {
-	ecef_to_geodetic_func<double> func_ref;
+	ecef_to_geodetic_func<double> func;
 	int                    num_lines;
 	const bool             needs_code_for_corner_cases;
 	const int              ilog10_mean_dist_err;
@@ -141,7 +141,7 @@ struct func_info_t
 	const std::string_view url;
 	const std::string_view citation;
 
-	func_info_t(const ecef_to_geodetic_func<double>& _func_ref,
+	func_info_t(const ecef_to_geodetic_func<double>& _func,
 	            const int              _num_lines,
 	            const bool             _needs_code_for_corner_cases,
 	            const int              _ilog10_mean_dist_err,
@@ -152,7 +152,7 @@ struct func_info_t
 	            const std::string_view _url,
 	            const std::string_view _citation
 	        ):
-		func_ref                    ( _func_ref                    ) ,
+		func                        ( _func                        ) ,
 		num_lines                   ( _num_lines                   ) ,
 		needs_code_for_corner_cases ( _needs_code_for_corner_cases ) ,
 		ilog10_mean_dist_err        ( _ilog10_mean_dist_err        ) ,
@@ -476,7 +476,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 0;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -7,
@@ -523,7 +523,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 0;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -2,
@@ -578,7 +578,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 0;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
@@ -629,7 +629,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 0;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -7,
@@ -687,7 +687,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 0;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
@@ -745,7 +745,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 0;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -3,
@@ -811,7 +811,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 0;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
@@ -942,7 +942,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 20;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ 99,
@@ -1075,7 +1075,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 20;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ 99,
@@ -1142,7 +1142,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 0;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -5,
@@ -1207,7 +1207,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 0;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ 99,
@@ -1334,7 +1334,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 0;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
@@ -1464,7 +1464,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 0;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
@@ -1694,7 +1694,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 0;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -4,
@@ -1923,7 +1923,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 0;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -4,
@@ -1984,7 +1984,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 0;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ 99,
@@ -2030,7 +2030,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = _lines_halley_delta_lat;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -2,
@@ -2076,7 +2076,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = _lines_halley_delta_lat;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -10,
@@ -2126,7 +2126,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = _lines_halley_delta_lat;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -2,
@@ -2176,7 +2176,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = _lines_halley_delta_lat;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
@@ -2253,7 +2253,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 0;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
@@ -2331,7 +2331,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 0;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
@@ -2378,7 +2378,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = _lines_householder_delta_lat;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -2,
@@ -2424,7 +2424,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = _lines_householder_delta_lat;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -10,
@@ -2474,7 +2474,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = _lines_householder_delta_lat;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -2,
@@ -2524,7 +2524,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = _lines_householder_delta_lat;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
@@ -2589,7 +2589,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 0;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -3,
@@ -2676,7 +2676,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 0;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ 1,
@@ -2745,7 +2745,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = _lines_ligas_util;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -2,
@@ -2814,7 +2814,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = _lines_ligas_util;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -8,
@@ -2881,7 +2881,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = _lines_lin_wang_1995_delta_m;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -7,
@@ -2948,7 +2948,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = _lines_lin_wang_1995_delta_m;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
@@ -3016,7 +3016,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = _lines_lin_wang_1995_delta_m;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -4,
@@ -3085,7 +3085,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = _lines_lin_wang_1995_delta_m;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
@@ -3134,7 +3134,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 0;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ 99,
@@ -3191,7 +3191,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 0;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ 0,
@@ -3245,7 +3245,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 0;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -3,
@@ -3293,7 +3293,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 0;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ 0,
@@ -3347,7 +3347,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 0;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -3,
@@ -3399,7 +3399,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = _lines_newton_raphson_delta_lat;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -1,
@@ -3445,7 +3445,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = _lines_newton_raphson_delta_lat;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -10,
@@ -3495,7 +3495,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = _lines_newton_raphson_delta_lat;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -1,
@@ -3545,7 +3545,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = _lines_newton_raphson_delta_lat;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
@@ -3634,7 +3634,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 0;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
@@ -3725,7 +3725,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 0;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
@@ -3921,7 +3921,7 @@ constexpr int _lines_extra = 0;
 
 // this algorithm does not include the common declarations
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra - _lines_common_first_decls,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -5,
@@ -3983,7 +3983,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 0;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ true,
 	/*.ilog10_mean_dist_err        =*/ -7,
@@ -4065,7 +4065,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 0;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ 99,
@@ -4137,7 +4137,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 0;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ 99,
@@ -4194,7 +4194,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 0;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -2,
@@ -4251,7 +4251,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 0;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -4,
@@ -4316,7 +4316,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 0;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -7,
@@ -4381,7 +4381,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 0;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
@@ -4428,7 +4428,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = _lines_schroder_delta_lat;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -1,
@@ -4474,7 +4474,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = _lines_schroder_delta_lat;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -10,
@@ -4524,7 +4524,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = _lines_schroder_delta_lat;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -1,
@@ -4574,7 +4574,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = _lines_schroder_delta_lat;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
@@ -5166,7 +5166,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 0;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -5,
@@ -5760,7 +5760,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 0;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -4,
@@ -5817,7 +5817,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = _lines_shu_2010_delta_k;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -7,
@@ -5872,7 +5872,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = _lines_shu_2010_delta_k;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
@@ -5928,7 +5928,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = _lines_shu_2010_delta_k;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -5,
@@ -5985,7 +5985,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = _lines_shu_2010_delta_k;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
@@ -6069,7 +6069,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 0;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ 99,
@@ -6143,7 +6143,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 0;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ 0,
@@ -6223,7 +6223,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 0;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ 99,
@@ -6323,7 +6323,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 0;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ 99,
@@ -6375,7 +6375,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 0;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
@@ -6483,7 +6483,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 0;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
@@ -6592,7 +6592,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 0;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
@@ -6670,7 +6670,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = _lines_wu_2003_delta_t;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ true,
 	/*.ilog10_mean_dist_err        =*/ 2,
@@ -6748,7 +6748,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = _lines_wu_2003_delta_t;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ true,
 	/*.ilog10_mean_dist_err        =*/ -4,
@@ -6851,7 +6851,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 0;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
@@ -6910,7 +6910,7 @@ constexpr int _line_end = __LINE__;
 constexpr int _lines_extra = 0;
 
 const auto func_info = func_info_t(
-	/*.func_ref                    =*/ ecef_to_geodetic,
+	/*.func                        =*/ ecef_to_geodetic,
 	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
