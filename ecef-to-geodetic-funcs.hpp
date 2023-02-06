@@ -256,11 +256,11 @@ template <std::floating_point T>
 void get_f_fp(const T w, const T z, const T sin_lat, const T cos_lat,
               T& f, T& fp)
 {
-	const auto d2 = 1 - WGS84<T>.e2 * sin_lat * sin_lat;
+	const auto d2 = 1 - ell.e2 * sin_lat * sin_lat;
 	const auto d = std::sqrt(d2);
-	const auto Rn = WGS84<T>.a / d;
-	f = Rn * WGS84<T>.e2 * sin_lat * cos_lat - w * sin_lat + z * cos_lat;
-	fp = Rn * (d2 - (1 - WGS84<T>.e2) / d2) - w * cos_lat - z * sin_lat;
+	const auto Rn = ell.a / d;
+	f = Rn * ell.e2 * sin_lat * cos_lat - w * sin_lat + z * cos_lat;
+	fp = Rn * (d2 - (1 - ell.e2) / d2) - w * cos_lat - z * sin_lat;
 }
 
 constexpr int _lines_f_fp = 10;
@@ -270,13 +270,13 @@ template <std::floating_point T>
 void get_f_fp_fpp(const T w, const T z, const T sin_lat, const T cos_lat,
                   T& f, T& fp, T& fpp)
 {
-	const auto d2 = 1 - WGS84<T>.e2 * sin_lat * sin_lat;
+	const auto d2 = 1 - ell.e2 * sin_lat * sin_lat;
 	const auto d = std::sqrt(d2);
-	const auto Rn = WGS84<T>.a / d;
-	f = Rn * WGS84<T>.e2 * sin_lat * cos_lat - w * sin_lat + z * cos_lat;
-	fp = Rn * (d2 - (1 - WGS84<T>.e2) / d2) - w * cos_lat - z * sin_lat;
-	fpp = -Rn * WGS84<T>.e2 * sin_lat * cos_lat *
-	      (d2 + 3 * (1 - WGS84<T>.e2) / d2) / d2 + w * sin_lat - z * cos_lat;
+	const auto Rn = ell.a / d;
+	f = Rn * ell.e2 * sin_lat * cos_lat - w * sin_lat + z * cos_lat;
+	fp = Rn * (d2 - (1 - ell.e2) / d2) - w * cos_lat - z * sin_lat;
+	fpp = -Rn * ell.e2 * sin_lat * cos_lat *
+	      (d2 + 3 * (1 - ell.e2) / d2) / d2 + w * sin_lat - z * cos_lat;
 }
 
 constexpr int _lines_f_fp_fpp = 12;
@@ -329,13 +329,13 @@ template <std::floating_point T>
 auto ligas_f1(const T w, const T we,
               const T z, const T ze)
 {
-	return (1 - WGS84<T>.e2) * we * (ze - z) - ze * (we - w);
+	return (1 - ell.e2) * we * (ze - z) - ze * (we - w);
 }
 
 template <std::floating_point T>
 auto ligas_f2(const T we, const T ze)
 {
-	return (1 - WGS84<T>.e2) * we * we + ze * ze - WGS84<T>.b2;
+	return (1 - ell.e2) * we * we + ze * ze - ell.b2;
 }
 
 template <std::floating_point T>
@@ -366,9 +366,9 @@ template <std::floating_point T>
 void ligas_Jacobian(const T w, const T we, const T z, const T ze,
                     T result[2][2])
 {
-	result[0][0] = (1 - WGS84<T>.e2) * (ze - z) - ze;
-	result[0][1] = (1 - WGS84<T>.e2) * we - (we - w);
-	result[1][0] = 2 * (1 - WGS84<T>.e2) * we;
+	result[0][0] = (1 - ell.e2) * (ze - z) - ze;
+	result[0][1] = (1 - ell.e2) * we - (we - w);
+	result[1][0] = 2 * (1 - ell.e2) * we;
 	result[1][1] = 2 * ze;
 }
 
@@ -377,12 +377,12 @@ constexpr int _lines_ligas_util = 46;
 template <std::floating_point T>
 auto lin_wang_1995_delta_m(const T w2, const T z2, const T m)
 {
-	const auto tmp_a = WGS84<T>.a + 2 * m / WGS84<T>.a;
-	const auto tmp_b = WGS84<T>.b + 2 * m / WGS84<T>.b;
+	const auto tmp_a = ell.a + 2 * m / ell.a;
+	const auto tmp_b = ell.b + 2 * m / ell.b;
 
 	const auto f = w2 / (tmp_a * tmp_a) + z2 / (tmp_b * tmp_b) - 1;
-	const auto fp = -4 * (w2 / (WGS84<T>.a * CB(tmp_a)) +
-	                      z2 / (WGS84<T>.b * CB(tmp_b)));
+	const auto fp = -4 * (w2 / (ell.a * CB(tmp_a)) +
+	                      z2 / (ell.b * CB(tmp_b)));
 
 	return f / fp;
 }
@@ -392,14 +392,14 @@ constexpr int _lines_lin_wang_1995_delta_m = 11;
 template <std::floating_point T>
 auto shu_2010_delta_k(const T w2, const T z2, const T k)
 {
-	const auto p = WGS84<T>.a + WGS84<T>.b * k;
-	const auto q = WGS84<T>.b + WGS84<T>.a * k;
+	const auto p = ell.a + ell.b * k;
+	const auto q = ell.b + ell.a * k;
 	const auto p2 = p * p;
 	const auto q2 = q * q;
 
 	const auto f = p2 * q2 - w2 * q2 - z2 * p2;
-	const auto fp = 2 * (WGS84<T>.b * p * (q2 - z2) +
-	                     WGS84<T>.a * q * (p2 - w2));
+	const auto fp = 2 * (ell.b * p * (q2 - z2) +
+	                     ell.a * q * (p2 - w2));
 
 	return f / fp;
 }
@@ -3833,13 +3833,13 @@ auto ScaleToGeodeticSurface(const Vector3D<T>& position)
 	const auto z2 = z * z;
 
 	auto beta = 1 / std::sqrt(
-			x2 / WGS84<T>.a2 +
-			y2 / WGS84<T>.a2 +
-			z2 / WGS84<T>.b2);
+			x2 / ell.a2 +
+			y2 / ell.a2 +
+			z2 / ell.b2);
 	auto n = Vector3D<T>{
-			beta * x / WGS84<T>.a2,
-			beta * y / WGS84<T>.a2,
-			beta * z / WGS84<T>.b2}.length();
+			beta * x / ell.a2,
+			beta * y / ell.a2,
+			beta * z / ell.b2}.length();
 	auto alpha = (1 - beta) * (position.length() / n);
 
 	T da = 0;
@@ -3854,8 +3854,8 @@ auto ScaleToGeodeticSurface(const Vector3D<T>& position)
 	{
 		alpha -= s / dSdA;
 
-		da = 1 + alpha / WGS84<T>.a2;
-		db = 1 + alpha / WGS84<T>.b2;
+		da = 1 + alpha / ell.a2;
+		db = 1 + alpha / ell.b2;
 
 		auto da2 = da * da;
 		auto db2 = db * db;
@@ -3863,13 +3863,13 @@ auto ScaleToGeodeticSurface(const Vector3D<T>& position)
 		auto da3 = da * da2;
 		auto db3 = db * db2;
 
-		s = x2 / (WGS84<T>.a2 * da2) +
-			y2 / (WGS84<T>.a2 * da2) +
-			z2 / (WGS84<T>.b2 * db2) - 1;
+		s = x2 / (ell.a2 * da2) +
+			y2 / (ell.a2 * da2) +
+			z2 / (ell.b2 * db2) - 1;
 
-		dSdA = -2 * (x2 / (WGS84<T>.a2 * WGS84<T>.a2 * da3) +
-		             y2 / (WGS84<T>.a2 * WGS84<T>.a2 * da3) +
-		             z2 / (WGS84<T>.b2 * WGS84<T>.b2 * db3));
+		dSdA = -2 * (x2 / (ell.a2 * ell.a2 * da3) +
+		             y2 / (ell.a2 * ell.a2 * da3) +
+		             z2 / (ell.b2 * ell.b2 * db3));
 	}
 	while (std::abs(s) > dist_threshold);
 
@@ -3880,9 +3880,9 @@ template <std::floating_point T>
 auto GeodeticSurfaceNormal(const Vector3D<T>& positionOnEllipsoid)
 {
 	return positionOnEllipsoid.multiply(Vector3D<T>{
-				1 / WGS84<T>.a2,
-				1 / WGS84<T>.a2,
-				1 / WGS84<T>.b2}).normalize();
+				1 / ell.a2,
+				1 / ell.a2,
+				1 / ell.b2}).normalize();
 }
 
 template <std::floating_point T>
@@ -4597,7 +4597,7 @@ constexpr int _line_begin = __LINE__;
 template <std::floating_point T>
 auto gee(const T h, const T rn)
 {
-	return (rn + h) / ((1 - WGS84<T>.e2) * rn + h);
+	return (rn + h) / ((1 - ell.e2) * rn + h);
 }
 
 /*
@@ -4662,8 +4662,8 @@ void set_gc_to_gd_constants(SRM_GC_GD_Specific_Constants<T>& gc_gd_spec)
 	T f1 = NAN;
 	T f2 = NAN;
 
-	//if (WGS84<T>.e > 1E-12)
-	if (WGS84<T>.e2 > 1E-24)
+	//if (ell.e > 1E-12)
+	if (ell.e2 > 1E-24)
 	{
 		del[0] = 3E4;
 		del[1] = 5E4;
@@ -4677,40 +4677,40 @@ void set_gc_to_gd_constants(SRM_GC_GD_Specific_Constants<T>& gc_gd_spec)
 		{
 			hmx = hmn + del[i];
 
-			g1 = gee(hmn, WGS84<T>.a); /* changed 0 to 1E-14 */
-			g2 = gee(hmx, WGS84<T>.a);
+			g1 = gee(hmn, ell.a); /* changed 0 to 1E-14 */
+			g2 = gee(hmx, ell.a);
 
-			g3 = gee(hmx, WGS84<T>.a / (1 - WGS84<T>.f));
-			g4 = gee(hmn, WGS84<T>.a / (1 - WGS84<T>.f));
+			g3 = gee(hmx, ell.a / (1 - ell.f));
+			g4 = gee(hmn, ell.a / (1 - ell.f));
 
 			hm = (hmx - hmn) * 0.5;
 
-			gm = gee(hm, WGS84<T>.a / std::sqrt(1 - WGS84<T>.e2 / 2));
+			gm = gee(hm, ell.a / std::sqrt(1 - ell.e2 / 2));
 
-			d1 = SQ(WGS84<T>.b + hmx) * g3 - SQ(WGS84<T>.b + hmn) * g4;
-			d1 = d1 / (SQ(WGS84<T>.b + hmx) - SQ(WGS84<T>.b + hmn));
+			d1 = SQ(ell.b + hmx) * g3 - SQ(ell.b + hmn) * g4;
+			d1 = d1 / (SQ(ell.b + hmx) - SQ(ell.b + hmn));
 
-			d2 = -(g4 - g3) / (SQ(WGS84<T>.b + hmx) - SQ(WGS84<T>.b + hmn));
+			d2 = -(g4 - g3) / (SQ(ell.b + hmx) - SQ(ell.b + hmn));
 
-			d3 = SQ(WGS84<T>.b + hmx) * d2 - g3;
+			d3 = SQ(ell.b + hmx) * d2 - g3;
 
-			d4 = SQ(WGS84<T>.b + hmx) * (g3 - d1);
+			d4 = SQ(ell.b + hmx) * (g3 - d1);
 
-			d5 = (g1 + d3) / SQ(WGS84<T>.a + hmn) -
-			     (g2 + d3) / SQ(WGS84<T>.a + hmx);
+			d5 = (g1 + d3) / SQ(ell.a + hmn) -
+			     (g2 + d3) / SQ(ell.a + hmx);
 
 			d5 = d5 / (g2 - g1);
 
-			d6 = 1 / SQ(WGS84<T>.a + hmx) - 1 / SQ(WGS84<T>.a + hmn);
+			d6 = 1 / SQ(ell.a + hmx) - 1 / SQ(ell.a + hmn);
 
 			d6 = d6 * d4 / (g2 - g1);
 
 			sm = M_SQRT1_2; /*sin(π/4) == 1/sqrt(2)*/
 
-			//rnm = WGS84<T>.a / std::sqrt(1 - WGS84<T>.e2 * sm * sm);
+			//rnm = ell.a / std::sqrt(1 - ell.e2 * sm * sm);
 			rnm = ell.get_Rn(sm);
 
-			zm = ((1 - WGS84<T>.e2) * rnm + hm) * sm;
+			zm = ((1 - ell.e2) * rnm + hm) * sm;
 			wm = (rnm + hm) * M_SQRT1_2; /*cos(π/4) == 1/sqrt(2)*/
 
 			z2 = zm * zm;
@@ -4720,9 +4720,9 @@ void set_gc_to_gd_constants(SRM_GC_GD_Specific_Constants<T>& gc_gd_spec)
 
 			d8 = (z2 * gm - d4 - z2 * d1 + gm * w2 * d6) / w2;
 
-			d9 = (g2 + d3) / SQ(WGS84<T>.a + hmx) + g2 * d5;
+			d9 = (g2 + d3) / SQ(ell.a + hmx) + g2 * d5;
 
-			d10 = -d4 / SQ(WGS84<T>.a + hmx) + d6 * g2;
+			d10 = -d4 / SQ(ell.a + hmx) + d6 * g2;
 
 			a4 = (d8 - d10) / (d9 + d7);
 			a2 = d9 * a4 + d10;
@@ -4736,8 +4736,8 @@ void set_gc_to_gd_constants(SRM_GC_GD_Specific_Constants<T>& gc_gd_spec)
 			gc_gd_spec.b4[i] = a4;
 			gc_gd_spec.b5[i] = a5;
 
-			f1 = SQ(WGS84<T>.a + hmn - 1E-8);
-			f2 = SQ(WGS84<T>.b + hmn - 1E-8);
+			f1 = SQ(ell.a + hmn - 1E-8);
+			f2 = SQ(ell.b + hmn - 1E-8);
 
 			gc_gd_spec.u[i] = f1 / f2;
 			gc_gd_spec.v[i] = f1;
@@ -5191,7 +5191,7 @@ constexpr int _line_begin = __LINE__;
 template <std::floating_point T>
 auto gee(const T h, const T rn)
 {
-	return (rn + h) / ((1 - WGS84<T>.e2) * rn + h);
+	return (rn + h) / ((1 - ell.e2) * rn + h);
 }
 
 /*
@@ -5256,8 +5256,8 @@ void set_gc_to_gd_constants(SRM_GC_GD_Specific_Constants<T>& gc_gd_spec)
 	T f1 = NAN;
 	T f2 = NAN;
 
-	//if (WGS84<T>.e > 1E-12)
-	if (WGS84<T>.e2 > 1E-24)
+	//if (ell.e > 1E-12)
+	if (ell.e2 > 1E-24)
 	{
 		del[0] = 3E4;
 		del[1] = 5E4;
@@ -5271,40 +5271,40 @@ void set_gc_to_gd_constants(SRM_GC_GD_Specific_Constants<T>& gc_gd_spec)
 		{
 			hmx = hmn + del[i];
 
-			g1 = gee(hmn, WGS84<T>.a); /* changed 0 to 1E-14 */
-			g2 = gee(hmx, WGS84<T>.a);
+			g1 = gee(hmn, ell.a); /* changed 0 to 1E-14 */
+			g2 = gee(hmx, ell.a);
 
-			g3 = gee(hmx, WGS84<T>.a / (1 - WGS84<T>.f));
-			g4 = gee(hmn, WGS84<T>.a / (1 - WGS84<T>.f));
+			g3 = gee(hmx, ell.a / (1 - ell.f));
+			g4 = gee(hmn, ell.a / (1 - ell.f));
 
 			hm = (hmx - hmn) * 0.5;
 
-			gm = gee(hm, WGS84<T>.a / std::sqrt(1 - WGS84<T>.e2 / 2));
+			gm = gee(hm, ell.a / std::sqrt(1 - ell.e2 / 2));
 
-			d1 = SQ(WGS84<T>.b + hmx) * g3 - SQ(WGS84<T>.b + hmn) * g4;
-			d1 = d1 / (SQ(WGS84<T>.b + hmx) - SQ(WGS84<T>.b + hmn));
+			d1 = SQ(ell.b + hmx) * g3 - SQ(ell.b + hmn) * g4;
+			d1 = d1 / (SQ(ell.b + hmx) - SQ(ell.b + hmn));
 
-			d2 = -(g4 - g3) / (SQ(WGS84<T>.b + hmx) - SQ(WGS84<T>.b + hmn));
+			d2 = -(g4 - g3) / (SQ(ell.b + hmx) - SQ(ell.b + hmn));
 
-			d3 = SQ(WGS84<T>.b + hmx) * d2 - g3;
+			d3 = SQ(ell.b + hmx) * d2 - g3;
 
-			d4 = SQ(WGS84<T>.b + hmx) * (g3 - d1);
+			d4 = SQ(ell.b + hmx) * (g3 - d1);
 
-			d5 = (g1 + d3) / SQ(WGS84<T>.a + hmn) -
-			     (g2 + d3) / SQ(WGS84<T>.a + hmx);
+			d5 = (g1 + d3) / SQ(ell.a + hmn) -
+			     (g2 + d3) / SQ(ell.a + hmx);
 
 			d5 = d5 / (g2 - g1);
 
-			d6 = 1 / SQ(WGS84<T>.a + hmx) - 1 / SQ(WGS84<T>.a + hmn);
+			d6 = 1 / SQ(ell.a + hmx) - 1 / SQ(ell.a + hmn);
 
 			d6 = d6 * d4 / (g2 - g1);
 
 			sm = M_SQRT1_2; /*sin(π/4) == 1/sqrt(2)*/
 
-			//rnm = WGS84<T>.a / std::sqrt(1 - WGS84<T>.e2 * sm * sm);
+			//rnm = ell.a / std::sqrt(1 - ell.e2 * sm * sm);
 			rnm = ell.get_Rn(sm);
 
-			zm = ((1 - WGS84<T>.e2) * rnm + hm) * sm;
+			zm = ((1 - ell.e2) * rnm + hm) * sm;
 			wm = (rnm + hm) * M_SQRT1_2; /*cos(π/4) == 1/sqrt(2)*/
 
 			z2 = zm * zm;
@@ -5314,9 +5314,9 @@ void set_gc_to_gd_constants(SRM_GC_GD_Specific_Constants<T>& gc_gd_spec)
 
 			d8 = (z2 * gm - d4 - z2 * d1 + gm * w2 * d6) / w2;
 
-			d9 = (g2 + d3) / SQ(WGS84<T>.a + hmx) + g2 * d5;
+			d9 = (g2 + d3) / SQ(ell.a + hmx) + g2 * d5;
 
-			d10 = -d4 / SQ(WGS84<T>.a + hmx) + d6 * g2;
+			d10 = -d4 / SQ(ell.a + hmx) + d6 * g2;
 
 			a4 = (d8 - d10) / (d9 + d7);
 			a2 = d9 * a4 + d10;
@@ -5330,8 +5330,8 @@ void set_gc_to_gd_constants(SRM_GC_GD_Specific_Constants<T>& gc_gd_spec)
 			gc_gd_spec.b4[i] = a4;
 			gc_gd_spec.b5[i] = a5;
 
-			f1 = SQ(WGS84<T>.a + hmn - 1E-8);
-			f2 = SQ(WGS84<T>.b + hmn - 1E-8);
+			f1 = SQ(ell.a + hmn - 1E-8);
+			f2 = SQ(ell.b + hmn - 1E-8);
 
 			gc_gd_spec.u[i] = f1 / f2;
 			gc_gd_spec.v[i] = f1;
