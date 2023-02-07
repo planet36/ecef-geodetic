@@ -1,4 +1,5 @@
 // SPDX-FileCopyrightText: Donald K. Olson
+// SPDX-License-Identifier: CC-PDDC
 // SPDX-License-Identifier: CC0-1.0
 
 #include <math.h>
