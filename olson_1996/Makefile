@@ -16,7 +16,7 @@ $(BIN): $(OBJS)
 	$(CC) $^ -o $@ $(LDLIBS)
 
 clean:
-	@$(RM) --verbose -- $(DEPS) $(OBJS) $(BIN) *.so test *~ core core.[[:digit:]]*
+	@$(RM) --verbose -- $(DEPS) $(OBJS) $(BIN)
 
 lint:
 	-clang-tidy --quiet $(SRCS) -- $(CPPFLAGS) $(CFLAGS)
