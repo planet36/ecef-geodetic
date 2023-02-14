@@ -5,15 +5,18 @@ SRCS = $(wildcard *.c)
 DEPS = $(SRCS:.c=.d)
 OBJS = $(SRCS:.c=.o)
 
+BIN = ecef_to_geodetic
+
 CPPFLAGS += -MMD -MP
 CFLAGS += -Wno-old-style-definition
+#LDFLAGS +=
 LDLIBS += -lm
 
-ecef_to_geodetic: $(OBJS)
+$(BIN): $(OBJS)
 	$(CC) $^ -o $@ $(LDLIBS)
 
 clean:
-	@$(RM) --verbose -- $(DEPS) $(OBJS) ecef_to_geodetic *.so test *~ core core.[[:digit:]]*
+	@$(RM) --verbose -- $(DEPS) $(OBJS) $(BIN) *.so test *~ core core.[[:digit:]]*
 
 lint:
 	-clang-tidy --quiet $(SRCS) -- $(CPPFLAGS) $(CFLAGS)
