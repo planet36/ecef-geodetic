@@ -16,7 +16,7 @@ clean:
 	@$(RM) --verbose -- $(DEPS) $(OBJS) ecef_to_geodetic *.so test *~ core core.[[:digit:]]*
 
 lint:
-	-clang-tidy --quiet $(SRCS) -- $(CPPFLAGS) $(CFLAGS) $(LDLIBS)
+	-clang-tidy --quiet $(SRCS) -- $(CPPFLAGS) $(CFLAGS)
 
 # https://www.gnu.org/software/make/manual/make.html#Phony-Targets
 .PHONY: clean lint
