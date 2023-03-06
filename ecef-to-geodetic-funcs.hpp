@@ -224,31 +224,31 @@ struct func_info_t
 *
 * (z + sin * Rn * e2) / w = z / (w - cos * Rn * e2)
 * (z + sin * Rn * e2) * (w - cos * Rn * e2) = z * w
-* z * w + w * sin * Rn * e2 - z * cos * Rn * e2 - sin * cos * Rn**2 * e4 = z * w
-* w * sin * Rn * e2 - z * cos * Rn * e2 - sin * cos * Rn**2 * e4 = 0
+* z * w + w * sin * Rn * e2 - z * cos * Rn * e2 - sin * cos * Rn² * e4 = z * w
+* w * sin * Rn * e2 - z * cos * Rn * e2 - sin * cos * Rn² * e4 = 0
 * Rn * e2 * (w * sin - z * cos - sin * cos * Rn * e2) = 0
 * w * sin - z * cos - sin * cos * Rn * e2 = 0
 * Rn * e2 * sin * cos - w * sin + z * cos = 0
 *
-* let d = sqrt(1 - e2 * sin**2)
+* let d = sqrt(1 - e2 * sin²)
 * Rn = a / d
 *
 * Original equation:
 * f(φ) = Rn * e2 * sin * cos - w * sin + z * cos = 0
 *
 * first derivative: (unsimplified)
-* f'(φ) = a * e2**2 * sin**2 * cos**2 / d**3 - a * e2 * sin**2 / d + a * e2 * cos**2 / d - w * cos - z * sin = 0
+* f'(φ) = a * e2² * sin² * cos² / d³ - a * e2 * sin² / d + a * e2 * cos² / d - w * cos - z * sin = 0
 *
 * first derivative: (simplified)
-* f'(φ) = Rn * (d**2 - (1-e2) / d**2) - w * cos - z * sin = 0
+* f'(φ) = Rn * (d² - (1-e2) / d²) - w * cos - z * sin = 0
 *
 * second derivative: (unsimplified)
-* f''(φ) = a * e2 * sin * cos * (d**2 - (1-e2) / d**2) / d**3 - 2 * a * e2 * sin * cos * ((1-e2) / d**4 + 1) / d + w * sin - z * cos = 0
+* f''(φ) = a * e2 * sin * cos * (d² - (1-e2) / d²) / d³ - 2 * a * e2 * sin * cos * ((1-e2) / d⁴ + 1) / d + w * sin - z * cos = 0
 *
 * second derivative: (simplified)
-* f''(φ) = -Rn * e2 * sin * cos * (3 * (1-e2) / d**4 + 1) + w * sin - z * cos = 0
+* f''(φ) = -Rn * e2 * sin * cos * (3 * (1-e2) / d⁴ + 1) + w * sin - z * cos = 0
 * OR
-* f''(φ) = -Rn * e2 * sin * cos * (3 * (1-e2) / d**2 + d**2) / d**2 + w * sin - z * cos = 0
+* f''(φ) = -Rn * e2 * sin * cos * (3 * (1-e2) / d² + d²) / d² + w * sin - z * cos = 0
 */
 
 /// get f, f'
@@ -833,21 +833,21 @@ namespace fukushima_1999_1
 template <std::floating_point T>
 auto f(const T t, const T u, const T v, const T w)
 {
-	// w * t**4 + u * t**3 + v * t - w
+	// w * t⁴ + u * t³ + v * t - w
 	return w * t * t * t * t + u * t * t * t + v * t - w;
 }
 
 template <std::floating_point T>
 auto fp(const T t, const T u, const T v, const T w)
 {
-	// 4 * w * t**3 + 3 * u * t**2 + v
+	// 4 * w * t³ + 3 * u * t² + v
 	return 4 * w * t * t * t + 3 * u * t * t + v;
 }
 
 template <std::floating_point T>
 auto fpp(const T t, const T u, [[maybe_unused]] const T v, const T w)
 {
-	// 12 * w * t**2 + 6 * u * t
+	// 12 * w * t² + 6 * u * t
 	return 12 * w * t * t + 6 * u * t;
 }
 
@@ -966,21 +966,21 @@ namespace fukushima_1999_customht_1
 template <std::floating_point T>
 auto f(const T t, const T u, const T v, const T w)
 {
-	// w * t**4 + u * t**3 + v * t - w
+	// w * t⁴ + u * t³ + v * t - w
 	return w * t * t * t * t + u * t * t * t + v * t - w;
 }
 
 template <std::floating_point T>
 auto fp(const T t, const T u, const T v, const T w)
 {
-	// 4 * w * t**3 + 3 * u * t**2 + v
+	// 4 * w * t³ + 3 * u * t² + v
 	return 4 * w * t * t * t + 3 * u * t * t + v;
 }
 
 template <std::floating_point T>
 auto fpp(const T t, const T u, [[maybe_unused]] const T v, const T w)
 {
-	// 12 * w * t**2 + 6 * u * t
+	// 12 * w * t² + 6 * u * t
 	return 12 * w * t * t + 6 * u * t;
 }
 
@@ -1601,7 +1601,7 @@ COMMON_FIRST_DECLS
 
 		/******************************************************************/
 
-		/* TEST FOR H NEAR POLE.  if SIN(_)**2 <= SIN(45.)**2 THEN NOT NEAR A POLE.*/
+		/* TEST FOR H NEAR POLE.  if SIN(_)² <= SIN(45.)² THEN NOT NEAR A POLE.*/
 
 		if (s12 < 0.5)
 			ht = q - rnn;
@@ -1830,7 +1830,7 @@ COMMON_FIRST_DECLS
 
 		/******************************************************************/
 
-		/* TEST FOR H NEAR POLE.  if SIN(_)**2 <= SIN(45.)**2 THEN NOT NEAR A POLE.*/
+		/* TEST FOR H NEAR POLE.  if SIN(_)² <= SIN(45.)² THEN NOT NEAR A POLE.*/
 
 		if (s12 < 0.5)
 			ht = q - rnn;
@@ -3965,7 +3965,7 @@ COMMON_FIRST_DECLS_CHECKED
 	const auto G = tmp2 * tmp2 - 4 * (I - K);
 	const auto u = (tmp2 + std::sqrt(G)) / 2;
 
-	// tangent half-angle formula, but this is u**2 - 1 instead of 1 - u**2
+	// tangent half-angle formula, but this is u² - 1 instead of 1 - u²
 	// https://en.wikipedia.org/wiki/Tangent_half-angle_formula
 	auto sin_lat = 2 * u;
 	auto cos_lat = (u * u - 1) * (1 - ell.f);
@@ -6881,7 +6881,7 @@ COMMON_FIRST_DECLS
 	const auto m = w2 / ell.a2;
 	//const auto n = SQ(z * (1 - ell.e2) / ell.b);
 	//const auto n = z2 * SQ((1 - ell.e2)) / ell.b2;
-	//const auto n = (z2 / ell.a2) * (1 - ell.e2); // (1-e2) / a2 == 1/(Rp**2)
+	//const auto n = (z2 / ell.a2) * (1 - ell.e2); // (1-e2) / a2 == 1/(Rp²)
 	const auto n = (1 - ell.e2) * z2 / ell.a2;
 
 	const auto i = -(2 * l2 + m + n) / 2;
