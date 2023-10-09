@@ -152,16 +152,16 @@ struct func_info_t
 	            const std::string_view _url,
 	            const std::string_view _citation
 	        ):
-		func                        ( _func                        ) ,
-		num_lines                   ( _num_lines                   ) ,
-		needs_code_for_corner_cases ( _needs_code_for_corner_cases ) ,
-		ilog10_mean_dist_err        ( _ilog10_mean_dist_err        ) ,
-		algo_author                 ( _algo_author                 ) ,
-		code_copyright              ( _code_copyright              ) ,
-		license                     ( _license                     ) ,
-		orig_impl_lang              ( _orig_impl_lang              ) ,
-		url                         ( _url                         ) ,
-		citation                    ( _citation                    )
+		func                       (_func                       ),
+		num_lines                  (_num_lines                  ),
+		needs_code_for_corner_cases(_needs_code_for_corner_cases),
+		ilog10_mean_dist_err       (_ilog10_mean_dist_err       ),
+		algo_author                (_algo_author                ),
+		code_copyright             (_code_copyright             ),
+		license                    (_license                    ),
+		orig_impl_lang             (_orig_impl_lang             ),
+		url                        (_url                        ),
+		citation                   (_citation                   )
 	{
 		if (needs_code_for_corner_cases)
 			num_lines += _lines_common_first_decls_checked;
