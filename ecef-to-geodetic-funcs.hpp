@@ -3111,20 +3111,18 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 {
 COMMON_FIRST_DECLS
 
-	const auto r = std::sqrt(w2 + z2);
-
-	const auto lat_c = std::atan2(z, w);
-
-	// lat_c == geocentric latitude
-	// r == geocentric distance, units of a
+	const auto r2 = w2 + z2;
+	const auto r = std::sqrt(w2 + z2); // geocentric distance, units of a
+	const auto lat_c = std::atan2(z, w); // geocentric latitude
 
 	lat_rad = lat_c + ell.f * std::sin(2 * lat_c) / r + ell.f * ell.f *
-	          ((1 / (w2 + z2) - 1 / (4 * r)) * std::sin(4 * lat_c));
+	          ((1 / r2 - 1 / (4 * r)) * std::sin(4 * lat_c)); // equation (36)
 
 	ht = ell.get_ht(w, z, lat_rad);
 /*
 #ifdef USE_CUSTOM_HT
-	ht = (r - 1) + ell.f * 0.5 * (1 - std::cos(2 * lat_c)) + ell.f * ell.f * ((1 / (4 * r) - 1 / 16.0)) * (1 - std::cos(4 * lat_c));
+	ht = (r - 1) + ell.f * (1 - std::cos(2 * lat_c)) / 2 + ell.f * ell.f *
+	     ((1 / (4 * r) - 1 / 16.0)) * (1 - std::cos(4 * lat_c)); // equation (46)
 #else
 #endif
 */
