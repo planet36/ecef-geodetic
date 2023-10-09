@@ -16,5 +16,5 @@ Other factors such as code size, copyright, and licensing are presented, and sug
 
 >When using an iterative algorithm, doing 2 iterations is recommended.
 
->If converting ECEF coordinates near the center of the Earth is required, the **GeographicLib** software library by Karney is recommended. It lists features such as conversion between ECEF, geodetic, UTM/UPS, and MGRS coordinates, as well as geoid height, geomagnetic, and geodesic calculations.
+>If converting ECEF coordinates near the center of the Earth is required, the [GeographicLib](https://github.com/geographiclib/geographiclib) software library by Karney is recommended. It lists features such as conversion between ECEF, geodetic, UTM/UPS, and MGRS coordinates, as well as geoid height, geomagnetic, and geodesic calculations.
 
