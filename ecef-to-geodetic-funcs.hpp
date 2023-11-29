@@ -1233,89 +1233,132 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 COMMON_FIRST_DECLS
 
 	constexpr auto e4 = ell.e2 * ell.e2;
+	//constexpr auto maxrad = 2 * ell.a / std::numeric_limits<double>::epsilon();
 
-	//const auto w = hypot(x, y);
-	//const double sin_lambda = w != 0 ? y / w : 0;
-	//const double cos_lambda = w != 0 ? x / w : 1;
-	//ht = std::sqrt(w2 + z2);      // Distance to center of earth
+	//auto w = hypot(x, y);
+	//double sin_lambda = w != 0 ? y / w : 0;
+	//double cos_lambda = w != 0 ? x / w : 1;
+	//ht = hypot(w, z);      // Distance to center of earth
+	ht = std::sqrt(w2 + z2);      // Distance to center of earth
 	double sin_lat;
 	double cos_lat;
-	// Treat prolate spheroids by swapping w and z here and by switching
-	// the arguments to phi = atan2(...) at the end.
-	const auto p = w2 / ell.a2;
-	// (1 - ell.e2) / ell.a2 == 1 / (Rp * Rp)
-	const auto q = (z2 / ell.a2) * (1 - ell.e2);
-	const auto r = (p + q - e4) / 6;
-	if (!(e4 * q == 0 && r <= 0))
-	{
-		// Avoid possible division by zero when r = 0 by multiplying
-		// equations for s and t by r^3 and r, resp.
-		const auto S = e4 * p * q / 4; // S = r^3 * s
-		const auto r3 = r * r * r;
-		const auto disc = S * (2 * r3 + S);
-		auto u = r;
-		if (disc >= 0)
-		{
-			const auto r2 = r * r;
 
-			auto T3 = S + r3;
-			// Pick the sign on the sqrt to maximize abs(T3).  This minimizes
-			// loss of precision due to cancellation.  The result is unchanged
-			// because of the way the T_ is used in definition of u.
-			T3 += T3 < 0 ? -std::sqrt(disc) : std::sqrt(disc); // T3 = (r * t)^3
-			// N.B. cbrt always returns the real root.  cbrt(-8) = -2.
-			const auto T_ = std::cbrt(T3); // T_ = r * t
-			// T_ can be zero; but then r2 / T_ -> 0.
-			u += T_ + (T_ != 0 ? r2 / T_ : 0);
-		}
-		else
-		{
-			// T_ is complex, but the way u is defined the result is real.
-			const auto ang = std::atan2(std::sqrt(-disc), -(S + r3));
-			// There are three possible cube roots.  We choose the root which
-			// avoids cancellation.  Note that disc < 0 implies that r < 0.
-			u += 2 * r * std::cos(ang / 3);
-		}
-		const auto v = std::sqrt(u * u + e4 * q); // guaranteed positive
-		// Avoid loss of accuracy when u < 0.  Underflow doesn't occur in
-		// e2*e2 * q / (v - u) because u ~ e^4 when q is small and u < 0.
-		const auto uv = u < 0 ? e4 * q / (v - u) : u + v; // u+v, guaranteed positive
-		// Need to guard against w_ going negative due to roundoff in uv - q.
-		const auto w_ = std::max(0.0, 0.5 * ell.e2 * (uv - q) / v);
-		// Rearrange expression for k to avoid loss of accuracy due to
-		// subtraction.  Division by 0 not possible because uv > 0, w_ >= 0.
-		const auto k = uv / (std::sqrt(uv + w_ * w_) + w_);
-		const auto k1 = ell.f >= 0 ? k : k - ell.e2;
-		const auto k2 = ell.f >= 0 ? k + ell.e2 : k;
-		const auto H = hypot(z / k1, w / k2);
-		sin_lat = (z / k1) / H;
-		cos_lat = (w / k2) / H;
+#if 0
+	if (ht > maxrad)
+	{
+		// We really far away (> 12 million light years); treat the earth as a
+		// point and ht, above, is an acceptable approximation to the height.
+		// This avoids overflow, e.g., in the computation of disc below.  It's
+		// possible that ht has overflowed to inf; but that's OK.
+		//
+		// Treat the case x, y finite, but w overflows to +inf by scaling by 2.
+		w = hypot(x/2, y/2);
+		sin_lambda = w != 0 ? (y/2) / w : 0;
+		cos_lambda = w != 0 ? (x/2) / w : 1;
+		const auto H = hypot(z/2, w);
+		sin_lat = (z/2) / H;
+		cos_lat = w / H;
+	}
+	else
+#endif
+	if constexpr (e4 == 0)
+	{
+		// Treat the spherical case.  Dealing with underflow in the general case
+		// with e2 = 0 is difficult.  Origin maps to N pole same as with
+		// ellipsoid.
+		const auto H = hypot(ht == 0 ? 1 : z, w);
+		sin_lat = (ht == 0 ? 1 : z) / H;
+		cos_lat = w / H;
 #ifdef USE_CUSTOM_HT
-		const auto d = k1 * w / k2;
-		ht = (1 - (1 - ell.e2) / k1) * hypot(d, z);
+		ht -= ell.a;
 #endif
 	}
 	else
 	{
-		// e2*e2 * q == 0 && r <= 0
-		// This leads to k = 0 (oblate, equatorial plane) and k + e^2 = 0
-		// (prolate, rotation axis) and the generation of 0/0 in the general
-		// formulas for phi and ht.  using the general formula and division by 0
-		// in formula for ht.  So handle this case by taking the limits:
-		// f > 0: z -> 0, k      ->   e2 * sqrt(q)/sqrt(e2*e2 - p)
-		// f < 0: w -> 0, k + e2 -> - e2 * sqrt(q)/sqrt(e2*e2 - p)
-		const auto zz = std::sqrt((ell.f >= 0 ? e4 - p : p) / (1 - ell.e2));
-		const auto xx = std::sqrt( ell.f <  0 ? e4 - p : p);
-		const auto H = hypot(zz, xx);
-		sin_lat = zz / H;
-		cos_lat = xx / H;
-		if (z < 0)
-			sin_lat = -sin_lat; // for tiny negative z (not for prolate)
+		// Treat prolate spheroids by swapping w and z here and by switching
+		// the arguments to phi = atan2(...) at the end.
+		//auto p = SQ(w / ell.a);
+		auto p = w2 / ell.a2;
+		//auto q = (1 - ell.e2) * SQ(z / ell.a);
+		auto q = (1 - ell.e2) * (z2 / ell.a2);
+		const auto r = (p + q - e4) / 6;
+
+		if constexpr (ell.f < 0)
+		{
+			std::swap(p, q);
+		}
+
+		if (!(e4 * q == 0 && r <= 0))
+		{
+			// Avoid possible division by zero when r = 0 by multiplying
+			// equations for s and t by r^3 and r, resp.
+			const auto S = e4 * p * q / 4; // S = r^3 * s
+			const auto r2 = SQ(r);
+			const auto r3 = r * r2;
+			const auto disc = S * (2 * r3 + S);
+			auto u = r;
+			if (disc >= 0)
+			{
+				auto T3 = S + r3;
+				// Pick the sign on the sqrt to maximize abs(T3).  This minimizes
+				// loss of precision due to cancellation.  The result is unchanged
+				// because of the way the T is used in definition of u.
+				T3 += T3 < 0 ? -std::sqrt(disc) : std::sqrt(disc); // T3 = (r * t)^3
+				// N.B. cbrt always returns the real root.  cbrt(-8) = -2.
+				const auto T = std::cbrt(T3); // T = r * t
+				// T can be zero; but then r2 / T -> 0.
+				u += T + (T != 0 ? r2 / T : 0);
+			}
+			else
+			{
+				// T is complex, but the way u is defined the result is real.
+				const auto ang = std::atan2(std::sqrt(-disc), -(S + r3));
+				// There are three possible cube roots.  We choose the root which
+				// avoids cancellation.  Note that disc < 0 implies that r < 0.
+				u += 2 * r * std::cos(ang / 3);
+			}
+			const auto v = std::sqrt(SQ(u) + e4 * q); // guaranteed positive
+			// Avoid loss of accuracy when u < 0.  Underflow doesn't occur in
+			// e4 * q / (v - u) because u ~ e^4 when q is small and u < 0.
+			const auto uv = u < 0 ? e4 * q / (v - u) : u + v; // u+v, guaranteed positive
+			// Need to guard against w_ going negative due to roundoff in uv - q.
+			const auto w_ = std::max(0.0, std::abs(ell.e2) * (uv - q) / (2 * v));
+			// Rearrange expression for k to avoid loss of accuracy due to
+			// subtraction.  Division by 0 not possible because uv > 0, w_ >= 0.
+			const auto k = uv / (std::sqrt(uv + SQ(w_)) + w_);
+			const auto k1 = ell.f >= 0 ? k : k - ell.e2;
+			const auto k2 = ell.f >= 0 ? k + ell.e2 : k;
+#ifdef USE_CUSTOM_HT
+			const auto d = k1 * w / k2;
+#endif
+			const auto H = hypot(z/k1, w/k2);
+			sin_lat = (z/k1) / H;
+			cos_lat = (w/k2) / H;
+#ifdef USE_CUSTOM_HT
+			ht = (1 - (1 - ell.e2)/k1) * hypot(d, z);
+#endif
+		}
+		else
+		{
+			// e4 * q == 0 && r <= 0
+			// This leads to k = 0 (oblate, equatorial plane) and k + e^2 = 0
+			// (prolate, rotation axis) and the generation of 0/0 in the general
+			// formulas for phi and ht.  using the general formula and division by 0
+			// in formula for ht.  So handle this case by taking the limits:
+			// f > 0: z -> 0, k      ->   e2 * sqrt(q)/sqrt(e4 - p)
+			// f < 0: w -> 0, k + e2 -> - e2 * sqrt(q)/sqrt(e4 - p)
+			const auto zz = std::sqrt((ell.f >= 0 ? e4 - p : p) / (1 - ell.e2));
+			const auto xx = std::sqrt(ell.f <  0 ? e4 - p : p);
+			const auto H = hypot(zz, xx);
+			sin_lat = zz / H;
+			cos_lat = xx / H;
+			if (z < 0)
+				sin_lat = -sin_lat; // for tiny negative z (not for prolate)
 
 #ifdef USE_CUSTOM_HT
-		ht = -ell.a * (ell.f >= 0 ? (1 - ell.e2) : 1) * H / ell.e2;
-		// (1-e2)/e2 == 1/ep2
+			ht = -ell.a * (ell.f >= 0 ? (1 - ell.e2) : 1) * H / std::abs(ell.e2);
 #endif
+		}
 	}
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
@@ -1342,7 +1385,7 @@ const auto func_info = func_info_t(
 	/*.code_copyright              =*/ "Charles Karney",
 	/*.license                     =*/ "MIT/X11",
 	/*.orig_impl_lang              =*/ "C++",
-	/*.url                         =*/ "https://sourceforge.net/p/geographiclib/code/ci/release/tree/src/Geocentric.cpp",
+	/*.url                         =*/ "https://github.com/geographiclib/geographiclib/blob/main/src/Geocentric.cpp#L51",
 	/*.citation                    =*/ R"(Geodesics on an ellipsoid of revolution
 Charles F. F. Karney
 https://arxiv.org/abs/1102.1215)"
@@ -1363,89 +1406,132 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 COMMON_FIRST_DECLS
 
 	constexpr auto e4 = ell.e2 * ell.e2;
+	//constexpr auto maxrad = 2 * ell.a / std::numeric_limits<double>::epsilon();
 
-	//const auto w = hypot(x, y);
-	//const double sin_lambda = w != 0 ? y / w : 0;
-	//const double cos_lambda = w != 0 ? x / w : 1;
-	//ht = std::sqrt(w2 + z2);      // Distance to center of earth
+	//auto w = hypot(x, y);
+	//double sin_lambda = w != 0 ? y / w : 0;
+	//double cos_lambda = w != 0 ? x / w : 1;
+	//ht = hypot(w, z);      // Distance to center of earth
+	ht = std::sqrt(w2 + z2);      // Distance to center of earth
 	double sin_lat;
 	double cos_lat;
-	// Treat prolate spheroids by swapping w and z here and by switching
-	// the arguments to phi = atan2(...) at the end.
-	const auto p = w2 / ell.a2;
-	// (1 - ell.e2) / ell.a2 == 1 / (Rp * Rp)
-	const auto q = (z2 / ell.a2) * (1 - ell.e2);
-	const auto r = (p + q - e4) / 6;
-	if (!(e4 * q == 0 && r <= 0))
-	{
-		// Avoid possible division by zero when r = 0 by multiplying
-		// equations for s and t by r^3 and r, resp.
-		const auto S = e4 * p * q / 4; // S = r^3 * s
-		const auto r3 = r * r * r;
-		const auto disc = S * (2 * r3 + S);
-		auto u = r;
-		if (disc >= 0)
-		{
-			const auto r2 = r * r;
 
-			auto T3 = S + r3;
-			// Pick the sign on the sqrt to maximize abs(T3).  This minimizes
-			// loss of precision due to cancellation.  The result is unchanged
-			// because of the way the T_ is used in definition of u.
-			T3 += T3 < 0 ? -std::sqrt(disc) : std::sqrt(disc); // T3 = (r * t)^3
-			// N.B. cbrt always returns the real root.  cbrt(-8) = -2.
-			const auto T_ = std::cbrt(T3); // T_ = r * t
-			// T_ can be zero; but then r2 / T_ -> 0.
-			u += T_ + (T_ != 0 ? r2 / T_ : 0);
-		}
-		else
-		{
-			// T_ is complex, but the way u is defined the result is real.
-			const auto ang = std::atan2(std::sqrt(-disc), -(S + r3));
-			// There are three possible cube roots.  We choose the root which
-			// avoids cancellation.  Note that disc < 0 implies that r < 0.
-			u += 2 * r * std::cos(ang / 3);
-		}
-		const auto v = std::sqrt(u * u + e4 * q); // guaranteed positive
-		// Avoid loss of accuracy when u < 0.  Underflow doesn't occur in
-		// e2*e2 * q / (v - u) because u ~ e^4 when q is small and u < 0.
-		const auto uv = u < 0 ? e4 * q / (v - u) : u + v; // u+v, guaranteed positive
-		// Need to guard against w_ going negative due to roundoff in uv - q.
-		const auto w_ = std::max(0.0, 0.5 * ell.e2 * (uv - q) / v);
-		// Rearrange expression for k to avoid loss of accuracy due to
-		// subtraction.  Division by 0 not possible because uv > 0, w_ >= 0.
-		const auto k = uv / (std::sqrt(uv + w_ * w_) + w_);
-		const auto k1 = ell.f >= 0 ? k : k - ell.e2;
-		const auto k2 = ell.f >= 0 ? k + ell.e2 : k;
-		const auto H = hypot(z / k1, w / k2);
-		sin_lat = (z / k1) / H;
-		cos_lat = (w / k2) / H;
+#if 0
+	if (ht > maxrad)
+	{
+		// We really far away (> 12 million light years); treat the earth as a
+		// point and ht, above, is an acceptable approximation to the height.
+		// This avoids overflow, e.g., in the computation of disc below.  It's
+		// possible that ht has overflowed to inf; but that's OK.
+		//
+		// Treat the case x, y finite, but w overflows to +inf by scaling by 2.
+		w = hypot(x/2, y/2);
+		sin_lambda = w != 0 ? (y/2) / w : 0;
+		cos_lambda = w != 0 ? (x/2) / w : 1;
+		const auto H = hypot(z/2, w);
+		sin_lat = (z/2) / H;
+		cos_lat = w / H;
+	}
+	else
+#endif
+	if constexpr (e4 == 0)
+	{
+		// Treat the spherical case.  Dealing with underflow in the general case
+		// with e2 = 0 is difficult.  Origin maps to N pole same as with
+		// ellipsoid.
+		const auto H = hypot(ht == 0 ? 1 : z, w);
+		sin_lat = (ht == 0 ? 1 : z) / H;
+		cos_lat = w / H;
 #ifdef USE_CUSTOM_HT
-		const auto d = k1 * w / k2;
-		ht = (1 - (1 - ell.e2) / k1) * hypot(d, z);
+		ht -= ell.a;
 #endif
 	}
 	else
 	{
-		// e2*e2 * q == 0 && r <= 0
-		// This leads to k = 0 (oblate, equatorial plane) and k + e^2 = 0
-		// (prolate, rotation axis) and the generation of 0/0 in the general
-		// formulas for phi and ht.  using the general formula and division by 0
-		// in formula for ht.  So handle this case by taking the limits:
-		// f > 0: z -> 0, k      ->   e2 * sqrt(q)/sqrt(e2*e2 - p)
-		// f < 0: w -> 0, k + e2 -> - e2 * sqrt(q)/sqrt(e2*e2 - p)
-		const auto zz = std::sqrt((ell.f >= 0 ? e4 - p : p) / (1 - ell.e2));
-		const auto xx = std::sqrt( ell.f <  0 ? e4 - p : p);
-		const auto H = hypot(zz, xx);
-		sin_lat = zz / H;
-		cos_lat = xx / H;
-		if (z < 0)
-			sin_lat = -sin_lat; // for tiny negative z (not for prolate)
+		// Treat prolate spheroids by swapping w and z here and by switching
+		// the arguments to phi = atan2(...) at the end.
+		//auto p = SQ(w / ell.a);
+		auto p = w2 / ell.a2;
+		//auto q = (1 - ell.e2) * SQ(z / ell.a);
+		auto q = (1 - ell.e2) * (z2 / ell.a2);
+		const auto r = (p + q - e4) / 6;
+
+		if constexpr (ell.f < 0)
+		{
+			std::swap(p, q);
+		}
+
+		if (!(e4 * q == 0 && r <= 0))
+		{
+			// Avoid possible division by zero when r = 0 by multiplying
+			// equations for s and t by r^3 and r, resp.
+			const auto S = e4 * p * q / 4; // S = r^3 * s
+			const auto r2 = SQ(r);
+			const auto r3 = r * r2;
+			const auto disc = S * (2 * r3 + S);
+			auto u = r;
+			if (disc >= 0)
+			{
+				auto T3 = S + r3;
+				// Pick the sign on the sqrt to maximize abs(T3).  This minimizes
+				// loss of precision due to cancellation.  The result is unchanged
+				// because of the way the T is used in definition of u.
+				T3 += T3 < 0 ? -std::sqrt(disc) : std::sqrt(disc); // T3 = (r * t)^3
+				// N.B. cbrt always returns the real root.  cbrt(-8) = -2.
+				const auto T = std::cbrt(T3); // T = r * t
+				// T can be zero; but then r2 / T -> 0.
+				u += T + (T != 0 ? r2 / T : 0);
+			}
+			else
+			{
+				// T is complex, but the way u is defined the result is real.
+				const auto ang = std::atan2(std::sqrt(-disc), -(S + r3));
+				// There are three possible cube roots.  We choose the root which
+				// avoids cancellation.  Note that disc < 0 implies that r < 0.
+				u += 2 * r * std::cos(ang / 3);
+			}
+			const auto v = std::sqrt(SQ(u) + e4 * q); // guaranteed positive
+			// Avoid loss of accuracy when u < 0.  Underflow doesn't occur in
+			// e4 * q / (v - u) because u ~ e^4 when q is small and u < 0.
+			const auto uv = u < 0 ? e4 * q / (v - u) : u + v; // u+v, guaranteed positive
+			// Need to guard against w_ going negative due to roundoff in uv - q.
+			const auto w_ = std::max(0.0, std::abs(ell.e2) * (uv - q) / (2 * v));
+			// Rearrange expression for k to avoid loss of accuracy due to
+			// subtraction.  Division by 0 not possible because uv > 0, w_ >= 0.
+			const auto k = uv / (std::sqrt(uv + SQ(w_)) + w_);
+			const auto k1 = ell.f >= 0 ? k : k - ell.e2;
+			const auto k2 = ell.f >= 0 ? k + ell.e2 : k;
+#ifdef USE_CUSTOM_HT
+			const auto d = k1 * w / k2;
+#endif
+			const auto H = hypot(z/k1, w/k2);
+			sin_lat = (z/k1) / H;
+			cos_lat = (w/k2) / H;
+#ifdef USE_CUSTOM_HT
+			ht = (1 - (1 - ell.e2)/k1) * hypot(d, z);
+#endif
+		}
+		else
+		{
+			// e4 * q == 0 && r <= 0
+			// This leads to k = 0 (oblate, equatorial plane) and k + e^2 = 0
+			// (prolate, rotation axis) and the generation of 0/0 in the general
+			// formulas for phi and ht.  using the general formula and division by 0
+			// in formula for ht.  So handle this case by taking the limits:
+			// f > 0: z -> 0, k      ->   e2 * sqrt(q)/sqrt(e4 - p)
+			// f < 0: w -> 0, k + e2 -> - e2 * sqrt(q)/sqrt(e4 - p)
+			const auto zz = std::sqrt((ell.f >= 0 ? e4 - p : p) / (1 - ell.e2));
+			const auto xx = std::sqrt(ell.f <  0 ? e4 - p : p);
+			const auto H = hypot(zz, xx);
+			sin_lat = zz / H;
+			cos_lat = xx / H;
+			if (z < 0)
+				sin_lat = -sin_lat; // for tiny negative z (not for prolate)
 
 #ifdef USE_CUSTOM_HT
-		ht = -ell.a * (ell.f >= 0 ? (1 - ell.e2) : 1) * H / ell.e2;
-		// (1-e2)/e2 == 1/ep2
+			ht = -ell.a * (ell.f >= 0 ? (1 - ell.e2) : 1) * H / std::abs(ell.e2);
 #endif
+		}
 	}
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
@@ -1472,7 +1558,7 @@ const auto func_info = func_info_t(
 	/*.code_copyright              =*/ "Charles Karney",
 	/*.license                     =*/ "MIT/X11",
 	/*.orig_impl_lang              =*/ "C++",
-	/*.url                         =*/ "https://sourceforge.net/p/geographiclib/code/ci/release/tree/src/Geocentric.cpp",
+	/*.url                         =*/ "https://github.com/geographiclib/geographiclib/blob/main/src/Geocentric.cpp#L51",
 	/*.citation                    =*/ R"(Geodesics on an ellipsoid of revolution
 Charles F. F. Karney
 https://arxiv.org/abs/1102.1215)"
