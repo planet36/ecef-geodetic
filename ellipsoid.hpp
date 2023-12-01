@@ -133,8 +133,11 @@ struct Ellipsoid
 	constexpr Ellipsoid(const T a_,
 	                    const T f_recip_, // 1 / f
 	                    const T GM_ = 3.986004418E14L,
-	                    const T omega_ = 7.292115E-5L):
-	a(a_), f(1 / f_recip_), GM(GM_), omega(omega_)
+	                    const T omega_ = 7.292115E-5L) :
+	a(a_),
+	f(1 / f_recip_),
+	GM(GM_),
+	omega(omega_)
 	{
 		if (a <= T{})
 			throw std::invalid_argument("Equatorial radius must be positive");
@@ -242,9 +245,9 @@ struct Ellipsoid
 	*/
 	auto get_gamma_h(const T sin_lat, const T ht) const
 	{
-		return get_gamma(sin_lat) * (
-		       1 - 2 * ht * (1 + f + m - 2 * f * sin_lat * sin_lat) / a +
-		       3 * ht * ht / a2);
+		return get_gamma(sin_lat) *
+		       (1 - 2 * ht * (1 + f + m - 2 * f * sin_lat * sin_lat) / a +
+		        3 * ht * ht / a2);
 	}
 
 	/// get the height above the ellipsoid (meters)
@@ -269,8 +272,11 @@ struct Ellipsoid
 	\param Rn prime vertical radius of curvature (meters)
 	\return the height above the ellipsoid (meters)
 	*/
-	auto get_ht(const T w, const T z,
-	            const T sin_lat, const T cos_lat, const T Rn) const
+	auto get_ht(const T w,
+	            const T z,
+	            const T sin_lat,
+	            const T cos_lat,
+	            const T Rn) const
 	{
 		// https://www.gnu.org/software/libc/manual/html_node/Mathematical-Constants.html
 		// cos(45 deg) == 1/sqrt(2)
@@ -288,8 +294,7 @@ struct Ellipsoid
 	\param cos_lat cosine of the geodetic latitude
 	\return the height above the ellipsoid (meters)
 	*/
-	auto get_ht(const T w, const T z,
-	            const T sin_lat, const T cos_lat) const
+	auto get_ht(const T w, const T z, const T sin_lat, const T cos_lat) const
 	{
 		return get_ht(w, z, sin_lat, cos_lat, get_Rn(sin_lat));
 	}
@@ -301,8 +306,7 @@ struct Ellipsoid
 	\param lat_rad geodetic latitude (radians)
 	\return the height above the ellipsoid (meters)
 	*/
-	auto get_ht(const T w, const T z,
-	            const T lat_rad) const
+	auto get_ht(const T w, const T z, const T lat_rad) const
 	{
 		const auto sin_lat = std::sin(lat_rad);
 		const auto cos_lat = std::cos(lat_rad);
@@ -312,9 +316,7 @@ struct Ellipsoid
 
 	bool operator==(const Ellipsoid& that) const
 	{
-		return this->a == that.a &&
-		       this->f == that.f &&
-		       this->GM == that.GM &&
+		return this->a == that.a && this->f == that.f && this->GM == that.GM &&
 		       this->omega == that.omega;
 	}
 
