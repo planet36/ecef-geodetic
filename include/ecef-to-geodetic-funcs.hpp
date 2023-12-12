@@ -464,9 +464,10 @@ COMMON_FIRST_DECLS
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 
-	// http://www.astro.uni.torun.pl/~kb/Papers/ASS/Geod-ASS.htm
+	// Formula (15b): http://www.astro.uni.torun.pl/~kb/Papers/ASS/Geod-ASS.htm
+	// Formula (19): http://wwwold.astro.umk.pl/~kb/Papers/geod/Geod-BG.htm
 	// SDW: this does not work
-	//ht = (r - ell.a * t) * cos_lat + (z - ell.b) * sin_lat;
+	//ht = (w - ell.a * t) * cos_lat + (z - ell.b) * sin_lat;
 
 	normalize(cos_lat, sin_lat);
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
