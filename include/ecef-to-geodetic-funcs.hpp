@@ -6453,7 +6453,11 @@ COMMON_FIRST_DECLS
 
 	lat_rad = 2 * std::atan2(z, D + tmp);
 
+#ifdef USE_CUSTOM_HT
+	ht = ((k - (1 - ell.e2)) / k) * tmp;
+#else
 	ht = ell.get_ht(w, z, lat_rad);
+#endif
 }
 constexpr int _line_end = __LINE__;
 
@@ -6472,6 +6476,64 @@ const auto func_info = func_info_t(
 	/*.citation                    =*/ R"(Vermeille, H. Journal of Geodesy (2004) 78: 94. https://doi.org/10.1007/s00190-004-0375-4)"
 );
 
+}
+// }}}
+
+namespace vermeille_2004_customht
+// {{{
+{
+#define USE_CUSTOM_HT
+
+constexpr int _line_begin = __LINE__;
+void ecef_to_geodetic(const double x, const double y, const double z,
+                      double& lat_rad, double& lon_rad, double& ht)
+{
+COMMON_FIRST_DECLS
+
+	constexpr auto e4 = ell.e2 * ell.e2;
+
+	const auto p = w2 / ell.a2;
+	const auto q = (1 - ell.e2) * z2 / ell.a2;
+	const auto r = (p + q - e4) / 6;
+	const auto r3 = CB(r);
+
+	const auto s = 0.25 * e4 * p * q / r3;
+	const auto t = std::cbrt(1 + s + std::sqrt(s * (2 + s)));
+
+	const auto u = r * (1 + t + 1 / t);
+	const auto v = std::sqrt(u * u + e4 * q);
+	const auto w_ = 0.5 * ell.e2 * (u + v - q) / v;
+	const auto k = std::sqrt(u + v + w_ * w_) - w_;
+
+	const auto D = k * w / (k + ell.e2);
+	const auto tmp = hypot(D, z);
+
+	lat_rad = 2 * std::atan2(z, D + tmp);
+
+#ifdef USE_CUSTOM_HT
+	ht = ((k - (1 - ell.e2)) / k) * tmp;
+#else
+	ht = ell.get_ht(w, z, lat_rad);
+#endif
+}
+constexpr int _line_end = __LINE__;
+
+constexpr int _lines_extra = 0;
+
+const auto func_info = func_info_t(
+	/*.func                        =*/ ecef_to_geodetic,
+	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.needs_code_for_corner_cases =*/ false,
+	/*.ilog10_mean_dist_err        =*/ -9,
+	/*.algo_author                 =*/ "H. Vermeille",
+	/*.code_copyright              =*/ "Steven Ward",
+	/*.license                     =*/ "OSL-3.0",
+	/*.orig_impl_lang              =*/ "None",
+	/*.url                         =*/ "https://link.springer.com/article/10.1007/s00190-004-0375-4",
+	/*.citation                    =*/ R"(Vermeille, H. Journal of Geodesy (2004) 78: 94. https://doi.org/10.1007/s00190-004-0375-4)"
+);
+
+#undef USE_CUSTOM_HT
 }
 // }}}
 
