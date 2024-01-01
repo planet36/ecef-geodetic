@@ -1,0 +1,162 @@
+## SPDX-FileCopyrightText: Steven Ward
+## SPDX-License-Identifier: OSL-3.0
+
+/*
+
+Usage:
+calc -d -m 4 -f generate-series-approx-coeff-tm.cal > utm-ups-const.hpp
+
+Generate series approximation coefficients for transverse Mercator conversions.
+
+Source:
+https://geographiclib.sourceforge.io/C++/doc/transversemercator.html#tmseries
+https://geographiclib.sourceforge.io/html/tmseries30.html
+
+*/
+
+read -once "wgs84-const.cal"
+
+read -once "series-approx-coeff-tm.cal"
+
+read -once "utils.cal"
+
+/* print the values of an array for use in a C++ init list declaration */
+define array_print_from_min_to_max(arr, min_i, max_i) {
+	local i;
+	local indent_char = "\t";
+
+	/* for every element */
+	for (i = min_i; i <= max_i; i++) {
+		printf("%sT{%eL},\n", indent_char, arr[i]);
+	}
+}
+
+/* print the values of an array for use in a C++ init list declaration */
+define array_print(arr) {
+	array_print_from_min_to_max(arr, matmin(arr,1), matmax(arr,1));
+}
+
+/* print the values of an array for use in a C++ init list declaration */
+define array_print_from_min(arr, min_i) {
+	array_print_from_min_to_max(arr, min_i, matmax(arr,1));
+}
+
+/* print the values of an array for use in a C++ init list declaration */
+define array_print_to_max(arr, max_i) {
+	array_print_from_min_to_max(arr, matmin(arr,1), max_i);
+}
+
+/* print the values of an array as a C++ valarray declaration */
+define array_print_as_cpp_valarray(s, arr) {
+	local indent_char = "\t";
+
+	/* Ignore the first element of the array (it's 0). */
+	printf("template <std::floating_point T>\n");
+	/*
+	printf("constexpr std::array<T, %d+1> %s{\n", size(arr)-1, s);
+	printf("%sT{0}, // This array is indexed starting at 1.\n", indent_char);
+	*/
+	printf("const std::valarray<T> %s{\n", s);
+	array_print_from_min(arr, 1);
+	printf("};\n\n");
+}
+
+/* print the value as a C++ declaration */
+define val_print_as_cpp_var(s, x) {
+	printf("template <std::floating_point T>\n");
+	printf("inline constexpr T %s = T{%eL};\n", s, x)
+}
+
+script_author = "Steven Ward"
+script_license = "OSL-3.0"
+script_name = "generate-series-approx-coeff-tm.cal"
+script_brief_description = "Transverse Mercator conversions"
+script_detailed_description = "\\sa https://geographiclib.sourceforge.io/C++/doc/transversemercator.html#tmseries\n\\sa https://geographiclib.sourceforge.io/html/tmseries30.html"
+
+print_cpp_file_header(script_author, script_license, script_name,
+	script_brief_description, script_detailed_description);
+
+printf("
+#include <concepts>
+#include <valarray>
+
+/// Geodetic constants
+namespace Geodetic_const
+{
+inline constexpr int min_lat = -90; // (degrees)
+inline constexpr int max_lat =  90; // (degrees)
+
+inline constexpr int min_lon = -180; // (degrees)
+inline constexpr int max_lon =  180; // (degrees)
+}
+
+/// transverse Mercator constants
+namespace TM_const
+{
+");
+
+val_print_as_cpp_var("A", A)
+print
+array_print_as_cpp_valarray("alpha", alpha)
+array_print_as_cpp_valarray("beta", beta)
+
+printf("}
+
+/// polar stereographic constants
+namespace PS_const
+{
+/// (1-f)*exp(e*atanh(e)) == sqrt((1+e)^(1+e) * (1-e)^(1-e))
+template <std::floating_point T>
+inline constexpr T k90 = T{%fL};
+}
+", (1-f)*exp(e*atanh(e)));
+
+printf("
+/// Universal Transverse Mercator constants
+namespace UTM_const
+{
+inline constexpr int min_zone = 1;
+inline constexpr int max_zone = 60;
+inline constexpr int zone_width = 6; // (degrees)
+inline constexpr int half_zone_width = zone_width / 2; // (degrees)
+
+/// central meridian scale factor (unitless)
+template <std::floating_point T>
+inline constexpr T k0 = T{0.9996L};
+
+inline constexpr int false_easting = 500'000; // easting at central meridian (meters)
+inline constexpr int min_easting = 100'000; // (meters)
+inline constexpr int max_easting = 900'000; // (meters)
+
+inline constexpr int false_northing[2] = {10'000'000, 0}; // [south, north] northing at equator (meters)
+inline constexpr int min_northing[2] = {300'000, 0}; // [south, north] (meters)
+inline constexpr int max_northing[2] = {10'000'000, 9'700'000}; // [south, north] (meters)
+}
+
+/// Universal Polar Stereographic constants
+namespace UPS_const
+{
+/// central meridian scale factor (unitless)
+template <std::floating_point T>
+inline constexpr T k0 = T{0.994L};
+
+// Note: The easting and northing are symmetric and have the same constraints.
+inline constexpr int false_easting_northing = 2'000'000; // easting/northing at pole (meters)
+inline constexpr int min_easting_northing[2] = {800'000, 1'300'000}; // [south, north] (meters)
+inline constexpr int max_easting_northing[2] = {3'200'000, 2'700'000}; // [south, north] (meters)
+}
+
+/// Military Grid Reference System constants
+namespace MGRS_const
+{
+inline constexpr int num_lat_bands = 20;
+
+inline constexpr int min_lat = -80; // (degrees)
+inline constexpr int max_lat = 84; // (degrees)
+inline constexpr int lat_band_height = 8; // (degrees)
+
+inline constexpr int meters_per_square = 100'000; // (meters/square)
+inline constexpr int northing_period_squares = 20; // (squares)
+inline constexpr int northing_period_meters = meters_per_square * northing_period_squares; // (meters)
+}
+");

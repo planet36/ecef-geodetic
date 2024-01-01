@@ -1,0 +1,288 @@
+## SPDX-FileCopyrightText: Steven Ward
+## SPDX-License-Identifier: OSL-3.0
+
+/*
+
+Usage:
+calc -d -m 4 -f generate-series-approx-coeff-aux-lat.cal > aux-lat-conv.hpp
+
+Generate series approximation coefficients for auxiliary latitude conversions.
+
+Source:
+https://geographiclib.sourceforge.io/C++/doc/auxlat.html#auxlattable
+
+*/
+
+read -once "wgs84-const.cal"
+
+read -once "series-approx-coeff-aux-lat.cal"
+
+read -once "utils.cal"
+
+/* print the values of a matrix column for use in a C++ array declaration */
+define mat_print_col(A, c, indent_num = 0, indent_char = "\t") {
+	local i;
+	local indent_str = indent_char * indent_num;
+
+	/* for every row */
+	for (i = matmin(A,1); i <= matmax(A,1); i++) {
+		printf("%sT{%eL},\n", indent_str, A[i,c]);
+	}
+}
+
+/* print the values of a matrix row for use in a C++ array declaration */
+define mat_print_row(A, r, indent_num = 0, indent_char = "\t") {
+	local j;
+	local indent_str = indent_char * indent_num;
+
+	/* for every col */
+	for (j = matmin(A,2); j <= matmax(A,2); j++) {
+		printf("%sT{%eL},\n", indent_str, A[r,j]);
+	}
+}
+
+/* print the values of a matrix column as a C++ array declaration */
+define mat_print_col_as_cpp_array(s, A, c = 0, indent_num = 0, indent_char = "\t") {
+	local indent_str = indent_char * indent_num;
+
+	printf("%stemplate <typename T>\n", indent_str);
+	printf("%sconstexpr std::array<T, %d+1> %s{\n", indent_str, matmax(A,1)-matmin(A,1)+1, s);
+	printf("%s%sT{0}, // This array is indexed starting at 1.\n", indent_str, indent_char);
+	mat_print_col(A, c, indent_num+1);
+	printf("%s};\n\n", indent_str);
+}
+
+/* print the values of a matrix column as a C++ static constexpr array declaration */
+define mat_print_col_as_cpp_static_constexpr_array(s, A, c = 0, indent_num = 0, indent_char = "\t") {
+	local indent_str = indent_char * indent_num;
+	local num_elems = matmax(A,1)-matmin(A,1)+1;
+
+	printf("%sconstexpr std::array<T, %d> %s{\n", indent_str, num_elems, s);
+	mat_print_col(A, c, indent_num+1);
+	printf("%s};\n\n", indent_str);
+}
+
+/* print the values of a matrix column as a static C++ array declaration */
+define mat_print_col_as_cpp_static_array(s, A, c = 0, indent_num = 0, indent_char = "\t") {
+	local indent_str = indent_char * indent_num;
+
+	printf("%sstatic constexpr std::array<T, %d+1> %s{\n", indent_str, matmax(A,1)-matmin(A,1)+1, s);
+	printf("%s%sT{0}, // This array is indexed starting at 1.\n", indent_str, indent_char);
+	mat_print_col(A, c, indent_num+1);
+	printf("%s};\n\n", indent_str);
+}
+
+/* print the values of a matrix column as a C++ static const valarray declaration */
+define mat_print_col_as_cpp_static_const_valarray(s, A, c = 0, indent_num = 0, indent_char = "\t") {
+	local indent_str = indent_char * indent_num;
+
+	printf("%sstatic const std::valarray<T> %s{\n", indent_str, s);
+	mat_print_col(A, c, indent_num+1);
+	printf("%s};\n\n", indent_str);
+}
+
+mat n81[8,1] = {n^1, n^2, n^3, n^4, n^5, n^6, n^7, n^8}
+
+parametric_from_geodetic   = mat_ut(parametric_from_geodetic_arr  ) * n81;
+geodetic_from_parametric   = mat_ut(geodetic_from_parametric_arr  ) * n81;
+geocentric_from_geodetic   = mat_ut(geocentric_from_geodetic_arr  ) * n81;
+geodetic_from_geocentric   = mat_ut(geodetic_from_geocentric_arr  ) * n81;
+geocentric_from_parametric = mat_ut(geocentric_from_parametric_arr) * n81;
+parametric_from_geocentric = mat_ut(parametric_from_geocentric_arr) * n81;
+rectifying_from_geodetic   = mat_ut(rectifying_from_geodetic_arr  ) * n81;
+geodetic_from_rectifying   = mat_ut(geodetic_from_rectifying_arr  ) * n81;
+rectifying_from_parametric = mat_ut(rectifying_from_parametric_arr) * n81;
+parametric_from_rectifying = mat_ut(parametric_from_rectifying_arr) * n81;
+rectifying_from_geocentric = mat_ut(rectifying_from_geocentric_arr) * n81;
+geocentric_from_rectifying = mat_ut(geocentric_from_rectifying_arr) * n81;
+conformal_from_geodetic    = mat_ut(conformal_from_geodetic_arr   ) * n81;
+geodetic_from_conformal    = mat_ut(geodetic_from_conformal_arr   ) * n81;
+conformal_from_parametric  = mat_ut(conformal_from_parametric_arr ) * n81;
+parametric_from_conformal  = mat_ut(parametric_from_conformal_arr ) * n81;
+conformal_from_geocentric  = mat_ut(conformal_from_geocentric_arr ) * n81;
+geocentric_from_conformal  = mat_ut(geocentric_from_conformal_arr ) * n81;
+conformal_from_rectifying  = mat_ut(conformal_from_rectifying_arr ) * n81;
+rectifying_from_conformal  = mat_ut(rectifying_from_conformal_arr ) * n81;
+authalic_from_geodetic     = mat_ut(authalic_from_geodetic_arr    ) * n81;
+geodetic_from_authalic     = mat_ut(geodetic_from_authalic_arr    ) * n81;
+authalic_from_parametric   = mat_ut(authalic_from_parametric_arr  ) * n81;
+parametric_from_authalic   = mat_ut(parametric_from_authalic_arr  ) * n81;
+authalic_from_geocentric   = mat_ut(authalic_from_geocentric_arr  ) * n81;
+geocentric_from_authalic   = mat_ut(geocentric_from_authalic_arr  ) * n81;
+authalic_from_rectifying   = mat_ut(authalic_from_rectifying_arr  ) * n81;
+rectifying_from_authalic   = mat_ut(rectifying_from_authalic_arr  ) * n81;
+authalic_from_conformal    = mat_ut(authalic_from_conformal_arr   ) * n81;
+conformal_from_authalic    = mat_ut(conformal_from_authalic_arr   ) * n81;
+
+script_author = "Steven Ward"
+script_license = "OSL-3.0"
+script_name = "generate-series-approx-coeff-aux-lat.cal"
+script_brief_description = "Auxiliary latitude conversions"
+script_detailed_description = "\\sa https://geographiclib.sourceforge.io/C++/doc/auxlat.html#auxlattable"
+
+print_cpp_file_header(script_author, script_license, script_name,
+	script_brief_description, script_detailed_description);
+
+printf("
+#include \"angle.hpp\"
+#include \"ellipsoid-wgs84.hpp\"
+
+#include <cmath>
+#include <concepts>
+#include <valarray>
+");
+
+define print_iota_valarray(num_elems, val = 0, inc = 1) {
+	local i;
+
+	printf("template <std::floating_point T>\n");
+	printf("const std::valarray<T> iota_%d_%d{", val, inc);
+	for (i = 0; i < num_elems; ++i) {
+		printf("%d, ", val);
+		val += inc;
+	}
+	printf("};\n");
+}
+
+printf("\n");
+
+print_iota_valarray(8, 0, 1);
+printf("\n");
+
+print_iota_valarray(8, 0, 2);
+printf("\n");
+
+print_iota_valarray(8, 1, 1);
+printf("\n");
+
+print_iota_valarray(8, 1, 2);
+printf("\n");
+
+print_iota_valarray(8, 2, 2);
+printf("\n");
+
+define print_conv_cpp_func(s, A) {
+	local indent_num = 1;
+	local indent_char = "\t";
+	local indent_str = indent_char * indent_num;
+	local num_elems = matmax(A,1)-matmin(A,1)+1;
+
+	printf("template <angle_unit U, std::floating_point T>\n");
+	printf("auto\n%s_approx(const angle<U, T>& a)\n{\n", s);
+
+	mat_print_col_as_cpp_static_const_valarray("coeff", A, 0, indent_num, indent_char);
+
+	printf("%sreturn a + ang_rad<T>{(coeff * std::sin(iota_2_2<T> * a.to_rad())).sum()};\n", indent_str);
+
+	printf("}\n\n");
+}
+
+print_conv_cpp_func("parametric_from_geodetic"  , parametric_from_geodetic  )
+print_conv_cpp_func("geodetic_from_parametric"  , geodetic_from_parametric  )
+print_conv_cpp_func("geocentric_from_geodetic"  , geocentric_from_geodetic  )
+print_conv_cpp_func("geodetic_from_geocentric"  , geodetic_from_geocentric  )
+print_conv_cpp_func("geocentric_from_parametric", geocentric_from_parametric)
+print_conv_cpp_func("parametric_from_geocentric", parametric_from_geocentric)
+print_conv_cpp_func("rectifying_from_geodetic"  , rectifying_from_geodetic  )
+print_conv_cpp_func("geodetic_from_rectifying"  , geodetic_from_rectifying  )
+print_conv_cpp_func("rectifying_from_parametric", rectifying_from_parametric)
+print_conv_cpp_func("parametric_from_rectifying", parametric_from_rectifying)
+print_conv_cpp_func("rectifying_from_geocentric", rectifying_from_geocentric)
+print_conv_cpp_func("geocentric_from_rectifying", geocentric_from_rectifying)
+print_conv_cpp_func("conformal_from_geodetic"   , conformal_from_geodetic   )
+print_conv_cpp_func("geodetic_from_conformal"   , geodetic_from_conformal   )
+print_conv_cpp_func("conformal_from_parametric" , conformal_from_parametric )
+print_conv_cpp_func("parametric_from_conformal" , parametric_from_conformal )
+print_conv_cpp_func("conformal_from_geocentric" , conformal_from_geocentric )
+print_conv_cpp_func("geocentric_from_conformal" , geocentric_from_conformal )
+print_conv_cpp_func("conformal_from_rectifying" , conformal_from_rectifying )
+print_conv_cpp_func("rectifying_from_conformal" , rectifying_from_conformal )
+print_conv_cpp_func("authalic_from_geodetic"    , authalic_from_geodetic    )
+print_conv_cpp_func("geodetic_from_authalic"    , geodetic_from_authalic    )
+print_conv_cpp_func("authalic_from_parametric"  , authalic_from_parametric  )
+print_conv_cpp_func("parametric_from_authalic"  , parametric_from_authalic  )
+print_conv_cpp_func("authalic_from_geocentric"  , authalic_from_geocentric  )
+print_conv_cpp_func("geocentric_from_authalic"  , geocentric_from_authalic  )
+print_conv_cpp_func("authalic_from_rectifying"  , authalic_from_rectifying  )
+print_conv_cpp_func("rectifying_from_authalic"  , rectifying_from_authalic  )
+print_conv_cpp_func("authalic_from_conformal"   , authalic_from_conformal   )
+print_conv_cpp_func("conformal_from_authalic"   , conformal_from_authalic   )
+
+printf("template <angle_unit U, std::floating_point T>
+constexpr auto\ngeocentric_from_geodetic_exact(const angle<U, T>& a)
+{
+#if 0
+	// This is not as accurate.
+	const auto s = sin(a);
+	const auto c = cos(a);
+	return a_atan2(s * (1 - WGS84<T>.e2), c);
+#else
+	return a_atan(tan(a) * (1 - WGS84<T>.e2));
+#endif
+}
+
+template <angle_unit U, std::floating_point T>
+constexpr auto\ngeodetic_from_geocentric_exact(const angle<U, T>& a)
+{
+#if 0
+	// This is not as accurate.
+	const auto s = sin(a);
+	const auto c = cos(a);
+	return a_atan2(s, c * (1 - WGS84<T>.e2));
+#else
+	return a_atan(tan(a) / (1 - WGS84<T>.e2));
+#endif
+}
+
+template <angle_unit U, std::floating_point T>
+constexpr auto\nparametric_from_geodetic_exact(const angle<U, T>& a)
+{
+#if 0
+	// This is not as accurate.
+	const auto s = sin(a);
+	const auto c = cos(a);
+	return a_atan2(s * (1 - WGS84<T>.f), c);
+#else
+	return a_atan(tan(a) * (1 - WGS84<T>.f));
+#endif
+}
+
+template <angle_unit U, std::floating_point T>
+constexpr auto\ngeodetic_from_parametric_exact(const angle<U, T>& a)
+{
+#if 0
+	// This is not as accurate.
+	const auto s = sin(a);
+	const auto c = cos(a);
+	return a_atan2(s, c * (1 - WGS84<T>.f));
+#else
+	return a_atan(tan(a) / (1 - WGS84<T>.f));
+#endif
+}
+
+template <angle_unit U, std::floating_point T>
+constexpr auto\ngeocentric_from_parametric_exact(const angle<U, T>& a)
+{
+#if 0
+	// This is not as accurate.
+	const auto s = sin(a);
+	const auto c = cos(a);
+	return a_atan2(s * (1 - WGS84<T>.f), c);
+#else
+	return a_atan(tan(a) * (1 - WGS84<T>.f));
+#endif
+}
+
+template <angle_unit U, std::floating_point T>
+constexpr auto\nparametric_from_geocentric_exact(const angle<U, T>& a)
+{
+#if 0
+	// This is not as accurate.
+	const auto s = sin(a);
+	const auto c = cos(a);
+	return a_atan2(s, c * (1 - WGS84<T>.f));
+#else
+	return a_atan(tan(a) / (1 - WGS84<T>.f));
+#endif
+}
+");

@@ -1,0 +1,32 @@
+## SPDX-FileCopyrightText: Steven Ward
+## SPDX-License-Identifier: OSL-3.0
+
+null(config("display", 72))
+null(config("epsilon", 1E-72))
+null(config("tilde", 0))
+null(config("tab", 0))
+
+define cbrt(x){return x^(1/3);}
+
+a = 6378137.0 ## semi-major axis (equatorial radius of the earth) (meters)
+f = 1 / 298.257223563 ## (a-b)/a ## flattening factor of the earth
+GM = 3.986004418E14
+omega = 7.292115E-5
+b = a*(1-f) ## semi-minor axis (meters)
+a2 = a*a ## a squared
+b2 = b*b ## b squared
+fp = f/(1-f) ## (a-b)/b // second flattening
+n = f/(2-f) ## (a-b)/(a+b) // third flattening
+e2 = f*(2-f) ## (a2-b2)/a2 // first eccentricity squared
+e = sqrt(e2) ## first eccentricity
+ep2 = e2/(1-e2) ## (a2-b2)/b2 // second eccentricity squared
+ep = sqrt(ep2) ## second eccentricity
+epp2 = e2/(2-e2) ## (a2-b2)/(a2+b2) // third eccentricity squared
+epp = sqrt(epp2) ## third eccentricity
+c2 = a2 - b2 ## linear eccentricity squared
+c = sqrt(c2) ## linear eccentricity
+alpha = asin(e) ## angular eccentricity // acos(b/a)
+gamma_e = 9.7803253359 ## normal gravity at the equator (on the ellipsoid) // (m/s^2)
+gamma_p = 9.8321849379 ## normal gravity at the poles (on the ellipsoid) // (m/s^2)
+k = (1 - f) * gamma_p / gamma_e - 1 ## Somigliana's Formula - normal gravity formula constant
+m = omega * omega * a2 * b / GM ## normal gravity formula constant
