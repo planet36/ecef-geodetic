@@ -10,7 +10,7 @@
 #pragma once
 
 #include "angle.hpp"
-#include "ellipsoid.hpp"
+#include "ellipsoid-wgs84.hpp"
 
 #include <cmath>
 #include <concepts>
@@ -35,14 +35,15 @@ Converted to C++ and modified by Steven Ward.  No rights reserved.
 */
 template <std::floating_point T>
 void
-ecef_to_geodetic(const Ellipsoid<T>& ell,
-                 const T x,
+ecef_to_geodetic(const T x,
                  const T y,
                  const T z,
                  T& lat_rad,
                  T& lon_rad,
                  T& ht)
 {
+	constexpr auto ell = WGS84<T>;
+
 	const auto w2 = x * x + y * y;
 	const auto w = std::sqrt(w2);
 	const auto z2 = z * z;
@@ -69,9 +70,9 @@ ecef_to_geodetic(const Ellipsoid<T>& ell,
 	auto u = a2 / r;
 	auto v = a3 - a4 / r;
 
-	T s;
-	T c;
-	T ss;
+	T s{};
+	T c{};
+	T ss{};
 
 	// cos(45 deg)^2 == 0.5
 	if (c2 > 0.5) // Equatorial
@@ -107,8 +108,13 @@ ecef_to_geodetic(const Ellipsoid<T>& ell,
 
 	lat_rad += p;
 
+#if 1
+	// custom ht
 	ht = f + m * p / 2;
-	//ht = ell.get_ht(w, z, std::sin(lat_rad), std::cos(lat_rad));
+#else
+	// common ht
+	ht = ell.get_ht(w, z, std::sin(lat_rad), std::cos(lat_rad));
+#endif
 }
 
 /// convert from ECEF to geodetic
@@ -131,14 +137,15 @@ Converted to C++ and modified by Steven Ward.  No rights reserved.
 */
 template <angle_unit U, std::floating_point T>
 void
-ecef_to_geodetic(const Ellipsoid<T>& ell,
-                 const T x,
+ecef_to_geodetic(const T x,
                  const T y,
                  const T z,
                  angle<U, T>& lat,
                  angle<U, T>& lon,
                  T& ht)
 {
+	constexpr auto ell = WGS84<T>;
+
 	const auto w2 = x * x + y * y;
 	const auto w = std::sqrt(w2);
 	const auto z2 = z * z;
@@ -165,9 +172,9 @@ ecef_to_geodetic(const Ellipsoid<T>& ell,
 	auto u = a2 / r;
 	auto v = a3 - a4 / r;
 
-	T s;
-	T c;
-	T ss;
+	T s{};
+	T c{};
+	T ss{};
 
 	// cos(45 deg)^2 == 0.5
 	if (c2 > 0.5) // Equatorial
@@ -203,6 +210,11 @@ ecef_to_geodetic(const Ellipsoid<T>& ell,
 
 	lat += p;
 
+#if 1
+	// custom ht
 	ht = f + m * p / 2;
-	//ht = ell.get_ht(w, z, sin(lat), cos(lat));
+#else
+	// common ht
+	ht = ell.get_ht(w, z, sin(lat), cos(lat));
+#endif
 }

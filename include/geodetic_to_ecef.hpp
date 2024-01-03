@@ -10,7 +10,7 @@
 #pragma once
 
 #include "angle.hpp"
-#include "ellipsoid.hpp"
+#include "ellipsoid-wgs84.hpp"
 
 #include <cmath>
 #include <concepts>
@@ -29,14 +29,15 @@ Equation (4-14)
 */
 template <std::floating_point T>
 void
-geodetic_to_ecef(const Ellipsoid<T>& ell,
-                 const T lat_rad,
+geodetic_to_ecef(const T lat_rad,
                  const T lon_rad,
                  const T ht,
                  T& x,
                  T& y,
                  T& z)
 {
+	constexpr auto ell = WGS84<T>;
+
 	const auto sin_lat = std::sin(lat_rad);
 	const auto cos_lat = std::cos(lat_rad);
 
@@ -64,14 +65,15 @@ Equation (4-14)
 */
 template <angle_unit U, std::floating_point T>
 void
-geodetic_to_ecef(const Ellipsoid<T>& ell,
-                 const angle<U, T>& lat,
+geodetic_to_ecef(const angle<U, T>& lat,
                  const angle<U, T>& lon,
                  const T ht,
                  T& x,
                  T& y,
                  T& z)
 {
+	constexpr auto ell = WGS84<T>;
+
 	const auto sin_lat = sin(lat);
 	const auto cos_lat = cos(lat);
 
