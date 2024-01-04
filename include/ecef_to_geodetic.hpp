@@ -10,7 +10,9 @@
 #pragma once
 
 #include "angle.hpp"
+#include "ecef-coord.hpp"
 #include "ellipsoid-wgs84.hpp"
+#include "geodetic-coord.hpp"
 
 #include <cmath>
 #include <concepts>
@@ -42,7 +44,7 @@ ecef_to_geodetic(const T x,
                  T& lon_rad,
                  T& ht)
 {
-	constexpr auto ell = WGS84<T>;
+	static constexpr auto& ell = WGS84<T>;
 
 	const auto w2 = x * x + y * y;
 	const auto w = std::sqrt(w2);
@@ -144,7 +146,7 @@ ecef_to_geodetic(const T x,
                  angle<U, T>& lon,
                  T& ht)
 {
-	constexpr auto ell = WGS84<T>;
+	static constexpr auto& ell = WGS84<T>;
 
 	const auto w2 = x * x + y * y;
 	const auto w = std::sqrt(w2);
@@ -217,4 +219,14 @@ ecef_to_geodetic(const T x,
 	// common ht
 	ht = ell.get_ht(w, z, sin(lat), cos(lat));
 #endif
+}
+
+template <std::floating_point T>
+auto ecef_to_geodetic(const ECEF<T>& ecef)
+{
+	T lat_rad{};
+	T lon_rad{};
+	T ht{};
+	ecef_to_geodetic(ecef.x, ecef.y, ecef.z, lat_rad, lon_rad, ht);
+	return Geodetic<angle_unit::radian, T>{lat_rad, lon_rad, ht};
 }
