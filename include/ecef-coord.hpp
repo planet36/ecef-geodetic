@@ -27,7 +27,7 @@ constexpr int ecef_default_precision = 6; ///< The default precision
 \return the string representation of the ECEF coordinate
 */
 template <std::floating_point T>
-std::string ecef_to_str(
+[[nodiscard]] std::string ecef_to_str(
 	const T x,
 	const T y,
 	const T z,
@@ -142,7 +142,7 @@ struct ECEF
 	{
 	}
 
-	std::string to_string(int precision = ecef_default_precision) const
+	[[nodiscard]] std::string to_string(int precision = ecef_default_precision) const
 	{
 		return ecef_to_str(x, y, z, precision);
 	}

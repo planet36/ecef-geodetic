@@ -69,32 +69,32 @@ public:
 		return *this;
 	}
 
-	constexpr T to_mrad() const
+	[[nodiscard]] constexpr T to_mrad() const
 	{
 		return convert_from<U, angle_unit::milliradian>(value);
 	}
 
-	constexpr T to_rad() const
+	[[nodiscard]] constexpr T to_rad() const
 	{
 		return convert_from<U, angle_unit::radian>(value);
 	}
 
-	constexpr T to_rev() const
+	[[nodiscard]] constexpr T to_rev() const
 	{
 		return convert_from<U, angle_unit::revolution>(value);
 	}
 
-	constexpr T to_deg() const
+	[[nodiscard]] constexpr T to_deg() const
 	{
 		return convert_from<U, angle_unit::degree>(value);
 	}
 
-	constexpr T to_arcmin() const
+	[[nodiscard]] constexpr T to_arcmin() const
 	{
 		return convert_from<U, angle_unit::arcminute>(value);
 	}
 
-	constexpr T to_arcsec() const
+	[[nodiscard]] constexpr T to_arcsec() const
 	{
 		return convert_from<U, angle_unit::arcsecond>(value);
 	}
@@ -104,28 +104,28 @@ public:
 	* This is useful for getting the raw internal value regardless of its unit
 	* of measurement.
 	*/
-	constexpr T scalar() const { return value; }
+	[[nodiscard]] constexpr T scalar() const { return value; }
 
 	/// get the unit of measurement of the angle
-	constexpr angle_unit units() const { return U; }
+	[[nodiscard]] constexpr angle_unit units() const { return U; }
 
 	/// convert to a different data type
 	template <std::floating_point T2>
-	constexpr auto to() const
+	[[nodiscard]] constexpr auto to() const
 	{
 		return angle<U, T2>{*this};
 	}
 
 	/// convert to a different angle unit
 	template <angle_unit U2>
-	constexpr auto to() const
+	[[nodiscard]] constexpr auto to() const
 	{
 		return angle<U2, T>{*this};
 	}
 
 	/// convert to a different angle unit and data type
 	template <angle_unit U2, std::floating_point T2>
-	constexpr auto to() const
+	[[nodiscard]] constexpr auto to() const
 	{
 		return angle<U2, T2>{*this};
 	}

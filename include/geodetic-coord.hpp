@@ -31,7 +31,7 @@ constexpr int geodetic_precision_add = 5; ///< The precision to add to the geode
 \return the string representation of the geodetic coordinate
 */
 template <angle_unit U, std::floating_point T>
-std::string geodetic_to_str(
+[[nodiscard]] std::string geodetic_to_str(
 	const angle<U, T>& lat,
 	const angle<U, T>& lon,
 	const T ht,
@@ -125,7 +125,7 @@ struct Geodetic
 		normalize_geodetic(lat, lon);
 	}
 
-	std::string to_string(const int precision = geodetic_default_precision) const
+	[[nodiscard]] std::string to_string(const int precision = geodetic_default_precision) const
 	{
 		return geodetic_to_str(lat, lon, ht, precision);
 	}

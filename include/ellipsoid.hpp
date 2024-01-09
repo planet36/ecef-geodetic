@@ -160,7 +160,7 @@ struct Ellipsoid
 	\param sin_lat sine of the geodetic latitude
 	\return the radius of curvature in the prime vertical (meters)
 	*/
-	auto get_Rn(const T sin_lat) const
+	[[nodiscard]] auto get_Rn(const T sin_lat) const
 	{
 		const auto d2 = 1 - e2 * sin_lat * sin_lat;
 		const auto d = std::sqrt(d2);
@@ -196,7 +196,7 @@ struct Ellipsoid
 	\param sin_lat sine of the geodetic latitude
 	\return the ellipsoid radius (meters)
 	*/
-	auto get_R(const T sin_lat) const
+	[[nodiscard]] auto get_R(const T sin_lat) const
 	{
 		return get_Rn(sin_lat) *
 		       std::sqrt(1 - e2 * sin_lat * sin_lat * (2 - e2));
@@ -210,7 +210,7 @@ struct Ellipsoid
 	\param sin_lat sine of the geodetic latitude
 	\return the radius of curvature in the meridian (meters)
 	*/
-	auto get_Rm(const T sin_lat) const
+	[[nodiscard]] auto get_Rm(const T sin_lat) const
 	{
 		const auto d2 = 1 - e2 * sin_lat * sin_lat;
 		const auto d = std::sqrt(d2);
@@ -226,7 +226,7 @@ struct Ellipsoid
 	\param sin_lat sine of the geodetic latitude
 	\return the normal gravity on the ellipsoid surface (m/s²)
 	*/
-	auto get_gamma(const T sin_lat) const
+	[[nodiscard]] auto get_gamma(const T sin_lat) const
 	{
 		const auto d2 = 1 - e2 * sin_lat * sin_lat;
 		const auto d = std::sqrt(d2);
@@ -243,7 +243,7 @@ struct Ellipsoid
 	\param ht ellipsoid height (meters)
 	\return the normal gravity above the ellipsoid (m/s²)
 	*/
-	auto get_gamma_h(const T sin_lat, const T ht) const
+	[[nodiscard]] auto get_gamma_h(const T sin_lat, const T ht) const
 	{
 		return get_gamma(sin_lat) *
 		       (1 - 2 * ht * (1 + f + m - 2 * f * sin_lat * sin_lat) / a +
@@ -272,7 +272,7 @@ struct Ellipsoid
 	\param Rn prime vertical radius of curvature (meters)
 	\return the height above the ellipsoid (meters)
 	*/
-	auto get_ht(const T w,
+	[[nodiscard]] auto get_ht(const T w,
 	            const T z,
 	            const T sin_lat,
 	            const T cos_lat,
@@ -294,7 +294,7 @@ struct Ellipsoid
 	\param cos_lat cosine of the geodetic latitude
 	\return the height above the ellipsoid (meters)
 	*/
-	auto get_ht(const T w, const T z, const T sin_lat, const T cos_lat) const
+	[[nodiscard]] auto get_ht(const T w, const T z, const T sin_lat, const T cos_lat) const
 	{
 		return get_ht(w, z, sin_lat, cos_lat, get_Rn(sin_lat));
 	}
@@ -306,7 +306,7 @@ struct Ellipsoid
 	\param lat_rad geodetic latitude (radians)
 	\return the height above the ellipsoid (meters)
 	*/
-	auto get_ht(const T w, const T z, const T lat_rad) const
+	[[nodiscard]] auto get_ht(const T w, const T z, const T lat_rad) const
 	{
 		const auto sin_lat = std::sin(lat_rad);
 		const auto cos_lat = std::cos(lat_rad);

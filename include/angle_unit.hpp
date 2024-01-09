@@ -31,7 +31,7 @@ enum struct angle_unit : unsigned char
 
 /// convert the \c angle_unit to a string
 template <angle_unit U>
-constexpr std::string_view
+[[nodiscard]] constexpr std::string_view
 to_string()
 {
 	if constexpr (U == angle_unit::milliradian) {return "mrad"  ;}
