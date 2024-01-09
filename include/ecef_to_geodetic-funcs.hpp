@@ -4935,7 +4935,7 @@ COMMON_FIRST_DECLS
 		//ht = std::sqrt(w2 + z2) - ell.a;
 		ht = r - ell.a;
 		region = REGION_SPHERICAL;
-		goto END_REGION_CHECK;
+		goto END_REGION_CHECK; // NOLINT(hicpp-avoid-goto)
 	}
 	else
 	{
@@ -4996,7 +4996,7 @@ COMMON_FIRST_DECLS
 		    (upperBound <= gc_gd_spec.v[REGION_3]))
 		{
 			region = REGION_2;
-			goto END_REGION_CHECK;
+			goto END_REGION_CHECK; // NOLINT(hicpp-avoid-goto)
 		}
 		else
 		{
@@ -5007,7 +5007,7 @@ COMMON_FIRST_DECLS
 			    (upperBound <= gc_gd_spec.v[REGION_4]))
 			{
 				region = REGION_3;
-				goto END_REGION_CHECK;
+				goto END_REGION_CHECK; // NOLINT(hicpp-avoid-goto)
 			}
 			else
 			{
@@ -5018,7 +5018,7 @@ COMMON_FIRST_DECLS
 				    (upperBound <= gc_gd_spec.v[REGION_2]))
 				{
 					region = REGION_1;
-					goto END_REGION_CHECK;
+					goto END_REGION_CHECK; // NOLINT(hicpp-avoid-goto)
 				}
 				else
 				{
@@ -5029,7 +5029,7 @@ COMMON_FIRST_DECLS
 					    (upperBound <= gc_gd_spec.v[REGION_5]))
 					{
 						region = REGION_4;
-						goto END_REGION_CHECK;
+						goto END_REGION_CHECK; // NOLINT(hicpp-avoid-goto)
 					}
 					else
 					{
@@ -5529,7 +5529,7 @@ COMMON_FIRST_DECLS
 		//ht = std::sqrt(w2 + z2) - ell.a;
 		ht = r - ell.a;
 		region = REGION_SPHERICAL;
-		goto END_REGION_CHECK;
+		goto END_REGION_CHECK; // NOLINT(hicpp-avoid-goto)
 	}
 	else
 	{
@@ -5590,7 +5590,7 @@ COMMON_FIRST_DECLS
 		    (upperBound <= gc_gd_spec.v[REGION_3]))
 		{
 			region = REGION_2;
-			goto END_REGION_CHECK;
+			goto END_REGION_CHECK; // NOLINT(hicpp-avoid-goto)
 		}
 		else
 		{
@@ -5601,7 +5601,7 @@ COMMON_FIRST_DECLS
 			    (upperBound <= gc_gd_spec.v[REGION_4]))
 			{
 				region = REGION_3;
-				goto END_REGION_CHECK;
+				goto END_REGION_CHECK; // NOLINT(hicpp-avoid-goto)
 			}
 			else
 			{
@@ -5612,7 +5612,7 @@ COMMON_FIRST_DECLS
 				    (upperBound <= gc_gd_spec.v[REGION_2]))
 				{
 					region = REGION_1;
-					goto END_REGION_CHECK;
+					goto END_REGION_CHECK; // NOLINT(hicpp-avoid-goto)
 				}
 				else
 				{
@@ -5623,7 +5623,7 @@ COMMON_FIRST_DECLS
 					    (upperBound <= gc_gd_spec.v[REGION_5]))
 					{
 						region = REGION_4;
-						goto END_REGION_CHECK;
+						goto END_REGION_CHECK; // NOLINT(hicpp-avoid-goto)
 					}
 					else
 					{
