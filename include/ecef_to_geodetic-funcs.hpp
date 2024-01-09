@@ -237,21 +237,21 @@ struct func_info_t
 * f(φ) = Rn * e2 * sin * cos - w * sin + z * cos = 0
 *
 * first derivative: (unsimplified)
-* f'(φ) = a * e2² * sin² * cos² / d³ - a * e2 * sin² / d + a * e2 * cos² / d - w * cos - z * sin = 0
+* f′(φ) = a * e2² * sin² * cos² / d³ - a * e2 * sin² / d + a * e2 * cos² / d - w * cos - z * sin = 0
 *
 * first derivative: (simplified)
-* f'(φ) = Rn * (d² - (1-e2) / d²) - w * cos - z * sin = 0
+* f′(φ) = Rn * (d² - (1-e2) / d²) - w * cos - z * sin = 0
 *
 * second derivative: (unsimplified)
-* f''(φ) = a * e2 * sin * cos * (d² - (1-e2) / d²) / d³ - 2 * a * e2 * sin * cos * ((1-e2) / d⁴ + 1) / d + w * sin - z * cos = 0
+* f″(φ) = a * e2 * sin * cos * (d² - (1-e2) / d²) / d³ - 2 * a * e2 * sin * cos * ((1-e2) / d⁴ + 1) / d + w * sin - z * cos = 0
 *
 * second derivative: (simplified)
-* f''(φ) = -Rn * e2 * sin * cos * (3 * (1-e2) / d⁴ + 1) + w * sin - z * cos = 0
+* f″(φ) = -Rn * e2 * sin * cos * (3 * (1-e2) / d⁴ + 1) + w * sin - z * cos = 0
 * OR
-* f''(φ) = -Rn * e2 * sin * cos * (3 * (1-e2) / d² + d²) / d² + w * sin - z * cos = 0
+* f″(φ) = -Rn * e2 * sin * cos * (3 * (1-e2) / d² + d²) / d² + w * sin - z * cos = 0
 */
 
-/// get f, f'
+/// get f, f′
 template <std::floating_point T>
 void get_f_fp(const T w, const T z, const T sin_lat, const T cos_lat,
               T& f, T& fp)
@@ -265,7 +265,7 @@ void get_f_fp(const T w, const T z, const T sin_lat, const T cos_lat,
 
 constexpr int _lines_f_fp = 10;
 
-/// get f, f', f''
+/// get f, f′, f″
 template <std::floating_point T>
 void get_f_fp_fpp(const T w, const T z, const T sin_lat, const T cos_lat,
                   T& f, T& fp, T& fpp)
@@ -2126,7 +2126,7 @@ const auto func_info = func_info_t(
 	/*.license                     =*/ "OSL-3.0",
 	/*.orig_impl_lang              =*/ "None",
 	/*.url                         =*/ "https://mathworld.wolfram.com/HalleysMethod.html",
-	/*.citation                    =*/ R"(Halley's Method: Δφ = (f * f') / (f' * f' - 0.5 * f * f''))"
+	/*.citation                    =*/ R"(Halley's Method: Δφ = (f * f′) / (f′ * f′ - 0.5 * f * f″))"
 );
 
 }
@@ -2172,7 +2172,7 @@ const auto func_info = func_info_t(
 	/*.license                     =*/ "OSL-3.0",
 	/*.orig_impl_lang              =*/ "None",
 	/*.url                         =*/ "https://mathworld.wolfram.com/HalleysMethod.html",
-	/*.citation                    =*/ R"(Halley's Method: Δφ = (f * f') / (f' * f' - 0.5 * f * f''))"
+	/*.citation                    =*/ R"(Halley's Method: Δφ = (f * f′) / (f′ * f′ - 0.5 * f * f″))"
 );
 
 }
@@ -2222,7 +2222,7 @@ const auto func_info = func_info_t(
 	/*.license                     =*/ "OSL-3.0",
 	/*.orig_impl_lang              =*/ "None",
 	/*.url                         =*/ "https://mathworld.wolfram.com/HalleysMethod.html",
-	/*.citation                    =*/ R"(Halley's Method: Δφ = (f * f') / (f' * f' - 0.5 * f * f''))"
+	/*.citation                    =*/ R"(Halley's Method: Δφ = (f * f′) / (f′ * f′ - 0.5 * f * f″))"
 );
 
 }
@@ -2272,7 +2272,7 @@ const auto func_info = func_info_t(
 	/*.license                     =*/ "OSL-3.0",
 	/*.orig_impl_lang              =*/ "None",
 	/*.url                         =*/ "https://mathworld.wolfram.com/HalleysMethod.html",
-	/*.citation                    =*/ R"(Halley's Method: Δφ = (f * f') / (f' * f' - 0.5 * f * f''))"
+	/*.citation                    =*/ R"(Halley's Method: Δφ = (f * f′) / (f′ * f′ - 0.5 * f * f″))"
 );
 
 }
@@ -2474,7 +2474,7 @@ const auto func_info = func_info_t(
 	/*.license                     =*/ "OSL-3.0",
 	/*.orig_impl_lang              =*/ "None",
 	/*.url                         =*/ "https://mathworld.wolfram.com/HouseholdersMethod.html",
-	/*.citation                    =*/ R"(Householder's Method: Δφ = (f / f') * (1 + 0.5 * f * f'' / (f' * f')))"
+	/*.citation                    =*/ R"(Householder's Method: Δφ = (f / f′) * (1 + 0.5 * f * f″ / (f′ * f′)))"
 );
 
 }
@@ -2520,7 +2520,7 @@ const auto func_info = func_info_t(
 	/*.license                     =*/ "OSL-3.0",
 	/*.orig_impl_lang              =*/ "None",
 	/*.url                         =*/ "https://mathworld.wolfram.com/HouseholdersMethod.html",
-	/*.citation                    =*/ R"(Householder's Method: Δφ = (f / f') * (1 + 0.5 * f * f'' / (f' * f')))"
+	/*.citation                    =*/ R"(Householder's Method: Δφ = (f / f′) * (1 + 0.5 * f * f″ / (f′ * f′)))"
 );
 
 }
@@ -2570,7 +2570,7 @@ const auto func_info = func_info_t(
 	/*.license                     =*/ "OSL-3.0",
 	/*.orig_impl_lang              =*/ "None",
 	/*.url                         =*/ "https://mathworld.wolfram.com/HouseholdersMethod.html",
-	/*.citation                    =*/ R"(Householder's Method: Δφ = (f / f') * (1 + 0.5 * f * f'' / (f' * f')))"
+	/*.citation                    =*/ R"(Householder's Method: Δφ = (f / f′) * (1 + 0.5 * f * f″ / (f′ * f′)))"
 );
 
 }
@@ -2620,7 +2620,7 @@ const auto func_info = func_info_t(
 	/*.license                     =*/ "OSL-3.0",
 	/*.orig_impl_lang              =*/ "None",
 	/*.url                         =*/ "https://mathworld.wolfram.com/HouseholdersMethod.html",
-	/*.citation                    =*/ R"(Householder's Method: Δφ = (f / f') * (1 + 0.5 * f * f'' / (f' * f')))"
+	/*.citation                    =*/ R"(Householder's Method: Δφ = (f / f′) * (1 + 0.5 * f * f″ / (f′ * f′)))"
 );
 
 }
@@ -3493,7 +3493,7 @@ const auto func_info = func_info_t(
 	/*.license                     =*/ "OSL-3.0",
 	/*.orig_impl_lang              =*/ "None",
 	/*.url                         =*/ "https://mathworld.wolfram.com/NewtonsMethod.html",
-	/*.citation                    =*/ R"(Newton-Raphson Method: Δφ = f / f')"
+	/*.citation                    =*/ R"(Newton-Raphson Method: Δφ = f / f′)"
 );
 
 }
@@ -3539,7 +3539,7 @@ const auto func_info = func_info_t(
 	/*.license                     =*/ "OSL-3.0",
 	/*.orig_impl_lang              =*/ "None",
 	/*.url                         =*/ "https://mathworld.wolfram.com/NewtonsMethod.html",
-	/*.citation                    =*/ R"(Newton-Raphson Method: Δφ = f / f')"
+	/*.citation                    =*/ R"(Newton-Raphson Method: Δφ = f / f′)"
 );
 
 }
@@ -3589,7 +3589,7 @@ const auto func_info = func_info_t(
 	/*.license                     =*/ "OSL-3.0",
 	/*.orig_impl_lang              =*/ "None",
 	/*.url                         =*/ "https://mathworld.wolfram.com/NewtonsMethod.html",
-	/*.citation                    =*/ R"(Newton-Raphson Method: Δφ = f / f')"
+	/*.citation                    =*/ R"(Newton-Raphson Method: Δφ = f / f′)"
 );
 
 }
@@ -3639,7 +3639,7 @@ const auto func_info = func_info_t(
 	/*.license                     =*/ "OSL-3.0",
 	/*.orig_impl_lang              =*/ "None",
 	/*.url                         =*/ "https://mathworld.wolfram.com/NewtonsMethod.html",
-	/*.citation                    =*/ R"(Newton-Raphson Method: Δφ = f / f')"
+	/*.citation                    =*/ R"(Newton-Raphson Method: Δφ = f / f′)"
 );
 
 }
@@ -4522,7 +4522,7 @@ const auto func_info = func_info_t(
 	/*.license                     =*/ "OSL-3.0",
 	/*.orig_impl_lang              =*/ "None",
 	/*.url                         =*/ "https://mathworld.wolfram.com/SchroedersMethod.html",
-	/*.citation                    =*/ R"(Schroeder's Method: Δφ = (f * f') / (f' * f' - f * f''))"
+	/*.citation                    =*/ R"(Schroeder's Method: Δφ = (f * f′) / (f′ * f′ - f * f″))"
 );
 
 }
@@ -4568,7 +4568,7 @@ const auto func_info = func_info_t(
 	/*.license                     =*/ "OSL-3.0",
 	/*.orig_impl_lang              =*/ "None",
 	/*.url                         =*/ "https://mathworld.wolfram.com/SchroedersMethod.html",
-	/*.citation                    =*/ R"(Schroeder's Method: Δφ = (f * f') / (f' * f' - f * f''))"
+	/*.citation                    =*/ R"(Schroeder's Method: Δφ = (f * f′) / (f′ * f′ - f * f″))"
 );
 
 }
@@ -4618,7 +4618,7 @@ const auto func_info = func_info_t(
 	/*.license                     =*/ "OSL-3.0",
 	/*.orig_impl_lang              =*/ "None",
 	/*.url                         =*/ "https://mathworld.wolfram.com/SchroedersMethod.html",
-	/*.citation                    =*/ R"(Schroeder's Method: Δφ = (f * f') / (f' * f' - f * f''))"
+	/*.citation                    =*/ R"(Schroeder's Method: Δφ = (f * f′) / (f′ * f′ - f * f″))"
 );
 
 }
@@ -4668,7 +4668,7 @@ const auto func_info = func_info_t(
 	/*.license                     =*/ "OSL-3.0",
 	/*.orig_impl_lang              =*/ "None",
 	/*.url                         =*/ "https://mathworld.wolfram.com/SchroedersMethod.html",
-	/*.citation                    =*/ R"(Schroeder's Method: Δφ = (f * f') / (f' * f' - f * f''))"
+	/*.citation                    =*/ R"(Schroeder's Method: Δφ = (f * f′) / (f′ * f′ - f * f″))"
 );
 
 }
