@@ -4849,7 +4849,7 @@ Algorithm derived by Ralph Toms, SRI.
 		const auto _x = _d1 * (arg);                 \
 		const auto _ak = 0.5 + _x;                   \
 		const auto _z = 1 - _alpha * _x;             \
-		answer = ell.a * _z * (1.5 - _ak * _z * _z); \
+		(answer) = ell.a * _z * (1.5 - _ak * _z * _z); \
 	}
 
 //unsigned int SRM_ChangeGC_GD(
@@ -5443,7 +5443,7 @@ Algorithm derived by Ralph Toms, SRI.
 		const auto _x = _d1 * (arg);                 \
 		const auto _ak = 0.5 + _x;                   \
 		const auto _z = 1 - _alpha * _x;             \
-		answer = ell.a * _z * (1.5 - _ak * _z * _z); \
+		(answer) = ell.a * _z * (1.5 - _ak * _z * _z); \
 	}
 
 //unsigned int SRM_ChangeGC_GD(
