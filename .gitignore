@@ -1,0 +1,6 @@
+ecef.2d.*.txt
+geod.2d.*.txt
+test-ecef_to_geodetic-acc
+test-ecef_to_geodetic-acc.opts
+test-ecef_to_geodetic-speed
+test-ecef_to_geodetic-speed.opts
