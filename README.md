@@ -1,3 +1,3 @@
 # ecef-geodetic
 
-A collection of ECEF-to-geodetic coordinate conversion functions
+A test suite of ECEF-to-geodetic coordinate conversion functions
