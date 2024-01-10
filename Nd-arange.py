@@ -19,13 +19,14 @@ __license__ = 'OSL-3.0'
 import itertools
 import sys
 
+import more_itertools
+
 import arange
-import grouper
 import remove_exponent
 
 l = []
 
-for g in grouper.grouper(sys.argv[1:], 3):
+for g in more_itertools.grouper(sys.argv[1:], 3):
     (start, stop, step) = g
     a = arange.arange(start, stop, step, endpoint=True)
     a = map(remove_exponent.remove_exponent, a)
