@@ -9,6 +9,7 @@ awk \
 bash \
 g++ \
 grep \
+join \
 jq \
 mkdir \
 python3 \
