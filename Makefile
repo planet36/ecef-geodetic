@@ -211,8 +211,7 @@ clean-input:
 		$(ALL_INFILES_ECEF) $(ALL_INFILES_GEOD)
 
 clean-output:
-	@$(RM) --verbose --interactive -- \
-		$(OUTPUT_DIR)/acc.*.json $(OUTPUT_DIR)/acc1.*.json $(OUTPUT_DIR)/speed.*.json
+	git clean -i $(OUTPUT_DIR)
 
 clean-all: clean clean-input clean-output
 
