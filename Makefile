@@ -186,6 +186,7 @@ acc1: $(BIN_ACC) input | $(OUTPUT_DIR)
 speed: $(BIN_SPEED) input | $(OUTPUT_DIR)
 	@# NOTE: The input data format must be ECEF, not Geodetic
 	./$< \
+		--benchmark_enable_random_interleaving=true \
 		--benchmark_repetitions=$(NUM_SPEED_TESTS) \
 		--benchmark_report_aggregates_only=true \
 		--benchmark_out_format=json \
