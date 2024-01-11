@@ -33,6 +33,7 @@ CXXFLAGS += -std=c++23
 # -frecord-gcc-switches is used by readelf
 CXXFLAGS += -frecord-gcc-switches
 CXXFLAGS += -O3 -flto=auto -march=native -fno-math-errno
+# https://gcc.gnu.org/wiki/FloatingPointMath
 #CXXFLAGS += -freciprocal-math # slightly decreased accuracy, slightly increased speed
 #CXXFLAGS += -fno-signed-zeros # slightly decreased accuracy, slightly increased speed
 #CXXFLAGS += -fno-trapping-math # slightly decreased accuracy, same speed
