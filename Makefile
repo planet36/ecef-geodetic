@@ -68,6 +68,9 @@ ecef.2d.region-4.txt \
 ecef.2d.region-all.txt \
 ecef.2d.speed.txt \
 
+# Use N-1 threads in the speed test
+export NUM_THREADS := $(shell nproc --ignore 1)
+
 # Should be an odd number for simpler median
 NUM_SPEED_TESTS := 11
 
