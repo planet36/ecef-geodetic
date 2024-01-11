@@ -54,7 +54,7 @@ int main(int argc, char** argv)
 	// https://en.wikipedia.org/wiki/Elvis_operator
 	//const unsigned int max_threads = std::thread::hardware_concurrency() ?: min_threads;
 
-	unsigned int num_threads = min_threads;
+	unsigned int num_threads;
 
 	try
 	{
@@ -62,7 +62,7 @@ int main(int argc, char** argv)
 	}
 	catch (...)
 	{
-		num_threads = min_threads;
+		num_threads = max_threads;
 	}
 
 	num_threads = std::clamp(num_threads, min_threads, max_threads);
