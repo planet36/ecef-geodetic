@@ -67,9 +67,11 @@ int main(int argc, char** argv)
 
 	num_threads = std::clamp(num_threads, min_threads, max_threads);
 
+	/*
 	if (num_threads > min_threads)
 		// Don't use all the cores
 		--num_threads;
+	*/
 
 	// }}}
 
