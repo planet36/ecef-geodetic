@@ -100,7 +100,8 @@ all: $(BINS) input | $(OUTPUT_DIR)
 %: %.cpp
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) -o $@ $< $(LDLIBS)
 	@# Extract compile options
-	readelf -p .GCC.command.line $@ | grep -F 'GNU GIMPLE' | sed -E -e 's/^\s*\[\s*[0-9]+\]\s*//' | tr -d '\n' > $@.opts
+	readelf -p .GCC.command.line $@ | grep -F 'GNU GIMPLE' | \
+		sed -E -e 's/^\s*\[\s*[0-9]+\]\s*//' | tr -d '\n' > $@.opts
 
 input: $(ALL_INFILES_ECEF) $(ALL_INFILES_GEOD)
 
@@ -178,14 +179,16 @@ acc: $(BIN_ACC) input | $(OUTPUT_DIR)
 	./$< -v -t -g -a < geod.2d.region-all.txt > $(OUTPUT_DIR)/$@.$(DATETIME).json
 
 	@# Insert compile options
-	jq --rawfile compile_opts $<.opts '. + {compile_opts: $$compile_opts}' < $(OUTPUT_DIR)/$@.$(DATETIME).json | sponge $(OUTPUT_DIR)/$@.$(DATETIME).json
+	jq --rawfile compile_opts $<.opts '. + {compile_opts: $$compile_opts}' \
+		< $(OUTPUT_DIR)/$@.$(DATETIME).json | sponge $(OUTPUT_DIR)/$@.$(DATETIME).json
 
 acc1: $(BIN_ACC) input | $(OUTPUT_DIR)
 	@# NOTE: Only run this test with a few input points
 	./$< -v -t -1 < ecef.2d.speed.txt > $(OUTPUT_DIR)/$@.$(DATETIME).json
 
 	@# Insert compile options
-	jq --rawfile compile_opts $<.opts '. + {compile_opts: $$compile_opts}' < $(OUTPUT_DIR)/$@.$(DATETIME).json | sponge $(OUTPUT_DIR)/$@.$(DATETIME).json
+	jq --rawfile compile_opts $<.opts '. + {compile_opts: $$compile_opts}' \
+		< $(OUTPUT_DIR)/$@.$(DATETIME).json | sponge $(OUTPUT_DIR)/$@.$(DATETIME).json
 
 speed: $(BIN_SPEED) input | $(OUTPUT_DIR)
 	@# NOTE: The input data format must be ECEF, not Geodetic
@@ -198,10 +201,12 @@ speed: $(BIN_SPEED) input | $(OUTPUT_DIR)
 		< ecef.2d.speed.txt
 
 	@# Preserve the given order because --benchmark_enable_random_interleaving=true shuffles the order of the tests.
-	jq '.benchmarks |= sort_by(.family_index)' < $(OUTPUT_DIR)/$@.$(DATETIME).json | sponge $(OUTPUT_DIR)/$@.$(DATETIME).json
+	jq '.benchmarks |= sort_by(.family_index)' \
+		< $(OUTPUT_DIR)/$@.$(DATETIME).json | sponge $(OUTPUT_DIR)/$@.$(DATETIME).json
 
 	@# Insert compile options
-	jq --rawfile compile_opts $<.opts '. + {compile_opts: $$compile_opts}' < $(OUTPUT_DIR)/$@.$(DATETIME).json | sponge $(OUTPUT_DIR)/$@.$(DATETIME).json
+	jq --rawfile compile_opts $<.opts '. + {compile_opts: $$compile_opts}' \
+		< $(OUTPUT_DIR)/$@.$(DATETIME).json | sponge $(OUTPUT_DIR)/$@.$(DATETIME).json
 
 $(OUTPUT_DIR):
 	mkdir --verbose --parents -- $@
