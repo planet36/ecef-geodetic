@@ -43,7 +43,7 @@ readonly DATETIME
 declare -r OUTFILE="results/acc-speed.${DATETIME}.txt"
 declare -r OUTFILE_FILTERED="results/acc-speed.${DATETIME}.filtered.txt"
 
-printf 'Name\tMean dist err (nm)\tMax dist err (nm)\tM Items/sec\n' > "$OUTFILE"
+printf 'Name\tMean dist. error (nm)\tMax dist. error (nm)\tM conversions/sec\n' > "$OUTFILE"
 
 if grep -q -E '/threads:[0-9]+_median\>' "$INFILE_SPEED"
 then
