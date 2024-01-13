@@ -70,7 +70,7 @@ auto cos_from_sin(const T sin_x)
 }
 
 // these are the lines in the function params and after the function body
-//constexpr int _lines_to_ignore = 7+2;
+//constexpr int lines_to_ignore = 7+2;
 
 // POW2
 #define SQ(X)   ((X) * (X))
@@ -88,7 +88,7 @@ auto cos_from_sin(const T sin_x)
 	lon_rad = std::atan2(y, x);
 
 // these are the lines in the common first decls
-constexpr int _lines_common_first_decls = 4;
+constexpr int lines_common_first_decls = 4;
 
 // common declarations for the ECEF-to-geodetic functions
 // that need code for corner cases (i.e. equator or the poles)
@@ -123,7 +123,7 @@ constexpr int _lines_common_first_decls = 4;
 	[[maybe_unused]] const auto z2 = z * z;
 
 // these are the lines in the common first decls (checked)
-constexpr int _lines_common_first_decls_checked = 28;
+constexpr int lines_common_first_decls_checked = 28;
 
 template <std::floating_point T>
 using ecef_to_geodetic_func = std::function<void(const T, const T, const T, T&, T&, T&)>;
@@ -167,9 +167,9 @@ struct func_info_t
 		citation                   (_citation                   )
 	{
 		if (needs_code_for_corner_cases)
-			num_lines += _lines_common_first_decls_checked;
+			num_lines += lines_common_first_decls_checked;
 		else
-			num_lines += _lines_common_first_decls;
+			num_lines += lines_common_first_decls;
 	}
 };
 
@@ -266,7 +266,7 @@ void get_f_fp(const T w, const T z, const T sin_lat, const T cos_lat,
 	fp = Rn * (d2 - (1 - ell.e2) / d2) - w * cos_lat - z * sin_lat;
 }
 
-constexpr int _lines_f_fp = 10;
+constexpr int lines_f_fp = 10;
 
 /// get f, f′, f″
 template <std::floating_point T>
@@ -282,7 +282,7 @@ void get_f_fp_fpp(const T w, const T z, const T sin_lat, const T cos_lat,
 	      (d2 + 3 * (1 - ell.e2) / d2) / d2 + w * sin_lat - z * cos_lat;
 }
 
-constexpr int _lines_f_fp_fpp = 12;
+constexpr int lines_f_fp_fpp = 12;
 
 template <std::floating_point T>
 auto newton_raphson_delta_lat(const T w, const T z,
@@ -293,7 +293,7 @@ auto newton_raphson_delta_lat(const T w, const T z,
 	return f / fp;
 }
 
-constexpr int _lines_newton_raphson_delta_lat = 8 + _lines_f_fp;
+constexpr int lines_newton_raphson_delta_lat = 8 + lines_f_fp;
 
 template <std::floating_point T>
 auto householder_delta_lat(const T w, const T z,
@@ -304,7 +304,7 @@ auto householder_delta_lat(const T w, const T z,
 	return (f / fp) * (1 + 0.5 * f * fpp / (fp * fp));
 }
 
-constexpr int _lines_householder_delta_lat = 8 + _lines_f_fp_fpp;
+constexpr int lines_householder_delta_lat = 8 + lines_f_fp_fpp;
 
 template <std::floating_point T>
 auto schroder_delta_lat(const T w, const T z,
@@ -315,7 +315,7 @@ auto schroder_delta_lat(const T w, const T z,
 	return (f * fp) / (fp * fp - f * fpp);
 }
 
-constexpr int _lines_schroder_delta_lat = 8 + _lines_f_fp_fpp;
+constexpr int lines_schroder_delta_lat = 8 + lines_f_fp_fpp;
 
 template <std::floating_point T>
 auto halley_delta_lat(const T w, const T z,
@@ -326,7 +326,7 @@ auto halley_delta_lat(const T w, const T z,
 	return (f * fp) / (fp * fp - 0.5 * f * fpp);
 }
 
-constexpr int _lines_halley_delta_lat = 8 + _lines_f_fp_fpp;
+constexpr int lines_halley_delta_lat = 8 + lines_f_fp_fpp;
 
 template <std::floating_point T>
 auto ligas_f1(const T w, const T we,
@@ -375,7 +375,7 @@ void ligas_Jacobian(const T w, const T we, const T z, const T ze,
 	result[1][1] = 2 * ze;
 }
 
-constexpr int _lines_ligas_util = 46;
+constexpr int lines_ligas_util = 46;
 
 template <std::floating_point T>
 auto lin_wang_1995_delta_m(const T w2, const T z2, const T m)
@@ -390,7 +390,7 @@ auto lin_wang_1995_delta_m(const T w2, const T z2, const T m)
 	return f / fp;
 }
 
-constexpr int _lines_lin_wang_1995_delta_m = 11;
+constexpr int lines_lin_wang_1995_delta_m = 11;
 
 template <std::floating_point T>
 auto shu_2010_delta_k(const T w2, const T z2, const T k)
@@ -407,7 +407,7 @@ auto shu_2010_delta_k(const T w2, const T z2, const T k)
 	return f / fp;
 }
 
-constexpr int _lines_shu_2010_delta_k = 13;
+constexpr int lines_shu_2010_delta_k = 13;
 
 template <std::floating_point T>
 auto wu_2003_delta_t(const T A, const T B, const T C, const T t)
@@ -422,13 +422,13 @@ auto wu_2003_delta_t(const T A, const T B, const T C, const T t)
 	return f / fp;
 }
 
-constexpr int _lines_wu_2003_delta_t = 12;
+constexpr int lines_wu_2003_delta_t = 12;
 
 namespace borkowski_1989
 // {{{
 {
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -475,13 +475,13 @@ COMMON_FIRST_DECLS
 	normalize(cos_lat, sin_lat);
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -7,
 	/*.display_name                =*/ "Borkowski 1989",
@@ -503,7 +503,7 @@ namespace bowring_1976_1
 
 constexpr int max_iterations = 1;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -523,13 +523,13 @@ COMMON_FIRST_DECLS
 	normalize(cos_lat, sin_lat);
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -2,
 	/*.display_name                =*/ "Bowring 1976 (1)",
@@ -551,7 +551,7 @@ namespace bowring_1976_2
 
 constexpr int max_iterations = 2;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -579,13 +579,13 @@ COMMON_FIRST_DECLS
 	normalize(cos_lat, sin_lat);
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
 	/*.display_name                =*/ "Bowring 1976 (2)",
@@ -607,7 +607,7 @@ namespace bowring_1985_1
 
 constexpr int max_iterations = 1;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -631,13 +631,13 @@ COMMON_FIRST_DECLS
 	normalize(cos_lat, sin_lat);
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -7,
 	/*.display_name                =*/ "Bowring 1985 (1)",
@@ -658,7 +658,7 @@ namespace bowring_1985_2
 
 constexpr int max_iterations = 2;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -690,13 +690,13 @@ COMMON_FIRST_DECLS
 	normalize(cos_lat, sin_lat);
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
 	/*.display_name                =*/ "Bowring 1985 (2)",
@@ -717,7 +717,7 @@ namespace bowring_toms_1995_1
 
 constexpr int max_iterations = 1;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -749,13 +749,13 @@ COMMON_FIRST_DECLS
 	normalize(cos_lat, sin_lat);
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -3,
 	/*.display_name                =*/ "Bowring-Toms 1995 (1)",
@@ -776,7 +776,7 @@ namespace bowring_toms_1995_2
 
 constexpr int max_iterations = 2;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -816,13 +816,13 @@ COMMON_FIRST_DECLS
 	normalize(cos_lat, sin_lat);
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
 	/*.display_name                =*/ "Bowring-Toms 1995 (2)",
@@ -862,7 +862,7 @@ auto fpp(const T t, const T u, [[maybe_unused]] const T v, const T w)
 	return 12 * w * t * t + 6 * u * t;
 }
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -948,13 +948,13 @@ COMMON_FIRST_DECLS
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 #endif
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 20;
+constexpr int lines_extra = 20;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ 99,
 	/*.display_name                =*/ "Fukushima 1999 (1)",
@@ -996,7 +996,7 @@ auto fpp(const T t, const T u, [[maybe_unused]] const T v, const T w)
 	return 12 * w * t * t + 6 * u * t;
 }
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -1082,13 +1082,13 @@ COMMON_FIRST_DECLS
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 #endif
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 20;
+constexpr int lines_extra = 20;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ 99,
 	/*.display_name                =*/ "Fukushima 1999 (c.h.) (1)",
@@ -1111,7 +1111,7 @@ namespace fukushima_2006_1
 
 constexpr int max_iterations = 1;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -1150,13 +1150,13 @@ COMMON_FIRST_DECLS
 	normalize(cos_lat, sin_lat);
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -5,
 	/*.display_name                =*/ "Fukushima 2006 (1)",
@@ -1177,7 +1177,7 @@ namespace fukushima_2006_2
 
 constexpr int max_iterations = 2;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -1216,13 +1216,13 @@ COMMON_FIRST_DECLS
 	normalize(cos_lat, sin_lat);
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ 99,
 	/*.display_name                =*/ "Fukushima 2006 (2)",
@@ -1241,7 +1241,7 @@ namespace geographiclib
 // {{{
 {
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -1387,13 +1387,13 @@ COMMON_FIRST_DECLS
 	//ht = ell.get_ht(w, z, sin_lat, cos_lat);
 #endif
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
 	/*.display_name                =*/ "GeographicLib",
@@ -1415,7 +1415,7 @@ namespace geographiclib_customht
 {
 #define USE_CUSTOM_HT
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -1561,13 +1561,13 @@ COMMON_FIRST_DECLS
 	//ht = ell.get_ht(w, z, sin_lat, cos_lat);
 #endif
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
 	/*.display_name                =*/ "GeographicLib (c.h.)",
@@ -1589,7 +1589,7 @@ namespace geotransformCpp
 // {{{
 {
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 //void Gcc_To_Gdc_Converter::Convert(int count, const Gcc_Coord_3d gcc[], Gdc_Coord_3d gdc[] )
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
@@ -1792,13 +1792,13 @@ COMMON_FIRST_DECLS
 	ht = ell.get_ht(w, z, lat_rad);
 #endif
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -4,
 	/*.display_name                =*/ "geotransformCpp",
@@ -1819,7 +1819,7 @@ namespace geotransformCpp_customht
 {
 #define USE_CUSTOM_HT
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 //void Gcc_To_Gdc_Converter::Convert(int count, const Gcc_Coord_3d gcc[], Gdc_Coord_3d gdc[] )
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
@@ -2022,13 +2022,13 @@ COMMON_FIRST_DECLS
 	ht = ell.get_ht(w, z, lat_rad);
 #endif
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -4,
 	/*.display_name                =*/ "geotransformCpp (c.h.)",
@@ -2049,7 +2049,7 @@ namespace gersten_1961
 // {{{
 {
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -2084,13 +2084,13 @@ COMMON_FIRST_DECLS
 #endif
 */
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ 99,
 	/*.display_name                =*/ "Gersten 1961",
@@ -2111,7 +2111,7 @@ namespace halley_1
 
 constexpr int max_iterations = 1;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -2131,13 +2131,13 @@ COMMON_FIRST_DECLS
 
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = _lines_halley_delta_lat;
+constexpr int lines_extra = lines_halley_delta_lat;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -2,
 	/*.display_name                =*/ "Halley (1)",
@@ -2158,7 +2158,7 @@ namespace halley_2
 
 constexpr int max_iterations = 2;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -2178,13 +2178,13 @@ COMMON_FIRST_DECLS
 
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = _lines_halley_delta_lat;
+constexpr int lines_extra = lines_halley_delta_lat;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -10,
 	/*.display_name                =*/ "Halley (2)",
@@ -2205,7 +2205,7 @@ namespace halley_quick_1
 
 constexpr int max_iterations = 1;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -2229,13 +2229,13 @@ COMMON_FIRST_DECLS
 	lat_rad = std::atan2(sin_lat, cos_lat);
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = _lines_halley_delta_lat;
+constexpr int lines_extra = lines_halley_delta_lat;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -2,
 	/*.display_name                =*/ "Halley quick (1)",
@@ -2256,7 +2256,7 @@ namespace halley_quick_2
 
 constexpr int max_iterations = 2;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -2280,13 +2280,13 @@ COMMON_FIRST_DECLS
 	lat_rad = std::atan2(sin_lat, cos_lat);
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = _lines_halley_delta_lat;
+constexpr int lines_extra = lines_halley_delta_lat;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
 	/*.display_name                =*/ "Halley quick (2)",
@@ -2305,7 +2305,7 @@ namespace heikkinen_1982
 // {{{
 {
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -2358,13 +2358,13 @@ COMMON_FIRST_DECLS
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 #endif
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
 	/*.display_name                =*/ "Heikkinen 1982",
@@ -2384,7 +2384,7 @@ namespace heikkinen_1982_customht
 {
 #define USE_CUSTOM_HT
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -2437,13 +2437,13 @@ COMMON_FIRST_DECLS
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 #endif
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
 	/*.display_name                =*/ "Heikkinen 1982 (c.h.)",
@@ -2465,7 +2465,7 @@ namespace householder_1
 
 constexpr int max_iterations = 1;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -2485,13 +2485,13 @@ COMMON_FIRST_DECLS
 
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = _lines_householder_delta_lat;
+constexpr int lines_extra = lines_householder_delta_lat;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -2,
 	/*.display_name                =*/ "Householder (1)",
@@ -2512,7 +2512,7 @@ namespace householder_2
 
 constexpr int max_iterations = 2;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -2532,13 +2532,13 @@ COMMON_FIRST_DECLS
 
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = _lines_householder_delta_lat;
+constexpr int lines_extra = lines_householder_delta_lat;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -10,
 	/*.display_name                =*/ "Householder (2)",
@@ -2559,7 +2559,7 @@ namespace householder_quick_1
 
 constexpr int max_iterations = 1;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -2583,13 +2583,13 @@ COMMON_FIRST_DECLS
 	lat_rad = std::atan2(sin_lat, cos_lat);
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = _lines_householder_delta_lat;
+constexpr int lines_extra = lines_householder_delta_lat;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -2,
 	/*.display_name                =*/ "Householder quick (1)",
@@ -2610,7 +2610,7 @@ namespace householder_quick_2
 
 constexpr int max_iterations = 2;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -2634,13 +2634,13 @@ COMMON_FIRST_DECLS
 	lat_rad = std::atan2(sin_lat, cos_lat);
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = _lines_householder_delta_lat;
+constexpr int lines_extra = lines_householder_delta_lat;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
 	/*.display_name                =*/ "Householder quick (2)",
@@ -2659,7 +2659,7 @@ namespace jat_geodetic
 // {{{
 {
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -2700,13 +2700,13 @@ COMMON_FIRST_DECLS
 
 	ht = ell.get_ht(w, z, lat_rad);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -3,
 	/*.display_name                =*/ "JAT Geodetic",
@@ -2727,7 +2727,7 @@ namespace jones_2002_1
 
 constexpr int max_iterations = 1;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -2788,13 +2788,13 @@ COMMON_FIRST_DECLS
 	normalize(cos_lat, sin_lat);
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ 1,
 	/*.display_name                =*/ "Jones 2002 (1)",
@@ -2815,7 +2815,7 @@ namespace ligas_2011_I_1
 
 constexpr int max_iterations = 1;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -2858,13 +2858,13 @@ COMMON_FIRST_DECLS
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 #endif
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = _lines_ligas_util;
+constexpr int lines_extra = lines_ligas_util;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -2,
 	/*.display_name                =*/ "Ligas 2011 I (1)",
@@ -2885,7 +2885,7 @@ namespace ligas_2011_I_2
 
 constexpr int max_iterations = 2;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -2928,13 +2928,13 @@ COMMON_FIRST_DECLS
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 #endif
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = _lines_ligas_util;
+constexpr int lines_extra = lines_ligas_util;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -8,
 	/*.display_name                =*/ "Ligas 2011 I (2)",
@@ -2955,7 +2955,7 @@ namespace lin_wang_1995_1
 
 constexpr int max_iterations = 1;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -2996,13 +2996,13 @@ COMMON_FIRST_DECLS
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 #endif
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = _lines_lin_wang_1995_delta_m;
+constexpr int lines_extra = lines_lin_wang_1995_delta_m;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -7,
 	/*.display_name                =*/ "Lin-Wang 1995 (1)",
@@ -3023,7 +3023,7 @@ namespace lin_wang_1995_2
 
 constexpr int max_iterations = 2;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -3064,13 +3064,13 @@ COMMON_FIRST_DECLS
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 #endif
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = _lines_lin_wang_1995_delta_m;
+constexpr int lines_extra = lines_lin_wang_1995_delta_m;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
 	/*.display_name                =*/ "Lin-Wang 1995 (2)",
@@ -3092,7 +3092,7 @@ namespace lin_wang_1995_customht_1
 
 constexpr int max_iterations = 1;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -3133,13 +3133,13 @@ COMMON_FIRST_DECLS
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 #endif
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = _lines_lin_wang_1995_delta_m;
+constexpr int lines_extra = lines_lin_wang_1995_delta_m;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -4,
 	/*.display_name                =*/ "Lin-Wang 1995 (c.h.) (1)",
@@ -3162,7 +3162,7 @@ namespace lin_wang_1995_customht_2
 
 constexpr int max_iterations = 2;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -3203,13 +3203,13 @@ COMMON_FIRST_DECLS
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 #endif
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = _lines_lin_wang_1995_delta_m;
+constexpr int lines_extra = lines_lin_wang_1995_delta_m;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
 	/*.display_name                =*/ "Lin-Wang 1995 (c.h.) (2)",
@@ -3229,7 +3229,7 @@ namespace long_1974
 // {{{
 {
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -3251,13 +3251,13 @@ COMMON_FIRST_DECLS
 #endif
 */
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ 99,
 	/*.display_name                =*/ "Long 1974",
@@ -3281,7 +3281,7 @@ namespace naive_I_1
 
 constexpr int max_iterations = 1;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -3309,13 +3309,13 @@ COMMON_FIRST_DECLS
 	normalize(cos_lat, sin_lat);
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ 0,
 	/*.display_name                =*/ "Naive I (1)",
@@ -3336,7 +3336,7 @@ namespace naive_I_2
 
 constexpr int max_iterations = 2;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -3364,13 +3364,13 @@ COMMON_FIRST_DECLS
 	normalize(cos_lat, sin_lat);
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -3,
 	/*.display_name                =*/ "Naive I (2)",
@@ -3391,7 +3391,7 @@ namespace naive_II_1
 
 constexpr int max_iterations = 1;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -3413,13 +3413,13 @@ COMMON_FIRST_DECLS
 	normalize(cos_lat, sin_lat);
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ 0,
 	/*.display_name                =*/ "Naive II (1)",
@@ -3446,7 +3446,7 @@ namespace naive_II_2
 
 constexpr int max_iterations = 2;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -3468,13 +3468,13 @@ COMMON_FIRST_DECLS
 	normalize(cos_lat, sin_lat);
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -3,
 	/*.display_name                =*/ "Naive II (2)",
@@ -3501,7 +3501,7 @@ namespace newton_raphson_1
 
 constexpr int max_iterations = 1;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -3521,13 +3521,13 @@ COMMON_FIRST_DECLS
 
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = _lines_newton_raphson_delta_lat;
+constexpr int lines_extra = lines_newton_raphson_delta_lat;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -1,
 	/*.display_name                =*/ "Newton-Raphson (1)",
@@ -3548,7 +3548,7 @@ namespace newton_raphson_2
 
 constexpr int max_iterations = 2;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -3568,13 +3568,13 @@ COMMON_FIRST_DECLS
 
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = _lines_newton_raphson_delta_lat;
+constexpr int lines_extra = lines_newton_raphson_delta_lat;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -10,
 	/*.display_name                =*/ "Newton-Raphson (2)",
@@ -3595,7 +3595,7 @@ namespace newton_raphson_quick_1
 
 constexpr int max_iterations = 1;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -3619,13 +3619,13 @@ COMMON_FIRST_DECLS
 	lat_rad = std::atan2(sin_lat, cos_lat);
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = _lines_newton_raphson_delta_lat;
+constexpr int lines_extra = lines_newton_raphson_delta_lat;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -1,
 	/*.display_name                =*/ "Newton-Raphson quick (1)",
@@ -3646,7 +3646,7 @@ namespace newton_raphson_quick_2
 
 constexpr int max_iterations = 2;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -3670,13 +3670,13 @@ COMMON_FIRST_DECLS
 	lat_rad = std::atan2(sin_lat, cos_lat);
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = _lines_newton_raphson_delta_lat;
+constexpr int lines_extra = lines_newton_raphson_delta_lat;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
 	/*.display_name                =*/ "Newton-Raphson quick (2)",
@@ -3695,7 +3695,7 @@ namespace olson_1996
 // {{{
 {
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -3760,13 +3760,13 @@ COMMON_FIRST_DECLS
 	ht = ell.get_ht(w, z, lat_rad);
 #endif
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
 	/*.display_name                =*/ "Olson 1996",
@@ -3787,7 +3787,7 @@ namespace olson_1996_customht
 {
 #define USE_CUSTOM_HT
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -3852,13 +3852,13 @@ COMMON_FIRST_DECLS
 	ht = ell.get_ht(w, z, lat_rad);
 #endif
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
 	/*.display_name                =*/ "Olson 1996 (c.h.)",
@@ -3879,7 +3879,7 @@ namespace openglobe
 // {{{
 {
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 template <std::floating_point T>
 struct Vector3D
 {
@@ -4048,14 +4048,14 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 	lon_rad = result.lon_rad;
 	ht = result.ht;
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 // this algorithm does not include the common declarations
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra - _lines_common_first_decls,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra - lines_common_first_decls,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -5,
 	/*.display_name                =*/ "OpenGlobe",
@@ -4074,7 +4074,7 @@ namespace ozone_1985
 // {{{
 {
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -4112,13 +4112,13 @@ COMMON_FIRST_DECLS_CHECKED
 	normalize(cos_lat, sin_lat);
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ true,
 	/*.ilog10_mean_dist_err        =*/ -7,
 	/*.display_name                =*/ "Ozone 1985",
@@ -4138,7 +4138,7 @@ namespace paul_1973
 // {{{
 {
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -4195,13 +4195,13 @@ COMMON_FIRST_DECLS
 	normalize(cos_lat, sin_lat);
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ 99,
 	/*.display_name                =*/ "Paul 1973",
@@ -4219,7 +4219,7 @@ namespace pollard_2002_ht_1
 // {{{
 {
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -4268,13 +4268,13 @@ COMMON_FIRST_DECLS
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ 99,
 	/*.display_name                =*/ "Pollard 2002 height (1)",
@@ -4296,7 +4296,7 @@ namespace pollard_2002_naive_1
 
 constexpr int max_iterations = 1;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -4326,13 +4326,13 @@ COMMON_FIRST_DECLS
 	normalize(cos_lat, sin_lat);
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -2,
 	/*.display_name                =*/ "Pollard 2002 naive (1)",
@@ -4354,7 +4354,7 @@ namespace pollard_2002_naive_2
 
 constexpr int max_iterations = 2;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -4384,13 +4384,13 @@ COMMON_FIRST_DECLS
 	normalize(cos_lat, sin_lat);
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -4,
 	/*.display_name                =*/ "Pollard 2002 naive (2)",
@@ -4412,7 +4412,7 @@ namespace pollard_2002_newton_1
 
 constexpr int max_iterations = 1;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -4450,13 +4450,13 @@ COMMON_FIRST_DECLS
 	normalize(cos_lat, sin_lat);
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -7,
 	/*.display_name                =*/ "Pollard 2002 Newton (1)",
@@ -4478,7 +4478,7 @@ namespace pollard_2002_newton_2
 
 constexpr int max_iterations = 2;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -4516,13 +4516,13 @@ COMMON_FIRST_DECLS
 	normalize(cos_lat, sin_lat);
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
 	/*.display_name                =*/ "Pollard 2002 Newton (2)",
@@ -4544,7 +4544,7 @@ namespace schroder_1
 
 constexpr int max_iterations = 1;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -4564,13 +4564,13 @@ COMMON_FIRST_DECLS
 
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = _lines_schroder_delta_lat;
+constexpr int lines_extra = lines_schroder_delta_lat;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -1,
 	/*.display_name                =*/ "Schroder (1)",
@@ -4591,7 +4591,7 @@ namespace schroder_2
 
 constexpr int max_iterations = 2;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -4611,13 +4611,13 @@ COMMON_FIRST_DECLS
 
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = _lines_schroder_delta_lat;
+constexpr int lines_extra = lines_schroder_delta_lat;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -10,
 	/*.display_name                =*/ "Schroder (2)",
@@ -4638,7 +4638,7 @@ namespace schroder_quick_1
 
 constexpr int max_iterations = 1;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -4662,13 +4662,13 @@ COMMON_FIRST_DECLS
 	lat_rad = std::atan2(sin_lat, cos_lat);
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = _lines_schroder_delta_lat;
+constexpr int lines_extra = lines_schroder_delta_lat;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -1,
 	/*.display_name                =*/ "Schroder quick (1)",
@@ -4689,7 +4689,7 @@ namespace schroder_quick_2
 
 constexpr int max_iterations = 2;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -4713,13 +4713,13 @@ COMMON_FIRST_DECLS
 	lat_rad = std::atan2(sin_lat, cos_lat);
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = _lines_schroder_delta_lat;
+constexpr int lines_extra = lines_schroder_delta_lat;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
 	/*.display_name                =*/ "Schroder quick (2)",
@@ -4738,7 +4738,7 @@ namespace sedris
 // {{{
 {
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 template <std::floating_point T>
 auto gee(const T h, const T rn)
 {
@@ -5306,13 +5306,13 @@ END_REGION_CHECK:
 #endif
 }
 #undef COMPUTE_RN_FAST
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -5,
 	/*.display_name                =*/ "SEDRIS",
@@ -5333,7 +5333,7 @@ namespace sedris_customht
 {
 #define USE_CUSTOM_HT
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 template <std::floating_point T>
 auto gee(const T h, const T rn)
 {
@@ -5901,13 +5901,13 @@ END_REGION_CHECK:
 #endif
 }
 #undef COMPUTE_RN_FAST
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -4,
 	/*.display_name                =*/ "SEDRIS (c.h.)",
@@ -5930,7 +5930,7 @@ namespace shu_2010_1
 
 constexpr int max_iterations = 1;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -5959,13 +5959,13 @@ COMMON_FIRST_DECLS
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 #endif
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = _lines_shu_2010_delta_k;
+constexpr int lines_extra = lines_shu_2010_delta_k;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -7,
 	/*.display_name                =*/ "Shu 2010 (1)",
@@ -5986,7 +5986,7 @@ namespace shu_2010_2
 
 constexpr int max_iterations = 2;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -6015,13 +6015,13 @@ COMMON_FIRST_DECLS
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 #endif
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = _lines_shu_2010_delta_k;
+constexpr int lines_extra = lines_shu_2010_delta_k;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
 	/*.display_name                =*/ "Shu 2010 (2)",
@@ -6043,7 +6043,7 @@ namespace shu_2010_customht_1
 
 constexpr int max_iterations = 1;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -6072,13 +6072,13 @@ COMMON_FIRST_DECLS
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 #endif
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = _lines_shu_2010_delta_k;
+constexpr int lines_extra = lines_shu_2010_delta_k;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -5,
 	/*.display_name                =*/ "Shu 2010 (c.h.) (1)",
@@ -6101,7 +6101,7 @@ namespace shu_2010_customht_2
 
 constexpr int max_iterations = 2;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -6130,13 +6130,13 @@ COMMON_FIRST_DECLS
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 #endif
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = _lines_shu_2010_delta_k;
+constexpr int lines_extra = lines_shu_2010_delta_k;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
 	/*.display_name                =*/ "Shu 2010 (c.h.) (2)",
@@ -6156,7 +6156,7 @@ namespace sofair_1993
 // {{{
 {
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -6215,13 +6215,13 @@ COMMON_FIRST_DECLS
 	const auto cos_lat = cos_from_sin(sin_lat);
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ 99,
 	/*.display_name                =*/ "Sofair 1993",
@@ -6240,7 +6240,7 @@ namespace sofair_2000
 // {{{
 {
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -6290,13 +6290,13 @@ COMMON_FIRST_DECLS
 	const auto cos_lat = cos_from_sin(sin_lat);
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ 0,
 	/*.display_name                =*/ "Sofair 2000",
@@ -6315,7 +6315,7 @@ namespace sudano_1997
 // {{{
 {
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -6371,13 +6371,13 @@ COMMON_FIRST_DECLS
 #endif
 */
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ 99,
 	/*.display_name                =*/ "Sudano 1997",
@@ -6396,7 +6396,7 @@ namespace turner_2013
 // {{{
 {
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -6472,13 +6472,13 @@ COMMON_FIRST_DECLS
 
 	lat_rad = std::atan2(sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ 99,
 	/*.display_name                =*/ "Turner 2013",
@@ -6497,7 +6497,7 @@ namespace vermeille_2004
 // {{{
 {
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -6529,13 +6529,13 @@ COMMON_FIRST_DECLS
 	ht = ell.get_ht(w, z, lat_rad);
 #endif
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
 	/*.display_name                =*/ "Vermeille 2004",
@@ -6555,7 +6555,7 @@ namespace vermeille_2004_customht
 {
 #define USE_CUSTOM_HT
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -6587,13 +6587,13 @@ COMMON_FIRST_DECLS
 	ht = ell.get_ht(w, z, lat_rad);
 #endif
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
 	/*.display_name                =*/ "Vermeille 2004 (c.h.)",
@@ -6613,7 +6613,7 @@ namespace vermeille_2011
 // {{{
 {
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -6697,13 +6697,13 @@ COMMON_FIRST_DECLS
 	ht = ell.get_ht(w, z, lat_rad);
 #endif
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
 	/*.display_name                =*/ "Vermeille 2011",
@@ -6723,7 +6723,7 @@ namespace vermeille_2011_customht
 {
 #define USE_CUSTOM_HT
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -6807,13 +6807,13 @@ COMMON_FIRST_DECLS
 	ht = ell.get_ht(w, z, lat_rad);
 #endif
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
 	/*.display_name                =*/ "Vermeille 2011 (c.h.)",
@@ -6835,7 +6835,7 @@ namespace wu_2003_1
 
 constexpr int max_iterations = 1;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -6886,13 +6886,13 @@ COMMON_FIRST_DECLS_CHECKED
 	normalize(cos_lat, sin_lat);
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = _lines_wu_2003_delta_t;
+constexpr int lines_extra = lines_wu_2003_delta_t;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ true,
 	/*.ilog10_mean_dist_err        =*/ 2,
 	/*.display_name                =*/ "Wu 2003 (1)",
@@ -6914,7 +6914,7 @@ namespace wu_2003_2
 
 constexpr int max_iterations = 2;
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -6965,13 +6965,13 @@ COMMON_FIRST_DECLS_CHECKED
 	normalize(cos_lat, sin_lat);
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = _lines_wu_2003_delta_t;
+constexpr int lines_extra = lines_wu_2003_delta_t;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ true,
 	/*.ilog10_mean_dist_err        =*/ -4,
 	/*.display_name                =*/ "Wu 2003 (2)",
@@ -6991,7 +6991,7 @@ namespace zhang_2005
 // {{{
 {
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -7069,13 +7069,13 @@ COMMON_FIRST_DECLS
 	normalize(cos_lat, sin_lat);
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
 	/*.display_name                =*/ "Zhang 2005",
@@ -7094,7 +7094,7 @@ namespace zhu_1993
 // {{{
 {
 
-constexpr int _line_begin = __LINE__;
+constexpr int line_begin = __LINE__;
 void ecef_to_geodetic(const double x, const double y, const double z,
                       double& lat_rad, double& lon_rad, double& ht)
 {
@@ -7129,13 +7129,13 @@ COMMON_FIRST_DECLS
 	normalize(cos_lat, sin_lat);
 	ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
-constexpr int _line_end = __LINE__;
+constexpr int line_end = __LINE__;
 
-constexpr int _lines_extra = 0;
+constexpr int lines_extra = 0;
 
 const auto func_info = func_info_t(
 	/*.func                        =*/ ecef_to_geodetic,
-	/*.num_lines                   =*/ _line_end - _line_begin + _lines_extra,
+	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
 	/*.display_name                =*/ "Zhu 1993",
