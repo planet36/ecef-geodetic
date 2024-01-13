@@ -118,11 +118,11 @@ int main(int argc, char** argv)
 		const auto& func_info = map_func_name_to_func_info.at(func_name);
 
 		if (num_threads == 1)
-			benchmark::RegisterBenchmark(func_name,
+			benchmark::RegisterBenchmark(func_info.display_name,
 					&BM_do_ecef_to_geodetic_test_speed<double>,
 					func_info.func, ecef_vec);
 		else
-			benchmark::RegisterBenchmark(func_name,
+			benchmark::RegisterBenchmark(func_info.display_name,
 					&BM_do_ecef_to_geodetic_test_speed<double>,
 					func_info.func, ecef_vec)->Threads(num_threads);
 	}

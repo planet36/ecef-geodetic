@@ -49,19 +49,19 @@ if grep -q -E '/threads:[0-9]+_median\>' "$INFILE_SPEED"
 then
     # Speed test was run with more than 1 repetition.
     join -t $'\t' \
-        <(jq -r '.func_names | keys[] as $k | "\($k)\t\(.[$k].acc.mean_dist_err*1e9)\t\(.[$k].acc.max_dist_err*1e9)"' "$INFILE_ACC" | sort) \
+        <(jq -r '.func_names | keys[] as $k | "\(.[$k].info.display_name)\t\(.[$k].acc.mean_dist_err*1e9)\t\(.[$k].acc.max_dist_err*1e9)"' "$INFILE_ACC" | sort) \
         <(jq -r '.benchmarks[] | select(.name | endswith("_median")) | "\(.name)\t\(.items_per_second/1e6)"' "$INFILE_SPEED" | sed -E -e 's/\/threads:[0-9]+_median//' | sort) >> \
         "$OUTFILE" || exit
 else
     # Speed test was run with 1 repetition.
     join -t $'\t' \
-        <(jq -r '.func_names | keys[] as $k | "\($k)\t\(.[$k].acc.mean_dist_err*1e9)\t\(.[$k].acc.max_dist_err*1e9)"' "$INFILE_ACC" | sort) \
+        <(jq -r '.func_names | keys[] as $k | "\(.[$k].info.display_name)\t\(.[$k].acc.mean_dist_err*1e9)\t\(.[$k].acc.max_dist_err*1e9)"' "$INFILE_ACC" | sort) \
         <(jq -r '.benchmarks[] | "\(.name)\t\(.items_per_second/1e6)"' "$INFILE_SPEED" | sed -E -e 's/\/threads:[0-9]+//' | sort) >> \
         "$OUTFILE" || exit
 fi
 
 # Select algorithms with good accuracy (mean dist err < 10 nm).
-awk '$2 < 10 || NR == 1 {print $0}' "$OUTFILE" > "$OUTFILE_FILTERED" || exit
+awk -F '\t' '$2 < 10 || NR == 1 {print $0}' "$OUTFILE" > "$OUTFILE_FILTERED" || exit
 
 printf 'Created files:\n%q\n%q\n' "$OUTFILE" "$OUTFILE_FILTERED"
 
