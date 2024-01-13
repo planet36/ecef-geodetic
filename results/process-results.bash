@@ -43,7 +43,9 @@ readonly DATETIME
 declare -r OUTFILE="${SCRIPT_DIR}/acc-speed.${DATETIME}.txt"
 declare -r OUTFILE_FILTERED="${SCRIPT_DIR}/acc-speed.${DATETIME}.filtered.txt"
 
-printf 'Name\tMean dist. error (nm)\tMax dist. error (nm)\tM conversions/sec\n' > "$OUTFILE"
+printf '%q\n' "$INFILE_ACC" > "$OUTFILE"
+printf '%q\n' "$INFILE_SPEED" >> "$OUTFILE"
+printf 'Name\tMean dist. error (nm)\tMax dist. error (nm)\tM conversions/sec\n' >> "$OUTFILE"
 
 if grep -q -E '/threads:[0-9]+_median\>' "$INFILE_SPEED"
 then
@@ -61,7 +63,7 @@ else
 fi
 
 # Select algorithms with good accuracy (mean dist err < 10 nm).
-awk -F '\t' '$2 < 10 || NR == 1 {print $0}' "$OUTFILE" > "$OUTFILE_FILTERED" || exit
+awk -F '\t' '$2 < 10 || NR <= 3 {print $0}' "$OUTFILE" > "$OUTFILE_FILTERED" || exit
 
 printf 'Created files:\n%q\n%q\n' "$OUTFILE" "$OUTFILE_FILTERED"
 
