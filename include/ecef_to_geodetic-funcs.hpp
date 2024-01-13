@@ -1806,7 +1806,7 @@ const auto func_info = func_info_t(
 	/*.code_copyright              =*/ "SEDRIS",
 	/*.license                     =*/ "\"This software was developed for use by the United States Government with unlimited rights.\"",
 	/*.orig_impl_lang              =*/ "C++",
-	/*.url                         =*/ "http://www.ai.sri.com/geotransform/download.shtml",
+	/*.url                         =*/ "https://web.archive.org/web/20200225202506/http://www.ai.sri.com/geotransform/download.shtml",
 	/*.citation                    =*/ R"(geotransformCpp 1.5
 file:Gcc_To_Gdc_Converter.cpp)"
 );
@@ -2036,7 +2036,7 @@ const auto func_info = func_info_t(
 	/*.code_copyright              =*/ "SEDRIS",
 	/*.license                     =*/ "\"This software was developed for use by the United States Government with unlimited rights.\"",
 	/*.orig_impl_lang              =*/ "C++",
-	/*.url                         =*/ "http://www.ai.sri.com/geotransform/download.shtml",
+	/*.url                         =*/ "https://web.archive.org/web/20200225202506/http://www.ai.sri.com/geotransform/download.shtml",
 	/*.citation                    =*/ R"(geotransformCpp 1.5
 file:Gcc_To_Gdc_Converter.cpp)"
 );
