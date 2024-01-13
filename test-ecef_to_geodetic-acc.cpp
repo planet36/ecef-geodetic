@@ -326,6 +326,7 @@ int main(int argc, char* argv[])
 			{"num_lines", func_info.num_lines},
 			{"needs_code_for_corner_cases", func_info.needs_code_for_corner_cases},
 			{"ilog10_mean_dist_err", func_info.ilog10_mean_dist_err},
+			{"display_name", func_info.display_name},
 			{"algo_author", func_info.algo_author},
 			{"code_copyright", func_info.code_copyright},
 			{"license", func_info.license},
