@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: OSL-3.0
 
 SCRIPT_NAME="$(basename -- "${BASH_SOURCE[0]}")"
-#SCRIPT_DIR="$(dirname -- "${BASH_SOURCE[0]}")"
+SCRIPT_DIR="$(dirname -- "${BASH_SOURCE[0]}")"
 
 function print_usage
 {
@@ -40,8 +40,8 @@ fi
 DATETIME="$(date -u +'%Y%m%dT%H%M%S')"
 readonly DATETIME
 
-declare -r OUTFILE="results/acc-speed.${DATETIME}.txt"
-declare -r OUTFILE_FILTERED="results/acc-speed.${DATETIME}.filtered.txt"
+declare -r OUTFILE="${SCRIPT_DIR}/acc-speed.${DATETIME}.txt"
+declare -r OUTFILE_FILTERED="${SCRIPT_DIR}/acc-speed.${DATETIME}.filtered.txt"
 
 printf 'Name\tMean dist. error (nm)\tMax dist. error (nm)\tM conversions/sec\n' > "$OUTFILE"
 
