@@ -2715,7 +2715,7 @@ const auto func_info = func_info_t(
 	/*.license                     =*/ "NASA Open Source Agreement",
 	/*.orig_impl_lang              =*/ "Java",
 	/*.url                         =*/ "https://sourceforge.net/p/jat/code/HEAD/tree/trunk/src/jat/coreNOSA/timeRef/Geodetic.java",
-	/*.citation                    =*/ R"(Java Astrodynamics Toolkit (JAT))" // citation
+	/*.citation                    =*/ R"(Java Astrodynamics Toolkit (JAT))"
 );
 
 }
