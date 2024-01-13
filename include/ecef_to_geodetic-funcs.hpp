@@ -131,28 +131,28 @@ using ecef_to_geodetic_func = std::function<void(const T, const T, const T, T&, 
 struct func_info_t
 {
 	ecef_to_geodetic_func<double> func;
-	int                    num_lines;
-	const bool             needs_code_for_corner_cases;
-	const int              ilog10_mean_dist_err;
-	const std::string_view display_name;
-	const std::string_view algo_author;
-	const std::string_view code_copyright;
-	const std::string_view license;
-	const std::string_view orig_impl_lang;
-	const std::string_view url;
-	const std::string_view citation;
+	int               num_lines;
+	const bool        needs_code_for_corner_cases;
+	const int         ilog10_mean_dist_err;
+	const std::string display_name;
+	const std::string algo_author;
+	const std::string code_copyright;
+	const std::string license;
+	const std::string orig_impl_lang;
+	const std::string url;
+	const std::string citation;
 
 	func_info_t(const ecef_to_geodetic_func<double>& _func,
-	            const int              _num_lines,
-	            const bool             _needs_code_for_corner_cases,
-	            const int              _ilog10_mean_dist_err,
-	            const std::string_view _display_name,
-	            const std::string_view _algo_author,
-	            const std::string_view _code_copyright,
-	            const std::string_view _license,
-	            const std::string_view _orig_impl_lang,
-	            const std::string_view _url,
-	            const std::string_view _citation
+	            const int          _num_lines,
+	            const bool         _needs_code_for_corner_cases,
+	            const int          _ilog10_mean_dist_err,
+	            const std::string& _display_name,
+	            const std::string& _algo_author,
+	            const std::string& _code_copyright,
+	            const std::string& _license,
+	            const std::string& _orig_impl_lang,
+	            const std::string& _url,
+	            const std::string& _citation
 	        ):
 		func                       (_func                       ),
 		num_lines                  (_num_lines                  ),
