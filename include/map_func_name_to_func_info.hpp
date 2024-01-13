@@ -47,7 +47,7 @@ const std::map<std::string, func_info_t> map_func_name_to_func_info {
 {"householder_2", householder_2::func_info},
 {"householder_quick_1", householder_quick_1::func_info},
 {"householder_quick_2", householder_quick_2::func_info},
-{"jat_spacetime_geodetic", jat_spacetime_geodetic::func_info},
+{"jat_geodetic", jat_geodetic::func_info},
 {"jones_2002_1", jones_2002_1::func_info},
 {"ligas_2011_I_1", ligas_2011_I_1::func_info},
 {"ligas_2011_I_2", ligas_2011_I_2::func_info},

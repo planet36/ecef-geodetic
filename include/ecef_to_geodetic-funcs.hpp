@@ -2655,7 +2655,7 @@ const auto func_info = func_info_t(
 }
 // }}}
 
-namespace jat_spacetime_geodetic
+namespace jat_geodetic
 // {{{
 {
 
