@@ -218,15 +218,12 @@ clean-input:
 	@$(RM) --verbose -- \
 		$(ALL_INFILES_ECEF) $(ALL_INFILES_GEOD)
 
-clean-output:
-	git clean -i $(OUTPUT_DIR)
-
-clean-all: clean clean-input clean-output
+clean-all: clean clean-input
 
 lint:
 	-clang-tidy --quiet $(SRCS) -- $(CPPFLAGS) $(CXXFLAGS) $(LDLIBS)
 
 # https://www.gnu.org/software/make/manual/make.html#Phony-Targets
-.PHONY: all input plot-ecef plot-geod acc acc1 speed clean clean-input clean-output clean-all lint
+.PHONY: all input plot-ecef plot-geod acc acc1 speed clean clean-input clean-all lint
 
 -include $(DEPS)
