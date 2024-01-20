@@ -39,33 +39,34 @@ fi
 DATETIME="$(date -u +'%Y%m%dT%H%M%S')"
 readonly DATETIME
 
-declare -r OUTFILE="${SCRIPT_DIR}/acc-speed.${DATETIME}.txt"
-declare -r OUTFILE_FILTERED="${SCRIPT_DIR}/acc-speed.${DATETIME}.filtered.txt"
+declare -r OUTFILE="${SCRIPT_DIR}/acc-speed.${DATETIME}.csv"
+declare -r OUTFILE_FILTERED="${SCRIPT_DIR}/acc-speed.${DATETIME}.filtered.csv"
 
 printf '%q\n' "$INFILE_ACC" > "$OUTFILE"
 printf '%q\n' "$INFILE_SPEED" >> "$OUTFILE"
-printf 'Name\tMean dist. error (nm)\tMax dist. error (nm)\tM conversions/sec\n' >> "$OUTFILE"
+printf 'Name,Mean dist. error (nm),Max dist. error (nm),M conversions/sec\n' >> "$OUTFILE"
 
 if grep -q -E '/threads:[0-9]+_median\>' "$INFILE_SPEED"
 then
     # Speed test was run with more than 1 repetition.
-    join -t $'\t' \
-        <(jq -r '.func_names | keys[] as $k | "\(.[$k].info.display_name)\t\(.[$k].acc.mean_dist_err*1e9)\t\(.[$k].acc.max_dist_err*1e9)"' "$INFILE_ACC" | sort) \
-        <(jq -r '.benchmarks[] | select(.name | endswith("_median")) | "\(.name)\t\(.items_per_second/1e6)"' "$INFILE_SPEED" | sed -E -e 's/\/threads:[0-9]+_median//' | sort) >> \
+    join -t ',' \
+        <(jq -r '.func_names | keys[] as $k | "\(.[$k].info.display_name),\(.[$k].acc.mean_dist_err*1e9),\(.[$k].acc.max_dist_err*1e9)"' "$INFILE_ACC" | sort) \
+        <(jq -r '.benchmarks[] | select(.name | endswith("_median")) | "\(.name),\(.items_per_second/1e6)"' "$INFILE_SPEED" | sed -E -e 's/\/threads:[0-9]+_median//' | sort) >> \
         "$OUTFILE" || exit
 else
     # Speed test was run with 1 repetition.
-    join -t $'\t' \
-        <(jq -r '.func_names | keys[] as $k | "\(.[$k].info.display_name)\t\(.[$k].acc.mean_dist_err*1e9)\t\(.[$k].acc.max_dist_err*1e9)"' "$INFILE_ACC" | sort) \
-        <(jq -r '.benchmarks[] | "\(.name)\t\(.items_per_second/1e6)"' "$INFILE_SPEED" | sed -E -e 's/\/threads:[0-9]+//' | sort) >> \
+    join -t ',' \
+        <(jq -r '.func_names | keys[] as $k | "\(.[$k].info.display_name),\(.[$k].acc.mean_dist_err*1e9),\(.[$k].acc.max_dist_err*1e9)"' "$INFILE_ACC" | sort) \
+        <(jq -r '.benchmarks[] | "\(.name),\(.items_per_second/1e6)"' "$INFILE_SPEED" | sed -E -e 's/\/threads:[0-9]+//' | sort) >> \
         "$OUTFILE" || exit
 fi
 
 # Select algorithms with good accuracy (mean dist err < 10 nm).
-awk -F '\t' '$2 < 10 || NR <= 3 {print $0}' "$OUTFILE" > "$OUTFILE_FILTERED" || exit
+awk --csv '$2 < 10 || NR <= 3 {print $0}' "$OUTFILE" \
+	> "$OUTFILE_FILTERED" || exit
 
 printf 'Created files:\n%q\n%q\n' "$OUTFILE" "$OUTFILE_FILTERED"
 
 # Use datamash to get stats of the accurate algorithms.
 # Example:
-# datamash --header-in q1 4 mean 4 median 4 q3 4 iqr 4 < "$OUTFILE_FILTERED"
+# datamash --header-in --field-separator=',' q1 4 mean 4 median 4 q3 4 iqr 4 < "$OUTFILE_FILTERED"
