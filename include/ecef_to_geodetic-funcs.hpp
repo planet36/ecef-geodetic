@@ -497,7 +497,7 @@ https://link.springer.com/article/10.1007/BF02520228)"
 }
 // }}}
 
-namespace bowring_1976_1
+namespace bowring_1976_x1
 // {{{
 {
 
@@ -532,7 +532,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -2,
-	/*.display_name                =*/ "Bowring 1976 (1)",
+	/*.display_name                =*/ "Bowring 1976 (x1)",
 	/*.algo_author                 =*/ "B.R. Bowring",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -545,7 +545,7 @@ https://www.tandfonline.com/doi/abs/10.1179/sre.1976.23.181.323)"
 }
 // }}}
 
-namespace bowring_1976_2
+namespace bowring_1976_x2
 // {{{
 {
 
@@ -588,7 +588,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
-	/*.display_name                =*/ "Bowring 1976 (2)",
+	/*.display_name                =*/ "Bowring 1976 (x2)",
 	/*.algo_author                 =*/ "B.R. Bowring",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -601,7 +601,7 @@ https://www.tandfonline.com/doi/abs/10.1179/sre.1976.23.181.323)"
 }
 // }}}
 
-namespace bowring_1985_1
+namespace bowring_1985_x1
 // {{{
 {
 
@@ -640,7 +640,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -7,
-	/*.display_name                =*/ "Bowring 1985 (1)",
+	/*.display_name                =*/ "Bowring 1985 (x1)",
 	/*.algo_author                 =*/ "B.R. Bowring",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -652,7 +652,7 @@ const auto func_info = func_info_t(
 }
 // }}}
 
-namespace bowring_1985_2
+namespace bowring_1985_x2
 // {{{
 {
 
@@ -699,7 +699,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
-	/*.display_name                =*/ "Bowring 1985 (2)",
+	/*.display_name                =*/ "Bowring 1985 (x2)",
 	/*.algo_author                 =*/ "B.R. Bowring",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -711,7 +711,7 @@ const auto func_info = func_info_t(
 }
 // }}}
 
-namespace bowring_toms_1995_1
+namespace bowring_toms_1995_x1
 // {{{
 {
 
@@ -758,7 +758,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -3,
-	/*.display_name                =*/ "Bowring-Toms 1995 (1)",
+	/*.display_name                =*/ "Bowring-Toms 1995 (x1)",
 	/*.algo_author                 =*/ "B.R. Bowring, R. Toms",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -770,7 +770,7 @@ const auto func_info = func_info_t(
 }
 // }}}
 
-namespace bowring_toms_1995_2
+namespace bowring_toms_1995_x2
 // {{{
 {
 
@@ -825,7 +825,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
-	/*.display_name                =*/ "Bowring-Toms 1995 (2)",
+	/*.display_name                =*/ "Bowring-Toms 1995 (x2)",
 	/*.algo_author                 =*/ "B.R. Bowring, R. Toms",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -837,7 +837,7 @@ const auto func_info = func_info_t(
 }
 // }}}
 
-namespace fukushima_1999_1
+namespace fukushima_1999_x1
 // {{{
 {
 
@@ -957,7 +957,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ 99,
-	/*.display_name                =*/ "Fukushima 1999 (1)",
+	/*.display_name                =*/ "Fukushima 1999 (x1)",
 	/*.algo_author                 =*/ "Toshio Fukushima",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -970,7 +970,7 @@ https://link.springer.com/article/10.1007/s001900050271)"
 }
 // }}}
 
-namespace fukushima_1999_customht_1
+namespace fukushima_1999_customht_x1
 // {{{
 {
 #define USE_CUSTOM_HT
@@ -1091,7 +1091,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ 99,
-	/*.display_name                =*/ "Fukushima 1999 (c.h.) (1)",
+	/*.display_name                =*/ "Fukushima 1999 (c.h.) (x1)",
 	/*.algo_author                 =*/ "Toshio Fukushima",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -1105,7 +1105,7 @@ https://link.springer.com/article/10.1007/s001900050271)"
 }
 // }}}
 
-namespace fukushima_2006_1
+namespace fukushima_2006_x1
 // {{{
 {
 
@@ -1159,7 +1159,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -5,
-	/*.display_name                =*/ "Fukushima 2006 (1)",
+	/*.display_name                =*/ "Fukushima 2006 (x1)",
 	/*.algo_author                 =*/ "Toshio Fukushima",
 	/*.code_copyright              =*/ "Toshio Fukushima",
 	/*.license                     =*/ "Unknown",
@@ -1171,7 +1171,7 @@ const auto func_info = func_info_t(
 }
 // }}}
 
-namespace fukushima_2006_2
+namespace fukushima_2006_x2
 // {{{
 {
 
@@ -1225,7 +1225,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ 99,
-	/*.display_name                =*/ "Fukushima 2006 (2)",
+	/*.display_name                =*/ "Fukushima 2006 (x2)",
 	/*.algo_author                 =*/ "Toshio Fukushima",
 	/*.code_copyright              =*/ "Toshio Fukushima",
 	/*.license                     =*/ "Unknown",
@@ -2105,7 +2105,7 @@ const auto func_info = func_info_t(
 }
 // }}}
 
-namespace halley_1
+namespace halley_x1
 // {{{
 {
 
@@ -2140,7 +2140,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -2,
-	/*.display_name                =*/ "Halley (1)",
+	/*.display_name                =*/ "Halley (x1)",
 	/*.algo_author                 =*/ "Steven Ward",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -2152,7 +2152,7 @@ const auto func_info = func_info_t(
 }
 // }}}
 
-namespace halley_2
+namespace halley_x2
 // {{{
 {
 
@@ -2187,7 +2187,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -10,
-	/*.display_name                =*/ "Halley (2)",
+	/*.display_name                =*/ "Halley (x2)",
 	/*.algo_author                 =*/ "Steven Ward",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -2199,7 +2199,7 @@ const auto func_info = func_info_t(
 }
 // }}}
 
-namespace halley_quick_1
+namespace halley_quick_x1
 // {{{
 {
 
@@ -2238,7 +2238,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -2,
-	/*.display_name                =*/ "Halley quick (1)",
+	/*.display_name                =*/ "Halley quick (x1)",
 	/*.algo_author                 =*/ "Steven Ward",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -2250,7 +2250,7 @@ const auto func_info = func_info_t(
 }
 // }}}
 
-namespace halley_quick_2
+namespace halley_quick_x2
 // {{{
 {
 
@@ -2289,7 +2289,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
-	/*.display_name                =*/ "Halley quick (2)",
+	/*.display_name                =*/ "Halley quick (x2)",
 	/*.algo_author                 =*/ "Steven Ward",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -2459,7 +2459,7 @@ const auto func_info = func_info_t(
 }
 // }}}
 
-namespace householder_1
+namespace householder_x1
 // {{{
 {
 
@@ -2494,7 +2494,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -2,
-	/*.display_name                =*/ "Householder (1)",
+	/*.display_name                =*/ "Householder (x1)",
 	/*.algo_author                 =*/ "Steven Ward",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -2506,7 +2506,7 @@ const auto func_info = func_info_t(
 }
 // }}}
 
-namespace householder_2
+namespace householder_x2
 // {{{
 {
 
@@ -2541,7 +2541,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -10,
-	/*.display_name                =*/ "Householder (2)",
+	/*.display_name                =*/ "Householder (x2)",
 	/*.algo_author                 =*/ "Steven Ward",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -2553,7 +2553,7 @@ const auto func_info = func_info_t(
 }
 // }}}
 
-namespace householder_quick_1
+namespace householder_quick_x1
 // {{{
 {
 
@@ -2592,7 +2592,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -2,
-	/*.display_name                =*/ "Householder quick (1)",
+	/*.display_name                =*/ "Householder quick (x1)",
 	/*.algo_author                 =*/ "Steven Ward",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -2604,7 +2604,7 @@ const auto func_info = func_info_t(
 }
 // }}}
 
-namespace householder_quick_2
+namespace householder_quick_x2
 // {{{
 {
 
@@ -2643,7 +2643,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
-	/*.display_name                =*/ "Householder quick (2)",
+	/*.display_name                =*/ "Householder quick (x2)",
 	/*.algo_author                 =*/ "Steven Ward",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -2721,7 +2721,7 @@ const auto func_info = func_info_t(
 }
 // }}}
 
-namespace jones_2002_1
+namespace jones_2002_x1
 // {{{
 {
 
@@ -2797,7 +2797,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ 1,
-	/*.display_name                =*/ "Jones 2002 (1)",
+	/*.display_name                =*/ "Jones 2002 (x1)",
 	/*.algo_author                 =*/ "G. C. Jones",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -2809,7 +2809,7 @@ const auto func_info = func_info_t(
 }
 // }}}
 
-namespace ligas_2011_I_1
+namespace ligas_2011_I_x1
 // {{{
 {
 
@@ -2867,7 +2867,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -2,
-	/*.display_name                =*/ "Ligas 2011 I (1)",
+	/*.display_name                =*/ "Ligas 2011 I (x1)",
 	/*.algo_author                 =*/ "M. Ligas, P. Banasik",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -2879,7 +2879,7 @@ const auto func_info = func_info_t(
 }
 // }}}
 
-namespace ligas_2011_I_2
+namespace ligas_2011_I_x2
 // {{{
 {
 
@@ -2937,7 +2937,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -8,
-	/*.display_name                =*/ "Ligas 2011 I (2)",
+	/*.display_name                =*/ "Ligas 2011 I (x2)",
 	/*.algo_author                 =*/ "M. Ligas, P. Banasik",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -2949,7 +2949,7 @@ const auto func_info = func_info_t(
 }
 // }}}
 
-namespace lin_wang_1995_1
+namespace lin_wang_1995_x1
 // {{{
 {
 
@@ -3005,7 +3005,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -7,
-	/*.display_name                =*/ "Lin-Wang 1995 (1)",
+	/*.display_name                =*/ "Lin-Wang 1995 (x1)",
 	/*.algo_author                 =*/ "Kuo-Chi Lin, Jie Wang",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -3017,7 +3017,7 @@ const auto func_info = func_info_t(
 }
 // }}}
 
-namespace lin_wang_1995_2
+namespace lin_wang_1995_x2
 // {{{
 {
 
@@ -3073,7 +3073,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
-	/*.display_name                =*/ "Lin-Wang 1995 (2)",
+	/*.display_name                =*/ "Lin-Wang 1995 (x2)",
 	/*.algo_author                 =*/ "Kuo-Chi Lin, Jie Wang",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -3085,7 +3085,7 @@ const auto func_info = func_info_t(
 }
 // }}}
 
-namespace lin_wang_1995_customht_1
+namespace lin_wang_1995_customht_x1
 // {{{
 {
 #define USE_CUSTOM_HT
@@ -3142,7 +3142,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -4,
-	/*.display_name                =*/ "Lin-Wang 1995 (c.h.) (1)",
+	/*.display_name                =*/ "Lin-Wang 1995 (c.h.) (x1)",
 	/*.algo_author                 =*/ "Kuo-Chi Lin, Jie Wang",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -3155,7 +3155,7 @@ const auto func_info = func_info_t(
 }
 // }}}
 
-namespace lin_wang_1995_customht_2
+namespace lin_wang_1995_customht_x2
 // {{{
 {
 #define USE_CUSTOM_HT
@@ -3212,7 +3212,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
-	/*.display_name                =*/ "Lin-Wang 1995 (c.h.) (2)",
+	/*.display_name                =*/ "Lin-Wang 1995 (c.h.) (x2)",
 	/*.algo_author                 =*/ "Kuo-Chi Lin, Jie Wang",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -3275,7 +3275,7 @@ NASA Technical Note TN D-7522)"
 }
 // }}}
 
-namespace naive_I_1
+namespace naive_I_x1
 // {{{
 {
 
@@ -3318,7 +3318,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ 0,
-	/*.display_name                =*/ "Naive I (1)",
+	/*.display_name                =*/ "Naive I (x1)",
 	/*.algo_author                 =*/ "Steven Ward",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -3330,7 +3330,7 @@ const auto func_info = func_info_t(
 }
 // }}}
 
-namespace naive_I_2
+namespace naive_I_x2
 // {{{
 {
 
@@ -3373,7 +3373,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -3,
-	/*.display_name                =*/ "Naive I (2)",
+	/*.display_name                =*/ "Naive I (x2)",
 	/*.algo_author                 =*/ "Steven Ward",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -3385,7 +3385,7 @@ const auto func_info = func_info_t(
 }
 // }}}
 
-namespace naive_II_1
+namespace naive_II_x1
 // {{{
 {
 
@@ -3422,7 +3422,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ 0,
-	/*.display_name                =*/ "Naive II (1)",
+	/*.display_name                =*/ "Naive II (x1)",
 	/*.algo_author                 =*/ "R. Hirvonen, H. Moritz",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -3440,7 +3440,7 @@ Columbus, 1963)"
 }
 // }}}
 
-namespace naive_II_2
+namespace naive_II_x2
 // {{{
 {
 
@@ -3477,7 +3477,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -3,
-	/*.display_name                =*/ "Naive II (2)",
+	/*.display_name                =*/ "Naive II (x2)",
 	/*.algo_author                 =*/ "R. Hirvonen, H. Moritz",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -3495,7 +3495,7 @@ Columbus, 1963)"
 }
 // }}}
 
-namespace newton_raphson_1
+namespace newton_raphson_x1
 // {{{
 {
 
@@ -3530,7 +3530,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -1,
-	/*.display_name                =*/ "Newton-Raphson (1)",
+	/*.display_name                =*/ "Newton-Raphson (x1)",
 	/*.algo_author                 =*/ "Steven Ward",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -3542,7 +3542,7 @@ const auto func_info = func_info_t(
 }
 // }}}
 
-namespace newton_raphson_2
+namespace newton_raphson_x2
 // {{{
 {
 
@@ -3577,7 +3577,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -10,
-	/*.display_name                =*/ "Newton-Raphson (2)",
+	/*.display_name                =*/ "Newton-Raphson (x2)",
 	/*.algo_author                 =*/ "Steven Ward",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -3589,7 +3589,7 @@ const auto func_info = func_info_t(
 }
 // }}}
 
-namespace newton_raphson_quick_1
+namespace newton_raphson_quick_x1
 // {{{
 {
 
@@ -3628,7 +3628,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -1,
-	/*.display_name                =*/ "Newton-Raphson quick (1)",
+	/*.display_name                =*/ "Newton-Raphson quick (x1)",
 	/*.algo_author                 =*/ "Steven Ward",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -3640,7 +3640,7 @@ const auto func_info = func_info_t(
 }
 // }}}
 
-namespace newton_raphson_quick_2
+namespace newton_raphson_quick_x2
 // {{{
 {
 
@@ -3679,7 +3679,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
-	/*.display_name                =*/ "Newton-Raphson quick (2)",
+	/*.display_name                =*/ "Newton-Raphson quick (x2)",
 	/*.algo_author                 =*/ "Steven Ward",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -4215,7 +4215,7 @@ const auto func_info = func_info_t(
 }
 // }}}
 
-namespace pollard_2002_ht_1
+namespace pollard_2002_ht_x1
 // {{{
 {
 
@@ -4277,7 +4277,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ 99,
-	/*.display_name                =*/ "Pollard 2002 height (1)",
+	/*.display_name                =*/ "Pollard 2002 height (x1)",
 	/*.algo_author                 =*/ "J. Pollard",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -4290,7 +4290,7 @@ https://link.springer.com/article/10.1007%2Fs001900100220)"
 }
 // }}}
 
-namespace pollard_2002_naive_1
+namespace pollard_2002_naive_x1
 // {{{
 {
 
@@ -4335,7 +4335,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -2,
-	/*.display_name                =*/ "Pollard 2002 naive (1)",
+	/*.display_name                =*/ "Pollard 2002 naive (x1)",
 	/*.algo_author                 =*/ "J. Pollard",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -4348,7 +4348,7 @@ https://link.springer.com/article/10.1007%2Fs001900100220)"
 }
 // }}}
 
-namespace pollard_2002_naive_2
+namespace pollard_2002_naive_x2
 // {{{
 {
 
@@ -4393,7 +4393,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -4,
-	/*.display_name                =*/ "Pollard 2002 naive (2)",
+	/*.display_name                =*/ "Pollard 2002 naive (x2)",
 	/*.algo_author                 =*/ "J. Pollard",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -4406,7 +4406,7 @@ https://link.springer.com/article/10.1007%2Fs001900100220)"
 }
 // }}}
 
-namespace pollard_2002_newton_1
+namespace pollard_2002_newton_x1
 // {{{
 {
 
@@ -4459,7 +4459,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -7,
-	/*.display_name                =*/ "Pollard 2002 Newton (1)",
+	/*.display_name                =*/ "Pollard 2002 Newton (x1)",
 	/*.algo_author                 =*/ "J. Pollard",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -4472,7 +4472,7 @@ https://link.springer.com/article/10.1007%2Fs001900100220)"
 }
 // }}}
 
-namespace pollard_2002_newton_2
+namespace pollard_2002_newton_x2
 // {{{
 {
 
@@ -4525,7 +4525,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
-	/*.display_name                =*/ "Pollard 2002 Newton (2)",
+	/*.display_name                =*/ "Pollard 2002 Newton (x2)",
 	/*.algo_author                 =*/ "J. Pollard",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -4538,7 +4538,7 @@ https://link.springer.com/article/10.1007%2Fs001900100220)"
 }
 // }}}
 
-namespace schroder_1
+namespace schroder_x1
 // {{{
 {
 
@@ -4573,7 +4573,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -1,
-	/*.display_name                =*/ "Schroder (1)",
+	/*.display_name                =*/ "Schroder (x1)",
 	/*.algo_author                 =*/ "Steven Ward",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -4585,7 +4585,7 @@ const auto func_info = func_info_t(
 }
 // }}}
 
-namespace schroder_2
+namespace schroder_x2
 // {{{
 {
 
@@ -4620,7 +4620,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -10,
-	/*.display_name                =*/ "Schroder (2)",
+	/*.display_name                =*/ "Schroder (x2)",
 	/*.algo_author                 =*/ "Steven Ward",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -4632,7 +4632,7 @@ const auto func_info = func_info_t(
 }
 // }}}
 
-namespace schroder_quick_1
+namespace schroder_quick_x1
 // {{{
 {
 
@@ -4671,7 +4671,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -1,
-	/*.display_name                =*/ "Schroder quick (1)",
+	/*.display_name                =*/ "Schroder quick (x1)",
 	/*.algo_author                 =*/ "Steven Ward",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -4683,7 +4683,7 @@ const auto func_info = func_info_t(
 }
 // }}}
 
-namespace schroder_quick_2
+namespace schroder_quick_x2
 // {{{
 {
 
@@ -4722,7 +4722,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
-	/*.display_name                =*/ "Schroder quick (2)",
+	/*.display_name                =*/ "Schroder quick (x2)",
 	/*.algo_author                 =*/ "Steven Ward",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -5924,7 +5924,7 @@ file:src/lib/srm/src/lib/cpp_impl/srf_impl/srm_gc.cpp)"
 }
 // }}}
 
-namespace shu_2010_1
+namespace shu_2010_x1
 // {{{
 {
 
@@ -5968,7 +5968,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -7,
-	/*.display_name                =*/ "Shu 2010 (1)",
+	/*.display_name                =*/ "Shu 2010 (x1)",
 	/*.algo_author                 =*/ "C. Shu, et al.",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -5980,7 +5980,7 @@ const auto func_info = func_info_t(
 }
 // }}}
 
-namespace shu_2010_2
+namespace shu_2010_x2
 // {{{
 {
 
@@ -6024,7 +6024,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
-	/*.display_name                =*/ "Shu 2010 (2)",
+	/*.display_name                =*/ "Shu 2010 (x2)",
 	/*.algo_author                 =*/ "C. Shu, et al.",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -6036,7 +6036,7 @@ const auto func_info = func_info_t(
 }
 // }}}
 
-namespace shu_2010_customht_1
+namespace shu_2010_customht_x1
 // {{{
 {
 #define USE_CUSTOM_HT
@@ -6081,7 +6081,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -5,
-	/*.display_name                =*/ "Shu 2010 (c.h.) (1)",
+	/*.display_name                =*/ "Shu 2010 (c.h.) (x1)",
 	/*.algo_author                 =*/ "C. Shu, et al.",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -6094,7 +6094,7 @@ const auto func_info = func_info_t(
 }
 // }}}
 
-namespace shu_2010_customht_2
+namespace shu_2010_customht_x2
 // {{{
 {
 #define USE_CUSTOM_HT
@@ -6139,7 +6139,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ false,
 	/*.ilog10_mean_dist_err        =*/ -9,
-	/*.display_name                =*/ "Shu 2010 (c.h.) (2)",
+	/*.display_name                =*/ "Shu 2010 (c.h.) (x2)",
 	/*.algo_author                 =*/ "C. Shu, et al.",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -6829,7 +6829,7 @@ const auto func_info = func_info_t(
 }
 // }}}
 
-namespace wu_2003_1
+namespace wu_2003_x1
 // {{{
 {
 
@@ -6895,7 +6895,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ true,
 	/*.ilog10_mean_dist_err        =*/ 2,
-	/*.display_name                =*/ "Wu 2003 (1)",
+	/*.display_name                =*/ "Wu 2003 (x1)",
 	/*.algo_author                 =*/ "Y. Wu, et al.",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
@@ -6908,7 +6908,7 @@ Wu, Yuanxin & Wang, Ping & Hu, Xiaoping. (2003). Algorithm of Earth-Centered Ear
 }
 // }}}
 
-namespace wu_2003_2
+namespace wu_2003_x2
 // {{{
 {
 
@@ -6974,7 +6974,7 @@ const auto func_info = func_info_t(
 	/*.num_lines                   =*/ line_end - line_begin + lines_extra,
 	/*.needs_code_for_corner_cases =*/ true,
 	/*.ilog10_mean_dist_err        =*/ -4,
-	/*.display_name                =*/ "Wu 2003 (2)",
+	/*.display_name                =*/ "Wu 2003 (x2)",
 	/*.algo_author                 =*/ "Y. Wu, et al.",
 	/*.code_copyright              =*/ "Steven Ward",
 	/*.license                     =*/ "OSL-3.0",
