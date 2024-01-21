@@ -12,6 +12,7 @@ grep \
 join \
 jq \
 mkdir \
+numfmt \
 python3 \
 readelf \
 rm \
