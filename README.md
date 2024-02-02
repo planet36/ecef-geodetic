@@ -2,6 +2,25 @@
 
 A test suite of ECEF-to-geodetic coordinate conversion functions
 
+## Usage
+
+To create the input data files
+> `make -j $(nproc) input`
+
+They are text files with ECEF and Geodetic coordinates.
+
+To build the accuracy and speed tests
+> `make -j $(nproc)`
+
+To run the accuracy and speed tests
+> `make acc speed`
+* Takes about 10 minutes to finish
+* Do not run these in parallel
+
+The output of the accuracy and speed tests are json files which are put in the `results` folder.
+
+See [Makefile](Makefile) for all possible targets.
+
 ## Requirements
 
 ### C++ libraries
