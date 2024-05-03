@@ -26,7 +26,7 @@ See [Makefile](Makefile) for all possible targets.
 ### C++ libraries
 
 - [Google Benchmark](https://github.com/google/benchmark)
-- [fmt](https://github.com/fmtlib/fmt)
+- [fmt](https://github.com/fmtlib/fmt) (version >= [10.0.0](https://github.com/fmtlib/fmt/releases/tag/10.0.0))
 - [nlohmann-json](https://github.com/nlohmann/json)
 - [oneTBB](https://github.com/oneapi-src/oneTBB)
 
