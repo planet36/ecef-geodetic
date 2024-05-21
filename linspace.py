@@ -14,7 +14,7 @@ import numpy as np
 
 # https://numpy.org/doc/stable/reference/generated/numpy.linspace.html
 # adapted from
-# https://github.com/numpy/numpy/blob/main/numpy/core/function_base.py#L24
+# https://github.com/numpy/numpy/blob/main/numpy/_core/function_base.py#L26
 # The start and stop values in numpy.linspace must be float type.
 #def linspace(start, stop, num=50, endpoint=True):
 def linspace(start: D, stop: D, num: int = 50, endpoint: bool = True):
