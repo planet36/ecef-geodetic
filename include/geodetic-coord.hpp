@@ -94,9 +94,9 @@ struct Geodetic
 {
 	using this_t = Geodetic<U, T>;
 
-	angle<U, T> lat; // geodetic latitude
-	angle<U, T> lon; // geodetic longitude
-	T ht{};          // ellipsoid/geodetic height (meters)
+	angle<U, T> lat{}; // geodetic latitude
+	angle<U, T> lon{}; // geodetic longitude
+	T ht{};            // ellipsoid/geodetic height (meters)
 
 	Geodetic() = default;
 

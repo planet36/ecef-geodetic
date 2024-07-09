@@ -36,6 +36,9 @@ public:
 	/// copy ctor
 	angle(const angle&) = default;
 
+	/// dtor
+	~angle() = default;
+
 	/// conversion ctor
 	template <angle_unit U2, std::floating_point T2>
 	constexpr angle(const angle<U2, T2>& a) :
