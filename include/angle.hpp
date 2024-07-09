@@ -216,7 +216,8 @@ make_ang_arcsec(const T x)
 \param x the given value
 \return an angle of the given value
 */
-constexpr auto operator"" _mrad(const long double x)
+constexpr auto
+operator"" _mrad(const long double x)
 {
 	using T = long double;
 	return ang_mrad<T>{x};
@@ -229,7 +230,8 @@ constexpr auto operator"" _mrad(const long double x)
 \param x the given value
 \return an angle of the given value
 */
-constexpr auto operator"" _mrad(const unsigned long long int x)
+constexpr auto
+operator"" _mrad(const unsigned long long int x)
 {
 	using T = long double;
 	return ang_mrad<T>{static_cast<T>(x)};
@@ -242,7 +244,8 @@ constexpr auto operator"" _mrad(const unsigned long long int x)
 \param x the given value
 \return an angle of the given value
 */
-constexpr auto operator"" _rad(const long double x)
+constexpr auto
+operator"" _rad(const long double x)
 {
 	using T = long double;
 	return ang_rad<T>{x};
@@ -255,7 +258,8 @@ constexpr auto operator"" _rad(const long double x)
 \param x the given value
 \return an angle of the given value
 */
-constexpr auto operator"" _rad(const unsigned long long int x)
+constexpr auto
+operator"" _rad(const unsigned long long int x)
 {
 	using T = long double;
 	return ang_rad<T>{static_cast<T>(x)};
@@ -268,7 +272,8 @@ constexpr auto operator"" _rad(const unsigned long long int x)
 \param x the given value
 \return an angle of the given value
 */
-constexpr auto operator"" _rev(const long double x)
+constexpr auto
+operator"" _rev(const long double x)
 {
 	using T = long double;
 	return ang_rev<T>{x};
@@ -281,7 +286,8 @@ constexpr auto operator"" _rev(const long double x)
 \param x the given value
 \return an angle of the given value
 */
-constexpr auto operator"" _rev(const unsigned long long int x)
+constexpr auto
+operator"" _rev(const unsigned long long int x)
 {
 	using T = long double;
 	return ang_rev<T>{static_cast<T>(x)};
@@ -294,7 +300,8 @@ constexpr auto operator"" _rev(const unsigned long long int x)
 \param x the given value
 \return an angle of the given value
 */
-constexpr auto operator"" _deg(const long double x)
+constexpr auto
+operator"" _deg(const long double x)
 {
 	using T = long double;
 	return ang_deg<T>{x};
@@ -307,7 +314,8 @@ constexpr auto operator"" _deg(const long double x)
 \param x the given value
 \return an angle of the given value
 */
-constexpr auto operator"" _deg(const unsigned long long int x)
+constexpr auto
+operator"" _deg(const unsigned long long int x)
 {
 	using T = long double;
 	return ang_deg<T>{static_cast<T>(x)};
@@ -320,7 +328,8 @@ constexpr auto operator"" _deg(const unsigned long long int x)
 \param x the given value
 \return an angle of the given value
 */
-constexpr auto operator"" _arcmin(const long double x)
+constexpr auto
+operator"" _arcmin(const long double x)
 {
 	using T = long double;
 	return ang_arcmin<T>{x};
@@ -333,7 +342,8 @@ constexpr auto operator"" _arcmin(const long double x)
 \param x the given value
 \return an angle of the given value
 */
-constexpr auto operator"" _arcmin(const unsigned long long int x)
+constexpr auto
+operator"" _arcmin(const unsigned long long int x)
 {
 	using T = long double;
 	return ang_arcmin<T>{static_cast<T>(x)};
@@ -346,7 +356,8 @@ constexpr auto operator"" _arcmin(const unsigned long long int x)
 \param x the given value
 \return an angle of the given value
 */
-constexpr auto operator"" _arcsec(const long double x)
+constexpr auto
+operator"" _arcsec(const long double x)
 {
 	using T = long double;
 	return ang_arcsec<T>{x};
@@ -359,7 +370,8 @@ constexpr auto operator"" _arcsec(const long double x)
 \param x the given value
 \return an angle of the given value
 */
-constexpr auto operator"" _arcsec(const unsigned long long int x)
+constexpr auto
+operator"" _arcsec(const unsigned long long int x)
 {
 	using T = long double;
 	return ang_arcsec<T>{static_cast<T>(x)};

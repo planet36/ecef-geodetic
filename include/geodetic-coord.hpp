@@ -31,16 +31,18 @@ constexpr int geodetic_precision_add = 5; ///< The precision to add to the geode
 \return the string representation of the geodetic coordinate
 */
 template <angle_unit U, std::floating_point T>
-[[nodiscard]] std::string geodetic_to_str(
-	const angle<U, T>& lat,
-	const angle<U, T>& lon,
-	const T ht,
-	int precision = geodetic_default_precision)
+[[nodiscard]] std::string
+geodetic_to_str(const angle<U, T>& lat,
+                const angle<U, T>& lon,
+                const T ht,
+                int precision = geodetic_default_precision)
 {
 	std::string result;
 
-	result += fmt::format("{:.{}f}", lat.to_deg(), precision + geodetic_precision_add);
-	result += fmt::format(" {:.{}f}", lon.to_deg(), precision + geodetic_precision_add);
+	result += fmt::format("{:.{}f}", lat.to_deg(),
+	                      precision + geodetic_precision_add);
+	result += fmt::format(" {:.{}f}", lon.to_deg(),
+	                      precision + geodetic_precision_add);
 
 	if (!std::isnan(ht))
 		result += fmt::format(" {:.{}f}", ht, precision);
@@ -58,11 +60,8 @@ template <angle_unit U, std::floating_point T>
 \retval true if an error has occurred on the associated stream
 */
 template <angle_unit U, std::floating_point T>
-bool str_to_geodetic(
-	const std::string& s,
-	angle<U, T>& lat,
-	angle<U, T>& lon,
-	T& ht)
+bool
+str_to_geodetic(const std::string& s, angle<U, T>& lat, angle<U, T>& lon, T& ht)
 {
 	std::istringstream iss(s);
 
@@ -97,7 +96,7 @@ struct Geodetic
 
 	angle<U, T> lat; // geodetic latitude
 	angle<U, T> lon; // geodetic longitude
-	T ht{}; // ellipsoid/geodetic height (meters)
+	T ht{};          // ellipsoid/geodetic height (meters)
 
 	Geodetic() = default;
 
@@ -125,7 +124,8 @@ struct Geodetic
 		normalize_geodetic(lat, lon);
 	}
 
-	[[nodiscard]] std::string to_string(const int precision = geodetic_default_precision) const
+	[[nodiscard]] std::string
+	to_string(const int precision = geodetic_default_precision) const
 	{
 		return geodetic_to_str(lat, lon, ht, precision);
 	}

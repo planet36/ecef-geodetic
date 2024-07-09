@@ -28,7 +28,8 @@
 
 /// read ECEF coordinates from stdin
 template <std::floating_point T>
-void read_coords_ecef(std::vector<ECEF<T>>& ecef_vec)
+void
+read_coords_ecef(std::vector<ECEF<T>>& ecef_vec)
 {
 	std::string input_line;
 	while (std::getline(std::cin, input_line))
@@ -57,8 +58,8 @@ void read_coords_ecef(std::vector<ECEF<T>>& ecef_vec)
 			break;
 
 		default:
-			throw std::invalid_argument(fmt::format("Invalid input data dimensions: {}",
-			                                        input_vec.size()));
+			throw std::invalid_argument(fmt::format(
+			    "Invalid input data dimensions: {}", input_vec.size()));
 			break;
 		}
 
@@ -68,7 +69,8 @@ void read_coords_ecef(std::vector<ECEF<T>>& ecef_vec)
 
 /// read Geodetic coordinates from stdin
 template <std::floating_point T>
-void read_coords_geod(std::vector<Geodetic<angle_unit::degree, T>>& geod_vec)
+void
+read_coords_geod(std::vector<Geodetic<angle_unit::degree, T>>& geod_vec)
 {
 	std::string input_line;
 	while (std::getline(std::cin, input_line))
@@ -98,8 +100,8 @@ void read_coords_geod(std::vector<Geodetic<angle_unit::degree, T>>& geod_vec)
 			break;
 
 		default:
-			throw std::invalid_argument(fmt::format("Invalid input data dimensions: {}",
-			                                        input_vec.size()));
+			throw std::invalid_argument(fmt::format(
+			    "Invalid input data dimensions: {}", input_vec.size()));
 			break;
 		}
 
@@ -113,7 +115,8 @@ enum struct INPUT_DATA_COORD_SYSTEM
 	GEODETIC,
 };
 
-[[nodiscard]] std::string_view to_string(const INPUT_DATA_COORD_SYSTEM& x)
+[[nodiscard]] std::string_view
+to_string(const INPUT_DATA_COORD_SYSTEM& x)
 {
 	switch (x)
 	{
@@ -125,9 +128,9 @@ enum struct INPUT_DATA_COORD_SYSTEM
 
 /// read ECEF or Geodetic coordinates from stdin
 template <std::floating_point T>
-void read_coords(
-		const INPUT_DATA_COORD_SYSTEM input_data_coord_system,
-		std::vector<ECEF<T>>& ecef_vec)
+void
+read_coords(const INPUT_DATA_COORD_SYSTEM input_data_coord_system,
+            std::vector<ECEF<T>>& ecef_vec)
 {
 	switch (input_data_coord_system)
 	{
@@ -151,8 +154,9 @@ void read_coords(
 		break;
 
 	default:
-		throw std::invalid_argument(fmt::format("Invalid INPUT_DATA_COORD_SYSTEM: {}",
-		                                        std::to_underlying(input_data_coord_system)));
+		throw std::invalid_argument(
+		    fmt::format("Invalid INPUT_DATA_COORD_SYSTEM: {}",
+		                std::to_underlying(input_data_coord_system)));
 		break;
 	}
 }

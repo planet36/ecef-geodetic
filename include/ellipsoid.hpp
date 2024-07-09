@@ -273,10 +273,10 @@ struct Ellipsoid
 	\return the height above the ellipsoid (meters)
 	*/
 	[[nodiscard]] auto get_ht(const T w,
-	            const T z,
-	            const T sin_lat,
-	            const T cos_lat,
-	            const T Rn) const
+	                          const T z,
+	                          const T sin_lat,
+	                          const T cos_lat,
+	                          const T Rn) const
 	{
 		// https://www.gnu.org/software/libc/manual/html_node/Mathematical-Constants.html
 		// cos(45 deg) == 1/sqrt(2)
@@ -294,7 +294,8 @@ struct Ellipsoid
 	\param cos_lat cosine of the geodetic latitude
 	\return the height above the ellipsoid (meters)
 	*/
-	[[nodiscard]] auto get_ht(const T w, const T z, const T sin_lat, const T cos_lat) const
+	[[nodiscard]] auto
+	get_ht(const T w, const T z, const T sin_lat, const T cos_lat) const
 	{
 		return get_ht(w, z, sin_lat, cos_lat, get_Rn(sin_lat));
 	}

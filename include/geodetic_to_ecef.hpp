@@ -31,12 +31,7 @@ Equation (4-14)
 */
 template <std::floating_point T>
 void
-geodetic_to_ecef(const T lat_rad,
-                 const T lon_rad,
-                 const T ht,
-                 T& x,
-                 T& y,
-                 T& z)
+geodetic_to_ecef(const T lat_rad, const T lon_rad, const T ht, T& x, T& y, T& z)
 {
 	static constexpr auto& ell = WGS84<T>;
 
@@ -90,7 +85,8 @@ geodetic_to_ecef(const angle<U, T>& lat,
 }
 
 template <angle_unit U, std::floating_point T>
-auto geodetic_to_ecef(const Geodetic<U, T>& geod)
+auto
+geodetic_to_ecef(const Geodetic<U, T>& geod)
 {
 	T x{};
 	T y{};

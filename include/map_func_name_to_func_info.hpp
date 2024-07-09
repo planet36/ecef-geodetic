@@ -19,7 +19,7 @@
 grep namespace ecef_to_geodetic-funcs.hpp | awk '{print "{\"" $2 "\", " $2 "::func_info},"}'
 */
 
-const std::map<std::string, func_info_t> map_func_name_to_func_info {
+const std::map<std::string, func_info_t> map_func_name_to_func_info{
 
 {"borkowski_1989", borkowski_1989::func_info},
 {"bowring_1976_x1", bowring_1976_x1::func_info},
