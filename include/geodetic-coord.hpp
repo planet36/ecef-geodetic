@@ -13,7 +13,7 @@
 
 #include <cmath>
 #include <concepts>
-#include <fmt/core.h>
+#include <fmt/base.h>
 #include <sstream>
 #include <string>
 
