@@ -11,7 +11,7 @@
 
 #include <cmath>
 #include <concepts>
-#include <fmt/core.h>
+#include <fmt/format.h>
 #include <sstream>
 #include <string>
 #include <type_traits>
