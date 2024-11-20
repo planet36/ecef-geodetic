@@ -41,7 +41,7 @@ void BM_do_ecef_to_geodetic_test_speed(
 
 int main(int argc, char** argv)
 {
-	// copied from /usr/include/benchmark/benchmark.h
+	// Copied from /usr/include/benchmark/benchmark.h
 	benchmark::Initialize(&argc, argv);
 
 	/*
