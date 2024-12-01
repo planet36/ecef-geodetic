@@ -218,7 +218,7 @@ def main(argv = None):
         """Print the help message"""
 
         print(f'''Plot 2D points read from stdin.
-Usage: {program_name} [OPTIONS]
+Usage: {program_name} [OPTION]...
 
 The default input data format is ECEF and can be changed to Geodetic with the '-g' option.
 
