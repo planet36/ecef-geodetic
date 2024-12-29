@@ -18,11 +18,11 @@
 
 template <std::floating_point T>
 void BM_do_ecef_to_geodetic_test_speed(
-	benchmark::State& state,
+	benchmark::State& BM_state,
 	const ecef_to_geodetic_func<T>& func,
 	const std::vector<ECEF<T>>& ecef_vec)
 {
-	for (auto _ : state)
+	for (auto _ : BM_state)
 	{
 		for (const auto& ecef_given : ecef_vec)
 		{
@@ -36,7 +36,7 @@ void BM_do_ecef_to_geodetic_test_speed(
 		}
 	}
 
-	state.SetItemsProcessed(state.iterations() * ecef_vec.size());
+	BM_state.SetItemsProcessed(BM_state.iterations() * ecef_vec.size());
 }
 
 int main(int argc, char** argv)
