@@ -9,8 +9,8 @@ Create 2D ECEF points to be used in the speed tests.
 '''
 
 __author__ = 'Steven Ward'
-__version__ = '2024-01-03'
 __license__ = 'OSL-3.0'
+__version__ = '2024-01-03'
 
 import gmpy2
 

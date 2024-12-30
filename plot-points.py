@@ -11,8 +11,8 @@
 # pylint: disable=trailing-newlines
 
 __author__ = 'Steven Ward'
-__version__ = '2024-01-08'
 __license__ = 'OSL-3.0'
+__version__ = '2024-01-08'
 
 from enum import Enum, auto, unique
 import sys
