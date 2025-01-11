@@ -73,7 +73,7 @@ ecef.2d.speed.txt \
 export NUM_THREADS := $(shell nproc --ignore 1)
 
 # Should be an odd number for simpler median
-BENCHMARK_REPS := 3
+BENCHMARK_REPS := 7
 
 # Used by plot
 DPI := 180
