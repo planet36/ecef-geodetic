@@ -183,7 +183,7 @@ int main(int argc, char* argv[])
 	** The set of test points must include some at the equator, the poles, and non-zero heights.
 	*/
 
-	using namespace std::chrono_literals;
+	using namespace std::literals;
 	using json = nlohmann::json;
 
 	constexpr INPUT_DATA_COORD_SYSTEM default_input_data_coord_system = INPUT_DATA_COORD_SYSTEM::ECEF;
