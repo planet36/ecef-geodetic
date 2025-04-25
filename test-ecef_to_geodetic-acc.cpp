@@ -565,7 +565,7 @@ int main(int argc, char* argv[])
 		}
 	}
 
-	fmt::println("{}", json_output.dump(1, '\t'));
+	fmt::println("{}", json_output.dump(4));
 
 	return 0;
 }
