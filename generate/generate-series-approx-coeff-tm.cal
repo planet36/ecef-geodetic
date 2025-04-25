@@ -23,7 +23,7 @@ read -once "utils.cal"
 /* print the values of an array for use in a C++ init list declaration */
 define array_print_from_min_to_max(arr, min_i, max_i) {
     local i;
-    local indent_char = "\t";
+    local indent_char = "    ";
 
     /* for every element */
     for (i = min_i; i <= max_i; i++) {
@@ -48,7 +48,7 @@ define array_print_to_max(arr, max_i) {
 
 /* print the values of an array as a C++ valarray declaration */
 define array_print_as_cpp_valarray(s, arr) {
-    local indent_char = "\t";
+    local indent_char = "    ";
 
     /* Ignore the first element of the array (it's 0). */
     printf("template <std::floating_point T>\n");

@@ -20,7 +20,7 @@ read -once "series-approx-coeff-aux-lat.cal"
 read -once "utils.cal"
 
 /* print the values of a matrix column for use in a C++ array declaration */
-define mat_print_col(A, c, indent_num = 0, indent_char = "\t") {
+define mat_print_col(A, c, indent_num = 0, indent_char = "    ") {
     local i;
     local indent_str = indent_char * indent_num;
 
@@ -31,7 +31,7 @@ define mat_print_col(A, c, indent_num = 0, indent_char = "\t") {
 }
 
 /* print the values of a matrix row for use in a C++ array declaration */
-define mat_print_row(A, r, indent_num = 0, indent_char = "\t") {
+define mat_print_row(A, r, indent_num = 0, indent_char = "    ") {
     local j;
     local indent_str = indent_char * indent_num;
 
@@ -42,7 +42,7 @@ define mat_print_row(A, r, indent_num = 0, indent_char = "\t") {
 }
 
 /* print the values of a matrix column as a C++ array declaration */
-define mat_print_col_as_cpp_array(s, A, c = 0, indent_num = 0, indent_char = "\t") {
+define mat_print_col_as_cpp_array(s, A, c = 0, indent_num = 0, indent_char = "    ") {
     local indent_str = indent_char * indent_num;
 
     printf("%stemplate <typename T>\n", indent_str);
@@ -53,7 +53,7 @@ define mat_print_col_as_cpp_array(s, A, c = 0, indent_num = 0, indent_char = "\t
 }
 
 /* print the values of a matrix column as a C++ static constexpr array declaration */
-define mat_print_col_as_cpp_static_constexpr_array(s, A, c = 0, indent_num = 0, indent_char = "\t") {
+define mat_print_col_as_cpp_static_constexpr_array(s, A, c = 0, indent_num = 0, indent_char = "    ") {
     local indent_str = indent_char * indent_num;
     local num_elems = matmax(A,1)-matmin(A,1)+1;
 
@@ -63,7 +63,7 @@ define mat_print_col_as_cpp_static_constexpr_array(s, A, c = 0, indent_num = 0, 
 }
 
 /* print the values of a matrix column as a static C++ array declaration */
-define mat_print_col_as_cpp_static_array(s, A, c = 0, indent_num = 0, indent_char = "\t") {
+define mat_print_col_as_cpp_static_array(s, A, c = 0, indent_num = 0, indent_char = "    ") {
     local indent_str = indent_char * indent_num;
 
     printf("%sstatic constexpr std::array<T, %d+1> %s{\n", indent_str, matmax(A,1)-matmin(A,1)+1, s);
@@ -73,7 +73,7 @@ define mat_print_col_as_cpp_static_array(s, A, c = 0, indent_num = 0, indent_cha
 }
 
 /* print the values of a matrix column as a C++ static const valarray declaration */
-define mat_print_col_as_cpp_static_const_valarray(s, A, c = 0, indent_num = 0, indent_char = "\t") {
+define mat_print_col_as_cpp_static_const_valarray(s, A, c = 0, indent_num = 0, indent_char = "    ") {
     local indent_str = indent_char * indent_num;
 
     printf("%sstatic const std::valarray<T> %s{\n", indent_str, s);
@@ -163,7 +163,7 @@ printf("\n");
 
 define print_conv_cpp_func(s, A) {
     local indent_num = 1;
-    local indent_char = "\t";
+    local indent_char = "    ";
     local indent_str = indent_char * indent_num;
     local num_elems = matmax(A,1)-matmin(A,1)+1;
 
