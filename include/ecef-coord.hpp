@@ -33,10 +33,10 @@ ecef_to_str(const T x,
             const T z,
             int precision = ecef_default_precision)
 {
-	return fmt::format("{:.{}f} {:.{}f} {:.{}f}",
-			x, precision,
-			y, precision,
-			z, precision);
+    return fmt::format("{:.{}f} {:.{}f} {:.{}f}",
+            x, precision,
+            y, precision,
+            z, precision);
 }
 
 /// string to ECEF
@@ -51,12 +51,12 @@ template <std::floating_point T>
 bool
 str_to_ecef(const std::string& s, T& x, T& y, T& z)
 {
-	std::istringstream iss(s);
+    std::istringstream iss(s);
 
-	iss >> x >> y >> z;
+    iss >> x >> y >> z;
 
-	// https://en.cppreference.com/w/cpp/io/basic_ios/operator!
-	return !iss;
+    // https://en.cppreference.com/w/cpp/io/basic_ios/operator!
+    return !iss;
 }
 
 /*
@@ -109,32 +109,32 @@ WGS 84 Ellipsoid and the Z-axis serves as the rotational axis of this ellipsoid 
 template <std::floating_point T>
 struct ECEF
 {
-	using this_t = ECEF<T>;
+    using this_t = ECEF<T>;
 
-	T x{}; // X coordinate (meters)
-	T y{}; // Y coordinate (meters)
-	T z{}; // Z coordinate (meters)
+    T x{}; // X coordinate (meters)
+    T y{}; // Y coordinate (meters)
+    T z{}; // Z coordinate (meters)
 
-	ECEF() = default;
+    ECEF() = default;
 
-	constexpr ECEF(const T _x, const T _y, const T _z) : x(_x), y(_y), z(_z)
-	{}
+    constexpr ECEF(const T _x, const T _y, const T _z) : x(_x), y(_y), z(_z)
+    {}
 
-	/// conversion ctor
-	template <std::floating_point T2>
-	constexpr ECEF(const ECEF<T2>& that) : x(that.x), y(that.y), z(that.z)
-	{}
+    /// conversion ctor
+    template <std::floating_point T2>
+    constexpr ECEF(const ECEF<T2>& that) : x(that.x), y(that.y), z(that.z)
+    {}
 
-	auto operator<=>(const this_t&) const = default;
+    auto operator<=>(const this_t&) const = default;
 
-	void normalize()
-	{}
+    void normalize()
+    {}
 
-	[[nodiscard]] std::string
-	to_string(int precision = ecef_default_precision) const
-	{
-		return ecef_to_str(x, y, z, precision);
-	}
+    [[nodiscard]] std::string
+    to_string(int precision = ecef_default_precision) const
+    {
+        return ecef_to_str(x, y, z, precision);
+    }
 };
 
 /// ECEF<T> - ECEF<T2>
@@ -142,9 +142,9 @@ template <std::floating_point T, std::floating_point T2>
 constexpr auto
 operator-(const ECEF<T>& p1, const ECEF<T2>& p2)
 {
-	using result_type = typename std::common_type_t<T, T2>;
+    using result_type = typename std::common_type_t<T, T2>;
 
-	return ECEF<result_type>{p1.x - p2.x, p1.y - p2.y, p1.z - p2.z};
+    return ECEF<result_type>{p1.x - p2.x, p1.y - p2.y, p1.z - p2.z};
 }
 
 /// get the L1-norm
@@ -158,7 +158,7 @@ template <std::floating_point T>
 auto
 L1_norm(const ECEF<T>& p1)
 {
-	return std::abs(p1.x) + std::abs(p1.y) + std::abs(p1.z);
+    return std::abs(p1.x) + std::abs(p1.y) + std::abs(p1.z);
 }
 
 /// get the L2-norm
@@ -173,7 +173,7 @@ template <std::floating_point T>
 auto
 L2_norm(const ECEF<T>& p1)
 {
-	return std::sqrt(p1.x * p1.x + p1.y * p1.y + p1.z * p1.z);
+    return std::sqrt(p1.x * p1.x + p1.y * p1.y + p1.z * p1.z);
 }
 
 /// get the Euclidean distance
@@ -189,11 +189,11 @@ auto
 euclidean_dist(const ECEF<T>& p1, const ECEF<T>& p2)
 {
 #if 0
-	return L2_norm(ECEF<T>{
-		p1.x - p2.x,
-		p1.y - p2.y,
-		p1.z - p2.z});
+    return L2_norm(ECEF<T>{
+        p1.x - p2.x,
+        p1.y - p2.y,
+        p1.z - p2.z});
 #else
-	return L2_norm(p1 - p2);
+    return L2_norm(p1 - p2);
 #endif
 }

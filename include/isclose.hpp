@@ -30,14 +30,14 @@ isclose(const T a,
         const T allowed_rel_diff = 1E-9,
         const T allowed_abs_diff = 0)
 {
-	if (a == b)
-		return true;
+    if (a == b)
+        return true;
 
-	if (!std::isfinite(a) || !std::isfinite(b))
-		return false;
+    if (!std::isfinite(a) || !std::isfinite(b))
+        return false;
 
-	const auto actual_abs_diff = std::abs(a - b);
-	const auto max_abs = std::max(std::abs(a), std::abs(b));
-	return actual_abs_diff <= allowed_abs_diff ||
-	       actual_abs_diff <= allowed_rel_diff * max_abs;
+    const auto actual_abs_diff = std::abs(a - b);
+    const auto max_abs = std::max(std::abs(a), std::abs(b));
+    return actual_abs_diff <= allowed_abs_diff ||
+           actual_abs_diff <= allowed_rel_diff * max_abs;
 }

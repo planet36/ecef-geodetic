@@ -41,84 +41,84 @@ inline constexpr unsigned short gradians_per_rev = 400;
 constexpr auto
 rad_from_mrad(const double x_mrad)
 {
-	return x_mrad / mrad_per_rad;
+    return x_mrad / mrad_per_rad;
 }
 
 /// convert to milliradians from radians
 constexpr auto
 mrad_from_rad(const double x_rad)
 {
-	return mrad_per_rad * x_rad;
+    return mrad_per_rad * x_rad;
 }
 
 /// convert to revolutions from radians
 constexpr auto
 rev_from_rad(const double x_rad)
 {
-	return x_rad / rad_per_rev;
+    return x_rad / rad_per_rev;
 }
 
 /// convert to radians from revolutions
 constexpr auto
 rad_from_rev(const double x_rev)
 {
-	return rad_per_rev * x_rev;
+    return rad_per_rev * x_rev;
 }
 
 /// convert to revolutions from degrees
 constexpr auto
 rev_from_deg(const double x_deg)
 {
-	return x_deg / deg_per_rev;
+    return x_deg / deg_per_rev;
 }
 
 /// convert to degrees from revolutions
 constexpr auto
 deg_from_rev(const double x_rev)
 {
-	return deg_per_rev * x_rev;
+    return deg_per_rev * x_rev;
 }
 
 /// convert to degrees from arcminutes
 constexpr auto
 deg_from_arcmin(const double x_arcmin)
 {
-	return x_arcmin / arcmin_per_deg;
+    return x_arcmin / arcmin_per_deg;
 }
 
 /// convert to arcminutes from degrees
 constexpr auto
 arcmin_from_deg(const double x_deg)
 {
-	return arcmin_per_deg * x_deg;
+    return arcmin_per_deg * x_deg;
 }
 
 /// convert to arcminutes from arcseconds
 constexpr auto
 arcmin_from_arcsec(const double x_arcsec)
 {
-	return x_arcsec / arcsec_per_arcmin;
+    return x_arcsec / arcsec_per_arcmin;
 }
 
 /// convert to arcseconds from arcminutes
 constexpr auto
 arcsec_from_arcmin(const double x_arcmin)
 {
-	return arcsec_per_arcmin * x_arcmin;
+    return arcsec_per_arcmin * x_arcmin;
 }
 
 /// convert to radians from degrees
 constexpr auto
 rad_from_deg(const double x_deg)
 {
-	return x_deg / deg_per_rad;
+    return x_deg / deg_per_rad;
 }
 
 /// convert to degrees from radians
 constexpr auto
 deg_from_rad(const double x_rad)
 {
-	return deg_per_rad * x_rad;
+    return deg_per_rad * x_rad;
 }
 
 /// convert from degrees to degees and arcminutes
@@ -131,11 +131,11 @@ deg_from_rad(const double x_rad)
 constexpr void
 deg_to_dm(const double x_deg, double& deg, double& arcmin)
 {
-	auto tmp = x_deg;
-	deg = std::trunc(tmp);
+    auto tmp = x_deg;
+    deg = std::trunc(tmp);
 
-	tmp = arcmin_from_deg(tmp - deg);
-	arcmin = tmp;
+    tmp = arcmin_from_deg(tmp - deg);
+    arcmin = tmp;
 }
 
 /// convert from degrees to degees, arcminutes, and arcseconds
@@ -149,14 +149,14 @@ deg_to_dm(const double x_deg, double& deg, double& arcmin)
 constexpr void
 deg_to_dms(const double x_deg, double& deg, double& arcmin, double& arcsec)
 {
-	auto tmp = x_deg;
-	deg = std::trunc(tmp);
+    auto tmp = x_deg;
+    deg = std::trunc(tmp);
 
-	tmp = arcmin_from_deg(tmp - deg);
-	arcmin = std::trunc(tmp);
+    tmp = arcmin_from_deg(tmp - deg);
+    arcmin = std::trunc(tmp);
 
-	tmp = arcsec_from_arcmin(tmp - arcmin);
-	arcsec = tmp;
+    tmp = arcsec_from_arcmin(tmp - arcmin);
+    arcsec = tmp;
 }
 
 /// convert to degrees from degrees and arcminutes
@@ -168,7 +168,7 @@ deg_to_dms(const double x_deg, double& deg, double& arcmin, double& arcsec)
 constexpr auto
 deg_from_dm(const double deg, const double arcmin)
 {
-	return deg + deg_from_arcmin(arcmin);
+    return deg + deg_from_arcmin(arcmin);
 }
 
 /// convert to degrees from degrees, arcminutes, and arcseconds
@@ -181,5 +181,5 @@ deg_from_dm(const double deg, const double arcmin)
 constexpr auto
 deg_from_dms(const double deg, const double arcmin, const double arcsec)
 {
-	return deg_from_dm(deg, arcmin + arcmin_from_arcsec(arcsec));
+    return deg_from_dm(deg, arcmin + arcmin_from_arcsec(arcsec));
 }

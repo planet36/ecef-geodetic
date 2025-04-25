@@ -21,10 +21,10 @@ template <std::floating_point T>
 int
 ilog2(const T x)
 {
-	if constexpr (std::numeric_limits<T>::radix == 2)
-		return std::ilogb(x);
-	else
-		return std::floor(std::log2(x));
+    if constexpr (std::numeric_limits<T>::radix == 2)
+        return std::ilogb(x);
+    else
+        return std::floor(std::log2(x));
 }
 
 /// return the base-10 logarithm of \a x as a signed integer
@@ -32,8 +32,8 @@ template <std::floating_point T>
 int
 ilog10(const T x)
 {
-	if constexpr (std::numeric_limits<T>::radix == 10)
-		return std::ilogb(x);
-	else
-		return std::floor(std::log10(x));
+    if constexpr (std::numeric_limits<T>::radix == 10)
+        return std::ilogb(x);
+    else
+        return std::floor(std::log10(x));
 }

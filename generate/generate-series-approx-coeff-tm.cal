@@ -22,49 +22,49 @@ read -once "utils.cal"
 
 /* print the values of an array for use in a C++ init list declaration */
 define array_print_from_min_to_max(arr, min_i, max_i) {
-	local i;
-	local indent_char = "\t";
+    local i;
+    local indent_char = "\t";
 
-	/* for every element */
-	for (i = min_i; i <= max_i; i++) {
-		printf("%sT{%eL},\n", indent_char, arr[i]);
-	}
+    /* for every element */
+    for (i = min_i; i <= max_i; i++) {
+        printf("%sT{%eL},\n", indent_char, arr[i]);
+    }
 }
 
 /* print the values of an array for use in a C++ init list declaration */
 define array_print(arr) {
-	array_print_from_min_to_max(arr, matmin(arr,1), matmax(arr,1));
+    array_print_from_min_to_max(arr, matmin(arr,1), matmax(arr,1));
 }
 
 /* print the values of an array for use in a C++ init list declaration */
 define array_print_from_min(arr, min_i) {
-	array_print_from_min_to_max(arr, min_i, matmax(arr,1));
+    array_print_from_min_to_max(arr, min_i, matmax(arr,1));
 }
 
 /* print the values of an array for use in a C++ init list declaration */
 define array_print_to_max(arr, max_i) {
-	array_print_from_min_to_max(arr, matmin(arr,1), max_i);
+    array_print_from_min_to_max(arr, matmin(arr,1), max_i);
 }
 
 /* print the values of an array as a C++ valarray declaration */
 define array_print_as_cpp_valarray(s, arr) {
-	local indent_char = "\t";
+    local indent_char = "\t";
 
-	/* Ignore the first element of the array (it's 0). */
-	printf("template <std::floating_point T>\n");
-	/*
-	printf("constexpr std::array<T, %d+1> %s{\n", size(arr)-1, s);
-	printf("%sT{0}, // This array is indexed starting at 1.\n", indent_char);
-	*/
-	printf("const std::valarray<T> %s{\n", s);
-	array_print_from_min(arr, 1);
-	printf("};\n\n");
+    /* Ignore the first element of the array (it's 0). */
+    printf("template <std::floating_point T>\n");
+    /*
+    printf("constexpr std::array<T, %d+1> %s{\n", size(arr)-1, s);
+    printf("%sT{0}, // This array is indexed starting at 1.\n", indent_char);
+    */
+    printf("const std::valarray<T> %s{\n", s);
+    array_print_from_min(arr, 1);
+    printf("};\n\n");
 }
 
 /* print the value as a C++ declaration */
 define val_print_as_cpp_var(s, x) {
-	printf("template <std::floating_point T>\n");
-	printf("inline constexpr T %s = T{%eL};\n", s, x)
+    printf("template <std::floating_point T>\n");
+    printf("inline constexpr T %s = T{%eL};\n", s, x)
 }
 
 script_author = "Steven Ward"
@@ -74,7 +74,7 @@ script_brief_description = "Transverse Mercator conversions"
 script_detailed_description = "\\sa https://geographiclib.sourceforge.io/C++/doc/transversemercator.html#tmseries\n\\sa https://geographiclib.sourceforge.io/html/tmseries30.html"
 
 print_cpp_file_header(script_author, script_license, script_name,
-	script_brief_description, script_detailed_description);
+    script_brief_description, script_detailed_description);
 
 printf("
 #include <concepts>
