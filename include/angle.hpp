@@ -220,7 +220,7 @@ make_ang_arcsec(const T x)
 \return an angle of the given value
 */
 constexpr auto
-operator"" _mrad(const long double x)
+operator ""_mrad(const long double x)
 {
     using T = long double;
     return ang_mrad<T>{x};
@@ -234,7 +234,7 @@ operator"" _mrad(const long double x)
 \return an angle of the given value
 */
 constexpr auto
-operator"" _mrad(const unsigned long long int x)
+operator ""_mrad(const unsigned long long int x)
 {
     using T = long double;
     return ang_mrad<T>{static_cast<T>(x)};
@@ -248,7 +248,7 @@ operator"" _mrad(const unsigned long long int x)
 \return an angle of the given value
 */
 constexpr auto
-operator"" _rad(const long double x)
+operator ""_rad(const long double x)
 {
     using T = long double;
     return ang_rad<T>{x};
@@ -262,7 +262,7 @@ operator"" _rad(const long double x)
 \return an angle of the given value
 */
 constexpr auto
-operator"" _rad(const unsigned long long int x)
+operator ""_rad(const unsigned long long int x)
 {
     using T = long double;
     return ang_rad<T>{static_cast<T>(x)};
@@ -276,7 +276,7 @@ operator"" _rad(const unsigned long long int x)
 \return an angle of the given value
 */
 constexpr auto
-operator"" _rev(const long double x)
+operator ""_rev(const long double x)
 {
     using T = long double;
     return ang_rev<T>{x};
@@ -290,7 +290,7 @@ operator"" _rev(const long double x)
 \return an angle of the given value
 */
 constexpr auto
-operator"" _rev(const unsigned long long int x)
+operator ""_rev(const unsigned long long int x)
 {
     using T = long double;
     return ang_rev<T>{static_cast<T>(x)};
@@ -304,7 +304,7 @@ operator"" _rev(const unsigned long long int x)
 \return an angle of the given value
 */
 constexpr auto
-operator"" _deg(const long double x)
+operator ""_deg(const long double x)
 {
     using T = long double;
     return ang_deg<T>{x};
@@ -318,7 +318,7 @@ operator"" _deg(const long double x)
 \return an angle of the given value
 */
 constexpr auto
-operator"" _deg(const unsigned long long int x)
+operator ""_deg(const unsigned long long int x)
 {
     using T = long double;
     return ang_deg<T>{static_cast<T>(x)};
@@ -332,7 +332,7 @@ operator"" _deg(const unsigned long long int x)
 \return an angle of the given value
 */
 constexpr auto
-operator"" _arcmin(const long double x)
+operator ""_arcmin(const long double x)
 {
     using T = long double;
     return ang_arcmin<T>{x};
@@ -346,7 +346,7 @@ operator"" _arcmin(const long double x)
 \return an angle of the given value
 */
 constexpr auto
-operator"" _arcmin(const unsigned long long int x)
+operator ""_arcmin(const unsigned long long int x)
 {
     using T = long double;
     return ang_arcmin<T>{static_cast<T>(x)};
@@ -360,7 +360,7 @@ operator"" _arcmin(const unsigned long long int x)
 \return an angle of the given value
 */
 constexpr auto
-operator"" _arcsec(const long double x)
+operator ""_arcsec(const long double x)
 {
     using T = long double;
     return ang_arcsec<T>{x};
@@ -374,7 +374,7 @@ operator"" _arcsec(const long double x)
 \return an angle of the given value
 */
 constexpr auto
-operator"" _arcsec(const unsigned long long int x)
+operator ""_arcsec(const unsigned long long int x)
 {
     using T = long double;
     return ang_arcsec<T>{static_cast<T>(x)};
