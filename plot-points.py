@@ -189,7 +189,7 @@ def main(argv = None):
     # pylint: disable=unused-argument
     def signal_handler(signal_num, execution_frame):
         print()
-        sys.exit(0)
+        sys.exit(128 + signal_num)
 
     signal.signal(signal.SIGINT, signal_handler) # Interactive attention signal. (Ctrl-C)
     signal.signal(signal.SIGTERM, signal_handler) # Termination request. (kill default signal)
