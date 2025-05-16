@@ -191,8 +191,8 @@ def main(argv = None):
         print()
         sys.exit(128 + signal_num)
 
-    signal.signal(signal.SIGINT, signal_handler) # Interactive attention signal. (Ctrl-C)
-    signal.signal(signal.SIGTERM, signal_handler) # Termination request. (kill default signal)
+    signal.signal(signal.SIGINT, signal_handler)
+    signal.signal(signal.SIGTERM, signal_handler)
 
     def print_version():
         """Print the version information"""
