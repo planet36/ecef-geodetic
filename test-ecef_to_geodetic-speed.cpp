@@ -42,6 +42,7 @@ void BM_do_ecef_to_geodetic_test_speed(
 int main(int argc, char** argv)
 {
     // Copied from benchmark.h
+    benchmark::MaybeReenterWithoutASLR(argc, argv);
     benchmark::Initialize(&argc, argv);
 
     /*
