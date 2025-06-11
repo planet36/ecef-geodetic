@@ -83,16 +83,19 @@ printf("
 /// Geodetic constants
 namespace Geodetic_const
 {
+
 inline constexpr int min_lat = -90; // (degrees)
 inline constexpr int max_lat =  90; // (degrees)
 
 inline constexpr int min_lon = -180; // (degrees)
 inline constexpr int max_lon =  180; // (degrees)
+
 }
 
 /// transverse Mercator constants
 namespace TM_const
 {
+
 ");
 
 val_print_as_cpp_var("A", A)
@@ -105,9 +108,11 @@ printf("}
 /// polar stereographic constants
 namespace PS_const
 {
+
 /// (1-f)*exp(e*atanh(e)) == sqrt((1+e)^(1+e) * (1-e)^(1-e))
 template <std::floating_point T>
 inline constexpr T k90 = T{%fL};
+
 }
 ", (1-f)*exp(e*atanh(e)));
 
@@ -115,6 +120,7 @@ printf("
 /// Universal Transverse Mercator constants
 namespace UTM_const
 {
+
 inline constexpr int min_zone = 1;
 inline constexpr int max_zone = 60;
 inline constexpr int zone_width = 6; // (degrees)
@@ -131,11 +137,13 @@ inline constexpr int max_easting = 900'000; // (meters)
 inline constexpr int false_northing[2] = {10'000'000, 0}; // [south, north] northing at equator (meters)
 inline constexpr int min_northing[2] = {300'000, 0}; // [south, north] (meters)
 inline constexpr int max_northing[2] = {10'000'000, 9'700'000}; // [south, north] (meters)
+
 }
 
 /// Universal Polar Stereographic constants
 namespace UPS_const
 {
+
 /// central meridian scale factor (unitless)
 template <std::floating_point T>
 inline constexpr T k0 = T{0.994L};
@@ -144,11 +152,13 @@ inline constexpr T k0 = T{0.994L};
 inline constexpr int false_easting_northing = 2'000'000; // easting/northing at pole (meters)
 inline constexpr int min_easting_northing[2] = {800'000, 1'300'000}; // [south, north] (meters)
 inline constexpr int max_easting_northing[2] = {3'200'000, 2'700'000}; // [south, north] (meters)
+
 }
 
 /// Military Grid Reference System constants
 namespace MGRS_const
 {
+
 inline constexpr int num_lat_bands = 20;
 
 inline constexpr int min_lat = -80; // (degrees)
@@ -158,5 +168,6 @@ inline constexpr int lat_band_height = 8; // (degrees)
 inline constexpr int meters_per_square = 100'000; // (meters/square)
 inline constexpr int northing_period_squares = 20; // (squares)
 inline constexpr int northing_period_meters = meters_per_square * northing_period_squares; // (meters)
+
 }
 ");
