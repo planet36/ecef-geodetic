@@ -60,8 +60,7 @@ min_abs_val(const Container& c)
         return std::numeric_limits<T>::quiet_NaN();
 
     return *std::min_element(//std::execution::par_unseq,
-                             c.cbegin(), c.cend(),
-                             compare_abs_less);
+                             c.cbegin(), c.cend(), compare_abs_less);
 }
 
 template <container Container>
@@ -91,8 +90,7 @@ max_abs_val(const Container& c)
         return std::numeric_limits<T>::quiet_NaN();
 
     return *std::max_element(//std::execution::par_unseq,
-                             c.cbegin(), c.cend(),
-                             compare_abs_less);
+                             c.cbegin(), c.cend(), compare_abs_less);
 }
 
 template <container Container>
@@ -127,8 +125,7 @@ minmax_abs_vals(const Container& c)
 
     const auto& [min_iter, max_iter] = std::minmax_element(
         //std::execution::par_unseq,
-        c.cbegin(), c.cend(),
-        compare_abs_less);
+        c.cbegin(), c.cend(), compare_abs_less);
     return std::make_pair(*min_iter, *max_iter);
 }
 
@@ -300,8 +297,8 @@ excess_kurtosis_val(const Container& c, const bool is_sample = false)
     T excess_kurtosis = m4 / (m2 * m2) - 3;
 
     if (is_sample)
-        excess_kurtosis = ((n + 1) * excess_kurtosis + 6) *
-                          static_cast<T>(n - 1) / ((n - 2) * (n - 3));
+        excess_kurtosis =
+            ((n + 1) * excess_kurtosis + 6) * static_cast<T>(n - 1) / ((n - 2) * (n - 3));
 
     return excess_kurtosis;
 }
@@ -318,8 +315,7 @@ median_val(const Container& c)
         return std::numeric_limits<T>::quiet_NaN();
 
     if (n % 2 == 0) // even
-        return (*std::next(c.cbegin(), n / 2 - 1) +
-                *std::next(c.cbegin(), n / 2)) / 2;
+        return (*std::next(c.cbegin(), n / 2 - 1) + *std::next(c.cbegin(), n / 2)) / 2;
     else // odd
         return *std::next(c.cbegin(), n / 2);
 }

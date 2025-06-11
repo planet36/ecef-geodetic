@@ -20,8 +20,7 @@ concept container = requires(C a, const C b) {
     requires std::swappable<C>;
     requires std::destructible<typename C::value_type>;
     requires std::same_as<typename C::reference, typename C::value_type&>;
-    requires std::same_as<typename C::const_reference,
-                          const typename C::value_type&>;
+    requires std::same_as<typename C::const_reference, const typename C::value_type&>;
     requires std::forward_iterator<typename C::iterator>;
     requires std::forward_iterator<typename C::const_iterator>;
     requires std::signed_integral<typename C::difference_type>;

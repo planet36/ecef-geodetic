@@ -37,12 +37,7 @@ Converted to C++ and modified by Steven Ward.  No rights reserved.
 */
 template <std::floating_point T>
 void
-ecef_to_geodetic(const T x,
-                 const T y,
-                 const T z,
-                 T& lat_rad,
-                 T& lon_rad,
-                 T& ht)
+ecef_to_geodetic(const T x, const T y, const T z, T& lat_rad, T& lon_rad, T& ht)
 {
     static constexpr auto& ell = WGS84<T>;
 
@@ -139,12 +134,7 @@ Converted to C++ and modified by Steven Ward.  No rights reserved.
 */
 template <angle_unit U, std::floating_point T>
 void
-ecef_to_geodetic(const T x,
-                 const T y,
-                 const T z,
-                 angle<U, T>& lat,
-                 angle<U, T>& lon,
-                 T& ht)
+ecef_to_geodetic(const T x, const T y, const T z, angle<U, T>& lat, angle<U, T>& lon, T& ht)
 {
     static constexpr auto& ell = WGS84<T>;
 
@@ -222,7 +212,8 @@ ecef_to_geodetic(const T x,
 }
 
 template <std::floating_point T>
-auto ecef_to_geodetic(const ECEF<T>& ecef)
+auto
+ecef_to_geodetic(const ECEF<T>& ecef)
 {
     T lat_rad{};
     T lon_rad{};

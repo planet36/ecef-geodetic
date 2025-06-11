@@ -39,10 +39,8 @@ geodetic_to_str(const angle<U, T>& lat,
 {
     std::string result;
 
-    result += fmt::format("{:.{}f}", lat.to_deg(),
-                          precision + geodetic_precision_add);
-    result += fmt::format(" {:.{}f}", lon.to_deg(),
-                          precision + geodetic_precision_add);
+    result += fmt::format("{:.{}f}", lat.to_deg(), precision + geodetic_precision_add);
+    result += fmt::format(" {:.{}f}", lon.to_deg(), precision + geodetic_precision_add);
 
     if (!std::isnan(ht))
         result += fmt::format(" {:.{}f}", ht, precision);
@@ -119,13 +117,9 @@ struct Geodetic
 
     auto operator<=>(const this_t&) const = default;
 
-    void normalize()
-    {
-        normalize_geodetic(lat, lon);
-    }
+    void normalize() { normalize_geodetic(lat, lon); }
 
-    [[nodiscard]] std::string
-    to_string(const int precision = geodetic_default_precision) const
+    [[nodiscard]] std::string to_string(const int precision = geodetic_default_precision) const
     {
         return geodetic_to_str(lat, lon, ht, precision);
     }

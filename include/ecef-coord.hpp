@@ -28,15 +28,9 @@ constexpr int ecef_default_precision = 6; ///< The default precision
 */
 template <std::floating_point T>
 [[nodiscard]] std::string
-ecef_to_str(const T x,
-            const T y,
-            const T z,
-            int precision = ecef_default_precision)
+ecef_to_str(const T x, const T y, const T z, int precision = ecef_default_precision)
 {
-    return fmt::format("{:.{}f} {:.{}f} {:.{}f}",
-            x, precision,
-            y, precision,
-            z, precision);
+    return fmt::format("{:.{}f} {:.{}f} {:.{}f}", x, precision, y, precision, z, precision);
 }
 
 /// string to ECEF
@@ -117,8 +111,7 @@ struct ECEF
 
     ECEF() = default;
 
-    constexpr ECEF(const T _x, const T _y, const T _z) : x(_x), y(_y), z(_z)
-    {}
+    constexpr ECEF(const T _x, const T _y, const T _z) : x(_x), y(_y), z(_z) {}
 
     /// conversion ctor
     template <std::floating_point T2>
@@ -127,11 +120,9 @@ struct ECEF
 
     auto operator<=>(const this_t&) const = default;
 
-    void normalize()
-    {}
+    void normalize() {}
 
-    [[nodiscard]] std::string
-    to_string(int precision = ecef_default_precision) const
+    [[nodiscard]] std::string to_string(int precision = ecef_default_precision) const
     {
         return ecef_to_str(x, y, z, precision);
     }

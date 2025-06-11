@@ -62,8 +62,7 @@ public:
 
     auto correlation() const
     {
-        const auto t =
-            x_stats.standard_deviation() * y_stats.standard_deviation();
+        const auto t = x_stats.standard_deviation() * y_stats.standard_deviation();
         return S_xy / ((n - 1) * t);
     }
 
@@ -91,8 +90,7 @@ operator+(const running_regression<T>& a, const running_regression<T>& b)
 
     auto delta_x = b.x_stats.mean() - a.x_stats.mean();
     auto delta_y = b.y_stats.mean() - a.y_stats.mean();
-    combined.S_xy =
-        a.S_xy + b.S_xy + a.n * b.n * delta_x * delta_y / combined.n;
+    combined.S_xy = a.S_xy + b.S_xy + a.n * b.n * delta_x * delta_y / combined.n;
 
     return combined;
 }

@@ -6,11 +6,10 @@
 
 #define DEG_PER_RAD (180 / M_PI)
 
-extern void latlon(
-    double x, double y, double z,
-    double* lat, double* lon, double* ht);
+extern void latlon(double x, double y, double z, double* lat, double* lon, double* ht);
 
-int main()
+int
+main()
 {
     while (1)
     {
