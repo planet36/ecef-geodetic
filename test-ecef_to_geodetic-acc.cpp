@@ -59,9 +59,8 @@ struct dist_err_stats
 };
 
 template <std::floating_point T>
-auto round_trip_dist_err(
-    const ecef_to_geodetic_func<T>& func,
-    const ECEF<T>& ecef_given)
+auto
+round_trip_dist_err(const ecef_to_geodetic_func<T>& func, const ECEF<T>& ecef_given)
 {
     T lat_rad{};
     T lon_rad{};
@@ -76,16 +75,19 @@ auto round_trip_dist_err(
 
 // Add each dist_err to running stats.
 template <std::floating_point T>
-auto do_ecef_to_geodetic_test_acc_running(
-    const ecef_to_geodetic_func<T>& func,
-    const std::vector<ECEF<T>>& ecef_vec)
+auto
+do_ecef_to_geodetic_test_acc_running(const ecef_to_geodetic_func<T>& func,
+                                     const std::vector<ECEF<T>>& ecef_vec)
 {
     running_stats<T> rs;
 
     for (const auto& ecef_given : ecef_vec)
     {
         auto dist_err = round_trip_dist_err(func, ecef_given);
-        if (!std::isfinite(dist_err)) {dist_err = 99E97;}
+        if (!std::isfinite(dist_err))
+        {
+            dist_err = 99E97;
+        }
 
         rs.push(dist_err);
     }
@@ -97,9 +99,9 @@ auto do_ecef_to_geodetic_test_acc_running(
 // This tries to minimize floating point precision loss.
 // However, it only reduces the precision loss of the dist_err sum by less than 1E-12 at the cost of being 8x slower.
 template <std::floating_point T>
-auto do_ecef_to_geodetic_test_acc_collect(
-    const ecef_to_geodetic_func<T>& func,
-    const std::vector<ECEF<T>>& ecef_vec)
+auto
+do_ecef_to_geodetic_test_acc_collect(const ecef_to_geodetic_func<T>& func,
+                                     const std::vector<ECEF<T>>& ecef_vec)
 {
     std::multiset<T> ms;
     dist_err_stats<T> stats;
@@ -107,7 +109,10 @@ auto do_ecef_to_geodetic_test_acc_collect(
     for (const auto& ecef_given : ecef_vec)
     {
         auto dist_err = round_trip_dist_err(func, ecef_given);
-        if (!std::isfinite(dist_err)) {dist_err = 99E97;}
+        if (!std::isfinite(dist_err))
+        {
+            dist_err = 99E97;
+        }
         ms.insert(dist_err);
     }
 
@@ -120,11 +125,10 @@ auto do_ecef_to_geodetic_test_acc_collect(
 }
 
 template <std::floating_point T>
-inline
-auto do_ecef_to_geodetic_test_acc(
-    const ecef_to_geodetic_func<T>& func,
-    const std::vector<ECEF<T>>& ecef_vec,
-    const bool collect_dist_err)
+inline auto
+do_ecef_to_geodetic_test_acc(const ecef_to_geodetic_func<T>& func,
+                             const std::vector<ECEF<T>>& ecef_vec,
+                             const bool collect_dist_err)
 {
     if (collect_dist_err)
         return do_ecef_to_geodetic_test_acc_collect(func, ecef_vec);
@@ -134,9 +138,9 @@ auto do_ecef_to_geodetic_test_acc(
 
 #if 1
 template <std::floating_point T>
-void do_ecef_to_geodetic_test_speed(
-    const ecef_to_geodetic_func<T>& func,
-    const std::vector<ECEF<T>>& ecef_vec)
+void
+do_ecef_to_geodetic_test_speed(const ecef_to_geodetic_func<T>& func,
+                               const std::vector<ECEF<T>>& ecef_vec)
 {
     for (const auto& ecef_given : ecef_vec)
     {
@@ -150,9 +154,9 @@ void do_ecef_to_geodetic_test_speed(
     }
 }
 #else
-auto do_ecef_to_geodetic_test_speed = []<std::floating_point T>(
-    const ecef_to_geodetic_func<T>& func,
-    const std::vector<ECEF<T>>& ecef_vec)
+auto do_ecef_to_geodetic_test_speed =
+    []<std::floating_point T>(const ecef_to_geodetic_func<T>& func,
+                              const std::vector<ECEF<T>>& ecef_vec)
 {
     for (const auto& ecef_given : ecef_vec)
     {
@@ -169,7 +173,8 @@ auto do_ecef_to_geodetic_test_speed = []<std::floating_point T>(
 
 #define nl (void)putchar('\n')
 
-int main(int argc, char* argv[])
+int
+main(int argc, char* argv[])
 {
     /*
     ** Methodology for testing a single point:
@@ -186,7 +191,8 @@ int main(int argc, char* argv[])
     using namespace std::literals;
     using json = nlohmann::json;
 
-    constexpr INPUT_DATA_COORD_SYSTEM default_input_data_coord_system = INPUT_DATA_COORD_SYSTEM::ECEF;
+    constexpr INPUT_DATA_COORD_SYSTEM default_input_data_coord_system =
+        INPUT_DATA_COORD_SYSTEM::ECEF;
 
     bool verbose = false;
     bool do_acc_test = false;
@@ -235,7 +241,8 @@ int main(int argc, char* argv[])
 
             if (num_speed_test_iterations < 0)
             {
-                fmt::println(stderr, "Error: num_speed_test_iterations ({}) < 0", num_speed_test_iterations);
+                fmt::println(stderr, "Error: num_speed_test_iterations ({}) < 0",
+                             num_speed_test_iterations);
                 std::exit(EXIT_FAILURE);
             }
             break;
@@ -311,12 +318,11 @@ int main(int argc, char* argv[])
 
     // filter out funcs whose mean dist. error are above max_ilog10_mean_dist_err
     erase_if(func_names,
-            [max_ilog10_mean_dist_err](const auto func_name)
-            {
-                const auto it = map_func_name_to_func_info.find(func_name);
-                return it->second.ilog10_mean_dist_err > max_ilog10_mean_dist_err;
-            }
-        );
+             [max_ilog10_mean_dist_err](const auto func_name)
+             {
+                 const auto it = map_func_name_to_func_info.find(func_name);
+                 return it->second.ilog10_mean_dist_err > max_ilog10_mean_dist_err;
+             });
 
     for (const auto& func_name : func_names)
     {
@@ -390,8 +396,7 @@ int main(int argc, char* argv[])
                         {"sum_dist_err", stats.sum},
                         {"ilog10_mean_dist_err", ilog10_mean_dist_err},
                     };
-                }
-            );
+                });
         }
         else
         {
@@ -402,7 +407,8 @@ int main(int argc, char* argv[])
 
                 const auto& func_info = map_func_name_to_func_info.at(func_name);
 
-                const auto stats = do_ecef_to_geodetic_test_acc(func_info.func, ecef_vec, collect_dist_err);
+                const auto stats =
+                    do_ecef_to_geodetic_test_acc(func_info.func, ecef_vec, collect_dist_err);
 
                 int ilog10_mean_dist_err = ilog10(stats.mean);
                 if (ilog10_mean_dist_err > 2)
@@ -457,7 +463,8 @@ int main(int argc, char* argv[])
         std::mt19937_64 rng(seeder);
 
         // Used for padding the output string
-        const size_t max_strlen_num_speed_test_iterations = std::to_string(num_speed_test_iterations).size();
+        const size_t max_strlen_num_speed_test_iterations =
+            std::to_string(num_speed_test_iterations).size();
 
         // Used to estimate time remaining (minutes)
         running_stats<double> speed_test_iteration_durations;
@@ -470,13 +477,15 @@ int main(int argc, char* argv[])
 
             if (verbose)
                 fmt::println(stderr, "# speed tests remaining: {:{}};  {:%FT%T%z}",
-                        num_speed_test_iterations, max_strlen_num_speed_test_iterations, system_clock_now);
+                             num_speed_test_iterations, max_strlen_num_speed_test_iterations,
+                             system_clock_now);
 
             if (speed_test_iteration_durations.num_data_values() > 0)
             {
                 if (verbose)
                     fmt::println(stderr, "# est. time remaining: {:.1f} min",
-                            speed_test_iteration_durations.mean() * num_speed_test_iterations);
+                                 speed_test_iteration_durations.mean() *
+                                     num_speed_test_iterations);
             }
 
             std::shuffle(func_names.begin(), func_names.end(), rng);
@@ -504,8 +513,7 @@ int main(int argc, char* argv[])
                         std::lock_guard guard{mtx};
 
                         map_func_name_to_time_per_call[func_name].insert(time_per_call);
-                    }
-                );
+                    });
             }
             else
             {
@@ -549,7 +557,8 @@ int main(int argc, char* argv[])
         if (!map_func_name_to_time_per_call.empty())
         {
             // func_names might have been shuffled
-            for (const auto& [func_name, multiset_time_per_call] : map_func_name_to_time_per_call)
+            for (const auto& [func_name, multiset_time_per_call] :
+                 map_func_name_to_time_per_call)
             {
                 running_stats<double> rs;
 

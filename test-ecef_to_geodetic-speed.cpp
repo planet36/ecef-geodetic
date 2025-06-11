@@ -17,10 +17,10 @@
 #include <vector>
 
 template <std::floating_point T>
-void BM_do_ecef_to_geodetic_test_speed(
-    benchmark::State& BM_state,
-    const ecef_to_geodetic_func<T>& func,
-    const std::vector<ECEF<T>>& ecef_vec)
+void
+BM_do_ecef_to_geodetic_test_speed(benchmark::State& BM_state,
+                                  const ecef_to_geodetic_func<T>& func,
+                                  const std::vector<ECEF<T>>& ecef_vec)
 {
     for (auto _ : BM_state)
     {
@@ -39,7 +39,8 @@ void BM_do_ecef_to_geodetic_test_speed(
     BM_state.SetItemsProcessed(BM_state.iterations() * ecef_vec.size());
 }
 
-int main(int argc, char** argv)
+int
+main(int argc, char** argv)
 {
     // Copied from benchmark.h
     benchmark::MaybeReenterWithoutASLR(argc, argv);
@@ -54,7 +55,9 @@ int main(int argc, char** argv)
     // {{{ determine num_threads
 
     constexpr unsigned int min_threads = 1;
-    const unsigned int max_threads = (std::thread::hardware_concurrency() != 0) ? std::thread::hardware_concurrency() : min_threads;
+    const unsigned int max_threads = (std::thread::hardware_concurrency() != 0) ?
+                                     std::thread::hardware_concurrency() :
+                                     min_threads;
     // https://en.wikipedia.org/wiki/Elvis_operator
     //const unsigned int max_threads = std::thread::hardware_concurrency() ?: min_threads;
 
@@ -123,12 +126,12 @@ int main(int argc, char** argv)
 
         if (num_threads == 1)
             benchmark::RegisterBenchmark(func_info.display_name,
-                    &BM_do_ecef_to_geodetic_test_speed<double>,
-                    func_info.func, ecef_vec);
+                                         &BM_do_ecef_to_geodetic_test_speed<double>,
+                                         func_info.func, ecef_vec);
         else
             benchmark::RegisterBenchmark(func_info.display_name,
-                    &BM_do_ecef_to_geodetic_test_speed<double>,
-                    func_info.func, ecef_vec)->Threads(num_threads);
+                                         &BM_do_ecef_to_geodetic_test_speed<double>,
+                                         func_info.func, ecef_vec)->Threads(num_threads);
     }
 
     benchmark::RunSpecifiedBenchmarks();
