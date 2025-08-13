@@ -1054,7 +1054,6 @@ FILE_PATTERNS          = *.c \
                          *.hxx \
                          *.hpp \
                          *.h++ \
-                         *.ixx \
                          *.l \
                          *.cs \
                          *.d \
