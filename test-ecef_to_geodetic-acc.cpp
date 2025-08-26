@@ -173,8 +173,7 @@ auto do_ecef_to_geodetic_test_speed =
 
 #define nl (void)putchar('\n')
 
-int
-main(int argc, char* argv[])
+int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
 {
     /*
     ** Methodology for testing a single point:

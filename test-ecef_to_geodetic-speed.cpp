@@ -39,8 +39,7 @@ BM_do_ecef_to_geodetic_test_speed(benchmark::State& BM_state,
     BM_state.SetItemsProcessed(BM_state.iterations() * ecef_vec.size());
 }
 
-int
-main(int argc, char** argv)
+int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
 {
     // Copied from benchmark.h
     benchmark::MaybeReenterWithoutASLR(argc, argv);
