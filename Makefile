@@ -30,7 +30,7 @@ CXX = g++
 CPPFLAGS = -MMD -MP
 CPPFLAGS += -Iinclude
 
-CXXFLAGS = -std=c++26
+CXXFLAGS = -std=c++23
 CXXFLAGS += -pipe -Wall -Wextra -Wpedantic -Wfatal-errors
 CXXFLAGS += -O3 -flto=auto -march=native -fno-math-errno
 # -frecord-gcc-switches is used by readelf
