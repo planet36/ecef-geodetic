@@ -3,8 +3,8 @@
 
 /// Read ECEF and Geodetic coordinates from stdin
 /**
-\file
-\author Steven Ward
+* \file
+* \author Steven Ward
 */
 
 #pragma once

@@ -13,8 +13,8 @@ define print_cpp_file_header(author, license, generated_by_file_name,
 
 /// %s
 /**
-\\file
-\\author %s
+* \\file
+* \\author %s
 %s
 */
 

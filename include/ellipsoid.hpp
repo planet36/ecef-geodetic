@@ -3,15 +3,15 @@
 
 /// ellipsoid class
 /**
-\file
-\author Steven Ward
-Source:
-NGA.STND.0036_1.0.0_WGS84 2014-07-08
-
-\sa https://nsgreg.nga.mil/doc/view?i=4085
-\sa https://web.archive.org/web/20181220230431/https://earth-info.nga.mil/GandG/publications/NGA_STND_0036_1_0_0_WGS84/NGA.STND.0036_1.0.0_WGS84.pdf
-
-\verbatim
+* \file
+* \author Steven Ward
+* Source:
+* NGA.STND.0036_1.0.0_WGS84 2014-07-08
+*
+* \sa https://nsgreg.nga.mil/doc/view?i=4085
+* \sa https://web.archive.org/web/20181220230431/https://earth-info.nga.mil/GandG/publications/NGA_STND_0036_1_0_0_WGS84/NGA.STND.0036_1.0.0_WGS84.pdf
+*
+* \verbatim
 NATIONAL GEOSPATIAL-INTELLIGENCE AGENCY (NGA)
 STANDARDIZATION DOCUMENT
 DEPARTMENT OF DEFENSE
@@ -30,23 +30,23 @@ Version 1.0.0
 
 /// An ellipsoid and all its defining parameters and derived geometric constants
 /**
-Some of the following values are not included:
-
-Table 3.2 Special WGS 84 Parameters
-
-Table 3.3 Other Fundamental Constants and Best Accepted Values
-
-Table 3.4 Special WGS 84 Parameters
-
-(some of) Table 3.5 WGS 84 Ellipsoid Derived Geometric Constants
-
-(some of) Table 3.6 WGS 84 Derived Physical Constants
-
-Table 3.7 WGS 84 Derived Moments of Inertia
-
-\sa https://arxiv.org/pdf/2212.05818.pdf
-\sa https://en.wikipedia.org/wiki/Flattening
-\sa https://en.wikipedia.org/wiki/Eccentricity_(mathematics)
+* Some of the following values are not included:
+*
+* Table 3.2 Special WGS 84 Parameters
+*
+* Table 3.3 Other Fundamental Constants and Best Accepted Values
+*
+* Table 3.4 Special WGS 84 Parameters
+*
+* (some of) Table 3.5 WGS 84 Ellipsoid Derived Geometric Constants
+*
+* (some of) Table 3.6 WGS 84 Derived Physical Constants
+*
+* Table 3.7 WGS 84 Derived Moments of Inertia
+*
+* \sa https://arxiv.org/pdf/2212.05818.pdf
+* \sa https://en.wikipedia.org/wiki/Flattening
+* \sa https://en.wikipedia.org/wiki/Eccentricity_(mathematics)
 */
 template <std::floating_point T>
 struct Ellipsoid
@@ -154,11 +154,11 @@ struct Ellipsoid
 
     /// get the radius of curvature in the prime vertical (meters)
     /**
-    Source:
-    NGA.STND.0036_1.0.0_WGS84 2014-07-08
-    Equation (4-15)
-    \param sin_lat sine of the geodetic latitude
-    \return the radius of curvature in the prime vertical (meters)
+    * Source:
+    * NGA.STND.0036_1.0.0_WGS84 2014-07-08
+    * Equation (4-15)
+    * \param sin_lat sine of the geodetic latitude
+    * \return the radius of curvature in the prime vertical (meters)
     */
     [[nodiscard]] auto get_Rn(const T sin_lat) const
     {
@@ -192,9 +192,9 @@ struct Ellipsoid
 
     /// get the ellipsoid radius (meters)
     /**
-    \sa https://www.oc.nps.edu/oc2902w/geodesy/radiigeo.pdf
-    \param sin_lat sine of the geodetic latitude
-    \return the ellipsoid radius (meters)
+    * \sa https://www.oc.nps.edu/oc2902w/geodesy/radiigeo.pdf
+    * \param sin_lat sine of the geodetic latitude
+    * \return the ellipsoid radius (meters)
     */
     [[nodiscard]] auto get_R(const T sin_lat) const
     {
@@ -203,11 +203,11 @@ struct Ellipsoid
 
     /// get the radius of curvature in the meridian (meters)
     /**
-    Source:
-    NGA.STND.0036_1.0.0_WGS84 2014-07-08
-    Page 7-8
-    \param sin_lat sine of the geodetic latitude
-    \return the radius of curvature in the meridian (meters)
+    * Source:
+    * NGA.STND.0036_1.0.0_WGS84 2014-07-08
+    * Page 7-8
+    * \param sin_lat sine of the geodetic latitude
+    * \return the radius of curvature in the meridian (meters)
     */
     [[nodiscard]] auto get_Rm(const T sin_lat) const
     {
@@ -219,11 +219,11 @@ struct Ellipsoid
 
     /// get the normal gravity on the ellipsoid surface (m/s²)
     /**
-    Source:
-    NGA.STND.0036_1.0.0_WGS84 2014-07-08
-    Page 4-1
-    \param sin_lat sine of the geodetic latitude
-    \return the normal gravity on the ellipsoid surface (m/s²)
+    * Source:
+    * NGA.STND.0036_1.0.0_WGS84 2014-07-08
+    * Page 4-1
+    * \param sin_lat sine of the geodetic latitude
+    * \return the normal gravity on the ellipsoid surface (m/s²)
     */
     [[nodiscard]] auto get_gamma(const T sin_lat) const
     {
@@ -235,12 +235,12 @@ struct Ellipsoid
 
     /// get the normal gravity above the ellipsoid (m/s²)
     /**
-    Source:
-    NGA.STND.0036_1.0.0_WGS84 2014-07-08
-    Page 4-3
-    \param sin_lat sine of the geodetic latitude
-    \param ht ellipsoid height (meters)
-    \return the normal gravity above the ellipsoid (m/s²)
+    * Source:
+    * NGA.STND.0036_1.0.0_WGS84 2014-07-08
+    * Page 4-3
+    * \param sin_lat sine of the geodetic latitude
+    * \param ht ellipsoid height (meters)
+    * \return the normal gravity above the ellipsoid (m/s²)
     */
     [[nodiscard]] auto get_gamma_h(const T sin_lat, const T ht) const
     {
@@ -250,9 +250,9 @@ struct Ellipsoid
 
     /// get the height above the ellipsoid (meters)
     /**
-    Source: Rapp, page 122 (132)
-
-    \verbatim
+    * Source: Rapp, page 122 (132)
+    *
+    * \verbatim
     Original equations:
     z = (Rn * (1-e2) + h) * sin
     w = (Rn + h) * cos
@@ -263,12 +263,12 @@ struct Ellipsoid
     Polar case:
     h = z / sin - Rn * (1-e2)
     \endverbatim
-    \param w distance from the rotational (i.e. Z) axis (meters)
-    \param z distance above the equatorial (i.e. X-Y) plane (meters)
-    \param sin_lat sine of the geodetic latitude
-    \param cos_lat cosine of the geodetic latitude
-    \param Rn prime vertical radius of curvature (meters)
-    \return the height above the ellipsoid (meters)
+    * \param w distance from the rotational (i.e. Z) axis (meters)
+    * \param z distance above the equatorial (i.e. X-Y) plane (meters)
+    * \param sin_lat sine of the geodetic latitude
+    * \param cos_lat cosine of the geodetic latitude
+    * \param Rn prime vertical radius of curvature (meters)
+    * \return the height above the ellipsoid (meters)
     */
     [[nodiscard]] auto get_ht(const T w,
                               const T z,
@@ -286,11 +286,11 @@ struct Ellipsoid
 
     /// get the height above the ellipsoid (meters)
     /**
-    \param w distance from the rotational (i.e. Z) axis (meters)
-    \param z distance above the equatorial (i.e. X-Y) plane (meters)
-    \param sin_lat sine of the geodetic latitude
-    \param cos_lat cosine of the geodetic latitude
-    \return the height above the ellipsoid (meters)
+    * \param w distance from the rotational (i.e. Z) axis (meters)
+    * \param z distance above the equatorial (i.e. X-Y) plane (meters)
+    * \param sin_lat sine of the geodetic latitude
+    * \param cos_lat cosine of the geodetic latitude
+    * \return the height above the ellipsoid (meters)
     */
     [[nodiscard]] auto get_ht(const T w, const T z, const T sin_lat, const T cos_lat) const
     {
@@ -299,10 +299,10 @@ struct Ellipsoid
 
     /// get the height above the ellipsoid (meters)
     /**
-    \param w distance from the rotational (i.e. Z) axis (meters)
-    \param z distance above the equatorial (i.e. X-Y) plane (meters)
-    \param lat_rad geodetic latitude (radians)
-    \return the height above the ellipsoid (meters)
+    * \param w distance from the rotational (i.e. Z) axis (meters)
+    * \param z distance above the equatorial (i.e. X-Y) plane (meters)
+    * \param lat_rad geodetic latitude (radians)
+    * \return the height above the ellipsoid (meters)
     */
     [[nodiscard]] auto get_ht(const T w, const T z, const T lat_rad) const
     {

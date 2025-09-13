@@ -3,15 +3,15 @@
 
 /// Reference Ellipsoid Names and Constants
 /**
-\file
-\author Steven Ward
-Source:
-NGA.STND.0036_1.0.0_WGS84 2014-07-08
-
-\sa https://nsgreg.nga.mil/doc/view?i=4085
-\sa https://web.archive.org/web/20181220230431/https://earth-info.nga.mil/GandG/publications/NGA_STND_0036_1_0_0_WGS84/NGA.STND.0036_1.0.0_WGS84.pdf
-
-\verbatim
+* \file
+* \author Steven Ward
+* Source:
+* NGA.STND.0036_1.0.0_WGS84 2014-07-08
+*
+* \sa https://nsgreg.nga.mil/doc/view?i=4085
+* \sa https://web.archive.org/web/20181220230431/https://earth-info.nga.mil/GandG/publications/NGA_STND_0036_1_0_0_WGS84/NGA.STND.0036_1.0.0_WGS84.pdf
+*
+* \verbatim
 NATIONAL GEOSPATIAL-INTELLIGENCE AGENCY (NGA)
 STANDARDIZATION DOCUMENT
 DEPARTMENT OF DEFENSE
@@ -32,18 +32,18 @@ Version 1.0.0
 
 /// Reference Ellipsoid ID Codes enum
 /**
-Source:
-NGA.STND.0036_1.0.0_WGS84 2014-07-08
-
-Page C-2
-\verbatim
+* Source:
+* NGA.STND.0036_1.0.0_WGS84 2014-07-08
+*
+* Page C-2
+* \verbatim
 To facilitate correct referencing, a standardized two letter code is also
 included to identify the different ellipsoids and/or their “versions”
 pertaining to the different values of the semi-major axis (a).
 \endverbatim
-
-Page C-3
-\verbatim
+*
+* Page C-3
+* \verbatim
 Appendix C.1
 Reference Ellipsoid Names and Constants
 Used for Datum Transformations*
@@ -120,11 +120,11 @@ ellipsoid_id_code_to_str(const ELLIPSOID_ID_CODE ell_id_code)
 
 /// Reference Ellipsoid Constants array
 /**
-Source:
-NGA.STND.0036_1.0.0_WGS84 2014-07-08
-
-Page C-3
-\verbatim
+* Source:
+* NGA.STND.0036_1.0.0_WGS84 2014-07-08
+*
+* Page C-3
+* \verbatim
 Appendix C.1
 Reference Ellipsoid Names and Constants
 Used for Datum Transformations*
@@ -166,11 +166,11 @@ constexpr std::array<Ellipsoid<T>, 25> reference_ellipsoids{
 
 /// Reference Ellipsoid Names array
 /**
-Source:
-NGA.STND.0036_1.0.0_WGS84 2014-07-08
-
-Page C-3
-\verbatim
+* Source:
+* NGA.STND.0036_1.0.0_WGS84 2014-07-08
+*
+* Page C-3
+* \verbatim
 Appendix C.1
 Reference Ellipsoid Names and Constants
 Used for Datum Transformations*

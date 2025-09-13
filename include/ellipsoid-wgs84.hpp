@@ -3,15 +3,15 @@
 
 /// WGS 84 Reference Ellipsoid
 /**
-\file
-\author Steven Ward
-Source:
-NGA.STND.0036_1.0.0_WGS84 2014-07-08
-
-\sa https://nsgreg.nga.mil/doc/view?i=4085
-\sa https://web.archive.org/web/20181220230431/https://earth-info.nga.mil/GandG/publications/NGA_STND_0036_1_0_0_WGS84/NGA.STND.0036_1.0.0_WGS84.pdf
-
-\verbatim
+* \file
+* \author Steven Ward
+* Source:
+* NGA.STND.0036_1.0.0_WGS84 2014-07-08
+*
+* \sa https://nsgreg.nga.mil/doc/view?i=4085
+* \sa https://web.archive.org/web/20181220230431/https://earth-info.nga.mil/GandG/publications/NGA_STND_0036_1_0_0_WGS84/NGA.STND.0036_1.0.0_WGS84.pdf
+*
+* \verbatim
 NATIONAL GEOSPATIAL-INTELLIGENCE AGENCY (NGA)
 STANDARDIZATION DOCUMENT
 DEPARTMENT OF DEFENSE

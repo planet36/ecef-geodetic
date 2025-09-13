@@ -71,7 +71,7 @@ script_author = "Steven Ward"
 script_license = "OSL-3.0"
 script_name = "generate-series-approx-coeff-tm.cal"
 script_brief_description = "Transverse Mercator conversions"
-script_detailed_description = "\\sa https://geographiclib.sourceforge.io/C++/doc/transversemercator.html#tmseries\n\\sa https://geographiclib.sourceforge.io/html/tmseries30.html"
+script_detailed_description = "* \\sa https://geographiclib.sourceforge.io/C++/doc/transversemercator.html#tmseries\n* \\sa https://geographiclib.sourceforge.io/html/tmseries30.html"
 
 print_cpp_file_header(script_author, script_license, script_name,
     script_brief_description, script_detailed_description);

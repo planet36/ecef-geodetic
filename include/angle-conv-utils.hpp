@@ -3,8 +3,8 @@
 
 /// angle conversion utilities
 /**
-\file
-\author Steven Ward
+* \file
+* \author Steven Ward
 */
 
 #pragma once
@@ -123,10 +123,10 @@ deg_from_rad(const double x_rad)
 
 /// convert from degrees to degees and arcminutes
 /**
-\note \a arcmin will have the same sign as \a deg if the angle is not zero
-\param[in] x_deg the angle (degrees)
-\param[out] deg (whole number) degrees
-\param[out] arcmin (decimal) arcminutes
+* \note \a arcmin will have the same sign as \a deg if the angle is not zero
+* \param[in] x_deg the angle (degrees)
+* \param[out] deg (whole number) degrees
+* \param[out] arcmin (decimal) arcminutes
 */
 constexpr void
 deg_to_dm(const double x_deg, double& deg, double& arcmin)
@@ -140,11 +140,11 @@ deg_to_dm(const double x_deg, double& deg, double& arcmin)
 
 /// convert from degrees to degees, arcminutes, and arcseconds
 /**
-\note \a arcmin and \a arcsec will have the same sign as \a deg if the angle is not zero
-\param[in] x_deg the angle (degrees)
-\param[out] deg (whole number) degrees
-\param[out] arcmin (whole number) arcminutes
-\param[out] arcsec (decimal) arcseconds
+* \note \a arcmin and \a arcsec will have the same sign as \a deg if the angle is not zero
+* \param[in] x_deg the angle (degrees)
+* \param[out] deg (whole number) degrees
+* \param[out] arcmin (whole number) arcminutes
+* \param[out] arcsec (decimal) arcseconds
 */
 constexpr void
 deg_to_dms(const double x_deg, double& deg, double& arcmin, double& arcsec)
@@ -161,9 +161,9 @@ deg_to_dms(const double x_deg, double& deg, double& arcmin, double& arcsec)
 
 /// convert to degrees from degrees and arcminutes
 /**
-\param[in] deg (whole number) degrees
-\param[in] arcmin (decimal) arcminutes
-\return (decimal) degrees
+* \param[in] deg (whole number) degrees
+* \param[in] arcmin (decimal) arcminutes
+* \return (decimal) degrees
 */
 constexpr auto
 deg_from_dm(const double deg, const double arcmin)
@@ -173,10 +173,10 @@ deg_from_dm(const double deg, const double arcmin)
 
 /// convert to degrees from degrees, arcminutes, and arcseconds
 /**
-\param[in] deg (whole number) degrees
-\param[in] arcmin (whole number) arcminutes
-\param[in] arcsec (decimal) arcseconds
-\return (decimal) degrees
+* \param[in] deg (whole number) degrees
+* \param[in] arcmin (whole number) arcminutes
+* \param[in] arcsec (decimal) arcseconds
+* \return (decimal) degrees
 */
 constexpr auto
 deg_from_dms(const double deg, const double arcmin, const double arcsec)

@@ -3,10 +3,10 @@
 
 /// Concept for a container type
 /**
-\file
-\author Steven Ward
-\sa https://en.cppreference.com/w/cpp/named_req/Container
-\sa https://stackoverflow.com/a/70543294
+* \file
+* \author Steven Ward
+* \sa https://en.cppreference.com/w/cpp/named_req/Container
+* \sa https://stackoverflow.com/a/70543294
 */
 
 #pragma once

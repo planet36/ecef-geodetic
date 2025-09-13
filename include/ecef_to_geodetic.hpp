@@ -3,8 +3,8 @@
 
 /// ECEF-to-Geodetic coordinate conversion
 /**
-\file
-\author Steven Ward
+* \file
+* \author Steven Ward
 */
 
 #pragma once
@@ -19,21 +19,21 @@
 
 /// convert from ECEF to geodetic
 /**
-D. K. Olson, "Converting Earth-centered, Earth-fixed coordinates to geodetic
-coordinates," in IEEE Transactions on Aerospace and Electronic Systems, vol.
-32, no. 1, pp. 473-476, Jan. 1996, doi: 10.1109/7.481290.
-
-U.S. Government work, U.S. copyright does not apply.
-
-Converted to C++ and modified by Steven Ward.  No rights reserved.
-
-\sa https://ieeexplore.ieee.org/document/481290
-\param x X coordinate (meters)
-\param y Y coordinate (meters)
-\param z Z coordinate (meters)
-\param[out] lat_rad geodetic latitude (radians)
-\param[out] lon_rad geodetic longitude (radians)
-\param[out] ht ellipsoid height (meters)
+* D. K. Olson, "Converting Earth-centered, Earth-fixed coordinates to geodetic
+* coordinates," in IEEE Transactions on Aerospace and Electronic Systems, vol.
+* 32, no. 1, pp. 473-476, Jan. 1996, doi: 10.1109/7.481290.
+*
+* U.S. Government work, U.S. copyright does not apply.
+*
+* Converted to C++ and modified by Steven Ward.  No rights reserved.
+*
+* \sa https://ieeexplore.ieee.org/document/481290
+* \param x X coordinate (meters)
+* \param y Y coordinate (meters)
+* \param z Z coordinate (meters)
+* \param[out] lat_rad geodetic latitude (radians)
+* \param[out] lon_rad geodetic longitude (radians)
+* \param[out] ht ellipsoid height (meters)
 */
 template <std::floating_point T>
 void
@@ -116,21 +116,21 @@ ecef_to_geodetic(const T x, const T y, const T z, T& lat_rad, T& lon_rad, T& ht)
 
 /// convert from ECEF to geodetic
 /**
-D. K. Olson, "Converting Earth-centered, Earth-fixed coordinates to geodetic
-coordinates," in IEEE Transactions on Aerospace and Electronic Systems, vol.
-32, no. 1, pp. 473-476, Jan. 1996, doi: 10.1109/7.481290.
-
-U.S. Government work, U.S. copyright does not apply.
-
-Converted to C++ and modified by Steven Ward.  No rights reserved.
-
-\sa https://ieeexplore.ieee.org/document/481290
-\param x X coordinate (meters)
-\param y Y coordinate (meters)
-\param z Z coordinate (meters)
-\param[out] lat geodetic latitude
-\param[out] lon geodetic longitude
-\param[out] ht ellipsoid height (meters)
+* D. K. Olson, "Converting Earth-centered, Earth-fixed coordinates to geodetic
+* coordinates," in IEEE Transactions on Aerospace and Electronic Systems, vol.
+* 32, no. 1, pp. 473-476, Jan. 1996, doi: 10.1109/7.481290.
+*
+* U.S. Government work, U.S. copyright does not apply.
+*
+* Converted to C++ and modified by Steven Ward.  No rights reserved.
+*
+* \sa https://ieeexplore.ieee.org/document/481290
+* \param x X coordinate (meters)
+* \param y Y coordinate (meters)
+* \param z Z coordinate (meters)
+* \param[out] lat geodetic latitude
+* \param[out] lon geodetic longitude
+* \param[out] ht ellipsoid height (meters)
 */
 template <angle_unit U, std::floating_point T>
 void

@@ -3,8 +3,8 @@
 
 /// circular angle class
 /**
-\file
-\author Steven Ward
+* \file
+* \author Steven Ward
 */
 
 #pragma once
@@ -215,9 +215,9 @@ make_ang_arcsec(const T x)
 // Note: The C++ Standard requires the input parameter to be 'long double'.
 /// User-defined literal to create an angle
 /**
-\sa https://en.cppreference.com/w/cpp/language/user_literal
-\param x the given value
-\return an angle of the given value
+* \sa https://en.cppreference.com/w/cpp/language/user_literal
+* \param x the given value
+* \return an angle of the given value
 */
 constexpr auto
 operator ""_mrad(const long double x)
@@ -229,9 +229,9 @@ operator ""_mrad(const long double x)
 // Note: The C++ Standard requires the input parameter to be 'unsigned long long int'.
 /// User-defined literal to create an angle
 /**
-\sa https://en.cppreference.com/w/cpp/language/user_literal
-\param x the given value
-\return an angle of the given value
+* \sa https://en.cppreference.com/w/cpp/language/user_literal
+* \param x the given value
+* \return an angle of the given value
 */
 constexpr auto
 operator ""_mrad(const unsigned long long int x)
@@ -243,9 +243,9 @@ operator ""_mrad(const unsigned long long int x)
 // Note: The C++ Standard requires the input parameter to be 'long double'.
 /// User-defined literal to create an angle
 /**
-\sa https://en.cppreference.com/w/cpp/language/user_literal
-\param x the given value
-\return an angle of the given value
+* \sa https://en.cppreference.com/w/cpp/language/user_literal
+* \param x the given value
+* \return an angle of the given value
 */
 constexpr auto
 operator ""_rad(const long double x)
@@ -257,9 +257,9 @@ operator ""_rad(const long double x)
 // Note: The C++ Standard requires the input parameter to be 'unsigned long long int'.
 /// User-defined literal to create an angle
 /**
-\sa https://en.cppreference.com/w/cpp/language/user_literal
-\param x the given value
-\return an angle of the given value
+* \sa https://en.cppreference.com/w/cpp/language/user_literal
+* \param x the given value
+* \return an angle of the given value
 */
 constexpr auto
 operator ""_rad(const unsigned long long int x)
@@ -271,9 +271,9 @@ operator ""_rad(const unsigned long long int x)
 // Note: The C++ Standard requires the input parameter to be 'long double'.
 /// User-defined literal to create an angle
 /**
-\sa https://en.cppreference.com/w/cpp/language/user_literal
-\param x the given value
-\return an angle of the given value
+* \sa https://en.cppreference.com/w/cpp/language/user_literal
+* \param x the given value
+* \return an angle of the given value
 */
 constexpr auto
 operator ""_rev(const long double x)
@@ -285,9 +285,9 @@ operator ""_rev(const long double x)
 // Note: The C++ Standard requires the input parameter to be 'unsigned long long int'.
 /// User-defined literal to create an angle
 /**
-\sa https://en.cppreference.com/w/cpp/language/user_literal
-\param x the given value
-\return an angle of the given value
+* \sa https://en.cppreference.com/w/cpp/language/user_literal
+* \param x the given value
+* \return an angle of the given value
 */
 constexpr auto
 operator ""_rev(const unsigned long long int x)
@@ -299,9 +299,9 @@ operator ""_rev(const unsigned long long int x)
 // Note: The C++ Standard requires the input parameter to be 'long double'.
 /// User-defined literal to create an angle
 /**
-\sa https://en.cppreference.com/w/cpp/language/user_literal
-\param x the given value
-\return an angle of the given value
+* \sa https://en.cppreference.com/w/cpp/language/user_literal
+* \param x the given value
+* \return an angle of the given value
 */
 constexpr auto
 operator ""_deg(const long double x)
@@ -313,9 +313,9 @@ operator ""_deg(const long double x)
 // Note: The C++ Standard requires the input parameter to be 'unsigned long long int'.
 /// User-defined literal to create an angle
 /**
-\sa https://en.cppreference.com/w/cpp/language/user_literal
-\param x the given value
-\return an angle of the given value
+* \sa https://en.cppreference.com/w/cpp/language/user_literal
+* \param x the given value
+* \return an angle of the given value
 */
 constexpr auto
 operator ""_deg(const unsigned long long int x)
@@ -327,9 +327,9 @@ operator ""_deg(const unsigned long long int x)
 // Note: The C++ Standard requires the input parameter to be 'long double'.
 /// User-defined literal to create an angle
 /**
-\sa https://en.cppreference.com/w/cpp/language/user_literal
-\param x the given value
-\return an angle of the given value
+* \sa https://en.cppreference.com/w/cpp/language/user_literal
+* \param x the given value
+* \return an angle of the given value
 */
 constexpr auto
 operator ""_arcmin(const long double x)
@@ -341,9 +341,9 @@ operator ""_arcmin(const long double x)
 // Note: The C++ Standard requires the input parameter to be 'unsigned long long int'.
 /// User-defined literal to create an angle
 /**
-\sa https://en.cppreference.com/w/cpp/language/user_literal
-\param x the given value
-\return an angle of the given value
+* \sa https://en.cppreference.com/w/cpp/language/user_literal
+* \param x the given value
+* \return an angle of the given value
 */
 constexpr auto
 operator ""_arcmin(const unsigned long long int x)
@@ -355,9 +355,9 @@ operator ""_arcmin(const unsigned long long int x)
 // Note: The C++ Standard requires the input parameter to be 'long double'.
 /// User-defined literal to create an angle
 /**
-\sa https://en.cppreference.com/w/cpp/language/user_literal
-\param x the given value
-\return an angle of the given value
+* \sa https://en.cppreference.com/w/cpp/language/user_literal
+* \param x the given value
+* \return an angle of the given value
 */
 constexpr auto
 operator ""_arcsec(const long double x)
@@ -369,9 +369,9 @@ operator ""_arcsec(const long double x)
 // Note: The C++ Standard requires the input parameter to be 'unsigned long long int'.
 /// User-defined literal to create an angle
 /**
-\sa https://en.cppreference.com/w/cpp/language/user_literal
-\param x the given value
-\return an angle of the given value
+* \sa https://en.cppreference.com/w/cpp/language/user_literal
+* \param x the given value
+* \return an angle of the given value
 */
 constexpr auto
 operator ""_arcsec(const unsigned long long int x)
@@ -719,8 +719,8 @@ operator/(const angle<U, T>& a1, const angle<U2, T2>& a2)
 
 /// is acute?
 /**
-\pre \a a is non-negative
-\sa https://mathworld.wolfram.com/AcuteAngle.html
+* \pre \a a is non-negative
+* \sa https://mathworld.wolfram.com/AcuteAngle.html
 */
 template <angle_unit U, std::floating_point T>
 constexpr bool
@@ -731,8 +731,8 @@ is_acute(const angle<U, T>& a)
 
 /// is right?
 /**
-\pre \a a is non-negative
-\sa https://mathworld.wolfram.com/RightAngle.html
+* \pre \a a is non-negative
+* \sa https://mathworld.wolfram.com/RightAngle.html
 */
 template <angle_unit U, std::floating_point T>
 constexpr bool
@@ -743,8 +743,8 @@ is_right(const angle<U, T>& a)
 
 /// is (approximately) right?
 /**
-\pre \a a is non-negative
-\sa https://mathworld.wolfram.com/RightAngle.html
+* \pre \a a is non-negative
+* \sa https://mathworld.wolfram.com/RightAngle.html
 */
 template <angle_unit U, std::floating_point T>
 constexpr bool
@@ -758,8 +758,8 @@ is_right_approx(const angle<U, T>& a,
 
 /// is obtuse?
 /**
-\pre \a a is non-negative
-\sa https://mathworld.wolfram.com/ObtuseAngle.html
+* \pre \a a is non-negative
+* \sa https://mathworld.wolfram.com/ObtuseAngle.html
 */
 template <angle_unit U, std::floating_point T>
 constexpr bool
@@ -771,8 +771,8 @@ is_obtuse(const angle<U, T>& a)
 
 /// is straight?
 /**
-\pre \a a is non-negative
-\sa https://mathworld.wolfram.com/StraightAngle.html
+* \pre \a a is non-negative
+* \sa https://mathworld.wolfram.com/StraightAngle.html
 */
 template <angle_unit U, std::floating_point T>
 constexpr bool
@@ -783,8 +783,8 @@ is_straight(const angle<U, T>& a)
 
 /// is (approximately) straight?
 /**
-\pre \a a is non-negative
-\sa https://mathworld.wolfram.com/StraightAngle.html
+* \pre \a a is non-negative
+* \sa https://mathworld.wolfram.com/StraightAngle.html
 */
 template <angle_unit U, std::floating_point T>
 constexpr bool
@@ -798,8 +798,8 @@ is_straight_approx(const angle<U, T>& a,
 
 /// is reflex?
 /**
-\pre \a a is non-negative
-\sa https://mathworld.wolfram.com/ReflexAngle.html
+* \pre \a a is non-negative
+* \sa https://mathworld.wolfram.com/ReflexAngle.html
 */
 template <angle_unit U, std::floating_point T>
 constexpr bool
@@ -810,8 +810,8 @@ is_reflex(const angle<U, T>& a)
 
 /// is full?
 /**
-\pre \a a is non-negative
-\sa https://mathworld.wolfram.com/FullAngle.html
+* \pre \a a is non-negative
+* \sa https://mathworld.wolfram.com/FullAngle.html
 */
 template <angle_unit U, std::floating_point T>
 constexpr bool
@@ -822,8 +822,8 @@ is_full(const angle<U, T>& a)
 
 /// is (approximately) full?
 /**
-\pre \a a is non-negative
-\sa https://mathworld.wolfram.com/FullAngle.html
+* \pre \a a is non-negative
+* \sa https://mathworld.wolfram.com/FullAngle.html
 */
 template <angle_unit U, std::floating_point T>
 constexpr bool
@@ -837,8 +837,8 @@ is_full_approx(const angle<U, T>& a,
 
 /// are complementary?
 /**
-\pre \a a is non-negative
-\sa https://mathworld.wolfram.com/ComplementaryAngles.html
+* \pre \a a is non-negative
+* \sa https://mathworld.wolfram.com/ComplementaryAngles.html
 */
 template <angle_unit U, std::floating_point T>
 constexpr bool
@@ -849,8 +849,8 @@ are_complementary(const angle<U, T>& a1, const angle<U, T>& a2)
 
 /// are (approximately) complementary?
 /**
-\pre \a a is non-negative
-\sa https://mathworld.wolfram.com/ComplementaryAngles.html
+* \pre \a a is non-negative
+* \sa https://mathworld.wolfram.com/ComplementaryAngles.html
 */
 template <angle_unit U, std::floating_point T>
 constexpr bool
@@ -864,8 +864,8 @@ are_complementary_approx(const angle<U, T>& a1,
 
 /// are supplementary?
 /**
-\pre \a a is non-negative
-\sa https://mathworld.wolfram.com/SupplementaryAngles.html
+* \pre \a a is non-negative
+* \sa https://mathworld.wolfram.com/SupplementaryAngles.html
 */
 template <angle_unit U, std::floating_point T>
 constexpr bool
@@ -876,8 +876,8 @@ are_supplementary(const angle<U, T>& a1, const angle<U, T>& a2)
 
 /// are (approximately) supplementary?
 /**
-\pre \a a is non-negative
-\sa https://mathworld.wolfram.com/SupplementaryAngles.html
+* \pre \a a is non-negative
+* \sa https://mathworld.wolfram.com/SupplementaryAngles.html
 */
 template <angle_unit U, std::floating_point T>
 constexpr bool
@@ -1014,8 +1014,8 @@ a_atanh(const T x)
 
 /// get the IEEE remainder of dividing \a a1 by \a a2
 /**
-\param a1 the first angle
-\param a2 the second angle
+* \param a1 the first angle
+* \param a2 the second angle
 */
 template <angle_unit U, std::floating_point T>
 constexpr auto
@@ -1026,8 +1026,8 @@ ieee_remainder(const angle<U, T>& a1, const angle<U, T>& a2)
 
 /// get the IEEE remainder of dividing \a a1 by \a a2
 /**
-\param a1 the first angle
-\param a2 the second angle
+* \param a1 the first angle
+* \param a2 the second angle
 */
 template <angle_unit U,
           std::floating_point T,
@@ -1043,8 +1043,8 @@ ieee_remainder(const angle<U, T>& a1, const angle<U2, T2>& a2)
 
 /// get the fmod remainder of dividing \a a1 by \a a2
 /**
-\param a1 the first angle
-\param a2 the second angle
+* \param a1 the first angle
+* \param a2 the second angle
 */
 template <angle_unit U, std::floating_point T>
 constexpr auto
@@ -1055,8 +1055,8 @@ fmod_remainder(const angle<U, T>& a1, const angle<U, T>& a2)
 
 /// get the fmod remainder of dividing \a a1 by \a a2
 /**
-\param a1 the first angle
-\param a2 the second angle
+* \param a1 the first angle
+* \param a2 the second angle
 */
 template <angle_unit U,
           std::floating_point T,
@@ -1072,8 +1072,8 @@ fmod_remainder(const angle<U, T>& a1, const angle<U2, T2>& a2)
 
 /// normalize the angle
 /**
-The result will be within the interval [-0.5, 0.5] revolutions.
-\param[in,out] a the angle
+* The result will be within the interval [-0.5, 0.5] revolutions.
+* \param[in,out] a the angle
 */
 template <angle_unit U, std::floating_point T>
 constexpr void
@@ -1084,8 +1084,8 @@ normalize_angle_signed(angle<U, T>& a)
 
 /// normalize the angle
 /**
-The result will be within the interval [0, 1] revolutions.
-\param[in,out] a the angle
+* The result will be within the interval [0, 1] revolutions.
+* \param[in,out] a the angle
 */
 template <angle_unit U, std::floating_point T>
 constexpr void
@@ -1099,8 +1099,8 @@ normalize_angle_unsigned(angle<U, T>& a)
 
 /// normalize the geodetic latitude
 /**
-The result will be within the interval [-90, 90] degrees.
-\param[in,out] lat the geodetic latitude
+* The result will be within the interval [-90, 90] degrees.
+* \param[in,out] lat the geodetic latitude
 */
 template <angle_unit U, std::floating_point T>
 constexpr void
@@ -1116,8 +1116,8 @@ normalize_latitude(angle<U, T>& lat)
 
 /// normalize the geodetic longitude
 /**
-The result will be within the interval [-180, 180] degrees.
-\param[in,out] lon the geodetic longitude
+* The result will be within the interval [-180, 180] degrees.
+* \param[in,out] lon the geodetic longitude
 */
 template <angle_unit U, std::floating_point T>
 constexpr void
@@ -1128,8 +1128,8 @@ normalize_longitude(angle<U, T>& lon)
 
 /// normalize the geodetic coordinate
 /**
-\param[in,out] lat the geodetic latitude
-\param[in,out] lon the geodetic longitude
+* \param[in,out] lat the geodetic latitude
+* \param[in,out] lon the geodetic longitude
 */
 template <angle_unit U, std::floating_point T>
 constexpr void
@@ -1153,12 +1153,12 @@ normalize_geodetic(angle<U, T>& lat, angle<U, T>& lon)
 
 /// get the 0-based quadrant that the angle is in
 /**
-\param a the angle
-\return the 0-based quadrant that the angle is in
-\retval 0 for quadrant I
-\retval 1 for quadrant II
-\retval 2 for quadrant III
-\retval 3 for quadrant IV
+* \param a the angle
+* \return the 0-based quadrant that the angle is in
+* \retval 0 for quadrant I
+* \retval 1 for quadrant II
+* \retval 2 for quadrant III
+* \retval 3 for quadrant IV
 */
 template <angle_unit U, std::floating_point T>
 constexpr auto
@@ -1170,8 +1170,8 @@ get_quadrant(angle<U, T> a)
 
 /// get the difference between the angles going from the first angle to the second angle
 /**
-\param a1 the first angle
-\param a2 the second angle
+* \param a1 the first angle
+* \param a2 the second angle
 */
 template <angle_unit U, std::floating_point T>
 constexpr auto
@@ -1184,8 +1184,8 @@ angle_diff(angle<U, T> a1, angle<U, T> a2)
 
 /// get the difference between the angles going from the first angle to the second angle
 /**
-\param a1 the first angle
-\param a2 the second angle
+* \param a1 the first angle
+* \param a2 the second angle
 */
 template <angle_unit U,
           std::floating_point T,
@@ -1201,8 +1201,8 @@ angle_diff(angle<U, T> a1, angle<U2, T2> a2)
 
 /// get the remainder and part of the quotient upon division of \a a1 by \a a2
 /**
-\param a1 the first angle
-\param a2 the second angle
+* \param a1 the first angle
+* \param a2 the second angle
 */
 template <angle_unit U, std::floating_point T>
 constexpr auto

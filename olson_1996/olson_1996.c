@@ -6,17 +6,17 @@
 
 /// convert from ECEF to geodetic
 /**
-Olson, D. K. (1996). Converting Earth-Centered, Earth-Fixed Coordinates to Geodetic Coordinates. IEEE Transactions on Aerospace and Electronic Systems, 32(1), 473–476. https://doi.org/10.1109/7.481290
-
-U.S. Government work, U.S. copyright does not apply.
-
-\sa https://ieeexplore.ieee.org/document/481290
-\param x X coordinate (meters)
-\param y Y coordinate (meters)
-\param z Z coordinate (meters)
-\param[out] lat geodetic latitude (radians)
-\param[out] lon geodetic longitude (radians)
-\param[out] ht ellipsoid height (meters)
+* Olson, D. K. (1996). Converting Earth-Centered, Earth-Fixed Coordinates to Geodetic Coordinates. IEEE Transactions on Aerospace and Electronic Systems, 32(1), 473–476. https://doi.org/10.1109/7.481290
+*
+* U.S. Government work, U.S. copyright does not apply.
+*
+* \sa https://ieeexplore.ieee.org/document/481290
+* \param x X coordinate (meters)
+* \param y Y coordinate (meters)
+* \param z Z coordinate (meters)
+* \param[out] lat geodetic latitude (radians)
+* \param[out] lon geodetic longitude (radians)
+* \param[out] ht ellipsoid height (meters)
 */
 void
 latlon (x,y,z,lat,lon,ht)/*c code*/

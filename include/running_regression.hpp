@@ -3,10 +3,10 @@
 
 /// running regression class
 /**
-\file
-\author John D. Cook
-\author Steven Ward
-\sa https://www.johndcook.com/blog/running_regression/
+* \file
+* \author John D. Cook
+* \author Steven Ward
+* \sa https://www.johndcook.com/blog/running_regression/
 */
 
 #pragma once

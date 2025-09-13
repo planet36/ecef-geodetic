@@ -3,8 +3,8 @@
 
 /// basic statistics functions for containers of floats
 /**
-\file
-\author Steven Ward
+* \file
+* \author Steven Ward
 */
 
 #pragma once

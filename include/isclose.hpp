@@ -3,8 +3,8 @@
 
 /// function to determine if two floating-point numbers are close to each other
 /**
-\file
-\author Steven Ward
+* \file
+* \author Steven Ward
 */
 
 #pragma once
@@ -14,14 +14,14 @@
 
 /// are two floating-point numbers are close to each other?
 /**
-This is similar to the Python function \c math.isclose.
-\sa https://docs.python.org/3/library/math.html#math.isclose
-\sa https://peps.python.org/pep-0485/
-\sa https://github.com/python/cpython/blob/main/Modules/mathmodule.c#L2997
-\pre \a allowed_rel_diff is positive
-\pre \a allowed_abs_diff is non-negative
-\param allowed_rel_diff maximum relative difference for being considered "close", relative to the magnitude of the input values
-\param allowed_abs_diff maximum absolute difference for being considered "close", regardless of the magnitude of the input values
+* This is similar to the Python function \c math.isclose.
+* \sa https://docs.python.org/3/library/math.html#math.isclose
+* \sa https://peps.python.org/pep-0485/
+* \sa https://github.com/python/cpython/blob/main/Modules/mathmodule.c#L2997
+* \pre \a allowed_rel_diff is positive
+* \pre \a allowed_abs_diff is non-negative
+* \param allowed_rel_diff maximum relative difference for being considered "close", relative to the magnitude of the input values
+* \param allowed_abs_diff maximum absolute difference for being considered "close", regardless of the magnitude of the input values
 */
 template <std::floating_point T>
 bool

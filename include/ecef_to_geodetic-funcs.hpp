@@ -3,8 +3,8 @@
 
 /// Functions for converting coordinates from ECEF to geodetic
 /**
-\file
-\author Steven Ward
+* \file
+* \author Steven Ward
 */
 
 #pragma once
@@ -21,13 +21,13 @@ constexpr auto ell = WGS84<double>;
 
 /// get the 2D hypotenuse
 /**
-\sa https://mathworld.wolfram.com/Norm.html
-\sa https://mathworld.wolfram.com/VectorNorm.html
-\sa https://mathworld.wolfram.com/L2-Norm.html
-\sa https://en.cppreference.com/w/cpp/numeric/math/hypot
-\param[in,out] x the X coordinate
-\param[in,out] y the Y coordinate
-\return the 2D hypotenuse
+* \sa https://mathworld.wolfram.com/Norm.html
+* \sa https://mathworld.wolfram.com/VectorNorm.html
+* \sa https://mathworld.wolfram.com/L2-Norm.html
+* \sa https://en.cppreference.com/w/cpp/numeric/math/hypot
+* \param[in,out] x the X coordinate
+* \param[in,out] y the Y coordinate
+* \return the 2D hypotenuse
 */
 template <std::floating_point T>
 auto hypot(const T x, const T y)
@@ -42,11 +42,11 @@ auto hypot(const T x, const T y)
 
 /// make a unit vector (i.e. normalize the vector components)
 /**
-\pre The magnitude of &lt;\a x, \a y&gt; is non-zero.
-\sa https://mathworld.wolfram.com/NormalizedVector.html
-\sa https://mathworld.wolfram.com/UnitVector.html
-\param[in,out] x the X coordinate
-\param[in,out] y the Y coordinate
+* \pre The magnitude of &lt;\a x, \a y&gt; is non-zero.
+* \sa https://mathworld.wolfram.com/NormalizedVector.html
+* \sa https://mathworld.wolfram.com/UnitVector.html
+* \param[in,out] x the X coordinate
+* \param[in,out] y the Y coordinate
 */
 template <std::floating_point T>
 void normalize(T& x, T& y)
@@ -58,10 +58,10 @@ void normalize(T& x, T& y)
 
 /// get the cosine of the angle, given the sine of the angle
 /**
-\pre original angle is within the interval [-90°, +90°]
-\pre abs(\a sin_x) <= 1
-\param sin_x the sine of the angle
-\return the cosine of the angle
+* \pre original angle is within the interval [-90°, +90°]
+* \pre abs(\a sin_x) <= 1
+* \param sin_x the sine of the angle
+* \return the cosine of the angle
 */
 template <std::floating_point T>
 auto cos_from_sin(const T sin_x)

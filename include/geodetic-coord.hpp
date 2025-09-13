@@ -3,8 +3,8 @@
 
 /// Geodetic coordinate class
 /**
-\file
-\author Steven Ward
+* \file
+* \author Steven Ward
 */
 
 #pragma once
@@ -22,13 +22,13 @@ constexpr int geodetic_precision_add = 5; ///< The precision to add to the geode
 
 /// Geodetic to string
 /**
-\param lat geodetic latitude
-\param lon geodetic longitude
-\param ht ellipsoid height (meters)
-\param precision the number of digits after the decimal place to generate for \a ht
-\note \a lat and \a lon are converted to decimal degrees.
-\note The precision of \a lat and \a lon is <code>\a precision + geodetic_precision_add</code>.
-\return the string representation of the geodetic coordinate
+* \param lat geodetic latitude
+* \param lon geodetic longitude
+* \param ht ellipsoid height (meters)
+* \param precision the number of digits after the decimal place to generate for \a ht
+* \note \a lat and \a lon are converted to decimal degrees.
+* \note The precision of \a lat and \a lon is <code>\a precision + geodetic_precision_add</code>.
+* \return the string representation of the geodetic coordinate
 */
 template <angle_unit U, std::floating_point T>
 [[nodiscard]] std::string
@@ -50,12 +50,12 @@ geodetic_to_str(const angle<U, T>& lat,
 
 /// string to Geodetic
 /**
-\param s the string representation of the geodetic coordinate
-\note \a lat and \a lon are converted from decimal degrees.
-\param[out] lat geodetic latitude
-\param[out] lon geodetic longitude
-\param[out] ht ellipsoid height (meters)
-\retval true if an error has occurred on the associated stream
+* \param s the string representation of the geodetic coordinate
+* \note \a lat and \a lon are converted from decimal degrees.
+* \param[out] lat geodetic latitude
+* \param[out] lon geodetic longitude
+* \param[out] ht ellipsoid height (meters)
+* \retval true if an error has occurred on the associated stream
 */
 template <angle_unit U, std::floating_point T>
 bool
@@ -85,7 +85,7 @@ str_to_geodetic(const std::string& s, angle<U, T>& lat, angle<U, T>& lon, T& ht)
 
 /// Geodetic coordinate
 /**
-\sa https://en.wikipedia.org/wiki/Reference_ellipsoid#Coordinates
+* \sa https://en.wikipedia.org/wiki/Reference_ellipsoid#Coordinates
 */
 template <angle_unit U, std::floating_point T>
 struct Geodetic

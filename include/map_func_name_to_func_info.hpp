@@ -3,8 +3,8 @@
 
 /// A map of function names to function info objects
 /**
-\file
-\author Steven Ward
+* \file
+* \author Steven Ward
 */
 
 #pragma once

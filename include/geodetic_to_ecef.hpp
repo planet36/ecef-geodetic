@@ -3,8 +3,8 @@
 
 /// Geodetic-to-ECEF coordinate conversion
 /**
-\file
-\author Steven Ward
+* \file
+* \author Steven Ward
 */
 
 #pragma once
@@ -19,15 +19,15 @@
 
 /// convert from geodetic to ECEF
 /**
-Source:
-NGA.STND.0036_1.0.0_WGS84 2014-07-08
-Equation (4-14)
-\param lat_rad geodetic latitude (radians)
-\param lon_rad geodetic longitude (radians)
-\param ht ellipsoid height (meters)
-\param[out] x X coordinate (meters)
-\param[out] y Y coordinate (meters)
-\param[out] z Z coordinate (meters)
+* Source:
+* NGA.STND.0036_1.0.0_WGS84 2014-07-08
+* Equation (4-14)
+* \param lat_rad geodetic latitude (radians)
+* \param lon_rad geodetic longitude (radians)
+* \param ht ellipsoid height (meters)
+* \param[out] x X coordinate (meters)
+* \param[out] y Y coordinate (meters)
+* \param[out] z Z coordinate (meters)
 */
 template <std::floating_point T>
 void
@@ -50,15 +50,15 @@ geodetic_to_ecef(const T lat_rad, const T lon_rad, const T ht, T& x, T& y, T& z)
 
 /// convert from geodetic to ECEF
 /**
-Source:
-NGA.STND.0036_1.0.0_WGS84 2014-07-08
-Equation (4-14)
-\param lat geodetic latitude
-\param lon geodetic longitude
-\param ht ellipsoid height (meters)
-\param[out] x X coordinate (meters)
-\param[out] y Y coordinate (meters)
-\param[out] z Z coordinate (meters)
+* Source:
+* NGA.STND.0036_1.0.0_WGS84 2014-07-08
+* Equation (4-14)
+* \param lat geodetic latitude
+* \param lon geodetic longitude
+* \param ht ellipsoid height (meters)
+* \param[out] x X coordinate (meters)
+* \param[out] y Y coordinate (meters)
+* \param[out] z Z coordinate (meters)
 */
 template <angle_unit U, std::floating_point T>
 void

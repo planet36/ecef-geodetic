@@ -3,8 +3,8 @@
 
 /// ECEF coordinate class
 /**
-\file
-\author Steven Ward
+* \file
+* \author Steven Ward
 */
 
 #pragma once
@@ -20,11 +20,11 @@ constexpr int ecef_default_precision = 6; ///< The default precision
 
 /// ECEF to string
 /**
-\param x X coordinate (meters)
-\param y Y coordinate (meters)
-\param z Z coordinate (meters)
-\param precision the number of digits after the decimal place to generate for \a x, \a y, and \a z
-\return the string representation of the ECEF coordinate
+* \param x X coordinate (meters)
+* \param y Y coordinate (meters)
+* \param z Z coordinate (meters)
+* \param precision the number of digits after the decimal place to generate for \a x, \a y, and \a z
+* \return the string representation of the ECEF coordinate
 */
 template <std::floating_point T>
 [[nodiscard]] std::string
@@ -35,11 +35,11 @@ ecef_to_str(const T x, const T y, const T z, int precision = ecef_default_precis
 
 /// string to ECEF
 /**
-\param s the string representation of the ECEF coordinate
-\param[out] x X coordinate (meters)
-\param[out] y Y coordinate (meters)
-\param[out] z Z coordinate (meters)
-\retval true if an error has occurred on the associated stream
+* \param s the string representation of the ECEF coordinate
+* \param[out] x X coordinate (meters)
+* \param[out] y Y coordinate (meters)
+* \param[out] z Z coordinate (meters)
+* \retval true if an error has occurred on the associated stream
 */
 template <std::floating_point T>
 bool
@@ -74,12 +74,12 @@ reference frame that rotates on a daily period as the Earth rotates.
 
 /// Earth-Centered Earth-Fixed coordinate
 /**
-\sa https://en.wikipedia.org/wiki/ECEF
-
-Source:
-NGA.STND.0036_1.0.0_WGS84
-
-\verbatim
+* \sa https://en.wikipedia.org/wiki/ECEF
+*
+* Source:
+* NGA.STND.0036_1.0.0_WGS84
+*
+* \verbatim
 In Figure 2.1, the origin and axes are defined as follows:
 
 Origin = Earth's center of mass
@@ -140,10 +140,10 @@ operator-(const ECEF<T>& p1, const ECEF<T2>& p2)
 
 /// get the L1-norm
 /**
-\sa https://mathworld.wolfram.com/L1-Norm.html
-\sa https://en.wikipedia.org/wiki/Distance#Distance_in_Euclidean_space
-\param p1 the ECEF coordinate
-\return the L1-norm
+* \sa https://mathworld.wolfram.com/L1-Norm.html
+* \sa https://en.wikipedia.org/wiki/Distance#Distance_in_Euclidean_space
+* \param p1 the ECEF coordinate
+* \return the L1-norm
 */
 template <std::floating_point T>
 auto
@@ -154,11 +154,11 @@ L1_norm(const ECEF<T>& p1)
 
 /// get the L2-norm
 /**
-\sa https://mathworld.wolfram.com/L2-Norm.html
-\sa https://en.wikipedia.org/wiki/Euclidean_distance
-\sa https://en.wikipedia.org/wiki/Distance#Distance_in_Euclidean_space
-\param p1 the ECEF coordinate
-\return the L2-norm
+* \sa https://mathworld.wolfram.com/L2-Norm.html
+* \sa https://en.wikipedia.org/wiki/Euclidean_distance
+* \sa https://en.wikipedia.org/wiki/Distance#Distance_in_Euclidean_space
+* \param p1 the ECEF coordinate
+* \return the L2-norm
 */
 template <std::floating_point T>
 auto
@@ -169,11 +169,11 @@ L2_norm(const ECEF<T>& p1)
 
 /// get the Euclidean distance
 /**
-\sa https://en.wikipedia.org/wiki/Euclidean_distance
-\sa https://en.wikipedia.org/wiki/Distance#Distance_in_Euclidean_space
-\param p1 the first ECEF coordinate
-\param p2 the second ECEF coordinate
-\return the Euclidean distance
+* \sa https://en.wikipedia.org/wiki/Euclidean_distance
+* \sa https://en.wikipedia.org/wiki/Distance#Distance_in_Euclidean_space
+* \param p1 the first ECEF coordinate
+* \param p2 the second ECEF coordinate
+* \return the Euclidean distance
 */
 template <std::floating_point T>
 auto

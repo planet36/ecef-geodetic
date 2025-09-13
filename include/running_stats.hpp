@@ -3,13 +3,13 @@
 
 /// running stats class
 /**
-\file
-\author John D. Cook
-\author Steven Ward
-\sa https://www.johndcook.com/blog/skewness_kurtosis/
-
-XXX: Do not compile with -ffinite-math-only (included with -ffast-math (included with -Ofast)).
-This affects the behavior of functions std::fmin, std::fmax.
+* \file
+* \author John D. Cook
+* \author Steven Ward
+* \sa https://www.johndcook.com/blog/skewness_kurtosis/
+*
+* XXX: Do not compile with -ffinite-math-only (included with -ffast-math (included with -Ofast)).
+* This affects the behavior of functions std::fmin, std::fmax.
 */
 
 #pragma once
