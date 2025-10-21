@@ -58,8 +58,8 @@ read_coords_ecef(std::vector<ECEF<T>>& ecef_vec)
             break;
 
         default:
-            throw std::invalid_argument(fmt::format(
-                "Invalid input data dimensions: {}", input_vec.size()));
+            throw std::invalid_argument(
+                fmt::format("Invalid input data dimensions: {}", input_vec.size()));
             break;
         }
 
@@ -100,8 +100,8 @@ read_coords_geod(std::vector<Geodetic<angle_unit::degree, T>>& geod_vec)
             break;
 
         default:
-            throw std::invalid_argument(fmt::format(
-                "Invalid input data dimensions: {}", input_vec.size()));
+            throw std::invalid_argument(
+                fmt::format("Invalid input data dimensions: {}", input_vec.size()));
             break;
         }
 
@@ -154,9 +154,8 @@ read_coords(const INPUT_DATA_COORD_SYSTEM input_data_coord_system,
         break;
 
     default:
-        throw std::invalid_argument(
-            fmt::format("Invalid INPUT_DATA_COORD_SYSTEM: {}",
-                        std::to_underlying(input_data_coord_system)));
+        throw std::invalid_argument(fmt::format("Invalid INPUT_DATA_COORD_SYSTEM: {}",
+                                                std::to_underlying(input_data_coord_system)));
         break;
     }
 }

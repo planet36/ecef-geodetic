@@ -24,9 +24,9 @@ concept container = requires(C a, const C b) {
     requires std::forward_iterator<typename C::iterator>;
     requires std::forward_iterator<typename C::const_iterator>;
     requires std::signed_integral<typename C::difference_type>;
-    requires std::same_as<
-        typename C::difference_type,
-        typename std::iterator_traits<typename C::iterator>::difference_type>;
+    requires std::same_as<typename C::difference_type,
+                          typename std::iterator_traits<
+                              typename C::iterator>::difference_type>;
     requires std::same_as<typename C::difference_type,
                           typename std::iterator_traits<
                               typename C::const_iterator>::difference_type>;

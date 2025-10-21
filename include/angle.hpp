@@ -41,8 +41,7 @@ public:
 
     /// conversion ctor
     template <angle_unit U2, std::floating_point T2>
-    constexpr angle(const angle<U2, T2>& a) :
-    value(convert_from<U2, U>(a.scalar()))
+    constexpr angle(const angle<U2, T2>& a) : value(convert_from<U2, U>(a.scalar()))
     {}
 
     /// default assignment
@@ -220,7 +219,7 @@ make_ang_arcsec(const T x)
 * \return an angle of the given value
 */
 constexpr auto
-operator ""_mrad(const long double x)
+operator""_mrad(const long double x)
 {
     using T = long double;
     return ang_mrad<T>{x};
@@ -234,7 +233,7 @@ operator ""_mrad(const long double x)
 * \return an angle of the given value
 */
 constexpr auto
-operator ""_mrad(const unsigned long long int x)
+operator""_mrad(const unsigned long long int x)
 {
     using T = long double;
     return ang_mrad<T>{static_cast<T>(x)};
@@ -248,7 +247,7 @@ operator ""_mrad(const unsigned long long int x)
 * \return an angle of the given value
 */
 constexpr auto
-operator ""_rad(const long double x)
+operator""_rad(const long double x)
 {
     using T = long double;
     return ang_rad<T>{x};
@@ -262,7 +261,7 @@ operator ""_rad(const long double x)
 * \return an angle of the given value
 */
 constexpr auto
-operator ""_rad(const unsigned long long int x)
+operator""_rad(const unsigned long long int x)
 {
     using T = long double;
     return ang_rad<T>{static_cast<T>(x)};
@@ -276,7 +275,7 @@ operator ""_rad(const unsigned long long int x)
 * \return an angle of the given value
 */
 constexpr auto
-operator ""_rev(const long double x)
+operator""_rev(const long double x)
 {
     using T = long double;
     return ang_rev<T>{x};
@@ -290,7 +289,7 @@ operator ""_rev(const long double x)
 * \return an angle of the given value
 */
 constexpr auto
-operator ""_rev(const unsigned long long int x)
+operator""_rev(const unsigned long long int x)
 {
     using T = long double;
     return ang_rev<T>{static_cast<T>(x)};
@@ -304,7 +303,7 @@ operator ""_rev(const unsigned long long int x)
 * \return an angle of the given value
 */
 constexpr auto
-operator ""_deg(const long double x)
+operator""_deg(const long double x)
 {
     using T = long double;
     return ang_deg<T>{x};
@@ -318,7 +317,7 @@ operator ""_deg(const long double x)
 * \return an angle of the given value
 */
 constexpr auto
-operator ""_deg(const unsigned long long int x)
+operator""_deg(const unsigned long long int x)
 {
     using T = long double;
     return ang_deg<T>{static_cast<T>(x)};
@@ -332,7 +331,7 @@ operator ""_deg(const unsigned long long int x)
 * \return an angle of the given value
 */
 constexpr auto
-operator ""_arcmin(const long double x)
+operator""_arcmin(const long double x)
 {
     using T = long double;
     return ang_arcmin<T>{x};
@@ -346,7 +345,7 @@ operator ""_arcmin(const long double x)
 * \return an angle of the given value
 */
 constexpr auto
-operator ""_arcmin(const unsigned long long int x)
+operator""_arcmin(const unsigned long long int x)
 {
     using T = long double;
     return ang_arcmin<T>{static_cast<T>(x)};
@@ -360,7 +359,7 @@ operator ""_arcmin(const unsigned long long int x)
 * \return an angle of the given value
 */
 constexpr auto
-operator ""_arcsec(const long double x)
+operator""_arcsec(const long double x)
 {
     using T = long double;
     return ang_arcsec<T>{x};
@@ -374,7 +373,7 @@ operator ""_arcsec(const long double x)
 * \return an angle of the given value
 */
 constexpr auto
-operator ""_arcsec(const unsigned long long int x)
+operator""_arcsec(const unsigned long long int x)
 {
     using T = long double;
     return ang_arcsec<T>{static_cast<T>(x)};
@@ -685,10 +684,7 @@ operator/(const angle<U, T>& a1, const angle<U, T2>& a2)
 }
 
 /// angle<U, T> + angle<U2, T2>
-template <angle_unit U,
-          std::floating_point T,
-          angle_unit U2,
-          std::floating_point T2>
+template <angle_unit U, std::floating_point T, angle_unit U2, std::floating_point T2>
 constexpr auto
 operator+(const angle<U, T>& a1, const angle<U2, T2>& a2)
 {
@@ -696,10 +692,7 @@ operator+(const angle<U, T>& a1, const angle<U2, T2>& a2)
 }
 
 /// angle<U, T> - angle<U2, T2>
-template <angle_unit U,
-          std::floating_point T,
-          angle_unit U2,
-          std::floating_point T2>
+template <angle_unit U, std::floating_point T, angle_unit U2, std::floating_point T2>
 constexpr auto
 operator-(const angle<U, T>& a1, const angle<U2, T2>& a2)
 {
@@ -707,10 +700,7 @@ operator-(const angle<U, T>& a1, const angle<U2, T2>& a2)
 }
 
 /// angle<U, T> / angle<U2, T2>
-template <angle_unit U,
-          std::floating_point T,
-          angle_unit U2,
-          std::floating_point T2>
+template <angle_unit U, std::floating_point T, angle_unit U2, std::floating_point T2>
 constexpr auto
 operator/(const angle<U, T>& a1, const angle<U2, T2>& a2)
 {
@@ -752,8 +742,8 @@ is_right_approx(const angle<U, T>& a,
                 const T allowed_rel_diff = 1E-12,
                 const T allowed_abs_diff = 0)
 {
-    return isclose(a.scalar(), const_angle<U, T>::quarter_turn.scalar(),
-                   allowed_rel_diff, allowed_abs_diff);
+    return isclose(a.scalar(), const_angle<U, T>::quarter_turn.scalar(), allowed_rel_diff,
+                   allowed_abs_diff);
 }
 
 /// is obtuse?
@@ -765,8 +755,7 @@ template <angle_unit U, std::floating_point T>
 constexpr bool
 is_obtuse(const angle<U, T>& a)
 {
-    return (a > const_angle<U, T>::quarter_turn) &&
-           (a < const_angle<U, T>::half_turn);
+    return (a > const_angle<U, T>::quarter_turn) && (a < const_angle<U, T>::half_turn);
 }
 
 /// is straight?
@@ -792,8 +781,8 @@ is_straight_approx(const angle<U, T>& a,
                    const T allowed_rel_diff = 1E-12,
                    const T allowed_abs_diff = 0)
 {
-    return isclose(a.scalar(), const_angle<U, T>::half_turn.scalar(),
-                   allowed_rel_diff, allowed_abs_diff);
+    return isclose(a.scalar(), const_angle<U, T>::half_turn.scalar(), allowed_rel_diff,
+                   allowed_abs_diff);
 }
 
 /// is reflex?
@@ -831,8 +820,8 @@ is_full_approx(const angle<U, T>& a,
                const T allowed_rel_diff = 1E-12,
                const T allowed_abs_diff = 0)
 {
-    return isclose(a.scalar(), const_angle<U, T>::full_turn.scalar(),
-                   allowed_rel_diff, allowed_abs_diff);
+    return isclose(a.scalar(), const_angle<U, T>::full_turn.scalar(), allowed_rel_diff,
+                   allowed_abs_diff);
 }
 
 /// are complementary?
@@ -1029,16 +1018,12 @@ ieee_remainder(const angle<U, T>& a1, const angle<U, T>& a2)
 * \param a1 the first angle
 * \param a2 the second angle
 */
-template <angle_unit U,
-          std::floating_point T,
-          angle_unit U2,
-          std::floating_point T2>
+template <angle_unit U, std::floating_point T, angle_unit U2, std::floating_point T2>
 constexpr auto
 ieee_remainder(const angle<U, T>& a1, const angle<U2, T2>& a2)
 {
     using result_type = typename std::common_type_t<T, T2>;
-    return ieee_remainder(a1.template to<result_type>(),
-                          a2.template to<U, result_type>());
+    return ieee_remainder(a1.template to<result_type>(), a2.template to<U, result_type>());
 }
 
 /// get the fmod remainder of dividing \a a1 by \a a2
@@ -1058,16 +1043,12 @@ fmod_remainder(const angle<U, T>& a1, const angle<U, T>& a2)
 * \param a1 the first angle
 * \param a2 the second angle
 */
-template <angle_unit U,
-          std::floating_point T,
-          angle_unit U2,
-          std::floating_point T2>
+template <angle_unit U, std::floating_point T, angle_unit U2, std::floating_point T2>
 constexpr auto
 fmod_remainder(const angle<U, T>& a1, const angle<U2, T2>& a2)
 {
     using result_type = typename std::common_type_t<T, T2>;
-    return ieee_remainder(a1.template to<result_type>(),
-                          a2.template to<U, result_type>());
+    return ieee_remainder(a1.template to<result_type>(), a2.template to<U, result_type>());
 }
 
 /// normalize the angle
@@ -1187,16 +1168,12 @@ angle_diff(angle<U, T> a1, angle<U, T> a2)
 * \param a1 the first angle
 * \param a2 the second angle
 */
-template <angle_unit U,
-          std::floating_point T,
-          angle_unit U2,
-          std::floating_point T2>
+template <angle_unit U, std::floating_point T, angle_unit U2, std::floating_point T2>
 constexpr auto
 angle_diff(angle<U, T> a1, angle<U2, T2> a2)
 {
     using result_type = typename std::common_type_t<T, T2>;
-    return angle_diff(a1.template to<result_type>(),
-                      a2.template to<U, result_type>());
+    return angle_diff(a1.template to<result_type>(), a2.template to<U, result_type>());
 }
 
 /// get the remainder and part of the quotient upon division of \a a1 by \a a2

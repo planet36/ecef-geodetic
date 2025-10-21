@@ -154,9 +154,9 @@ operator+(const running_stats<T>& a, const running_stats<T>& b)
     combined.M4 = a.M4 + b.M4 +
                   delta4 * a.n * b.n * (a.n * a.n - a.n * b.n + b.n * b.n) /
                       (combined.n * combined.n * combined.n);
-    combined.M4 += 6 * delta2 * (a.n * a.n * b.M2 + b.n * b.n * a.M2) /
-                       z(combined.n * combined.n) +
-                   4 * delta * (a.n * b.M3 - b.n * a.M3) / combined.n;
+    combined.M4 +=
+        6 * delta2 * (a.n * a.n * b.M2 + b.n * b.n * a.M2) / z(combined.n * combined.n) +
+        4 * delta * (a.n * b.M3 - b.n * a.M3) / combined.n;
 
     return combined;
 }

@@ -13,7 +13,7 @@
 #include <numbers>
 
 /// milliradians per radian
-inline constexpr unsigned short mrad_per_rad = 1'000;
+inline constexpr unsigned short mrad_per_rad = 1000;
 
 /// radians per revolution
 inline constexpr double rad_per_rev = 2 * std::numbers::pi;

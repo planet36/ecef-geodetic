@@ -173,7 +173,8 @@ auto do_ecef_to_geodetic_test_speed =
 
 #define nl (void)putchar('\n')
 
-int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
+int
+main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
 {
     /*
     ** Methodology for testing a single point:
@@ -493,7 +494,8 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
             if (use_multiple_threads)
             {
                 std::mutex mtx;
-                std::for_each(std::execution::par, std::begin(func_names), std::end(func_names),
+                std::for_each(
+                    std::execution::par, std::begin(func_names), std::end(func_names),
                     [&](const std::string& func_name)
                     {
                         const auto& func_info = map_func_name_to_func_info.at(func_name);
