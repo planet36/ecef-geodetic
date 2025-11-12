@@ -31,14 +31,15 @@
 #include <set>
 #include <stdexcept>
 #include <string>
+#include <string_view>
 #include <unistd.h>
 #include <vector>
 
-const char* program_version = "2024-01-09";
+inline constexpr std::string_view program_version = "2024-01-09";
 // https://man7.org/linux/man-pages/man3/gnu_get_libc_version.3.html
-const char* glibc_version = gnu_get_libc_version();
+const std::string_view glibc_version = gnu_get_libc_version();
 // https://gcc.gnu.org/onlinedocs/cpp/Common-Predefined-Macros.html
-const char* gcc_version = __VERSION__;
+inline constexpr std::string_view gcc_version = __VERSION__;
 
 template <std::floating_point T>
 struct dist_err_stats
