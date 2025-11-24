@@ -27,6 +27,7 @@
 #include <gnu/libc-version.h>
 #include <mutex>
 #include <nlohmann/json.hpp>
+#include <numeric>
 #include <random>
 #include <ranges>
 #include <set>
@@ -199,7 +200,7 @@ main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
     bool verbose = false;
     bool do_acc_test = false;
     bool do_single_point_acc_test = false;
-    int num_speed_test_iterations = 0;
+    unsigned int num_speed_test_iterations = 0;
     int max_ilog10_mean_dist_err = 99;
     INPUT_DATA_COORD_SYSTEM input_data_coord_system = default_input_data_coord_system;
     bool use_multiple_threads = false;
@@ -228,7 +229,8 @@ main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
         case 's':
             try
             {
-                num_speed_test_iterations = std::stoi(optarg);
+                const auto tmp = std::stoll(optarg);
+                num_speed_test_iterations = std::saturate_cast<decltype(num_speed_test_iterations)>(tmp);
             }
             catch (const std::invalid_argument& ex)
             {
@@ -237,12 +239,6 @@ main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
             catch (const std::out_of_range& ex)
             {
                 errx(EXIT_FAILURE, "out of range: %s: \"%s\"", ex.what(), optarg);
-            }
-
-            if (num_speed_test_iterations < 0)
-            {
-                errx(EXIT_FAILURE, "Error: num_speed_test_iterations (%d) < 0",
-                     num_speed_test_iterations);
             }
             break;
 
@@ -300,7 +296,7 @@ main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
                 const auto keys = std::views::keys(map_func_name_to_func_info);
                 fmt::println(stderr, "  {}", fmt::join(keys, "\n  "));
 
-                return EXIT_FAILURE;
+                std::exit(EXIT_FAILURE);
             }
         }
     }
