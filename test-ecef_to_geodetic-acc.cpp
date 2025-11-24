@@ -19,6 +19,7 @@
 #include <concepts>
 #include <cstdio>
 #include <cstdlib>
+#include <err.h>
 #include <execution>
 #include <fmt/chrono.h>
 #include <fmt/format.h>
@@ -231,20 +232,17 @@ main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
             }
             catch (const std::invalid_argument& ex)
             {
-                fmt::println(stderr, "Error: invalid_argument: {}", ex.what());
-                std::exit(EXIT_FAILURE);
+                errx(EXIT_FAILURE, "invalid argument: %s: \"%s\"", ex.what(), optarg);
             }
             catch (const std::out_of_range& ex)
             {
-                fmt::println(stderr, "Error: out_of_range: {}", ex.what());
-                std::exit(EXIT_FAILURE);
+                errx(EXIT_FAILURE, "out of range: %s: \"%s\"", ex.what(), optarg);
             }
 
             if (num_speed_test_iterations < 0)
             {
-                fmt::println(stderr, "Error: num_speed_test_iterations ({}) < 0",
-                             num_speed_test_iterations);
-                std::exit(EXIT_FAILURE);
+                errx(EXIT_FAILURE, "Error: num_speed_test_iterations (%d) < 0",
+                     num_speed_test_iterations);
             }
             break;
 
@@ -255,13 +253,11 @@ main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
             }
             catch (const std::invalid_argument& ex)
             {
-                fmt::println(stderr, "Error: invalid_argument: {}", ex.what());
-                std::exit(EXIT_FAILURE);
+                errx(EXIT_FAILURE, "invalid argument: %s: \"%s\"", ex.what(), optarg);
             }
             catch (const std::out_of_range& ex)
             {
-                fmt::println(stderr, "Error: out_of_range: {}", ex.what());
-                std::exit(EXIT_FAILURE);
+                errx(EXIT_FAILURE, "out of range: %s: \"%s\"", ex.what(), optarg);
             }
             break;
 
