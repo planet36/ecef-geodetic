@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: Steven Ward
 # SPDX-License-Identifier: OSL-3.0
 
-export LC_ALL := C
+export LC_ALL = C
 
 # https://how.wtf/check-if-a-program-exists-from-a-makefile.html
 REQUIRED_BINS := \
@@ -72,27 +72,27 @@ ecef.2d.speed.txt \
 export NUM_THREADS := $(shell nproc --ignore 1)
 
 # Should be an odd number for simpler median
-BENCHMARK_REPS := 7
+BENCHMARK_REPS = 7
 
 # Used by plot
-DPI := 180
+DPI = 180
 
 DATETIME := $(shell date -u +'%Y%m%dT%H%M%S')
 
-OUTPUT_DIR := results
+OUTPUT_DIR = results
 
-SRC_ACC := test-ecef_to_geodetic-acc.cpp
+SRC_ACC = test-ecef_to_geodetic-acc.cpp
 #BIN_ACC = $(addsuffix .out, $(basename $(SRC_ACC)))
 BIN_ACC = $(basename $(SRC_ACC))
 
-SRC_SPEED := test-ecef_to_geodetic-speed.cpp
+SRC_SPEED = test-ecef_to_geodetic-speed.cpp
 #BIN_SPEED = $(addsuffix .out, $(basename $(SRC_SPEED)))
 BIN_SPEED = $(basename $(SRC_SPEED))
 
-SRCS := $(SRC_ACC) $(SRC_SPEED)
-DEPS := $(SRC_ACC:.cpp=.d) $(SRC_SPEED:.cpp=.d)
-#OBJS := $(SRC_ACC:.cpp=.o) $(SRC_SPEED:.cpp=.o)
-BINS := $(BIN_ACC) $(BIN_SPEED)
+SRCS = $(SRC_ACC) $(SRC_SPEED)
+DEPS = $(SRC_ACC:.cpp=.d) $(SRC_SPEED:.cpp=.d)
+#OBJS = $(SRC_ACC:.cpp=.o) $(SRC_SPEED:.cpp=.o)
+BINS = $(BIN_ACC) $(BIN_SPEED)
 
 all: $(BINS) input | $(OUTPUT_DIR)
 
