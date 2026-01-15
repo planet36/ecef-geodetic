@@ -45,11 +45,9 @@ CXXFLAGS += -frecord-gcc-switches
 
 # Do not use -ffinite-math-only (enabled with -ffast-math (enabled with -Ofast))
 
-#LDFLAGS +=
+#LDFLAGS =
 
-LDLIBS += -lbenchmark
-LDLIBS += -lfmt
-LDLIBS += -ltbb
+LDLIBS = -lbenchmark -lfmt -ltbb
 
 ALL_INFILES_GEOD := \
 geod.2d.region-0.txt \

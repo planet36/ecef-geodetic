@@ -7,10 +7,17 @@ OBJS = $(SRCS:.c=.o)
 
 BIN = ecef_to_geodetic
 
-CPPFLAGS += -MMD -MP
+CPPFLAGS = -MMD -MP
+CPPFLAGS += -D_GNU_SOURCE
+
+CFLAGS = -std=c23
+CFLAGS += -pipe -Wall -Wextra -Wpedantic -Wfatal-errors
+CFLAGS += -O3 -flto=auto -march=native -fno-math-errno
 CFLAGS += -Wno-old-style-definition
-#LDFLAGS +=
-LDLIBS += -lm
+
+#LDFLAGS =
+
+LDLIBS = -lm
 
 $(BIN): $(OBJS)
 	$(CC) $^ -o $@ $(LDLIBS)
