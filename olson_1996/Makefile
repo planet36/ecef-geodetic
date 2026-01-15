@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: Steven Ward
 # SPDX-License-Identifier: OSL-3.0
 
+export LC_ALL = C
+
 SRCS = $(wildcard *.c)
 DEPS = $(SRCS:.c=.d)
 OBJS = $(SRCS:.c=.o)
