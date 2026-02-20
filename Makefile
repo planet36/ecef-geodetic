@@ -28,7 +28,7 @@ $(foreach bin,$(REQUIRED_BINS),\
 CXX = g++
 
 CPPFLAGS = -MMD -MP
-CPPFLAGS += -Iinclude
+CPPFLAGS += -I include
 
 CXXFLAGS = -std=c++26
 CXXFLAGS += -pipe -Wall -Wextra -Wpedantic -Wfatal-errors
