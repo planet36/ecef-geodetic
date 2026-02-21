@@ -1,5 +1,5 @@
 ## SPDX-FileCopyrightText: Steven Ward
-## SPDX-License-Identifier: OSL-3.0
+## SPDX-License-Identifier: MPL-2.0
 
 /*
 
@@ -115,7 +115,7 @@ authalic_from_conformal    = mat_ut(authalic_from_conformal_arr   ) * n81;
 conformal_from_authalic    = mat_ut(conformal_from_authalic_arr   ) * n81;
 
 script_author = "Steven Ward"
-script_license = "OSL-3.0"
+script_license = "MPL-2.0"
 script_name = "generate-series-approx-coeff-aux-lat.cal"
 script_brief_description = "Auxiliary latitude conversions"
 script_detailed_description = "* \\sa https://geographiclib.sourceforge.io/C++/doc/auxlat.html#auxlattable"

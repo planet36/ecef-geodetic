@@ -1,5 +1,5 @@
 ## SPDX-FileCopyrightText: Steven Ward
-## SPDX-License-Identifier: OSL-3.0
+## SPDX-License-Identifier: MPL-2.0
 
 /*
 
@@ -68,7 +68,7 @@ define val_print_as_cpp_var(s, x) {
 }
 
 script_author = "Steven Ward"
-script_license = "OSL-3.0"
+script_license = "MPL-2.0"
 script_name = "generate-series-approx-coeff-tm.cal"
 script_brief_description = "Transverse Mercator conversions"
 script_detailed_description = "* \\sa https://geographiclib.sourceforge.io/C++/doc/transversemercator.html#tmseries\n* \\sa https://geographiclib.sourceforge.io/html/tmseries30.html"
