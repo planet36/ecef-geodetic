@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: Steven Ward
-# SPDX-License-Identifier: OSL-3.0
+# SPDX-License-Identifier: MPL-2.0
 
 # pylint: disable=invalid-name
 
@@ -10,7 +10,7 @@ Copied from <https://docs.python.org/3/library/decimal.html#decimal-faq>.
 '''
 
 __author__ = 'Steven Ward'
-__license__ = 'OSL-3.0'
+__license__ = 'MPL-2.0'
 
 from decimal import Decimal
 

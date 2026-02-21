@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: Steven Ward
-# SPDX-License-Identifier: OSL-3.0
+# SPDX-License-Identifier: MPL-2.0
 
 # pylint: disable=invalid-name
 
@@ -14,7 +14,7 @@ https://docs.scipy.org/doc/numpy/reference/generated/numpy.arange.html
 '''
 
 __author__ = 'Steven Ward'
-__license__ = 'OSL-3.0'
+__license__ = 'MPL-2.0'
 
 import itertools
 import sys

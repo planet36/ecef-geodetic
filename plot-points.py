@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: Steven Ward
-# SPDX-License-Identifier: OSL-3.0
+# SPDX-License-Identifier: MPL-2.0
 
 # pylint: disable=missing-function-docstring
 # pylint: disable=missing-module-docstring
@@ -11,7 +11,7 @@
 # pylint: disable=trailing-newlines
 
 __author__ = 'Steven Ward'
-__license__ = 'OSL-3.0'
+__license__ = 'MPL-2.0'
 __version__ = '2024-01-08'
 
 from enum import Enum, auto, unique

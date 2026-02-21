@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: Steven Ward
-# SPDX-License-Identifier: OSL-3.0
+# SPDX-License-Identifier: MPL-2.0
 
 # pylint: disable=invalid-name
 # pylint: disable=no-member
@@ -9,7 +9,7 @@ Create 2D ECEF points to be used in the speed tests.
 '''
 
 __author__ = 'Steven Ward'
-__license__ = 'OSL-3.0'
+__license__ = 'MPL-2.0'
 __version__ = '2024-01-03'
 
 import gmpy2
