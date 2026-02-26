@@ -67,7 +67,7 @@ main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
     }
     catch (...)
     {
-        num_threads = max_threads;
+        num_threads = min_threads;
     }
 
     num_threads = std::clamp(num_threads, min_threads, max_threads);
