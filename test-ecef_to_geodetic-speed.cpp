@@ -22,21 +22,25 @@ BM_do_ecef_to_geodetic_test_speed(benchmark::State& BM_state,
                                   const ecef_to_geodetic_func<T>& func,
                                   const std::vector<ECEF<T>>& ecef_vec)
 {
+    T lat_rad{};
+    T lon_rad{};
+    T ht{};
+
+    size_t i = 0;
+    const size_t n = ecef_vec.size();
+
     for (auto _ : BM_state)
     {
-        for (const auto& ecef_given : ecef_vec)
-        {
-            T lat_rad{};
-            T lon_rad{};
-            T ht{};
-            func(ecef_given.x, ecef_given.y, ecef_given.z, lat_rad, lon_rad, ht);
-            benchmark::DoNotOptimize(lat_rad);
-            benchmark::DoNotOptimize(lon_rad);
-            benchmark::DoNotOptimize(ht);
-        }
-    }
+        func(ecef_vec[i].x, ecef_vec[i].y, ecef_vec[i].z, lat_rad, lon_rad, ht);
 
-    BM_state.SetItemsProcessed(BM_state.iterations() * ecef_vec.size());
+        benchmark::DoNotOptimize(lat_rad);
+        benchmark::DoNotOptimize(lon_rad);
+        benchmark::DoNotOptimize(ht);
+
+        ++i;
+        if (i == n)
+            i = 0;
+    }
 }
 
 int

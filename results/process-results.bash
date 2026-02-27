@@ -44,20 +44,20 @@ declare -r OUTFILE_FILTERED="${SCRIPT_DIR}/acc-speed.${DATETIME}.filtered.csv"
 
 printf '%q\n' "$INFILE_ACC" > "$OUTFILE"
 printf '%q\n' "$INFILE_SPEED" >> "$OUTFILE"
-printf 'Name,Mean dist. error (nm),Max dist. error (nm),M conversions/sec\n' >> "$OUTFILE"
+printf 'Name,Mean dist. error (nm),Max dist. error (nm),Time/call (ns)\n' >> "$OUTFILE"
 
 if grep -q -E '/threads:[0-9]+_median\>' "$INFILE_SPEED"
 then
     # Speed test was run with more than 1 repetition.
     join -t ',' \
         <(jq -r '.func_names | keys[] as $k | "\(.[$k].info.display_name),\(.[$k].acc.mean_dist_err*1e9),\(.[$k].acc.max_dist_err*1e9)"' "$INFILE_ACC" | sort) \
-        <(jq -r '.benchmarks[] | select(.name | endswith("_median")) | "\(.name),\(.items_per_second/1e6)"' "$INFILE_SPEED" | sed -E -e 's/\/threads:[0-9]+_median//' | sort) >> \
+        <(jq -r '.benchmarks[] | select(.name | endswith("_median")) | "\(.name),\(.cpu_time)"' "$INFILE_SPEED" | sed -E -e 's/\/threads:[0-9]+_median//' | sort) >> \
         "$OUTFILE" || exit
 else
     # Speed test was run with 1 repetition.
     join -t ',' \
         <(jq -r '.func_names | keys[] as $k | "\(.[$k].info.display_name),\(.[$k].acc.mean_dist_err*1e9),\(.[$k].acc.max_dist_err*1e9)"' "$INFILE_ACC" | sort) \
-        <(jq -r '.benchmarks[] | "\(.name),\(.items_per_second/1e6)"' "$INFILE_SPEED" | sed -E -e 's/\/threads:[0-9]+//' | sort) >> \
+        <(jq -r '.benchmarks[] | "\(.name),\(.cpu_time)"' "$INFILE_SPEED" | sed -E -e 's/\/threads:[0-9]+//' | sort) >> \
         "$OUTFILE" || exit
 fi
 
