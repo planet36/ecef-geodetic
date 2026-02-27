@@ -1,0 +1,1593 @@
+{
+  "func_names": {
+    "borkowski_1989": {
+      "acc": {
+        "ilog10_mean_dist_err": -7,
+        "max_dist_err": 0.0005193424977074332,
+        "mean_dist_err": 1.1766308762872356E-7,
+        "stdev_dist_err": 0.0000019048423481108438,
+        "sum_dist_err": 1.0116142790424385
+      },
+      "info": {
+        "algo_author": "K.M. Borkowski",
+        "citation": "Borkowski, K.M. Bull. Geodesique (1989) 63: 50. https://doi.org/10.1007/BF02520228\nhttps://link.springer.com/article/10.1007/BF02520228",
+        "code_copyright": "Steven Ward",
+        "display_name": "Borkowski 1989",
+        "ilog10_mean_dist_err": -7,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 51,
+        "orig_impl_lang": "None",
+        "url": "http://www.astro.uni.torun.pl/~kb/Papers/geod/Geod-BG.htm"
+      }
+    },
+    "bowring_1976_x1": {
+      "acc": {
+        "ilog10_mean_dist_err": -2,
+        "max_dist_err": 6.842446110909805,
+        "mean_dist_err": 0.025347104462937968,
+        "stdev_dist_err": 0.08076597472947271,
+        "sum_dist_err": 217922.997974399
+      },
+      "info": {
+        "algo_author": "B.R. Bowring",
+        "citation": "R. Bowring, B. (1976). Transformation from spatial to geographical coordinates. Survey Review. 23. 323-327. 10.1179/003962676791280626.\nhttps://www.tandfonline.com/doi/abs/10.1179/sre.1976.23.181.323",
+        "code_copyright": "Steven Ward",
+        "display_name": "Bowring 1976 (x1)",
+        "ilog10_mean_dist_err": -2,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 24,
+        "orig_impl_lang": "None",
+        "url": "https://www.researchgate.net/publication/233496226_Transformation_from_spatial_to_geographical_coordinates"
+      }
+    },
+    "bowring_1976_x2": {
+      "acc": {
+        "ilog10_mean_dist_err": -9,
+        "max_dist_err": 5.677576383498707E-7,
+        "mean_dist_err": 2.317634967504046E-9,
+        "stdev_dist_err": 8.756747589679028E-9,
+        "sum_dist_err": 0.019925982514863973
+      },
+      "info": {
+        "algo_author": "B.R. Bowring",
+        "citation": "R. Bowring, B. (1976). Transformation from spatial to geographical coordinates. Survey Review. 23. 323-327. 10.1179/003962676791280626.\nhttps://www.tandfonline.com/doi/abs/10.1179/sre.1976.23.181.323",
+        "code_copyright": "Steven Ward",
+        "display_name": "Bowring 1976 (x2)",
+        "ilog10_mean_dist_err": -9,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 32,
+        "orig_impl_lang": "None",
+        "url": "https://www.researchgate.net/publication/233496226_Transformation_from_spatial_to_geographical_coordinates"
+      }
+    },
+    "bowring_1985_x1": {
+      "acc": {
+        "ilog10_mean_dist_err": -7,
+        "max_dist_err": 0.0027305849734413218,
+        "mean_dist_err": 5.342810568755631E-7,
+        "stdev_dist_err": 0.000009584267570116378,
+        "sum_dist_err": 4.593508100537336
+      },
+      "info": {
+        "algo_author": "B.R. Bowring",
+        "citation": "Bowring's Method with improved initial guess [1985]",
+        "code_copyright": "Steven Ward",
+        "display_name": "Bowring 1985 (x1)",
+        "ilog10_mean_dist_err": -7,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 28,
+        "orig_impl_lang": "None",
+        "url": "https://gis.stackexchange.com/questions/28446/computational-most-efficient-way-to-convert-cartesian-to-geodetic-coordinates"
+      }
+    },
+    "bowring_1985_x2": {
+      "acc": {
+        "ilog10_mean_dist_err": -9,
+        "max_dist_err": 1.3715005514399358E-7,
+        "mean_dist_err": 2.2477054174223594E-9,
+        "stdev_dist_err": 8.376817315355509E-9,
+        "sum_dist_err": 0.0193247597115534
+      },
+      "info": {
+        "algo_author": "B.R. Bowring",
+        "citation": "Bowring's Method with improved initial guess [1985]",
+        "code_copyright": "Steven Ward",
+        "display_name": "Bowring 1985 (x2)",
+        "ilog10_mean_dist_err": -9,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 36,
+        "orig_impl_lang": "None",
+        "url": "https://gis.stackexchange.com/questions/28446/computational-most-efficient-way-to-convert-cartesian-to-geodetic-coordinates"
+      }
+    },
+    "bowring_toms_1995_x1": {
+      "acc": {
+        "ilog10_mean_dist_err": -3,
+        "max_dist_err": 7.273406476015225,
+        "mean_dist_err": 0.0025058010471682808,
+        "stdev_dist_err": 0.03198679711052159,
+        "sum_dist_err": 21543.749792993007
+      },
+      "info": {
+        "algo_author": "B.R. Bowring, R. Toms",
+        "citation": "Ralph M. Toms, An Improved Algorithm for Geocentric to Geodetic Coordinate Conversion",
+        "code_copyright": "Steven Ward",
+        "display_name": "Bowring-Toms 1995 (x1)",
+        "ilog10_mean_dist_err": -3,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 36,
+        "orig_impl_lang": "None",
+        "url": "https://www.osti.gov/biblio/231228"
+      }
+    },
+    "bowring_toms_1995_x2": {
+      "acc": {
+        "ilog10_mean_dist_err": -9,
+        "max_dist_err": 6.413320804199304E-7,
+        "mean_dist_err": 2.2930639748177514E-9,
+        "stdev_dist_err": 8.692075571151764E-9,
+        "sum_dist_err": 0.019714732176693974
+      },
+      "info": {
+        "algo_author": "B.R. Bowring, R. Toms",
+        "citation": "Ralph M. Toms, An Improved Algorithm for Geocentric to Geodetic Coordinate Conversion",
+        "code_copyright": "Steven Ward",
+        "display_name": "Bowring-Toms 1995 (x2)",
+        "ilog10_mean_dist_err": -9,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 44,
+        "orig_impl_lang": "None",
+        "url": "https://www.osti.gov/biblio/231228"
+      }
+    },
+    "fukushima_1999_customht_x1": {
+      "acc": {
+        "ilog10_mean_dist_err": 99,
+        "max_dist_err": 982564111.7602061,
+        "mean_dist_err": 17549010.317367222,
+        "stdev_dist_err": 75296200.27830157,
+        "sum_dist_err": 150878493654054.53
+      },
+      "info": {
+        "algo_author": "Toshio Fukushima",
+        "citation": "Fukushima, T. Journal of Geodesy (1999) 73: 603. https://doi.org/10.1007/s001900050271\nhttps://link.springer.com/article/10.1007/s001900050271",
+        "code_copyright": "Steven Ward",
+        "display_name": "Fukushima 1999 (c.h.) (x1)",
+        "ilog10_mean_dist_err": 99,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 110,
+        "orig_impl_lang": "None",
+        "url": "https://www.researchgate.net/publication/226311152_Fast_transform_from_geocentric_to_geodetic_coordinates"
+      }
+    },
+    "fukushima_1999_x1": {
+      "acc": {
+        "ilog10_mean_dist_err": 99,
+        "max_dist_err": 148211128.91981813,
+        "mean_dist_err": 4762651.273683434,
+        "stdev_dist_err": 16593231.690220263,
+        "sum_dist_err": 40947132458065.51
+      },
+      "info": {
+        "algo_author": "Toshio Fukushima",
+        "citation": "Fukushima, T. Journal of Geodesy (1999) 73: 603. https://doi.org/10.1007/s001900050271\nhttps://link.springer.com/article/10.1007/s001900050271",
+        "code_copyright": "Steven Ward",
+        "display_name": "Fukushima 1999 (x1)",
+        "ilog10_mean_dist_err": 99,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 110,
+        "orig_impl_lang": "None",
+        "url": "https://www.researchgate.net/publication/226311152_Fast_transform_from_geocentric_to_geodetic_coordinates"
+      }
+    },
+    "fukushima_2006_x1": {
+      "acc": {
+        "ilog10_mean_dist_err": -5,
+        "max_dist_err": 0.06636842069752803,
+        "mean_dist_err": 0.00003940018213341389,
+        "stdev_dist_err": 0.0003183818927218018,
+        "sum_dist_err": 338.74503589922966
+      },
+      "info": {
+        "algo_author": "Toshio Fukushima",
+        "citation": "Fukushima, Toshio. (2006). Transformation from Cartesian to Geodetic Coordinates Accelerated by Halley’s Method. Journal of Geodesy. 79. 689-693. 10.1007/s00190-006-0023-2.",
+        "code_copyright": "Toshio Fukushima",
+        "display_name": "Fukushima 2006 (x1)",
+        "ilog10_mean_dist_err": -5,
+        "license": "Unknown",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 43,
+        "orig_impl_lang": "Fortran",
+        "url": "https://www.researchgate.net/publication/227215135_Transformation_from_Cartesian_to_Geodetic_Coordinates_Accelerated_by_Halley%27s_Method"
+      }
+    },
+    "fukushima_2006_x2": {
+      "acc": {
+        "ilog10_mean_dist_err": 99,
+        "max_dist_err": 9.9E+98,
+        "mean_dist_err": 1.3530420294153685E+98,
+        "stdev_dist_err": 3.400646218430919E+98,
+        "sum_dist_err": 1.1632846499978315E+105
+      },
+      "info": {
+        "algo_author": "Toshio Fukushima",
+        "citation": "Fukushima, Toshio. (2006). Transformation from Cartesian to Geodetic Coordinates Accelerated by Halley’s Method. Journal of Geodesy. 79. 689-693. 10.1007/s00190-006-0023-2.",
+        "code_copyright": "Toshio Fukushima",
+        "display_name": "Fukushima 2006 (x2)",
+        "ilog10_mean_dist_err": 99,
+        "license": "Unknown",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 43,
+        "orig_impl_lang": "Fortran",
+        "url": "https://www.researchgate.net/publication/227215135_Transformation_from_Cartesian_to_Geodetic_Coordinates_Accelerated_by_Halley%27s_Method"
+      }
+    },
+    "geographiclib": {
+      "acc": {
+        "ilog10_mean_dist_err": -9,
+        "max_dist_err": 2.387463172281091E-7,
+        "mean_dist_err": 1.6655983897034092E-9,
+        "stdev_dist_err": 6.855290952472089E-9,
+        "sum_dist_err": 0.014320065435387988
+      },
+      "info": {
+        "algo_author": "Charles F. F. Karney",
+        "citation": "Geodesics on an ellipsoid of revolution\nCharles F. F. Karney\nhttps://arxiv.org/abs/1102.1215",
+        "code_copyright": "Charles Karney",
+        "display_name": "GeographicLib",
+        "ilog10_mean_dist_err": -9,
+        "license": "MIT/X11",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 150,
+        "orig_impl_lang": "C++",
+        "url": "https://github.com/geographiclib/geographiclib/blob/main/src/Geocentric.cpp#L51"
+      }
+    },
+    "geographiclib_customht": {
+      "acc": {
+        "ilog10_mean_dist_err": -9,
+        "max_dist_err": 1.8411708030974008E-7,
+        "mean_dist_err": 3.1080719829408075E-9,
+        "stdev_dist_err": 1.0303189988621064E-8,
+        "sum_dist_err": 0.026721804276929387
+      },
+      "info": {
+        "algo_author": "Charles F. F. Karney",
+        "citation": "Geodesics on an ellipsoid of revolution\nCharles F. F. Karney\nhttps://arxiv.org/abs/1102.1215",
+        "code_copyright": "Charles Karney",
+        "display_name": "GeographicLib (c.h.)",
+        "ilog10_mean_dist_err": -9,
+        "license": "MIT/X11",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 150,
+        "orig_impl_lang": "C++",
+        "url": "https://github.com/geographiclib/geographiclib/blob/main/src/Geocentric.cpp#L51"
+      }
+    },
+    "geotransformCpp": {
+      "acc": {
+        "ilog10_mean_dist_err": -4,
+        "max_dist_err": 0.0008425498381257178,
+        "mean_dist_err": 0.00011780423759979148,
+        "stdev_dist_err": 0.00015570115738621754,
+        "sum_dist_err": 1012.8278229748207
+      },
+      "info": {
+        "algo_author": "R. Toms",
+        "citation": "geotransformCpp 1.5\nfile:Gcc_To_Gdc_Converter.cpp",
+        "code_copyright": "SEDRIS",
+        "display_name": "geotransformCpp",
+        "ilog10_mean_dist_err": -4,
+        "license": "\"This software was developed for use by the United States Government with unlimited rights.\"",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 207,
+        "orig_impl_lang": "C++",
+        "url": "https://web.archive.org/web/20200225202506/http://www.ai.sri.com/geotransform/download.shtml"
+      }
+    },
+    "geotransformCpp_customht": {
+      "acc": {
+        "ilog10_mean_dist_err": -4,
+        "max_dist_err": 0.0008470983073995698,
+        "mean_dist_err": 0.00012068969293643017,
+        "stdev_dist_err": 0.00015765823428209188,
+        "sum_dist_err": 1037.6356695053094
+      },
+      "info": {
+        "algo_author": "R. Toms",
+        "citation": "geotransformCpp 1.5\nfile:Gcc_To_Gdc_Converter.cpp",
+        "code_copyright": "SEDRIS",
+        "display_name": "geotransformCpp (c.h.)",
+        "ilog10_mean_dist_err": -4,
+        "license": "\"This software was developed for use by the United States Government with unlimited rights.\"",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 207,
+        "orig_impl_lang": "C++",
+        "url": "https://web.archive.org/web/20200225202506/http://www.ai.sri.com/geotransform/download.shtml"
+      }
+    },
+    "gersten_1961": {
+      "acc": {
+        "ilog10_mean_dist_err": 99,
+        "max_dist_err": 665788629.4412813,
+        "mean_dist_err": 16543053.761909379,
+        "stdev_dist_err": 55034869.79153485,
+        "sum_dist_err": 142229731870687.8
+      },
+      "info": {
+        "algo_author": "R. H. Gersten",
+        "citation": "R. H. Gersten, \"Geodetic Sub-Latitude and Altitude of a Space Vehicle\", Journal of the Astronautical Sciences, Vol. 3, No. 1, Spring 1961, pp. 28-29",
+        "code_copyright": "Steven Ward",
+        "display_name": "Gersten 1961",
+        "ilog10_mean_dist_err": 99,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 39,
+        "orig_impl_lang": "None",
+        "url": "None"
+      }
+    },
+    "halley_quick_x1": {
+      "acc": {
+        "ilog10_mean_dist_err": -2,
+        "max_dist_err": 4.352607607841492,
+        "mean_dist_err": 0.0824502975502997,
+        "stdev_dist_err": 0.391335473598494,
+        "sum_dist_err": 708870.5556969137
+      },
+      "info": {
+        "algo_author": "Steven Ward",
+        "citation": "Halley's Method: Δφ = (f * f′) / (f′ * f′ - 0.5 * f * f″)",
+        "code_copyright": "Steven Ward",
+        "display_name": "Halley quick (x1)",
+        "ilog10_mean_dist_err": -2,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 48,
+        "orig_impl_lang": "None",
+        "url": "https://mathworld.wolfram.com/HalleysMethod.html"
+      }
+    },
+    "halley_quick_x2": {
+      "acc": {
+        "ilog10_mean_dist_err": -9,
+        "max_dist_err": 1.8984674507260734E-7,
+        "mean_dist_err": 2.734095806269926E-9,
+        "stdev_dist_err": 1.0026972843124968E-8,
+        "sum_dist_err": 0.023506525399185817
+      },
+      "info": {
+        "algo_author": "Steven Ward",
+        "citation": "Halley's Method: Δφ = (f * f′) / (f′ * f′ - 0.5 * f * f″)",
+        "code_copyright": "Steven Ward",
+        "display_name": "Halley quick (x2)",
+        "ilog10_mean_dist_err": -9,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 48,
+        "orig_impl_lang": "None",
+        "url": "https://mathworld.wolfram.com/HalleysMethod.html"
+      }
+    },
+    "halley_x1": {
+      "acc": {
+        "ilog10_mean_dist_err": -2,
+        "max_dist_err": 4.352607607841492,
+        "mean_dist_err": 0.08245029748705325,
+        "stdev_dist_err": 0.3913354736428297,
+        "sum_dist_err": 708870.5551516978
+      },
+      "info": {
+        "algo_author": "Steven Ward",
+        "citation": "Halley's Method: Δφ = (f * f′) / (f′ * f′ - 0.5 * f * f″)",
+        "code_copyright": "Steven Ward",
+        "display_name": "Halley (x1)",
+        "ilog10_mean_dist_err": -2,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 44,
+        "orig_impl_lang": "None",
+        "url": "https://mathworld.wolfram.com/HalleysMethod.html"
+      }
+    },
+    "halley_x2": {
+      "acc": {
+        "ilog10_mean_dist_err": -9,
+        "max_dist_err": 1.507810916335225E-7,
+        "mean_dist_err": 1.4172176154436383E-9,
+        "stdev_dist_err": 5.742603085721592E-9,
+        "sum_dist_err": 0.012184599309654785
+      },
+      "info": {
+        "algo_author": "Steven Ward",
+        "citation": "Halley's Method: Δφ = (f * f′) / (f′ * f′ - 0.5 * f * f″)",
+        "code_copyright": "Steven Ward",
+        "display_name": "Halley (x2)",
+        "ilog10_mean_dist_err": -10,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 44,
+        "orig_impl_lang": "None",
+        "url": "https://mathworld.wolfram.com/HalleysMethod.html"
+      }
+    },
+    "heikkinen_1982": {
+      "acc": {
+        "ilog10_mean_dist_err": -9,
+        "max_dist_err": 1.644653920754869E-7,
+        "mean_dist_err": 2.1489085116169916E-9,
+        "stdev_dist_err": 8.158211195832456E-9,
+        "sum_dist_err": 0.01847534837404607
+      },
+      "info": {
+        "algo_author": "M. Heikkinen",
+        "citation": "Heikkinen, M. \"Closed formulas for the calculation of spatial geodetic coordinates from rectangular coordinates.\" Journal of Surveying 107.1982 (1982): 207-211.",
+        "code_copyright": "Steven Ward",
+        "display_name": "Heikkinen 1982",
+        "ilog10_mean_dist_err": -9,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 57,
+        "orig_impl_lang": "None",
+        "url": "None"
+      }
+    },
+    "heikkinen_1982_customht": {
+      "acc": {
+        "ilog10_mean_dist_err": -9,
+        "max_dist_err": 1.374971278125619E-7,
+        "mean_dist_err": 2.6712922836399847E-9,
+        "stdev_dist_err": 8.858475873915609E-9,
+        "sum_dist_err": 0.022966568973205367
+      },
+      "info": {
+        "algo_author": "M. Heikkinen",
+        "citation": "Heikkinen, M. \"Closed formulas for the calculation of spatial geodetic coordinates from rectangular coordinates.\" Journal of Surveying 107.1982 (1982): 207-211.",
+        "code_copyright": "Steven Ward",
+        "display_name": "Heikkinen 1982 (c.h.)",
+        "ilog10_mean_dist_err": -9,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 57,
+        "orig_impl_lang": "None",
+        "url": "None"
+      }
+    },
+    "householder_quick_x1": {
+      "acc": {
+        "ilog10_mean_dist_err": -2,
+        "max_dist_err": 4.352674067020416,
+        "mean_dist_err": 0.08245131583574995,
+        "stdev_dist_err": 0.3913406337515212,
+        "sum_dist_err": 708879.3104570823
+      },
+      "info": {
+        "algo_author": "Steven Ward",
+        "citation": "Householder's Method: Δφ = (f / f′) * (1 + 0.5 * f * f″ / (f′ * f′))",
+        "code_copyright": "Steven Ward",
+        "display_name": "Householder quick (x1)",
+        "ilog10_mean_dist_err": -2,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 48,
+        "orig_impl_lang": "None",
+        "url": "https://mathworld.wolfram.com/HouseholdersMethod.html"
+      }
+    },
+    "householder_quick_x2": {
+      "acc": {
+        "ilog10_mean_dist_err": -9,
+        "max_dist_err": 1.9019030792950602E-7,
+        "mean_dist_err": 2.7327928314727116E-9,
+        "stdev_dist_err": 1.002629172107094E-8,
+        "sum_dist_err": 0.02349532300821656
+      },
+      "info": {
+        "algo_author": "Steven Ward",
+        "citation": "Householder's Method: Δφ = (f / f′) * (1 + 0.5 * f * f″ / (f′ * f′))",
+        "code_copyright": "Steven Ward",
+        "display_name": "Householder quick (x2)",
+        "ilog10_mean_dist_err": -9,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 48,
+        "orig_impl_lang": "None",
+        "url": "https://mathworld.wolfram.com/HouseholdersMethod.html"
+      }
+    },
+    "householder_x1": {
+      "acc": {
+        "ilog10_mean_dist_err": -2,
+        "max_dist_err": 4.352674067020416,
+        "mean_dist_err": 0.08245131577000427,
+        "stdev_dist_err": 0.3913406337766563,
+        "sum_dist_err": 708879.3098900978
+      },
+      "info": {
+        "algo_author": "Steven Ward",
+        "citation": "Householder's Method: Δφ = (f / f′) * (1 + 0.5 * f * f″ / (f′ * f′))",
+        "code_copyright": "Steven Ward",
+        "display_name": "Householder (x1)",
+        "ilog10_mean_dist_err": -2,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 44,
+        "orig_impl_lang": "None",
+        "url": "https://mathworld.wolfram.com/HouseholdersMethod.html"
+      }
+    },
+    "householder_x2": {
+      "acc": {
+        "ilog10_mean_dist_err": -9,
+        "max_dist_err": 1.504658241127206E-7,
+        "mean_dist_err": 1.4139838924914418E-9,
+        "stdev_dist_err": 5.712133564592661E-9,
+        "sum_dist_err": 0.012156797214885237
+      },
+      "info": {
+        "algo_author": "Steven Ward",
+        "citation": "Householder's Method: Δφ = (f / f′) * (1 + 0.5 * f * f″ / (f′ * f′))",
+        "code_copyright": "Steven Ward",
+        "display_name": "Householder (x2)",
+        "ilog10_mean_dist_err": -10,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 44,
+        "orig_impl_lang": "None",
+        "url": "https://mathworld.wolfram.com/HouseholdersMethod.html"
+      }
+    },
+    "jat_geodetic": {
+      "acc": {
+        "ilog10_mean_dist_err": -3,
+        "max_dist_err": 25.292775163592523,
+        "mean_dist_err": 0.00845353298969838,
+        "stdev_dist_err": 0.2349708273054297,
+        "sum_dist_err": 72679.6725555492
+      },
+      "info": {
+        "algo_author": "O. Montenbruck, E. Gill",
+        "citation": "Java Astrodynamics Toolkit (JAT)",
+        "code_copyright": "NASA",
+        "display_name": "JAT Geodetic",
+        "ilog10_mean_dist_err": -3,
+        "license": "NASA Open Source Agreement",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 45,
+        "orig_impl_lang": "Java",
+        "url": "https://sourceforge.net/p/jat/code/HEAD/tree/trunk/src/jat/coreNOSA/timeRef/Geodetic.java"
+      }
+    },
+    "jones_2002_x1": {
+      "acc": {
+        "ilog10_mean_dist_err": 1,
+        "max_dist_err": 198.54605831915978,
+        "mean_dist_err": 11.781462011473574,
+        "stdev_dist_err": 22.876370206957613,
+        "sum_dist_err": 101291708.7165871
+      },
+      "info": {
+        "algo_author": "G. C. Jones",
+        "citation": "C. Jones, G. (2002). New solutions for the geodetic coordinate transformation. Journal of Geodesy. 76. 437-446. 10.1007/s00190-002-0267-4.",
+        "code_copyright": "Steven Ward",
+        "display_name": "Jones 2002 (x1)",
+        "ilog10_mean_dist_err": 1,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 65,
+        "orig_impl_lang": "None",
+        "url": "https://www.researchgate.net/publication/225462506_New_solutions_for_the_geodetic_coordinate_transformation"
+      }
+    },
+    "ligas_2011_I_x1": {
+      "acc": {
+        "ilog10_mean_dist_err": -2,
+        "max_dist_err": 8.84110996813979,
+        "mean_dist_err": 0.038365527340556864,
+        "stdev_dist_err": 0.058595286947998246,
+        "sum_dist_err": 329849.53958764405
+      },
+      "info": {
+        "algo_author": "M. Ligas, P. Banasik",
+        "citation": "Ligas, Marcin & Banasik, Piotr. (2011). Conversion between Cartesian and geodetic coordinates on a rotational ellipsoid by solving a system of nonlinear equations. Geodesy and Cartography. 60. 145-159. 10.2478/v10277-012-0013-x.",
+        "code_copyright": "Steven Ward",
+        "display_name": "Ligas 2011 I (x1)",
+        "ilog10_mean_dist_err": -2,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 93,
+        "orig_impl_lang": "None",
+        "url": "https://www.researchgate.net/publication/258491472_Conversion_between_Cartesian_and_geodetic_coordinates_on_a_rotational_ellipsoid_by_solving_a_system_of_nonlinear_equations"
+      }
+    },
+    "ligas_2011_I_x2": {
+      "acc": {
+        "ilog10_mean_dist_err": -8,
+        "max_dist_err": 0.00014282063767352232,
+        "mean_dist_err": 1.265963145938846E-8,
+        "stdev_dist_err": 4.409881717810759E-7,
+        "sum_dist_err": 0.10884181445363422
+      },
+      "info": {
+        "algo_author": "M. Ligas, P. Banasik",
+        "citation": "Ligas, Marcin & Banasik, Piotr. (2011). Conversion between Cartesian and geodetic coordinates on a rotational ellipsoid by solving a system of nonlinear equations. Geodesy and Cartography. 60. 145-159. 10.2478/v10277-012-0013-x.",
+        "code_copyright": "Steven Ward",
+        "display_name": "Ligas 2011 I (x2)",
+        "ilog10_mean_dist_err": -8,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 93,
+        "orig_impl_lang": "None",
+        "url": "https://www.researchgate.net/publication/258491472_Conversion_between_Cartesian_and_geodetic_coordinates_on_a_rotational_ellipsoid_by_solving_a_system_of_nonlinear_equations"
+      }
+    },
+    "lin_wang_1995_customht_x1": {
+      "acc": {
+        "ilog10_mean_dist_err": -4,
+        "max_dist_err": 0.48879617021745897,
+        "mean_dist_err": 0.00011326863250902507,
+        "stdev_dist_err": 0.0016963694585066314,
+        "sum_dist_err": 973.8327314279073
+      },
+      "info": {
+        "algo_author": "Kuo-Chi Lin, Jie Wang",
+        "citation": "Lin, KC. & Wang, J. Bulletin Géodésique (1995) 69: 300. https://doi.org/10.1007/BF00806742",
+        "code_copyright": "Steven Ward",
+        "display_name": "Lin-Wang 1995 (c.h.) (x1)",
+        "ilog10_mean_dist_err": -4,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 56,
+        "orig_impl_lang": "None",
+        "url": "https://link.springer.com/article/10.1007/BF00806742"
+      }
+    },
+    "lin_wang_1995_customht_x2": {
+      "acc": {
+        "ilog10_mean_dist_err": -9,
+        "max_dist_err": 1.5166249964793408E-7,
+        "mean_dist_err": 2.5639909638198585E-9,
+        "stdev_dist_err": 8.658204805918735E-9,
+        "sum_dist_err": 0.02204404051097539
+      },
+      "info": {
+        "algo_author": "Kuo-Chi Lin, Jie Wang",
+        "citation": "Lin, KC. & Wang, J. Bulletin Géodésique (1995) 69: 300. https://doi.org/10.1007/BF00806742",
+        "code_copyright": "Steven Ward",
+        "display_name": "Lin-Wang 1995 (c.h.) (x2)",
+        "ilog10_mean_dist_err": -9,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 56,
+        "orig_impl_lang": "None",
+        "url": "https://link.springer.com/article/10.1007/BF00806742"
+      }
+    },
+    "lin_wang_1995_x1": {
+      "acc": {
+        "ilog10_mean_dist_err": -7,
+        "max_dist_err": 0.0023215429391712124,
+        "mean_dist_err": 4.2998492738540044E-7,
+        "stdev_dist_err": 0.000006939847173504267,
+        "sum_dist_err": 3.696816912441444
+      },
+      "info": {
+        "algo_author": "Kuo-Chi Lin, Jie Wang",
+        "citation": "Lin, KC. & Wang, J. Bulletin Géodésique (1995) 69: 300. https://doi.org/10.1007/BF00806742",
+        "code_copyright": "Steven Ward",
+        "display_name": "Lin-Wang 1995 (x1)",
+        "ilog10_mean_dist_err": -7,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 56,
+        "orig_impl_lang": "None",
+        "url": "https://link.springer.com/article/10.1007/BF00806742"
+      }
+    },
+    "lin_wang_1995_x2": {
+      "acc": {
+        "ilog10_mean_dist_err": -9,
+        "max_dist_err": 2.470886671819103E-7,
+        "mean_dist_err": 2.473346433359552E-9,
+        "stdev_dist_err": 9.329961633137988E-9,
+        "sum_dist_err": 0.021264719628104653
+      },
+      "info": {
+        "algo_author": "Kuo-Chi Lin, Jie Wang",
+        "citation": "Lin, KC. & Wang, J. Bulletin Géodésique (1995) 69: 300. https://doi.org/10.1007/BF00806742",
+        "code_copyright": "Steven Ward",
+        "display_name": "Lin-Wang 1995 (x2)",
+        "ilog10_mean_dist_err": -9,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 56,
+        "orig_impl_lang": "None",
+        "url": "https://link.springer.com/article/10.1007/BF00806742"
+      }
+    },
+    "long_1974": {
+      "acc": {
+        "ilog10_mean_dist_err": 99,
+        "max_dist_err": 30242.461971829078,
+        "mean_dist_err": 15938.077744742586,
+        "stdev_dist_err": 8836.96348003508,
+        "sum_dist_err": 137028420314.30533
+      },
+      "info": {
+        "algo_author": "S. Long",
+        "citation": "Derivation of Transformation Formulas Between Geocentric and Geodetic Coordinates for Nonzero Altitudes\nBy Sheila Ann T. Long\nLangley Research Center\nNASA Technical Note TN D-7522",
+        "code_copyright": "Steven Ward",
+        "display_name": "Long 1974",
+        "ilog10_mean_dist_err": 99,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 26,
+        "orig_impl_lang": "None",
+        "url": "https://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/19740021140.pdf"
+      }
+    },
+    "naive_II_x1": {
+      "acc": {
+        "ilog10_mean_dist_err": 0,
+        "max_dist_err": 143.88290998176672,
+        "mean_dist_err": 4.699043180856687,
+        "stdev_dist_err": 9.132820602232977,
+        "sum_dist_err": 40400258.69930109
+      },
+      "info": {
+        "algo_author": "R. Hirvonen, H. Moritz",
+        "citation": "Naive iteration: must guess initial lat\nHirvonen, R., and H. Moritz\nPractical Computations of Gravity at High Altitudes\nReport No. 27\nInstitude of Geodesy, Photogrammetry and Cartography\nThe Ohio State University\nColumbus, 1963",
+        "code_copyright": "Steven Ward",
+        "display_name": "Naive II (x1)",
+        "ilog10_mean_dist_err": 0,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 26,
+        "orig_impl_lang": "None",
+        "url": "http://www.dtic.mil/docs/citations/AD0420541"
+      }
+    },
+    "naive_II_x2": {
+      "acc": {
+        "ilog10_mean_dist_err": -3,
+        "max_dist_err": 1.672965495439712,
+        "mean_dist_err": 0.003036773914924261,
+        "stdev_dist_err": 0.011751631570642,
+        "sum_dist_err": 26108.815572150546
+      },
+      "info": {
+        "algo_author": "R. Hirvonen, H. Moritz",
+        "citation": "Naive iteration: must guess initial lat\nHirvonen, R., and H. Moritz\nPractical Computations of Gravity at High Altitudes\nReport No. 27\nInstitude of Geodesy, Photogrammetry and Cartography\nThe Ohio State University\nColumbus, 1963",
+        "code_copyright": "Steven Ward",
+        "display_name": "Naive II (x2)",
+        "ilog10_mean_dist_err": -3,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 26,
+        "orig_impl_lang": "None",
+        "url": "http://www.dtic.mil/docs/citations/AD0420541"
+      }
+    },
+    "naive_I_x1": {
+      "acc": {
+        "ilog10_mean_dist_err": 0,
+        "max_dist_err": 373.6483148644911,
+        "mean_dist_err": 5.271357956243387,
+        "stdev_dist_err": 14.273593784802635,
+        "sum_dist_err": 45320763.596347176
+      },
+      "info": {
+        "algo_author": "Steven Ward",
+        "citation": "Naive iteration: must guess initial lat and ht",
+        "code_copyright": "Steven Ward",
+        "display_name": "Naive I (x1)",
+        "ilog10_mean_dist_err": 0,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 32,
+        "orig_impl_lang": "None",
+        "url": "http://clynchg3c.com/Technote/geodesy/coordcvt.pdf"
+      }
+    },
+    "naive_I_x2": {
+      "acc": {
+        "ilog10_mean_dist_err": -3,
+        "max_dist_err": 5.7730796582764015,
+        "mean_dist_err": 0.0036055650971793776,
+        "stdev_dist_err": 0.020915485124034548,
+        "sum_dist_err": 30999.02620109835
+      },
+      "info": {
+        "algo_author": "Steven Ward",
+        "citation": "Naive iteration: must guess initial lat and ht",
+        "code_copyright": "Steven Ward",
+        "display_name": "Naive I (x2)",
+        "ilog10_mean_dist_err": -3,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 32,
+        "orig_impl_lang": "None",
+        "url": "http://clynchg3c.com/Technote/geodesy/coordcvt.pdf"
+      }
+    },
+    "newton_raphson_quick_x1": {
+      "acc": {
+        "ilog10_mean_dist_err": -1,
+        "max_dist_err": 8.206320305307159,
+        "mean_dist_err": 0.15179641623157944,
+        "stdev_dist_err": 0.7183429407292631,
+        "sum_dist_err": 1305077.2783672195
+      },
+      "info": {
+        "algo_author": "Steven Ward",
+        "citation": "Newton-Raphson Method: Δφ = f / f′",
+        "code_copyright": "Steven Ward",
+        "display_name": "Newton-Raphson quick (x1)",
+        "ilog10_mean_dist_err": -1,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 46,
+        "orig_impl_lang": "None",
+        "url": "https://mathworld.wolfram.com/NewtonsMethod.html"
+      }
+    },
+    "newton_raphson_quick_x2": {
+      "acc": {
+        "ilog10_mean_dist_err": -9,
+        "max_dist_err": 7.838243926580036E-7,
+        "mean_dist_err": 2.8857691376595164E-9,
+        "stdev_dist_err": 1.0703195362849766E-8,
+        "sum_dist_err": 0.024810544449468914
+      },
+      "info": {
+        "algo_author": "Steven Ward",
+        "citation": "Newton-Raphson Method: Δφ = f / f′",
+        "code_copyright": "Steven Ward",
+        "display_name": "Newton-Raphson quick (x2)",
+        "ilog10_mean_dist_err": -9,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 46,
+        "orig_impl_lang": "None",
+        "url": "https://mathworld.wolfram.com/NewtonsMethod.html"
+      }
+    },
+    "newton_raphson_x1": {
+      "acc": {
+        "ilog10_mean_dist_err": -1,
+        "max_dist_err": 8.206320305307159,
+        "mean_dist_err": 0.15179641617659534,
+        "stdev_dist_err": 0.7183429406836311,
+        "sum_dist_err": 1305077.2778947484
+      },
+      "info": {
+        "algo_author": "Steven Ward",
+        "citation": "Newton-Raphson Method: Δφ = f / f′",
+        "code_copyright": "Steven Ward",
+        "display_name": "Newton-Raphson (x1)",
+        "ilog10_mean_dist_err": -1,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 42,
+        "orig_impl_lang": "None",
+        "url": "https://mathworld.wolfram.com/NewtonsMethod.html"
+      }
+    },
+    "newton_raphson_x2": {
+      "acc": {
+        "ilog10_mean_dist_err": -9,
+        "max_dist_err": 7.83125923393807E-7,
+        "mean_dist_err": 1.4989277964754467E-9,
+        "stdev_dist_err": 6.315140445429398E-9,
+        "sum_dist_err": 0.012887106676585823
+      },
+      "info": {
+        "algo_author": "Steven Ward",
+        "citation": "Newton-Raphson Method: Δφ = f / f′",
+        "code_copyright": "Steven Ward",
+        "display_name": "Newton-Raphson (x2)",
+        "ilog10_mean_dist_err": -10,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 42,
+        "orig_impl_lang": "None",
+        "url": "https://mathworld.wolfram.com/NewtonsMethod.html"
+      }
+    },
+    "olson_1996": {
+      "acc": {
+        "ilog10_mean_dist_err": -9,
+        "max_dist_err": 0.000002460388135219979,
+        "mean_dist_err": 1.860223110758293E-9,
+        "stdev_dist_err": 9.670307576402733E-9,
+        "sum_dist_err": 0.015993361205897758
+      },
+      "info": {
+        "algo_author": "D.K. Olson",
+        "citation": "Olson, D. K. (1996). Converting Earth-Centered, Earth-Fixed Coordinates to Geodetic Coordinates. IEEE Transactions on Aerospace and Electronic Systems, 32(1), 473–476. https://doi.org/10.1109/7.481290\nConverted to C++ and modified by Steven Ward.  No rights reserved.",
+        "code_copyright": "\"U.S. Government work, U.S. copyright does not apply.\"",
+        "display_name": "Olson 1996",
+        "ilog10_mean_dist_err": -9,
+        "license": "Public Domain",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 69,
+        "orig_impl_lang": "C",
+        "url": "https://www.researchgate.net/publication/3002552_Converting_Earth-Centered_Earth-Fixed_Coordinates_to_Geodetic_Coordinates"
+      }
+    },
+    "olson_1996_customht": {
+      "acc": {
+        "ilog10_mean_dist_err": -9,
+        "max_dist_err": 0.0000017755076218590346,
+        "mean_dist_err": 2.9220278176315332E-9,
+        "stdev_dist_err": 1.1105681142264364E-8,
+        "sum_dist_err": 0.025122280263463387
+      },
+      "info": {
+        "algo_author": "D.K. Olson",
+        "citation": "Olson, D. K. (1996). Converting Earth-Centered, Earth-Fixed Coordinates to Geodetic Coordinates. IEEE Transactions on Aerospace and Electronic Systems, 32(1), 473–476. https://doi.org/10.1109/7.481290\nConverted to C++ and modified by Steven Ward.  No rights reserved.",
+        "code_copyright": "\"U.S. Government work, U.S. copyright does not apply.\"",
+        "display_name": "Olson 1996 (c.h.)",
+        "ilog10_mean_dist_err": -9,
+        "license": "Public Domain",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 69,
+        "orig_impl_lang": "C",
+        "url": "https://www.researchgate.net/publication/3002552_Converting_Earth-Centered_Earth-Fixed_Coordinates_to_Geodetic_Coordinates"
+      }
+    },
+    "openglobe": {
+      "acc": {
+        "ilog10_mean_dist_err": -5,
+        "max_dist_err": 0.00031889436333632783,
+        "mean_dist_err": 0.00001392847744935621,
+        "stdev_dist_err": 0.000047170684379936136,
+        "sum_dist_err": 119.75078129469719
+      },
+      "info": {
+        "algo_author": "Cozzi and Ohlarik",
+        "citation": "OpenGlobe file:Source/Core/Geometry/Ellipsoid.cs",
+        "code_copyright": "Cozzi and Ohlarik",
+        "display_name": "OpenGlobe",
+        "ilog10_mean_dist_err": -5,
+        "license": "MIT",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 169,
+        "orig_impl_lang": "C#",
+        "url": "https://github.com/virtualglobebook/OpenGlobe/blob/master/Source/Core/Geometry/Ellipsoid.cs"
+      }
+    },
+    "ozone_1985": {
+      "acc": {
+        "ilog10_mean_dist_err": -7,
+        "max_dist_err": 0.0003665651505046991,
+        "mean_dist_err": 2.3249509376004993E-7,
+        "stdev_dist_err": 0.000005873410462099698,
+        "sum_dist_err": 1.9988881933559255
+      },
+      "info": {
+        "algo_author": "M. Ozone",
+        "citation": "Ozone, M. I, (1985). Non-Iterative Solution of the φ Equation, Surveying and Mapping, Vol. 45, No. 2, pp.  169-171.\nCopied from George P. Gerdan and Rodney E. Deakin",
+        "code_copyright": "Steven Ward",
+        "display_name": "Ozone 1985",
+        "ilog10_mean_dist_err": -7,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": true,
+        "num_lines": 66,
+        "orig_impl_lang": "None",
+        "url": "https://www.researchgate.net/publication/237622491_A_Comparative_Analysis_of_the_Performance_of_Iterative_and_Non-iterative_Solutions_to_the_Cartesian_to_Geodetic_Coordinate_Transformation"
+      }
+    },
+    "paul_1973": {
+      "acc": {
+        "ilog10_mean_dist_err": 99,
+        "max_dist_err": 9.9E+98,
+        "mean_dist_err": 4.951480817209809E+98,
+        "stdev_dist_err": 4.9500000663758244E+98,
+        "sum_dist_err": 4.2570603898780903E+105
+      },
+      "info": {
+        "algo_author": "M.K. Paul",
+        "citation": "Paul, M.K. Bull. Geodesique (1973) 108: 135. https://doi.org/10.1007/BF02522075",
+        "code_copyright": "Steven Ward",
+        "display_name": "Paul 1973",
+        "ilog10_mean_dist_err": 99,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 61,
+        "orig_impl_lang": "None",
+        "url": "https://link.springer.com/article/10.1007/BF02522075"
+      }
+    },
+    "pollard_2002_ht_x1": {
+      "acc": {
+        "ilog10_mean_dist_err": 99,
+        "max_dist_err": 1225331195.3613467,
+        "mean_dist_err": 32146216.786094032,
+        "stdev_dist_err": 128458305.94108663,
+        "sum_dist_err": 276378706129278.88
+      },
+      "info": {
+        "algo_author": "J. Pollard",
+        "citation": "Pollard, J. (2002). Iterative vector methods for computing geodetic latitude and height from rectangular coordinates. Journal of Geodesy. 76. 36-40. 10.1007/s001900100220.\nhttps://link.springer.com/article/10.1007%2Fs001900100220",
+        "code_copyright": "Steven Ward",
+        "display_name": "Pollard 2002 height (x1)",
+        "ilog10_mean_dist_err": 99,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 53,
+        "orig_impl_lang": "None",
+        "url": "https://www.researchgate.net/publication/226563131_Iterative_vector_methods_for_computing_geodetic_latitude_and_height_from_rectangular_coordinates"
+      }
+    },
+    "pollard_2002_naive_x1": {
+      "acc": {
+        "ilog10_mean_dist_err": -2,
+        "max_dist_err": 10.305654109434217,
+        "mean_dist_err": 0.08684150545470913,
+        "stdev_dist_err": 0.11533080650232368,
+        "sum_dist_err": 746624.1852244746
+      },
+      "info": {
+        "algo_author": "J. Pollard",
+        "citation": "Pollard, J. (2002). Iterative vector methods for computing geodetic latitude and height from rectangular coordinates. Journal of Geodesy. 76. 36-40. 10.1007/s001900100220.\nhttps://link.springer.com/article/10.1007%2Fs001900100220",
+        "code_copyright": "Steven Ward",
+        "display_name": "Pollard 2002 naive (x1)",
+        "ilog10_mean_dist_err": -2,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 34,
+        "orig_impl_lang": "None",
+        "url": "https://www.researchgate.net/publication/226563131_Iterative_vector_methods_for_computing_geodetic_latitude_and_height_from_rectangular_coordinates"
+      }
+    },
+    "pollard_2002_naive_x2": {
+      "acc": {
+        "ilog10_mean_dist_err": -4,
+        "max_dist_err": 0.2642421871955869,
+        "mean_dist_err": 0.0004290363079095611,
+        "stdev_dist_err": 0.001263704723760931,
+        "sum_dist_err": 3688.6611090399433
+      },
+      "info": {
+        "algo_author": "J. Pollard",
+        "citation": "Pollard, J. (2002). Iterative vector methods for computing geodetic latitude and height from rectangular coordinates. Journal of Geodesy. 76. 36-40. 10.1007/s001900100220.\nhttps://link.springer.com/article/10.1007%2Fs001900100220",
+        "code_copyright": "Steven Ward",
+        "display_name": "Pollard 2002 naive (x2)",
+        "ilog10_mean_dist_err": -4,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 34,
+        "orig_impl_lang": "None",
+        "url": "https://www.researchgate.net/publication/226563131_Iterative_vector_methods_for_computing_geodetic_latitude_and_height_from_rectangular_coordinates"
+      }
+    },
+    "pollard_2002_newton_x1": {
+      "acc": {
+        "ilog10_mean_dist_err": -7,
+        "max_dist_err": 0.002730584973441312,
+        "mean_dist_err": 5.34115078042798E-7,
+        "stdev_dist_err": 0.000009584276223494188,
+        "sum_dist_err": 4.592081089224988
+      },
+      "info": {
+        "algo_author": "J. Pollard",
+        "citation": "Pollard, J. (2002). Iterative vector methods for computing geodetic latitude and height from rectangular coordinates. Journal of Geodesy. 76. 36-40. 10.1007/s001900100220.\nhttps://link.springer.com/article/10.1007%2Fs001900100220",
+        "code_copyright": "Steven Ward",
+        "display_name": "Pollard 2002 Newton (x1)",
+        "ilog10_mean_dist_err": -7,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 42,
+        "orig_impl_lang": "None",
+        "url": "https://www.researchgate.net/publication/226563131_Iterative_vector_methods_for_computing_geodetic_latitude_and_height_from_rectangular_coordinates"
+      }
+    },
+    "pollard_2002_newton_x2": {
+      "acc": {
+        "ilog10_mean_dist_err": -9,
+        "max_dist_err": 1.3992986276227373E-7,
+        "mean_dist_err": 2.043561579772099E-9,
+        "stdev_dist_err": 7.888396851925684E-9,
+        "sum_dist_err": 0.017569622860167576
+      },
+      "info": {
+        "algo_author": "J. Pollard",
+        "citation": "Pollard, J. (2002). Iterative vector methods for computing geodetic latitude and height from rectangular coordinates. Journal of Geodesy. 76. 36-40. 10.1007/s001900100220.\nhttps://link.springer.com/article/10.1007%2Fs001900100220",
+        "code_copyright": "Steven Ward",
+        "display_name": "Pollard 2002 Newton (x2)",
+        "ilog10_mean_dist_err": -9,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 42,
+        "orig_impl_lang": "None",
+        "url": "https://www.researchgate.net/publication/226563131_Iterative_vector_methods_for_computing_geodetic_latitude_and_height_from_rectangular_coordinates"
+      }
+    },
+    "schroder_quick_x1": {
+      "acc": {
+        "ilog10_mean_dist_err": -1,
+        "max_dist_err": 16.911402344703674,
+        "mean_dist_err": 0.31299098507798695,
+        "stdev_dist_err": 1.5008289229568443,
+        "sum_dist_err": 2690955.6437555025
+      },
+      "info": {
+        "algo_author": "Steven Ward",
+        "citation": "Schroeder's Method: Δφ = (f * f′) / (f′ * f′ - f * f″)",
+        "code_copyright": "Steven Ward",
+        "display_name": "Schroder quick (x1)",
+        "ilog10_mean_dist_err": -1,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 48,
+        "orig_impl_lang": "None",
+        "url": "https://mathworld.wolfram.com/SchroedersMethod.html"
+      }
+    },
+    "schroder_quick_x2": {
+      "acc": {
+        "ilog10_mean_dist_err": -9,
+        "max_dist_err": 0.0000010331295608947266,
+        "mean_dist_err": 2.83670477501315E-9,
+        "stdev_dist_err": 1.0641813615753879E-8,
+        "sum_dist_err": 0.024388711138398543
+      },
+      "info": {
+        "algo_author": "Steven Ward",
+        "citation": "Schroeder's Method: Δφ = (f * f′) / (f′ * f′ - f * f″)",
+        "code_copyright": "Steven Ward",
+        "display_name": "Schroder quick (x2)",
+        "ilog10_mean_dist_err": -9,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 48,
+        "orig_impl_lang": "None",
+        "url": "https://mathworld.wolfram.com/SchroedersMethod.html"
+      }
+    },
+    "schroder_x1": {
+      "acc": {
+        "ilog10_mean_dist_err": -1,
+        "max_dist_err": 16.911402344703674,
+        "mean_dist_err": 0.31299098503642947,
+        "stdev_dist_err": 1.500828923013295,
+        "sum_dist_err": 2690955.643403737
+      },
+      "info": {
+        "algo_author": "Steven Ward",
+        "citation": "Schroeder's Method: Δφ = (f * f′) / (f′ * f′ - f * f″)",
+        "code_copyright": "Steven Ward",
+        "display_name": "Schroder (x1)",
+        "ilog10_mean_dist_err": -1,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 44,
+        "orig_impl_lang": "None",
+        "url": "https://mathworld.wolfram.com/SchroedersMethod.html"
+      }
+    },
+    "schroder_x2": {
+      "acc": {
+        "ilog10_mean_dist_err": -9,
+        "max_dist_err": 0.0000010332789717734044,
+        "mean_dist_err": 1.4316812904984902E-9,
+        "stdev_dist_err": 6.219421574152693E-9,
+        "sum_dist_err": 0.012308951479122403
+      },
+      "info": {
+        "algo_author": "Steven Ward",
+        "citation": "Schroeder's Method: Δφ = (f * f′) / (f′ * f′ - f * f″)",
+        "code_copyright": "Steven Ward",
+        "display_name": "Schroder (x2)",
+        "ilog10_mean_dist_err": -10,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 44,
+        "orig_impl_lang": "None",
+        "url": "https://mathworld.wolfram.com/SchroedersMethod.html"
+      }
+    },
+    "sedris": {
+      "acc": {
+        "ilog10_mean_dist_err": -5,
+        "max_dist_err": 0.0009130225516856052,
+        "mean_dist_err": 0.0000786329711776778,
+        "stdev_dist_err": 0.0001724829688292731,
+        "sum_dist_err": 676.0509013417274
+      },
+      "info": {
+        "algo_author": "Cameron Kellough?",
+        "citation": "sedris_c_sdk_4.1.0\nfile:src/lib/srm/src/lib/cpp_impl/srf_impl/srm_gc.cpp",
+        "code_copyright": "SEDRIS",
+        "display_name": "SEDRIS",
+        "ilog10_mean_dist_err": -5,
+        "license": "\"This software was developed for use by the United States Government with unlimited rights.\"",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 572,
+        "orig_impl_lang": "C++",
+        "url": "http://www.sedris.org/sdk_4.0.1/sdk_c.htm"
+      }
+    },
+    "sedris_customht": {
+      "acc": {
+        "ilog10_mean_dist_err": -4,
+        "max_dist_err": 0.000924272174458115,
+        "mean_dist_err": 0.00010552732823826753,
+        "stdev_dist_err": 0.00016937796928766593,
+        "sum_dist_err": 907.2764808948679
+      },
+      "info": {
+        "algo_author": "Cameron Kellough?",
+        "citation": "sedris_c_sdk_4.1.0\nfile:src/lib/srm/src/lib/cpp_impl/srf_impl/srm_gc.cpp",
+        "code_copyright": "SEDRIS",
+        "display_name": "SEDRIS (c.h.)",
+        "ilog10_mean_dist_err": -4,
+        "license": "\"This software was developed for use by the United States Government with unlimited rights.\"",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 572,
+        "orig_impl_lang": "C++",
+        "url": "http://www.sedris.org/sdk_4.0.1/sdk_c.htm"
+      }
+    },
+    "shu_2010_customht_x1": {
+      "acc": {
+        "ilog10_mean_dist_err": -5,
+        "max_dist_err": 1.139387618567061,
+        "mean_dist_err": 0.00005224089400272202,
+        "stdev_dist_err": 0.003988549218405987,
+        "sum_dist_err": 449.14369823304014
+      },
+      "info": {
+        "algo_author": "C. Shu, et al.",
+        "citation": "Chanfang Shu, Fei Li, An iterative algorithm to compute geodetic coordinates, Computers & Geosciences, Volume 36, Issue 9, 2010, Pages 1145-1149, ISSN 0098-3004, https://doi.org/10.1016/j.cageo.2010.02.004.",
+        "code_copyright": "Steven Ward",
+        "display_name": "Shu 2010 (c.h.) (x1)",
+        "ilog10_mean_dist_err": -5,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 46,
+        "orig_impl_lang": "None",
+        "url": "https://www.academia.edu/10319914/An_iterative_algorithm_to_compute_geodetic_coordinates"
+      }
+    },
+    "shu_2010_customht_x2": {
+      "acc": {
+        "ilog10_mean_dist_err": -9,
+        "max_dist_err": 5.113950373533694E-7,
+        "mean_dist_err": 3.0687397269404555E-9,
+        "stdev_dist_err": 1.09215740142143E-8,
+        "sum_dist_err": 0.02638364323933886
+      },
+      "info": {
+        "algo_author": "C. Shu, et al.",
+        "citation": "Chanfang Shu, Fei Li, An iterative algorithm to compute geodetic coordinates, Computers & Geosciences, Volume 36, Issue 9, 2010, Pages 1145-1149, ISSN 0098-3004, https://doi.org/10.1016/j.cageo.2010.02.004.",
+        "code_copyright": "Steven Ward",
+        "display_name": "Shu 2010 (c.h.) (x2)",
+        "ilog10_mean_dist_err": -9,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 46,
+        "orig_impl_lang": "None",
+        "url": "https://www.academia.edu/10319914/An_iterative_algorithm_to_compute_geodetic_coordinates"
+      }
+    },
+    "shu_2010_x1": {
+      "acc": {
+        "ilog10_mean_dist_err": -7,
+        "max_dist_err": 0.005411535110735357,
+        "mean_dist_err": 1.9927448761892878E-7,
+        "stdev_dist_err": 0.00001631284814448842,
+        "sum_dist_err": 1.7132723710274163
+      },
+      "info": {
+        "algo_author": "C. Shu, et al.",
+        "citation": "Chanfang Shu, Fei Li, An iterative algorithm to compute geodetic coordinates, Computers & Geosciences, Volume 36, Issue 9, 2010, Pages 1145-1149, ISSN 0098-3004, https://doi.org/10.1016/j.cageo.2010.02.004.",
+        "code_copyright": "Steven Ward",
+        "display_name": "Shu 2010 (x1)",
+        "ilog10_mean_dist_err": -7,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 46,
+        "orig_impl_lang": "None",
+        "url": "https://www.academia.edu/10319914/An_iterative_algorithm_to_compute_geodetic_coordinates"
+      }
+    },
+    "shu_2010_x2": {
+      "acc": {
+        "ilog10_mean_dist_err": -9,
+        "max_dist_err": 1.930575472853747E-7,
+        "mean_dist_err": 2.5837375256260823E-9,
+        "stdev_dist_err": 9.455710904876275E-9,
+        "sum_dist_err": 0.022213812563439246
+      },
+      "info": {
+        "algo_author": "C. Shu, et al.",
+        "citation": "Chanfang Shu, Fei Li, An iterative algorithm to compute geodetic coordinates, Computers & Geosciences, Volume 36, Issue 9, 2010, Pages 1145-1149, ISSN 0098-3004, https://doi.org/10.1016/j.cageo.2010.02.004.",
+        "code_copyright": "Steven Ward",
+        "display_name": "Shu 2010 (x2)",
+        "ilog10_mean_dist_err": -9,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 46,
+        "orig_impl_lang": "None",
+        "url": "https://www.academia.edu/10319914/An_iterative_algorithm_to_compute_geodetic_coordinates"
+      }
+    },
+    "sofair_1993": {
+      "acc": {
+        "ilog10_mean_dist_err": 99,
+        "max_dist_err": 9.9E+98,
+        "mean_dist_err": 1.647092485649967E+96,
+        "stdev_dist_err": 4.0347352285901836E+97,
+        "sum_dist_err": 1.4160959999999395E+103
+      },
+      "info": {
+        "algo_author": "I. Sofair",
+        "citation": "Sofair, I. (1985, revised 1993) A Method for Calculating Exact Geodetic Latitude and Altitude - NSWC TR 85-85 AD-A265 783",
+        "code_copyright": "Steven Ward",
+        "display_name": "Sofair 1993",
+        "ilog10_mean_dist_err": 99,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 63,
+        "orig_impl_lang": "None",
+        "url": "http://www.dtic.mil/dtic/tr/fulltext/u2/a265783.pdf"
+      }
+    },
+    "sofair_2000": {
+      "acc": {
+        "ilog10_mean_dist_err": 0,
+        "max_dist_err": 51346.83172662346,
+        "mean_dist_err": 6.549589143633462,
+        "stdev_dist_err": 367.33662588516506,
+        "sum_dist_err": 56310420.142296664
+      },
+      "info": {
+        "algo_author": "I. Sofair",
+        "citation": "Sofair, I. (2000). Improved Method for Calculating Exact Geodetic Latitude and Altitude Revisited. Journal of Guidance Control and Dynamics - J GUID CONTROL DYNAM. 23. 369-369. 10.2514/2.4534.",
+        "code_copyright": "Steven Ward",
+        "display_name": "Sofair 2000",
+        "ilog10_mean_dist_err": 0,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 54,
+        "orig_impl_lang": "None",
+        "url": "https://www.researchgate.net/publication/246433285_Improved_Method_for_Calculating_Exact_Geodetic_Latitude_and_Altitude_Revisited"
+      }
+    },
+    "sudano_1997": {
+      "acc": {
+        "ilog10_mean_dist_err": 99,
+        "max_dist_err": 9.9E+98,
+        "mean_dist_err": 9.9E+98,
+        "stdev_dist_err": 0.0,
+        "sum_dist_err": 8.511574499313668E+105
+      },
+      "info": {
+        "algo_author": "J. Sudano",
+        "citation": "Sudano, John. (1997). An exact conversion from an Earth-centered coordinate system to latitude, longitude and altitude. 646 - 650 vol.2. 10.1109/NAECON.1997.622711.",
+        "code_copyright": "Steven Ward",
+        "display_name": "Sudano 1997",
+        "ilog10_mean_dist_err": 99,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 60,
+        "orig_impl_lang": "None",
+        "url": "https://www.researchgate.net/publication/3709199_An_exact_conversion_from_an_Earth-centered_coordinate_system_to_latitude_longitude_and_altitude"
+      }
+    },
+    "turner_2013": {
+      "acc": {
+        "ilog10_mean_dist_err": 99,
+        "max_dist_err": 3076400.129563344,
+        "mean_dist_err": 1614.5037817767002,
+        "stdev_dist_err": 22564.948633938922,
+        "sum_dist_err": 13880776988.989676
+      },
+      "info": {
+        "algo_author": "J. Turner, T. Elgohary",
+        "citation": "Turner, James & Elgohary, Tarek. (2013). A Simple Perturbation Algorithm for Inverting the Cartesian to Geodic Transformation..",
+        "code_copyright": "Steven Ward",
+        "display_name": "Turner 2013",
+        "ilog10_mean_dist_err": 99,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 80,
+        "orig_impl_lang": "None",
+        "url": "https://www.researchgate.net/publication/269038945_A_Simple_Perturbation_Algorithm_for_Inverting_the_Cartesian_to_Geodic_Transformation"
+      }
+    },
+    "vermeille_2004": {
+      "acc": {
+        "ilog10_mean_dist_err": -9,
+        "max_dist_err": 1.8010157897711403E-7,
+        "mean_dist_err": 1.8376136064095903E-9,
+        "stdev_dist_err": 7.61748663985565E-9,
+        "sum_dist_err": 0.015798974861783496
+      },
+      "info": {
+        "algo_author": "H. Vermeille",
+        "citation": "Vermeille, H. Journal of Geodesy (2004) 78: 94. https://doi.org/10.1007/s00190-004-0375-4",
+        "code_copyright": "Steven Ward",
+        "display_name": "Vermeille 2004",
+        "ilog10_mean_dist_err": -9,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 36,
+        "orig_impl_lang": "None",
+        "url": "https://link.springer.com/article/10.1007/s00190-004-0375-4"
+      }
+    },
+    "vermeille_2004_customht": {
+      "acc": {
+        "ilog10_mean_dist_err": -9,
+        "max_dist_err": 1.863406278867668E-7,
+        "mean_dist_err": 3.242182743146071E-9,
+        "stdev_dist_err": 1.0999146129368613E-8,
+        "sum_dist_err": 0.027874828243329722
+      },
+      "info": {
+        "algo_author": "H. Vermeille",
+        "citation": "Vermeille, H. Journal of Geodesy (2004) 78: 94. https://doi.org/10.1007/s00190-004-0375-4",
+        "code_copyright": "Steven Ward",
+        "display_name": "Vermeille 2004 (c.h.)",
+        "ilog10_mean_dist_err": -9,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 36,
+        "orig_impl_lang": "None",
+        "url": "https://link.springer.com/article/10.1007/s00190-004-0375-4"
+      }
+    },
+    "vermeille_2011": {
+      "acc": {
+        "ilog10_mean_dist_err": -9,
+        "max_dist_err": 1.8013474991585306E-7,
+        "mean_dist_err": 1.8365331639638607E-9,
+        "stdev_dist_err": 7.610617820127639E-9,
+        "sum_dist_err": 0.015789685703834256
+      },
+      "info": {
+        "algo_author": "H. Vermeille",
+        "citation": "Vermeille, H. J Geod (2011) 85: 105. https://doi.org/10.1007/s00190-010-0419-x",
+        "code_copyright": "Steven Ward",
+        "display_name": "Vermeille 2011",
+        "ilog10_mean_dist_err": -9,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 88,
+        "orig_impl_lang": "None",
+        "url": "https://link.springer.com/article/10.1007/s00190-010-0419-x"
+      }
+    },
+    "vermeille_2011_customht": {
+      "acc": {
+        "ilog10_mean_dist_err": -9,
+        "max_dist_err": 1.8863015730307644E-7,
+        "mean_dist_err": 3.4519713882247784E-9,
+        "stdev_dist_err": 1.143318235105069E-8,
+        "sum_dist_err": 0.02967849660882782
+      },
+      "info": {
+        "algo_author": "H. Vermeille",
+        "citation": "Vermeille, H. J Geod (2011) 85: 105. https://doi.org/10.1007/s00190-010-0419-x",
+        "code_copyright": "Steven Ward",
+        "display_name": "Vermeille 2011 (c.h.)",
+        "ilog10_mean_dist_err": -9,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 88,
+        "orig_impl_lang": "None",
+        "url": "https://link.springer.com/article/10.1007/s00190-010-0419-x"
+      }
+    },
+    "wu_2003_x1": {
+      "acc": {
+        "ilog10_mean_dist_err": 2,
+        "max_dist_err": 4942.3060648441315,
+        "mean_dist_err": 111.90703499068323,
+        "stdev_dist_err": 500.12432455410595,
+        "sum_dist_err": 962126328.6785778
+      },
+      "info": {
+        "algo_author": "Y. Wu, et al.",
+        "citation": "https://ieeexplore.ieee.org/document/1261144/\nWu, Yuanxin & Wang, Ping & Hu, Xiaoping. (2003). Algorithm of Earth-Centered Earth-Fixed Coordinates to Geodetic Coordinates. Aerospace and Electronic Systems, IEEE Transactions on. 39. 1457 - 1461. 10.1109/TAES.2003.1261144.",
+        "code_copyright": "Steven Ward",
+        "display_name": "Wu 2003 (x1)",
+        "ilog10_mean_dist_err": 2,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": true,
+        "num_lines": 91,
+        "orig_impl_lang": "None",
+        "url": "https://www.researchgate.net/publication/3003672_Algorithm_of_Earth-Centered_Earth-Fixed_Coordinates_to_Geodetic_Coordinates"
+      }
+    },
+    "wu_2003_x2": {
+      "acc": {
+        "ilog10_mean_dist_err": -4,
+        "max_dist_err": 0.027590155601512026,
+        "mean_dist_err": 0.00045906150945363225,
+        "stdev_dist_err": 0.0024412437836382295,
+        "sum_dist_err": 3946.804280583562
+      },
+      "info": {
+        "algo_author": "Y. Wu, et al.",
+        "citation": "https://ieeexplore.ieee.org/document/1261144/\nWu, Yuanxin & Wang, Ping & Hu, Xiaoping. (2003). Algorithm of Earth-Centered Earth-Fixed Coordinates to Geodetic Coordinates. Aerospace and Electronic Systems, IEEE Transactions on. 39. 1457 - 1461. 10.1109/TAES.2003.1261144.",
+        "code_copyright": "Steven Ward",
+        "display_name": "Wu 2003 (x2)",
+        "ilog10_mean_dist_err": -4,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": true,
+        "num_lines": 91,
+        "orig_impl_lang": "None",
+        "url": "https://www.researchgate.net/publication/3003672_Algorithm_of_Earth-Centered_Earth-Fixed_Coordinates_to_Geodetic_Coordinates"
+      }
+    },
+    "zhang_2005": {
+      "acc": {
+        "ilog10_mean_dist_err": -9,
+        "max_dist_err": 2.4989250722467217E-7,
+        "mean_dist_err": 2.590076174650675E-9,
+        "stdev_dist_err": 9.892905136164648E-9,
+        "sum_dist_err": 0.022268309415355556
+      },
+      "info": {
+        "algo_author": "CD. Zhang, et al.",
+        "citation": "Zhang, CD., Hsu, H., Wu, X. et al. J Geodesy (2005) 79: 413. https://doi.org/10.1007/s00190-005-0487-5",
+        "code_copyright": "CD. Zhang, et al.",
+        "display_name": "Zhang 2005",
+        "ilog10_mean_dist_err": -9,
+        "license": "Unknown",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 82,
+        "orig_impl_lang": "MATLAB",
+        "url": "https://link.springer.com/article/10.1007%2Fs00190-005-0487-5"
+      }
+    },
+    "zhu_1993": {
+      "acc": {
+        "ilog10_mean_dist_err": -9,
+        "max_dist_err": 0.00011327676475048203,
+        "mean_dist_err": 4.952993318442951E-9,
+        "stdev_dist_err": 1.2546899025005542E-7,
+        "sum_dist_err": 0.042583607705030196
+      },
+      "info": {
+        "algo_author": "Jijie Zhu",
+        "citation": "https://arc.aiaa.org/doi/10.2514/3.21016\nhttps://ieeexplore.ieee.org/document/303772/\nZhu, Jijie. (1993). Exact Conversion of Earth-Centered Earth-Fixed Coordinates to Geodetic Coordinates. Journal of Guidance Control and Dynamics - J GUID CONTROL DYNAM. 16. 389-391. 10.2514/3.21016.",
+        "code_copyright": "Steven Ward",
+        "display_name": "Zhu 1993",
+        "ilog10_mean_dist_err": -9,
+        "license": "MPL-2.0",
+        "needs_code_for_corner_cases": false,
+        "num_lines": 39,
+        "orig_impl_lang": "None",
+        "url": "https://www.researchgate.net/publication/245432223_Exact_Conversion_of_Earth-Centered_Earth-Fixed_Coordinates_to_Geodetic_Coordinates"
+      }
+    }
+  },
+  "gcc_version": "15.2.1 20260209",
+  "glibc_version": "2.43",
+  "input_data_coord_system": "GEODETIC",
+  "math_errexcept_set": true,
+  "math_errno_set": false,
+  "max_ilog10_mean_dist_err": 99,
+  "num_input_coords": 8597550,
+  "num_speed_test_iterations": 0,
+  "program_version": "2024-01-09",
+  "units_of_measurement": {
+    "acc": "meters",
+    "speed": "nanoseconds"
+  },
+  "compile_opts": "GNU GIMPLE 15.2.1 20260209 -march=alderlake -mmmx -mpopcnt -msse -msse2 -msse3 -mssse3 -msse4.1 -msse4.2 -mavx -mavx2 -mno-sse4a -mno-fma4 -mno-xop -mfma -mno-avx512f -mbmi -mbmi2 -maes -mpclmul -mno-avx512vl -mno-avx512bw -mno-avx512dq -mno-avx512cd -mno-avx512vbmi -mno-avx512ifma -mno-avx512vpopcntdq -mno-avx512vbmi2 -mno-gfni -mno-vpclmulqdq -mno-avx512vnni -mno-avx512bitalg -mno-avx512bf16 -mno-avx512vp2intersect -mno-3dnow -madx -mabm -mno-cldemote -mclflushopt -mno-clwb -mno-clzero -mcx16 -mno-enqcmd -mf16c -mfsgsbase -mfxsr -mno-hle -msahf -mno-lwp -mlzcnt -mmovbe -mno-movdir64b -mno-movdiri -mno-mwaitx -mno-pconfig -mno-pku -mprfchw -mno-ptwrite -mno-rdpid -mrdrnd -mrdseed -mno-rtm -mno-serialize -mno-sgx -msha -mno-shstk -mno-tbm -mno-tsxldtrk -mno-vaes -mno-waitpkg -mno-wbnoinvd -mxsave -mno-xsavec -mno-xsaveopt -mno-xsaves -mno-amx-tile -mno-amx-int8 -mno-amx-bf16 -mno-uintr -mno-hreset -mno-kl -mno-widekl -mno-avxvnni -mno-avx512fp16 -mno-avxifma -mno-avxvnniint8 -mno-avxneconvert -mno-cmpccxadd -mno-amx-fp16 -mno-prefetchi -mno-raoint -mno-amx-complex -mno-avxvnniint16 -mno-sm3 -mno-sha512 -mno-sm4 -mno-apxf -mno-usermsr -mno-avx10.2 -mno-amx-avx512 -mno-amx-tf32 -mno-amx-transpose -mno-amx-fp8 -mno-movrs -mno-amx-movrs -mtune=alderlake -O3 -O3 -fno-openmp -fno-openacc -fPIE -fcf-protection=none -fno-math-errno -fltrans"
+}
