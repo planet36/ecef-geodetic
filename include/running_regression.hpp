@@ -50,17 +50,17 @@ public:
         n++;
     }
 
-    auto num_data_values() const { return n; }
+    [[nodiscard]] auto num_data_values() const { return n; }
 
-    auto slope() const
+    [[nodiscard]] auto slope() const
     {
         const auto S_xx = x_stats.variance() * (n - 1);
         return S_xy / S_xx;
     }
 
-    auto intercept() const { return y_stats.mean() - slope() * x_stats.mean(); }
+    [[nodiscard]] auto intercept() const { return y_stats.mean() - slope() * x_stats.mean(); }
 
-    auto correlation() const
+    [[nodiscard]] auto correlation() const
     {
         const auto t = x_stats.standard_deviation() * y_stats.standard_deviation();
         return S_xy / ((n - 1) * t);
