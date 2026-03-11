@@ -222,7 +222,7 @@ clean-input:
 clean-all: clean clean-input
 
 lint:
-	-clang-tidy --quiet $(SRCS) -- $(CPPFLAGS) $(CXXFLAGS) $(LDLIBS)
+	-clang-tidy --quiet $(SRCS) -- $(CPPFLAGS) $(CXXFLAGS)
 
 # https://www.gnu.org/software/make/manual/make.html#Phony-Targets
 .PHONY: all input plot-ecef plot-geod acc acc1 speed clean clean-input clean-all lint
