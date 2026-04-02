@@ -25,6 +25,7 @@ Checks:
   - -cppcoreguidelines-pro-bounds-constant-array-index
   - -cppcoreguidelines-pro-bounds-pointer-arithmetic
   - -cppcoreguidelines-pro-type-reinterpret-cast
+  - -cppcoreguidelines-pro-type-vararg
   - -google-build-namespaces
   - -google-readability-braces-around-statements
   - -google-readability-namespace-comments
