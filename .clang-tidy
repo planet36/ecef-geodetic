@@ -5,11 +5,13 @@ Checks:
   - bugprone-*
   - cppcoreguidelines-*
   - cert-*
+  - clang-analyzer-*
   - google-*
   - hicpp-*
   - llvm-*
   - modernize-*
   - performance-*
+  - portability-*
   - readability-*
   - -bugprone-easily-swappable-parameters
   - -bugprone-narrowing-conversions
