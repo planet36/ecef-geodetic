@@ -42,6 +42,7 @@ Checks:
   - -modernize-avoid-c-arrays
   - -modernize-macro-to-enum
   - -modernize-use-trailing-return-type
+  - -portability-avoid-pragma-once
   - -readability-braces-around-statements
   - -readability-identifier-length
   - -readability-implicit-bool-conversion
