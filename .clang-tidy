@@ -3,9 +3,9 @@
 ---
 Checks:
   - bugprone-*
-  - cppcoreguidelines-*
   - cert-*
   - clang-analyzer-*
+  - cppcoreguidelines-*
   - google-*
   - hicpp-*
   - llvm-*
@@ -44,6 +44,8 @@ Checks:
   - -modernize-use-trailing-return-type
   - -portability-avoid-pragma-once
   - -readability-braces-around-statements
+  - -readability-else-after-return
+  - -readability-function-cognitive-complexity
   - -readability-identifier-length
   - -readability-implicit-bool-conversion
   - -readability-isolate-declaration
@@ -51,7 +53,5 @@ Checks:
   - -readability-math-missing-parentheses
   - -readability-named-parameter
   - -readability-use-concise-preprocessor-directives
-  - -readability-else-after-return
-  - -readability-function-cognitive-complexity
 HeaderFilterRegex: '.*'
 ...
