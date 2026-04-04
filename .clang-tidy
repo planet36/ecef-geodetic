@@ -22,6 +22,7 @@ Checks:
   - -clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling
   - -cppcoreguidelines-avoid-do-while
   - -cppcoreguidelines-avoid-magic-numbers
+  - -cppcoreguidelines-macro-to-enum
   - -cppcoreguidelines-no-malloc
   - -cppcoreguidelines-owning-memory
   - -cppcoreguidelines-pro-bounds-avoid-unchecked-container-access
