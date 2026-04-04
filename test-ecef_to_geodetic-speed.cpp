@@ -29,7 +29,7 @@ BM_do_ecef_to_geodetic_test_speed(benchmark::State& BM_state,
     size_t i = 0;
     const size_t n = ecef_vec.size();
 
-    for (auto _ : BM_state)
+    for (auto _ : BM_state) // NOLINT(clang-analyzer-deadcode.DeadStores)
     {
         func(ecef_vec[i].x, ecef_vec[i].y, ecef_vec[i].z, lat_rad, lon_rad, ht);
 
