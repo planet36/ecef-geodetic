@@ -36,6 +36,9 @@ public:
     /// copy ctor
     angle(const angle&) = default;
 
+    angle(angle&&) = default;
+    angle& operator=(angle&&) = default;
+
     /// dtor
     ~angle() = default;
 
