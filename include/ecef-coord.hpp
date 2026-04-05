@@ -133,7 +133,7 @@ template <std::floating_point T, std::floating_point T2>
 constexpr auto
 operator-(const ECEF<T>& p1, const ECEF<T2>& p2)
 {
-    using result_type = typename std::common_type_t<T, T2>;
+    using result_type = std::common_type_t<T, T2>;
 
     return ECEF<result_type>{p1.x - p2.x, p1.y - p2.y, p1.z - p2.z};
 }

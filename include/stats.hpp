@@ -38,7 +38,7 @@ requires std::is_floating_point_v<typename Container::value_type>
 auto
 min_val(const Container& c)
 {
-    using T = typename Container::value_type;
+    using T = Container::value_type;
     const auto n = c.size();
 
     if (n == 0)
@@ -53,7 +53,7 @@ requires std::is_floating_point_v<typename Container::value_type>
 auto
 min_abs_val(const Container& c)
 {
-    using T = typename Container::value_type;
+    using T = Container::value_type;
     const auto n = c.size();
 
     if (n == 0)
@@ -68,7 +68,7 @@ requires std::is_floating_point_v<typename Container::value_type>
 auto
 max_val(const Container& c)
 {
-    using T = typename Container::value_type;
+    using T = Container::value_type;
     const auto n = c.size();
 
     if (n == 0)
@@ -83,7 +83,7 @@ requires std::is_floating_point_v<typename Container::value_type>
 auto
 max_abs_val(const Container& c)
 {
-    using T = typename Container::value_type;
+    using T = Container::value_type;
     const auto n = c.size();
 
     if (n == 0)
@@ -98,7 +98,7 @@ requires std::is_floating_point_v<typename Container::value_type>
 auto
 minmax_vals(const Container& c)
 {
-    using T = typename Container::value_type;
+    using T = Container::value_type;
     const auto n = c.size();
 
     if (n == 0)
@@ -116,7 +116,7 @@ requires std::is_floating_point_v<typename Container::value_type>
 auto
 minmax_abs_vals(const Container& c)
 {
-    using T = typename Container::value_type;
+    using T = Container::value_type;
     const auto n = c.size();
 
     if (n == 0)
@@ -134,7 +134,7 @@ requires std::is_floating_point_v<typename Container::value_type>
 auto
 sum_val(const Container& c)
 {
-    using T = typename Container::value_type;
+    using T = Container::value_type;
 
 #if 0
     return std::reduce(//std::execution::par_unseq,
@@ -154,7 +154,7 @@ requires std::is_floating_point_v<typename Container::value_type>
 auto
 sum_abs_val(const Container& c)
 {
-    using T = typename Container::value_type;
+    using T = Container::value_type;
 
 #if 0
     return std::reduce(//std::execution::par_unseq,
@@ -174,7 +174,7 @@ requires std::is_floating_point_v<typename Container::value_type>
 auto
 arithmetic_mean_val(const Container& c)
 {
-    using T = typename Container::value_type;
+    using T = Container::value_type;
     const auto n = c.size();
 
     if (n == 0)
@@ -191,7 +191,7 @@ requires std::is_floating_point_v<typename Container::value_type>
 auto
 variance_val(const Container& c, const bool is_sample = false)
 {
-    using T = typename Container::value_type;
+    using T = Container::value_type;
     const auto n = c.size();
 
     if (n <= 0)
@@ -235,7 +235,7 @@ requires std::is_floating_point_v<typename Container::value_type>
 auto
 skewness_val(const Container& c, const bool is_sample = false)
 {
-    using T = typename Container::value_type;
+    using T = Container::value_type;
     const auto n = c.size();
 
     if (n <= 1)
@@ -273,7 +273,7 @@ requires std::is_floating_point_v<typename Container::value_type>
 auto
 excess_kurtosis_val(const Container& c, const bool is_sample = false)
 {
-    using T = typename Container::value_type;
+    using T = Container::value_type;
     const auto n = c.size();
 
     if (n <= 1)
@@ -308,7 +308,7 @@ requires std::is_floating_point_v<typename Container::value_type>
 auto
 median_val(const Container& c)
 {
-    using T = typename Container::value_type;
+    using T = Container::value_type;
     const auto n = c.size();
 
     if (n == 0)

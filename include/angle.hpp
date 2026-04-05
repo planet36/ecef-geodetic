@@ -632,7 +632,7 @@ template <angle_unit U, std::floating_point T, std::floating_point T2>
 constexpr auto
 operator+(const angle<U, T>& a1, const angle<U, T2>& a2)
 {
-    using result_type = typename std::common_type_t<T, T2>;
+    using result_type = std::common_type_t<T, T2>;
     return angle<U, result_type>{a1.scalar() + a2.scalar()};
 }
 
@@ -641,7 +641,7 @@ template <angle_unit U, std::floating_point T, std::floating_point T2>
 constexpr auto
 operator-(const angle<U, T>& a1, const angle<U, T2>& a2)
 {
-    using result_type = typename std::common_type_t<T, T2>;
+    using result_type = std::common_type_t<T, T2>;
     return angle<U, result_type>{a1.scalar() - a2.scalar()};
 }
 
@@ -651,7 +651,7 @@ requires std::is_arithmetic_v<T2>
 constexpr auto
 operator*(const angle<U, T>& a, const T2& x)
 {
-    using result_type = typename std::common_type_t<T, T2>;
+    using result_type = std::common_type_t<T, T2>;
     return angle<U, result_type>{a.scalar() * x};
 }
 
@@ -671,7 +671,7 @@ requires std::is_arithmetic_v<T2>
 constexpr auto
 operator/(const angle<U, T>& a, const T2& x)
 {
-    using result_type = typename std::common_type_t<T, T2>;
+    using result_type = std::common_type_t<T, T2>;
     return angle<U, result_type>{a.scalar() / x};
 }
 
@@ -1022,7 +1022,7 @@ template <angle_unit U, std::floating_point T, angle_unit U2, std::floating_poin
 constexpr auto
 ieee_remainder(const angle<U, T>& a1, const angle<U2, T2>& a2)
 {
-    using result_type = typename std::common_type_t<T, T2>;
+    using result_type = std::common_type_t<T, T2>;
     return ieee_remainder(a1.template to<result_type>(), a2.template to<U, result_type>());
 }
 
@@ -1047,7 +1047,7 @@ template <angle_unit U, std::floating_point T, angle_unit U2, std::floating_poin
 constexpr auto
 fmod_remainder(const angle<U, T>& a1, const angle<U2, T2>& a2)
 {
-    using result_type = typename std::common_type_t<T, T2>;
+    using result_type = std::common_type_t<T, T2>;
     return ieee_remainder(a1.template to<result_type>(), a2.template to<U, result_type>());
 }
 
@@ -1172,7 +1172,7 @@ template <angle_unit U, std::floating_point T, angle_unit U2, std::floating_poin
 constexpr auto
 angle_diff(angle<U, T> a1, angle<U2, T2> a2)
 {
-    using result_type = typename std::common_type_t<T, T2>;
+    using result_type = std::common_type_t<T, T2>;
     return angle_diff(a1.template to<result_type>(), a2.template to<U, result_type>());
 }
 
