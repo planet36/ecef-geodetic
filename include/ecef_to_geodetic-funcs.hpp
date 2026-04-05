@@ -1602,15 +1602,15 @@ COMMON_FIRST_DECLS
 
     //const auto ARat1  = std::pow((ell.a + 50005), 2);
     constexpr auto ARat1 = SQ(ell.a + 50005);
-    //const auto ARat2  = (ARat1) / std::pow((ell.b + 50005), 2);
-    constexpr auto ARat2 = (ARat1) / SQ(ell.b + 50005);
+    //const auto ARat2  = ARat1 / std::pow((ell.b + 50005), 2);
+    constexpr auto ARat2 = ARat1 / SQ(ell.b + 50005);
 
     // LOWER BOUNDS ON POINT
 
     //const auto BRat1  = std::pow((ell.a - 10005), 2);
     constexpr auto BRat1 = SQ(ell.a - 10005);
-    //const auto BRat2  = (BRat1) / std::pow((ell.b - 10005), 2);
-    constexpr auto BRat2 = (BRat1) / SQ(ell.b - 10005);
+    //const auto BRat2  = BRat1 / std::pow((ell.b - 10005), 2);
+    constexpr auto BRat2 = BRat1 / SQ(ell.b - 10005);
 
     constexpr auto B1 = 0.100225438677758E+01;
     constexpr auto B2 = -0.393246903633930E-04;
@@ -1860,15 +1860,15 @@ COMMON_FIRST_DECLS
 
     //const auto ARat1  = std::pow((ell.a + 50005), 2);
     constexpr auto ARat1 = SQ(ell.a + 50005);
-    //const auto ARat2  = (ARat1) / std::pow((ell.b + 50005), 2);
-    constexpr auto ARat2 = (ARat1) / SQ(ell.b + 50005);
+    //const auto ARat2  = ARat1 / std::pow((ell.b + 50005), 2);
+    constexpr auto ARat2 = ARat1 / SQ(ell.b + 50005);
 
     // LOWER BOUNDS ON POINT
 
     //const auto BRat1  = std::pow((ell.a - 10005), 2);
     constexpr auto BRat1 = SQ(ell.a - 10005);
-    //const auto BRat2  = (BRat1) / std::pow((ell.b - 10005), 2);
-    constexpr auto BRat2 = (BRat1) / SQ(ell.b - 10005);
+    //const auto BRat2  = BRat1 / std::pow((ell.b - 10005), 2);
+    constexpr auto BRat2 = BRat1 / SQ(ell.b - 10005);
 
     constexpr auto B1 = 0.100225438677758E+01;
     constexpr auto B2 = -0.393246903633930E-04;
@@ -6500,16 +6500,16 @@ COMMON_FIRST_DECLS
     const auto C10 = 2 * ell.b2 * (10 * ell.b * h0 - 5 * h0 * h0 - ell.b2);
 
     const auto h1 = -ell.b * cos2_lat0;
-    const auto lat1 = (ell.b - h0) * sin_2lat0 / (2 * (h0pb));
+    const auto lat1 = (ell.b - h0) * sin_2lat0 / (2 * h0pb);
     ht += p * h1;
     lat_c += p * lat1;
 
-    const auto h2 = -ell.b * (h0m3b) * sin2_2lat0 / (8 * (h0pb));
+    const auto h2 = -ell.b * h0m3b * sin2_2lat0 / (8 * h0pb);
     const auto lat2 = (h0 * h0 - 4 * ell.b * h0 + 3 * ell.b2) * std::sin(4 * lat0) / (8 * h0pb * h0pb) + sin_2lat0 / 4;
     ht += p * p * h2;
     lat_c += p * p * lat2;
 
-    const auto h3 = ell.b * sin2_2lat0 * (h0m3b * h0m3b * cos2_lat0 + 4 * ell.b * (h0mb)) / (8 * h0pb * h0pb);
+    const auto h3 = ell.b * sin2_2lat0 * (h0m3b * h0m3b * cos2_lat0 + 4 * ell.b * h0mb) / (8 * h0pb * h0pb);
     const auto lat3 = sin_2lat0 * (C1 * cos4_lat0 + C2 * cos2_lat0 + C3) / (6 * CB(h0pb));
     ht += CB(p) * h3;
     lat_c += CB(p) * lat3;
