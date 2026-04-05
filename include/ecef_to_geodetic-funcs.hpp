@@ -444,7 +444,7 @@ COMMON_FIRST_DECLS
     const auto P = 4 * (E * F + 1) / 3;
     const auto Q = 2 * (E * E - F * F);
     const auto D = P * P * P + Q * Q;
-    double v;
+    double v = 0;
     if (D < 0)
     {
         const auto sqrt_n_P = std::sqrt(-P);
@@ -724,7 +724,7 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 COMMON_FIRST_DECLS
 
     const auto r = std::sqrt(w2 + z2);
-    double aD_b;
+    double aD_b = 0;
 
     if (r <= 2E6 + (ell.a + ell.b) / 2) // region 1
         aD_b = 1.0026;
@@ -783,7 +783,7 @@ void ecef_to_geodetic(const double x, const double y, const double z,
 COMMON_FIRST_DECLS
 
     const auto r = std::sqrt(w2 + z2);
-    double aD_b;
+    double aD_b = 0;
 
     if (r <= 2E6 + (ell.a + ell.b) / 2) // region 1
         aD_b = 1.0026;
@@ -1121,11 +1121,11 @@ COMMON_FIRST_DECLS
     const auto w_c = w * (1 - ell.f);
     const auto c = ell.a * ell.e2;
 
-    double S_n;
-    double C_n;
+    double S_n = 0;
+    double C_n = 0;
 
-    double A_n;
-    double B_n; // correction factor of Halley's method
+    double A_n = 0;
+    double B_n = 0; // correction factor of Halley's method
 
     S_n = z;
     C_n = w_c;
@@ -1187,11 +1187,11 @@ COMMON_FIRST_DECLS
     const auto w_c = w * (1 - ell.f);
     const auto c = ell.a * ell.e2;
 
-    double S_n;
-    double C_n;
+    double S_n = 0;
+    double C_n = 0;
 
-    double A_n;
-    double B_n; // correction factor of Halley's method
+    double A_n = 0;
+    double B_n = 0; // correction factor of Halley's method
 
     S_n = z;
     C_n = w_c;
@@ -1255,8 +1255,8 @@ COMMON_FIRST_DECLS
     //double cos_lambda = w != 0 ? x / w : 1;
     //ht = hypot(w, z);      // Distance to center of earth
     ht = std::sqrt(w2 + z2);      // Distance to center of earth
-    double sin_lat;
-    double cos_lat;
+    double sin_lat = 0;
+    double cos_lat = 0;
 
 #if 0
     if (ht > maxrad)
@@ -1429,8 +1429,8 @@ COMMON_FIRST_DECLS
     //double cos_lambda = w != 0 ? x / w : 1;
     //ht = hypot(w, z);      // Distance to center of earth
     ht = std::sqrt(w2 + z2);      // Distance to center of earth
-    double sin_lat;
-    double cos_lat;
+    double sin_lat = 0;
+    double cos_lat = 0;
 
 #if 0
     if (ht > maxrad)
@@ -1618,9 +1618,37 @@ COMMON_FIRST_DECLS
     constexpr auto B4 = 0.133733602228679E+14;
     constexpr auto B5 = 0.984537701867943E+00;
 
-    [[maybe_unused]] double /*w2,w,z2,*/testu,testb,top,top2,rr,q,s12,rnn,s1,
-                            /*zp2,wp,wp2,*/cf,gee,alpha,cl,arg2,p,xarg,r2,r1,ro,
-                            s,roe,arg,v,zo;
+    [[maybe_unused]] double
+        // w2 = 0,
+        // w = 0,
+        // z2 = 0,
+        testu = 0,
+        testb = 0,
+        top = 0,
+        top2 = 0,
+        rr = 0,
+        q = 0,
+        s12 = 0,
+        rnn = 0,
+        s1 = 0,
+        // zp2 = 0,
+        // wp = 0,
+        // wp2 = 0,
+        cf = 0,
+        gee = 0,
+        alpha = 0,
+        cl = 0,
+        arg2 = 0,
+        p = 0,
+        xarg = 0,
+        r2 = 0,
+        r1 = 0,
+        ro = 0,
+        s = 0,
+        roe = 0,
+        arg = 0,
+        v = 0,
+        zo = 0;
 
     //for (int i=0; i < count; i++)
     //{
@@ -1848,9 +1876,37 @@ COMMON_FIRST_DECLS
     constexpr auto B4 = 0.133733602228679E+14;
     constexpr auto B5 = 0.984537701867943E+00;
 
-    [[maybe_unused]] double /*w2,w,z2,*/testu,testb,top,top2,rr,q,s12,rnn,s1,
-                            /*zp2,wp,wp2,*/cf,gee,alpha,cl,arg2,p,xarg,r2,r1,ro,
-                            s,roe,arg,v,zo;
+    [[maybe_unused]] double
+        // w2 = 0,
+        // w = 0,
+        // z2 = 0,
+        testu = 0,
+        testb = 0,
+        top = 0,
+        top2 = 0,
+        rr = 0,
+        q = 0,
+        s12 = 0,
+        rnn = 0,
+        s1 = 0,
+        // zp2 = 0,
+        // wp = 0,
+        // wp2 = 0,
+        cf = 0,
+        gee = 0,
+        alpha = 0,
+        cl = 0,
+        arg2 = 0,
+        p = 0,
+        xarg = 0,
+        r2 = 0,
+        r1 = 0,
+        ro = 0,
+        s = 0,
+        roe = 0,
+        arg = 0,
+        v = 0,
+        zo = 0;
 
     //for (int i=0; i < count; i++)
     //{
@@ -2737,8 +2793,8 @@ COMMON_FIRST_DECLS
     const auto b2 = ell.b2;
     const auto a_e2 = ell.a * ell.e2;
 
-    double sin_lat;
-    double cos_lat;
+    double sin_lat = 0;
+    double cos_lat = 0;
     //double u0;
 
     // geocentric to parametric
@@ -4230,11 +4286,11 @@ COMMON_FIRST_DECLS
     double ze = 0;
     //double we = 0;
     double we_N = 0;
-    double m;
-    double n;
-    double r_;
-    double s;
-    double t;
+    double m = 0;
+    double n = 0;
+    double r_ = 0;
+    double s = 0;
+    double t = 0;
     double sin_lat = 0;
     double cos_lat = 0;
 
@@ -4940,32 +4996,32 @@ COMMON_FIRST_DECLS
     SE_COORD* dest_coord_ptr)
     */
 
-    double arg;
-    double p;
-    double s1;
-    [[maybe_unused]] double s12;
+    double arg = 0;
+    double p = 0;
+    double s1 = 0;
+    [[maybe_unused]] double s12 = 0;
 
-    double alpha;
-    double arg2;
-    double cf;
-    double cl;
-    double q;
-    double r_1;
-    double r_2;
-    double ro;
-    double roe;
-    double rr;
-    double s;
-    double top;
-    double top2;
-    double v;
-    double xarg;
-    double zo;
+    double alpha = 0;
+    double arg2 = 0;
+    double cf = 0;
+    double cl = 0;
+    double q = 0;
+    double r_1 = 0;
+    double r_2 = 0;
+    double ro = 0;
+    double roe = 0;
+    double rr = 0;
+    double s = 0;
+    double top = 0;
+    double top2 = 0;
+    double v = 0;
+    double xarg = 0;
+    double zo = 0;
 
-    double lowerBound;
-    double upperBound;
-    double ga;
-    double bot;
+    double lowerBound = 0;
+    double upperBound = 0;
+    double ga = 0;
+    double bot = 0;
 
     short int region = REGION_UNDEFINED;
 
@@ -5159,10 +5215,10 @@ END_REGION_CHECK:
                 q = std::sqrt(rr);
 
                 {
-                    double sn;
-                    double cn;
-                    double s3;
-                    double c3;
+                    double sn = 0;
+                    double cn = 0;
+                    double s3 = 0;
+                    double c3 = 0;
                     sn = top / q;
                     cn = w / q;
                     s3 = CB(sn);
@@ -5180,7 +5236,7 @@ END_REGION_CHECK:
 
                 /*Fast Rn computation*/
                 {
-                    double Rn;
+                    double Rn = 0;
                     COMPUTE_RN_FAST(s12, Rn);
                     /*Fast Computation of Rn = a/std::sqrt(1-Eps2*sin_squared(latitude))*/
 
@@ -5196,7 +5252,7 @@ END_REGION_CHECK:
 
         case REGION_5:
             {
-                double gee;
+                double gee = 0;
 #if 0
                 /*!\note This check has been replaced by a higer level check stipulating
                 that we are at no lesser altitude than negative b.
@@ -5535,32 +5591,32 @@ COMMON_FIRST_DECLS
     SE_COORD* dest_coord_ptr)
     */
 
-    double arg;
-    double p;
-    double s1;
-    [[maybe_unused]] double s12;
+    double arg = 0;
+    double p = 0;
+    double s1 = 0;
+    [[maybe_unused]] double s12 = 0;
 
-    double alpha;
-    double arg2;
-    double cf;
-    double cl;
-    double q;
-    double r_1;
-    double r_2;
-    double ro;
-    double roe;
-    double rr;
-    double s;
-    double top;
-    double top2;
-    double v;
-    double xarg;
-    double zo;
+    double alpha = 0;
+    double arg2 = 0;
+    double cf = 0;
+    double cl = 0;
+    double q = 0;
+    double r_1 = 0;
+    double r_2 = 0;
+    double ro = 0;
+    double roe = 0;
+    double rr = 0;
+    double s = 0;
+    double top = 0;
+    double top2 = 0;
+    double v = 0;
+    double xarg = 0;
+    double zo = 0;
 
-    double lowerBound;
-    double upperBound;
-    double ga;
-    double bot;
+    double lowerBound = 0;
+    double upperBound = 0;
+    double ga = 0;
+    double bot = 0;
 
     short int region = REGION_UNDEFINED;
 
@@ -5754,10 +5810,10 @@ END_REGION_CHECK:
                 q = std::sqrt(rr);
 
                 {
-                    double sn;
-                    double cn;
-                    double s3;
-                    double c3;
+                    double sn = 0;
+                    double cn = 0;
+                    double s3 = 0;
+                    double c3 = 0;
                     sn = top / q;
                     cn = w / q;
                     s3 = CB(sn);
@@ -5775,7 +5831,7 @@ END_REGION_CHECK:
 
                 /*Fast Rn computation*/
                 {
-                    double Rn;
+                    double Rn = 0;
                     COMPUTE_RN_FAST(s12, Rn);
                     /*Fast Computation of Rn = a/std::sqrt(1-Eps2*sin_squared(latitude))*/
 
@@ -5791,7 +5847,7 @@ END_REGION_CHECK:
 
         case REGION_5:
             {
-                double gee;
+                double gee = 0;
 #if 0
                 /*!\note This check has been replaced by a higer level check stipulating
                 that we are at no lesser altitude than negative b.

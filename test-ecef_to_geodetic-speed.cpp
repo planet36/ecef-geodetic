@@ -63,7 +63,7 @@ main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
     // https://en.wikipedia.org/wiki/Elvis_operator
     //const unsigned int max_threads = std::thread::hardware_concurrency() ?: min_threads;
 
-    unsigned int num_threads;
+    unsigned int num_threads = min_threads;
 
     try
     {
