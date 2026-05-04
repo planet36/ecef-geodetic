@@ -120,9 +120,15 @@ to_string(const INPUT_DATA_COORD_SYSTEM& x)
 {
     switch (x)
     {
-    case INPUT_DATA_COORD_SYSTEM::ECEF    : return "ECEF"    ; break;
-    case INPUT_DATA_COORD_SYSTEM::GEODETIC: return "GEODETIC"; break;
-    default: return "???"; break;
+    case INPUT_DATA_COORD_SYSTEM::ECEF:
+        return "ECEF";
+        break;
+    case INPUT_DATA_COORD_SYSTEM::GEODETIC:
+        return "GEODETIC";
+        break;
+    default:
+        return "???";
+        break;
     }
 }
 

@@ -59,7 +59,8 @@ main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
     // {{{ determine num_threads
 
     constexpr int min_threads = 1;
-    const auto max_threads = std::max(min_threads, static_cast<int>(std::thread::hardware_concurrency()));
+    const auto max_threads =
+        std::max(min_threads, static_cast<int>(std::thread::hardware_concurrency()));
     // https://en.wikipedia.org/wiki/Elvis_operator
     //const auto max_threads = static_cast<int>(std::thread::hardware_concurrency()) ?: min_threads;
 
@@ -100,7 +101,8 @@ main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
             // verify the given function names are valid
             if (!map_func_name_to_func_info.contains(func_name))
             {
-                fmt::println(stderr, "Error: \"{}\" is not a valid function name.", func_name);
+                fmt::println(stderr, "Error: \"{}\" is not a valid function name.",
+                             func_name);
 
                 fmt::println(stderr, "Valid function names are:");
                 const auto keys = std::views::keys(map_func_name_to_func_info);

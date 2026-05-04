@@ -54,10 +54,10 @@ struct dist_err_stats
     dist_err_stats() = default;
 
     explicit dist_err_stats(const running_stats<T>& rs) :
-        mean(rs.mean()),
-        stdev(rs.standard_deviation()),
-        max(rs.max_abs()),
-        sum(rs.sum_abs())
+    mean(rs.mean()),
+    stdev(rs.standard_deviation()),
+    max(rs.max_abs()),
+    sum(rs.sum_abs())
     {}
 };
 
@@ -230,7 +230,8 @@ main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
             try
             {
                 const auto tmp = std::stoll(optarg);
-                num_speed_test_iterations = std::saturate_cast<decltype(num_speed_test_iterations)>(tmp);
+                num_speed_test_iterations =
+                    std::saturate_cast<decltype(num_speed_test_iterations)>(tmp);
             }
             catch (const std::invalid_argument& ex)
             {
@@ -290,7 +291,8 @@ main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
             // verify the given function names are valid
             if (!map_func_name_to_func_info.contains(func_name))
             {
-                fmt::println(stderr, "Error: \"{}\" is not a valid function name.", func_name);
+                fmt::println(stderr, "Error: \"{}\" is not a valid function name.",
+                             func_name);
 
                 fmt::println(stderr, "Valid function names are:");
                 const auto keys = std::views::keys(map_func_name_to_func_info);

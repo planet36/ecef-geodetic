@@ -270,11 +270,8 @@ struct Ellipsoid
     * \param Rn prime vertical radius of curvature (meters)
     * \return the height above the ellipsoid (meters)
     */
-    [[nodiscard]] auto get_ht(const T w,
-                              const T z,
-                              const T sin_lat,
-                              const T cos_lat,
-                              const T Rn) const
+    [[nodiscard]] auto
+    get_ht(const T w, const T z, const T sin_lat, const T cos_lat, const T Rn) const
     {
         // https://www.gnu.org/software/libc/manual/html_node/Mathematical-Constants.html
         // cos(45 deg) == 1/sqrt(2)

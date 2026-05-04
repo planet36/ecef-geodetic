@@ -98,28 +98,26 @@ struct Geodetic
 
     Geodetic() = default;
 
-    constexpr Geodetic(
-        const angle<U, T>& _lat,
-        const angle<U, T>& _lon,
-        const T _ht = 0) :
-        lat(_lat),
-        lon(_lon),
-        ht(_ht)
+    constexpr Geodetic(const angle<U, T>& _lat, const angle<U, T>& _lon, const T _ht = 0) :
+    lat(_lat),
+    lon(_lon),
+    ht(_ht)
     {}
 
     /// conversion ctor
     template <std::floating_point T2>
     constexpr Geodetic(const Geodetic<U, T2>& that) :
-        lat(that.lat),
-        lon(that.lon),
-        ht(that.ht)
+    lat(that.lat),
+    lon(that.lon),
+    ht(that.ht)
     {}
 
     auto operator<=>(const this_t&) const = default;
 
     void normalize() { normalize_geodetic(lat, lon); }
 
-    [[nodiscard]] std::string to_string(const int precision = geodetic_default_precision) const
+    [[nodiscard]] std::string
+    to_string(const int precision = geodetic_default_precision) const
     {
         return geodetic_to_str(lat, lon, ht, precision);
     }

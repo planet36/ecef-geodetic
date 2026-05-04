@@ -44,8 +44,8 @@ min_val(const Container& c)
     if (n == 0)
         return std::numeric_limits<T>::quiet_NaN();
 
-    return *std::min_element(//std::execution::par_unseq,
-                             c.cbegin(), c.cend());
+    return *std::min_element( //std::execution::par_unseq,
+        c.cbegin(), c.cend());
 }
 
 template <container Container>
@@ -59,8 +59,8 @@ min_abs_val(const Container& c)
     if (n == 0)
         return std::numeric_limits<T>::quiet_NaN();
 
-    return *std::min_element(//std::execution::par_unseq,
-                             c.cbegin(), c.cend(), compare_abs_less);
+    return *std::min_element( //std::execution::par_unseq,
+        c.cbegin(), c.cend(), compare_abs_less);
 }
 
 template <container Container>
@@ -74,8 +74,8 @@ max_val(const Container& c)
     if (n == 0)
         return std::numeric_limits<T>::quiet_NaN();
 
-    return *std::max_element(//std::execution::par_unseq,
-                             c.cbegin(), c.cend());
+    return *std::max_element( //std::execution::par_unseq,
+        c.cbegin(), c.cend());
 }
 
 template <container Container>
@@ -89,8 +89,8 @@ max_abs_val(const Container& c)
     if (n == 0)
         return std::numeric_limits<T>::quiet_NaN();
 
-    return *std::max_element(//std::execution::par_unseq,
-                             c.cbegin(), c.cend(), compare_abs_less);
+    return *std::max_element( //std::execution::par_unseq,
+        c.cbegin(), c.cend(), compare_abs_less);
 }
 
 template <container Container>
