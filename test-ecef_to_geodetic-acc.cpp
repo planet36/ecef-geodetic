@@ -231,7 +231,7 @@ main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
             {
                 const auto tmp = std::stoll(optarg);
                 num_speed_test_iterations =
-                    std::saturate_cast<decltype(num_speed_test_iterations)>(tmp);
+                    std::saturating_cast<decltype(num_speed_test_iterations)>(tmp);
             }
             catch (const std::invalid_argument& ex)
             {
