@@ -23,6 +23,7 @@ Checks:
   - -cppcoreguidelines-avoid-const-or-ref-data-members
   - -cppcoreguidelines-avoid-do-while
   - -cppcoreguidelines-avoid-magic-numbers
+  - -cppcoreguidelines-avoid-non-const-global-variables
   - -cppcoreguidelines-macro-to-enum
   - -cppcoreguidelines-no-malloc
   - -cppcoreguidelines-non-private-member-variables-in-classes
