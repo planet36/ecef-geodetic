@@ -20,6 +20,7 @@ Checks:
   - -cert-dcl59-cpp
   - -cert-str34-c
   - -clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling
+  - -cppcoreguidelines-avoid-const-or-ref-data-members
   - -cppcoreguidelines-avoid-do-while
   - -cppcoreguidelines-avoid-magic-numbers
   - -cppcoreguidelines-macro-to-enum
