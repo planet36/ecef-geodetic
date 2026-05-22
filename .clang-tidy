@@ -14,6 +14,7 @@ Checks:
   - portability-*
   - readability-*
   - -bugprone-easily-swappable-parameters
+  - -bugprone-implicit-widening-of-multiplication-result
   - -bugprone-narrowing-conversions
   - -bugprone-signed-char-misuse
   - -cert-dcl58-cpp
