@@ -132,7 +132,7 @@ public:
 };
 
 template <std::floating_point T>
-running_stats<T>
+[[nodiscard]] running_stats<T>
 operator+(const running_stats<T>& a, const running_stats<T>& b)
 {
     running_stats<T> combined;

@@ -79,7 +79,7 @@ public:
 };
 
 template <std::floating_point T>
-running_regression<T>
+[[nodiscard]] running_regression<T>
 operator+(const running_regression<T>& a, const running_regression<T>& b)
 {
     running_regression<T> combined;
