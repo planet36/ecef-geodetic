@@ -19,7 +19,7 @@
 #include <iterator>
 #include <limits>
 
-template <std::floating_point T>
+template <std::floating_point T = double>
 class running_stats
 {
 private:

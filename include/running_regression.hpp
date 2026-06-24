@@ -15,7 +15,7 @@
 
 #include <concepts>
 
-template <std::floating_point T>
+template <std::floating_point T = double>
 class running_regression
 {
 private:
