@@ -49,6 +49,7 @@ Checks:
   - -llvm-else-after-return
   - -llvm-header-guard
   - -llvm-namespace-comment
+  - -llvm-prefer-static-over-anonymous-namespace
   - -modernize-avoid-c-arrays
   - -modernize-macro-to-enum
   - -modernize-use-trailing-return-type
