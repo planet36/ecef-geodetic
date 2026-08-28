@@ -59,6 +59,7 @@ python3 plot-points.py -v -g --ell --evo --km
 
 # pylint: disable=too-many-arguments
 # pylint: disable=too-many-locals
+# pylint: disable=too-many-positional-arguments
 def plot_points_2d(points, plot_ellipse=False, plot_evolute=False,
                    limit_extents=False, dpi=plt.rcParams["figure.dpi"], km=False):
 
