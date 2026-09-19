@@ -36,14 +36,7 @@ private:
     long long n = 0;
 
 public:
-    /*
-    /// default ctor
-    running_stats()
-    {
-        clear();
-    }
-    */
-
+    /// Reset all statistics to their initial state
     void clear()
     {
         M1 = 0;
@@ -59,6 +52,7 @@ public:
         n = 0;
     }
 
+    /// Add a single value to the running statistics
     void push(const T x)
     {
         const auto n1 = n;
@@ -75,11 +69,13 @@ public:
         _sum += x;
         _min = std::fmin(_min, x);
         _max = std::fmax(_max, x);
-        _sum_abs += std::abs(x);
-        _min_abs = std::fmin(_min_abs, std::abs(x));
-        _max_abs = std::fmax(_max_abs, std::abs(x));
+        const auto abs_x = std::abs(x);
+        _sum_abs += abs_x;
+        _min_abs = std::fmin(_min_abs, abs_x);
+        _max_abs = std::fmax(_max_abs, abs_x);
     }
 
+    /// Add a range of values to the running statistics
     template <std::forward_iterator It>
     void push(It first, It last)
     {
@@ -89,40 +85,53 @@ public:
         }
     }
 
-    [[nodiscard]] auto num_data_values() const { return n; }
+    /// get the number of values pushed
+    [[nodiscard]] constexpr auto num_data_values() const { return n; }
 
-    [[nodiscard]] auto mean() const { return M1; }
+    /// get the mean, or NaN if no values were pushed
+    [[nodiscard]] constexpr auto mean() const
+    {
+        return (n > 0) ? M1 : std::numeric_limits<T>::quiet_NaN();
+    }
 
-    [[nodiscard]] auto variance() const { return M2 / (n - 1); }
+    /// get the sample variance, or NaN if fewer than 2 values were pushed
+    [[nodiscard]] auto variance() const
+    {
+        return (n > 1) ? M2 / (n - 1) : std::numeric_limits<T>::quiet_NaN();
+    }
 
+    /// get the sample standard deviation, or NaN if fewer than 2 values were pushed
     [[nodiscard]] auto standard_deviation() const { return std::sqrt(variance()); }
 
+    /// get the skewness, or NaN if fewer than 2 values were pushed
     [[nodiscard]] auto skewness() const { return std::sqrt(n) * M3 / std::pow(M2, 1.5); }
 
+    /// get the kurtosis, or NaN if fewer than 2 values were pushed
     [[nodiscard]] auto kurtosis() const { return n * M4 / (M2 * M2) - 3; }
 
-    /// get the sum of the values
-    [[nodiscard]] auto sum() const { return _sum; }
+    /// get the sum of the values, or 0 if none were pushed
+    [[nodiscard]] constexpr auto sum() const { return _sum; }
 
-    /// get the minimum value
-    [[nodiscard]] auto min() const { return _min; }
+    /// get the minimum value, or NaN if none were pushed
+    [[nodiscard]] constexpr auto min() const { return _min; }
 
-    /// get the maximum value
-    [[nodiscard]] auto max() const { return _max; }
+    /// get the maximum value, or NaN if none were pushed
+    [[nodiscard]] constexpr auto max() const { return _max; }
 
-    /// get the sum of the absolute values
-    [[nodiscard]] auto sum_abs() const { return _sum_abs; }
+    /// get the sum of the absolute values, or 0 if none were pushed
+    [[nodiscard]] constexpr auto sum_abs() const { return _sum_abs; }
 
-    /// get the minimum absolute value
-    [[nodiscard]] auto min_abs() const { return _min_abs; }
+    /// get the minimum absolute value, or NaN if none were pushed
+    [[nodiscard]] constexpr auto min_abs() const { return _min_abs; }
 
-    /// get the maximum absolute value
-    [[nodiscard]] auto max_abs() const { return _max_abs; }
+    /// get the maximum absolute value, or NaN if none were pushed
+    [[nodiscard]] constexpr auto max_abs() const { return _max_abs; }
 
     template <std::floating_point T2>
     friend running_stats<T2> operator+(const running_stats<T2>& a,
                                        const running_stats<T2>& b);
 
+    /// Merge another \c running_stats into this one
     running_stats<T>& operator+=(const running_stats<T>& that)
     {
         const running_stats<T> combined = *this + that;
@@ -131,6 +140,7 @@ public:
     }
 };
 
+/// Merge two \c running_stats objects into one
 template <std::floating_point T>
 [[nodiscard]] running_stats<T>
 operator+(const running_stats<T>& a, const running_stats<T>& b)
@@ -157,6 +167,16 @@ operator+(const running_stats<T>& a, const running_stats<T>& b)
     combined.M4 +=
         6 * delta2 * (a.n * a.n * b.M2 + b.n * b.n * a.M2) / (combined.n * combined.n) +
         4 * delta * (a.n * b.M3 - b.n * a.M3) / combined.n;
+
+    // The remaining members combine directly, the same way push() accumulates
+    // them.  fmin and fmax carry the empty-object NaN sentinel through, so
+    // merging an empty object leaves the other one's extrema.
+    combined._sum = a._sum + b._sum;
+    combined._min = std::fmin(a._min, b._min);
+    combined._max = std::fmax(a._max, b._max);
+    combined._sum_abs = a._sum_abs + b._sum_abs;
+    combined._min_abs = std::fmin(a._min_abs, b._min_abs);
+    combined._max_abs = std::fmax(a._max_abs, b._max_abs);
 
     return combined;
 }
