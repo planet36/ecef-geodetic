@@ -1,15 +1,16 @@
 // SPDX-FileCopyrightText: Steven Ward
 // SPDX-License-Identifier: MPL-2.0
 
-/// running stats class
+/// Running stats class
 /**
 * \file
 * \author John D. Cook
 * \author Steven Ward
 * \sa https://www.johndcook.com/blog/skewness_kurtosis/
 *
-* XXX: Do not compile with -ffinite-math-only (included with -ffast-math (included with -Ofast)).
-* This affects the behavior of functions std::fmin, std::fmax.
+* \warning Do not compile with -ffinite-math-only, which changes the behavior
+* of std::fmin and std::fmax.  -ffast-math turns it on, and -Ofast turns on
+* -ffast-math.
 */
 
 #pragma once
@@ -85,46 +86,46 @@ public:
         }
     }
 
-    /// get the number of values pushed
+    /// Get the number of values pushed
     [[nodiscard]] constexpr auto num_data_values() const { return n; }
 
-    /// get the mean, or NaN if no values were pushed
+    /// Get the mean, or NaN if no values were pushed
     [[nodiscard]] constexpr auto mean() const
     {
         return (n > 0) ? M1 : std::numeric_limits<T>::quiet_NaN();
     }
 
-    /// get the sample variance, or NaN if fewer than 2 values were pushed
+    /// Get the sample variance, or NaN if fewer than 2 values were pushed
     [[nodiscard]] auto variance() const
     {
         return (n > 1) ? M2 / (n - 1) : std::numeric_limits<T>::quiet_NaN();
     }
 
-    /// get the sample standard deviation, or NaN if fewer than 2 values were pushed
+    /// Get the sample standard deviation, or NaN if fewer than 2 values were pushed
     [[nodiscard]] auto standard_deviation() const { return std::sqrt(variance()); }
 
-    /// get the skewness, or NaN if fewer than 2 values were pushed
+    /// Get the skewness, or NaN if fewer than 2 values were pushed
     [[nodiscard]] auto skewness() const { return std::sqrt(n) * M3 / std::pow(M2, 1.5); }
 
-    /// get the kurtosis, or NaN if fewer than 2 values were pushed
+    /// Get the kurtosis, or NaN if fewer than 2 values were pushed
     [[nodiscard]] auto kurtosis() const { return n * M4 / (M2 * M2) - 3; }
 
-    /// get the sum of the values, or 0 if none were pushed
+    /// Get the sum of the values, or 0 if none were pushed
     [[nodiscard]] constexpr auto sum() const { return _sum; }
 
-    /// get the minimum value, or NaN if none were pushed
+    /// Get the minimum value, or NaN if none were pushed
     [[nodiscard]] constexpr auto min() const { return _min; }
 
-    /// get the maximum value, or NaN if none were pushed
+    /// Get the maximum value, or NaN if none were pushed
     [[nodiscard]] constexpr auto max() const { return _max; }
 
-    /// get the sum of the absolute values, or 0 if none were pushed
+    /// Get the sum of the absolute values, or 0 if none were pushed
     [[nodiscard]] constexpr auto sum_abs() const { return _sum_abs; }
 
-    /// get the minimum absolute value, or NaN if none were pushed
+    /// Get the minimum absolute value, or NaN if none were pushed
     [[nodiscard]] constexpr auto min_abs() const { return _min_abs; }
 
-    /// get the maximum absolute value, or NaN if none were pushed
+    /// Get the maximum absolute value, or NaN if none were pushed
     [[nodiscard]] constexpr auto max_abs() const { return _max_abs; }
 
     template <std::floating_point T2>
