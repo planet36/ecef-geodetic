@@ -15,7 +15,7 @@
 #include <iterator>
 
 template <typename C>
-concept container = requires(C a, const C b) {
+concept container = requires (C a, const C b) {
     requires std::regular<C>;
     requires std::swappable<C>;
     requires std::destructible<typename C::value_type>;
