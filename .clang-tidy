@@ -7,7 +7,6 @@ Checks:
   - clang-analyzer-*
   - cppcoreguidelines-*
   - google-*
-  - hicpp-*
   - llvm-*
   - modernize-*
   - performance-*
@@ -16,6 +15,7 @@ Checks:
   - -bugprone-easily-swappable-parameters
   - -bugprone-implicit-widening-of-multiplication-result
   - -bugprone-narrowing-conversions
+  - -bugprone-signed-bitwise
   - -bugprone-signed-char-misuse
   - -cert-dcl58-cpp
   - -cert-dcl59-cpp
@@ -41,12 +41,6 @@ Checks:
   - -google-readability-todo
   - -google-runtime-float
   - -google-runtime-int
-  - -hicpp-avoid-c-arrays
-  - -hicpp-braces-around-statements
-  - -hicpp-named-parameter
-  - -hicpp-no-malloc
-  - -hicpp-signed-bitwise
-  - -hicpp-vararg
   - -llvm-else-after-return
   - -llvm-header-guard
   - -llvm-namespace-comment
