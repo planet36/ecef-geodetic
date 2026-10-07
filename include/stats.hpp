@@ -13,6 +13,8 @@
 
 #include <algorithm>
 #include <cmath>
+#include <concepts>
+#include <functional>
 #include <iterator>
 #include <limits>
 #include <type_traits>
@@ -23,6 +25,17 @@ constexpr auto compare_abs_less = [](const auto& a, const auto& b)
 {
     return std::abs(a) < std::abs(b);
 };
+
+/// a container that keeps its values in ascending order, such as \c std::multiset
+/**
+* Its first and last values are its minimum and maximum, so they can be read
+* in constant time instead of found by a linear search.
+*/
+template <typename C>
+concept sorted_ascending =
+    std::same_as<typename C::key_type, typename C::value_type> &&
+    (std::same_as<typename C::key_compare, std::less<typename C::key_type>> ||
+     std::same_as<typename C::key_compare, std::less<>>);
 
 #define POW2(x) ((x) * (x))
 #define POW3(x) ((x) * (x) * (x))
@@ -39,7 +52,10 @@ min_val(const Container& c)
     if (n == 0)
         return std::numeric_limits<T>::quiet_NaN();
 
-    return *std::min_element(c.cbegin(), c.cend());
+    if constexpr (sorted_ascending<Container>)
+        return *c.cbegin();
+    else
+        return *std::min_element(c.cbegin(), c.cend());
 }
 
 template <container Container>
@@ -67,7 +83,10 @@ max_val(const Container& c)
     if (n == 0)
         return std::numeric_limits<T>::quiet_NaN();
 
-    return *std::max_element(c.cbegin(), c.cend());
+    if constexpr (sorted_ascending<Container>)
+        return *c.crbegin();
+    else
+        return *std::max_element(c.cbegin(), c.cend());
 }
 
 template <container Container>
@@ -96,8 +115,15 @@ minmax_vals(const Container& c)
         return std::make_pair(std::numeric_limits<T>::quiet_NaN(),
                               std::numeric_limits<T>::quiet_NaN());
 
-    const auto& [min_iter, max_iter] = std::minmax_element(c.cbegin(), c.cend());
-    return std::make_pair(*min_iter, *max_iter);
+    if constexpr (sorted_ascending<Container>)
+    {
+        return std::make_pair(*c.cbegin(), *c.crbegin());
+    }
+    else
+    {
+        const auto& [min_iter, max_iter] = std::minmax_element(c.cbegin(), c.cend());
+        return std::make_pair(*min_iter, *max_iter);
+    }
 }
 
 template <container Container>
