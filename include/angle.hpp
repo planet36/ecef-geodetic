@@ -1051,7 +1051,7 @@ constexpr auto
 fmod_remainder(const angle<U, T>& a1, const angle<U2, T2>& a2)
 {
     using result_type = std::common_type_t<T, T2>;
-    return ieee_remainder(a1.template to<result_type>(), a2.template to<U, result_type>());
+    return fmod_remainder(a1.template to<result_type>(), a2.template to<U, result_type>());
 }
 
 /// normalize the angle
