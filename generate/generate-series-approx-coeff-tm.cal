@@ -99,7 +99,7 @@ namespace TM_const
 ");
 
 val_print_as_cpp_var("A", A)
-print
+printf("\n");
 array_print_as_cpp_valarray("alpha", alpha)
 array_print_as_cpp_valarray("beta", beta)
 
@@ -111,7 +111,7 @@ namespace PS_const
 
 /// (1-f)*exp(e*atanh(e)) == sqrt((1+e)^(1+e) * (1-e)^(1-e))
 template <std::floating_point T>
-inline constexpr T k90 = T{%fL};
+inline constexpr T k90 = T{%eL};
 
 }
 ", (1-f)*exp(e*atanh(e)));
