@@ -38,7 +38,7 @@ private:
 
 public:
     /// Reset all statistics to their initial state
-    void clear()
+    constexpr void clear()
     {
         M1 = 0;
         M2 = 0;
@@ -96,7 +96,7 @@ public:
     }
 
     /// Get the sample variance, or NaN if fewer than 2 values were pushed
-    [[nodiscard]] auto variance() const
+    [[nodiscard]] constexpr auto variance() const
     {
         return (n > 1) ? M2 / (n - 1) : std::numeric_limits<T>::quiet_NaN();
     }
