@@ -12,6 +12,12 @@
 #include "angle_unit.hpp"
 #include "isclose.hpp"
 
+#include <cmath>
+#include <concepts>
+#include <numbers>
+#include <type_traits>
+#include <utility>
+
 /// an angle class where the scalar value and unit of measurement are preserved
 template <angle_unit U, std::floating_point T>
 class angle

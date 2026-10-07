@@ -11,10 +11,12 @@
 
 #include "ellipsoid-wgs84.hpp"
 
+#include <algorithm>
 #include <cmath>
 #include <concepts>
 #include <functional>
 #include <string>
+#include <utility>
 
 /// the ellipsoid to use
 constexpr auto ell = WGS84<double>;
