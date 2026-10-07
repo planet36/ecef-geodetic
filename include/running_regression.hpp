@@ -43,7 +43,10 @@ public:
 
     void push(const T x, const T y)
     {
-        S_xy += n * (x_stats.mean() - x) * (y_stats.mean() - y) / (n + 1);
+        // The means of empty stats are NaN, and 0 * NaN is still NaN, so the
+        // first value must skip this term rather than rely on n being zero.
+        if (n > 0)
+            S_xy += n * (x_stats.mean() - x) * (y_stats.mean() - y) / (n + 1);
 
         x_stats.push(x);
         y_stats.push(y);
