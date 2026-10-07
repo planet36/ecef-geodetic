@@ -26,6 +26,7 @@ Version 1.0.0
 
 #include <cmath>
 #include <concepts>
+#include <numbers>
 #include <stdexcept>
 
 /// An ellipsoid and all its defining parameters and derived geometric constants
@@ -273,9 +274,8 @@ struct Ellipsoid
     [[nodiscard]] auto
     get_ht(const T w, const T z, const T sin_lat, const T cos_lat, const T Rn) const
     {
-        // https://www.gnu.org/software/libc/manual/html_node/Mathematical-Constants.html
-        // cos(45 deg) == 1/sqrt(2)
-        if (cos_lat > M_SQRT1_2) // Equatorial
+        // cos(45 deg) == sqrt(2)/2
+        if (cos_lat > std::numbers::sqrt2_v<T> / 2) // Equatorial
             return w / cos_lat - Rn;
         else // Polar
             return z / sin_lat - Rn * (1 - e2);

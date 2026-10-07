@@ -15,6 +15,7 @@
 #include <cmath>
 #include <concepts>
 #include <functional>
+#include <numbers>
 #include <string>
 #include <utility>
 
@@ -100,34 +101,34 @@ constexpr int lines_common_first_decls = 4;
 
 // common declarations for the ECEF-to-geodetic functions
 // that need code for corner cases (i.e. equator or the poles)
-#define COMMON_FIRST_DECLS_CHECKED              \
-    const auto w2 = x * x + y * y;              \
-    if (w2 != 0)                                \
-    {                                           \
-        lon_rad = std::atan2(y, x);             \
-    }                                           \
-    else /* on the axis of rotation */          \
-    {                                           \
-        lon_rad = 0;                            \
-        if (z == 0) /* center of earth */       \
-        {                                       \
-            lat_rad = 0;                        \
-            ht = -ell.a;                        \
-        }                                       \
-        else                                    \
-        {                                       \
-            lat_rad = std::copysign(M_PI_2, z); \
-            ht = std::abs(z) - ell.b;           \
-        }                                       \
-        return;                                 \
-    }                                           \
-    const auto w = std::sqrt(w2);               \
-    if (z == 0) /* on the equatorial plane */   \
-    {                                           \
-        lat_rad = 0;                            \
-        ht = w - ell.a;                         \
-        return;                                 \
-    }                                           \
+#define COMMON_FIRST_DECLS_CHECKED                            \
+    const auto w2 = x * x + y * y;                            \
+    if (w2 != 0)                                              \
+    {                                                         \
+        lon_rad = std::atan2(y, x);                           \
+    }                                                         \
+    else /* on the axis of rotation */                        \
+    {                                                         \
+        lon_rad = 0;                                          \
+        if (z == 0) /* center of earth */                     \
+        {                                                     \
+            lat_rad = 0;                                      \
+            ht = -ell.a;                                      \
+        }                                                     \
+        else                                                  \
+        {                                                     \
+            lat_rad = std::copysign(std::numbers::pi / 2, z); \
+            ht = std::abs(z) - ell.b;                         \
+        }                                                     \
+        return;                                               \
+    }                                                         \
+    const auto w = std::sqrt(w2);                             \
+    if (z == 0) /* on the equatorial plane */                 \
+    {                                                         \
+        lat_rad = 0;                                          \
+        ht = w - ell.a;                                       \
+        return;                                               \
+    }                                                         \
     [[maybe_unused]] const auto z2 = z * z;
 
 // these are the lines in the common first decls (checked)
@@ -1669,19 +1670,19 @@ COMMON_FIRST_DECLS
     {
         if (y > 0)
         {
-            lat_rad = M_PI_2;
+            lat_rad = std::numbers::pi / 2;
         }
         else
         {
             if (y < 0)
             {
-                //lon_rad = -M_PI_2;
+                //lon_rad = -std::numbers::pi / 2;
             }
             else
             {
                 if (z > 0)
                 {
-                    lat_rad = M_PI_2;
+                    lat_rad = std::numbers::pi / 2;
                     //lon_rad = 0;
                     //ht = z;
                     ht = z - ell.b;
@@ -1691,7 +1692,7 @@ COMMON_FIRST_DECLS
                 {
                     if (z < 0)
                     {
-                        lat_rad = -M_PI_2;
+                        lat_rad = -std::numbers::pi / 2;
                         //lon_rad = 0;
                         //ht = z;
                         ht = -(z + ell.b);
@@ -1927,19 +1928,19 @@ COMMON_FIRST_DECLS
     {
         if (y > 0)
         {
-            lat_rad = M_PI_2;
+            lat_rad = std::numbers::pi / 2;
         }
         else
         {
             if (y < 0)
             {
-                //lon_rad = -M_PI_2;
+                //lon_rad = -std::numbers::pi / 2;
             }
             else
             {
                 if (z > 0)
                 {
-                    lat_rad = M_PI_2;
+                    lat_rad = std::numbers::pi / 2;
                     //lon_rad = 0;
                     //ht = z;
                     ht = z - ell.b;
@@ -1949,7 +1950,7 @@ COMMON_FIRST_DECLS
                 {
                     if (z < 0)
                     {
-                        lat_rad = -M_PI_2;
+                        lat_rad = -std::numbers::pi / 2;
                         //lon_rad = 0;
                         //ht = z;
                         ht = -(z + ell.b);
@@ -4916,13 +4917,13 @@ void set_gc_to_gd_constants(SRM_GC_GD_Specific_Constants<T>& gc_gd_spec)
 
             d6 = d6 * d4 / (g2 - g1);
 
-            sm = M_SQRT1_2; /*sin(π/4) == 1/sqrt(2)*/
+            sm = std::numbers::sqrt2_v<T> / 2; /*sin(π/4) == 1/sqrt(2)*/
 
             //rnm = ell.a / std::sqrt(1 - ell.e2 * sm * sm);
             rnm = ell.get_Rn(sm);
 
             zm = ((1 - ell.e2) * rnm + hm) * sm;
-            wm = (rnm + hm) * M_SQRT1_2; /*cos(π/4) == 1/sqrt(2)*/
+            wm = (rnm + hm) * std::numbers::sqrt2_v<T> / 2; /*cos(π/4) == 1/sqrt(2)*/
 
             z2 = zm * zm;
             w2 = wm * wm;
@@ -5070,19 +5071,19 @@ COMMON_FIRST_DECLS
         {
             if (y > 0)
             {
-                //lon_rad = M_PI_2;
+                //lon_rad = std::numbers::pi / 2;
             }
             else
             {
                 if (y < 0)
                 {
-                    //lon_rad = -M_PI_2;
+                    //lon_rad = -std::numbers::pi / 2;
                 }
                 else /* y == 0 */
                 {
                     if (z >= 0)
                     {
-                        lat_rad = M_PI_2;
+                        lat_rad = std::numbers::pi / 2;
                         //lon_rad = 0;
                         ht = z - ell.b;
 
@@ -5091,7 +5092,7 @@ COMMON_FIRST_DECLS
                     } /* end if z> 0 */
                     else if (z <= 0)
                     {
-                        lat_rad = -M_PI_2;
+                        lat_rad = -std::numbers::pi / 2;
                         //lon_rad =  0;
                         ht = -(z + ell.b);
 
@@ -5511,13 +5512,13 @@ void set_gc_to_gd_constants(SRM_GC_GD_Specific_Constants<T>& gc_gd_spec)
 
             d6 = d6 * d4 / (g2 - g1);
 
-            sm = M_SQRT1_2; /*sin(π/4) == 1/sqrt(2)*/
+            sm = std::numbers::sqrt2_v<T> / 2; /*sin(π/4) == 1/sqrt(2)*/
 
             //rnm = ell.a / std::sqrt(1 - ell.e2 * sm * sm);
             rnm = ell.get_Rn(sm);
 
             zm = ((1 - ell.e2) * rnm + hm) * sm;
-            wm = (rnm + hm) * M_SQRT1_2; /*cos(π/4) == 1/sqrt(2)*/
+            wm = (rnm + hm) * std::numbers::sqrt2_v<T> / 2; /*cos(π/4) == 1/sqrt(2)*/
 
             z2 = zm * zm;
             w2 = wm * wm;
@@ -5665,19 +5666,19 @@ COMMON_FIRST_DECLS
         {
             if (y > 0)
             {
-                //lon_rad = M_PI_2;
+                //lon_rad = std::numbers::pi / 2;
             }
             else
             {
                 if (y < 0)
                 {
-                    //lon_rad = -M_PI_2;
+                    //lon_rad = -std::numbers::pi / 2;
                 }
                 else /* y == 0 */
                 {
                     if (z >= 0)
                     {
-                        lat_rad = M_PI_2;
+                        lat_rad = std::numbers::pi / 2;
                         //lon_rad = 0;
                         ht = z - ell.b;
 
@@ -5686,7 +5687,7 @@ COMMON_FIRST_DECLS
                     } /* end if z> 0 */
                     else if (z <= 0)
                     {
-                        lat_rad = -M_PI_2;
+                        lat_rad = -std::numbers::pi / 2;
                         //lon_rad =  0;
                         ht = -(z + ell.b);
 
@@ -6727,12 +6728,12 @@ COMMON_FIRST_DECLS
 
             const auto tmp4 = 2 * std::atan2(sqrt_e4pq,
                                              tmp2_neg + std::sqrt(-8 * r3)) / 3;
-            //const auto u = -4 * r * std::sin(tmp4) * std::cos(M_PI / 6 + tmp4);
+            //const auto u = -4 * r * std::sin(tmp4) * std::cos(std::numbers::pi / 6 + tmp4);
             /*
             https://www.wolframalpha.com/input/?i=-4+*+sin(x)+*+cos(pi%2F6+%2B+x)
             -4 * sin(x) * cos(π/6 + x) == 1 - 2 * sin(2*x + π/6)
             */
-            const auto u = r * (1 - 2 * sin(2 * tmp4 + M_PI / 6));
+            const auto u = r * (1 - 2 * sin(2 * tmp4 + std::numbers::pi / 6));
 
             const auto v = std::sqrt(u * u + e4 * q);
             const auto w_ = 0.5 * ell.e2 * ((u + v) - q) / v;
@@ -6837,12 +6838,12 @@ COMMON_FIRST_DECLS
 
             const auto tmp4 = 2 * std::atan2(sqrt_e4pq,
                                              tmp2_neg + std::sqrt(-8 * r3)) / 3;
-            //const auto u = -4 * r * std::sin(tmp4) * std::cos(M_PI / 6 + tmp4);
+            //const auto u = -4 * r * std::sin(tmp4) * std::cos(std::numbers::pi / 6 + tmp4);
             /*
             https://www.wolframalpha.com/input/?i=-4+*+sin(x)+*+cos(pi%2F6+%2B+x)
             -4 * sin(x) * cos(π/6 + x) == 1 - 2 * sin(2*x + π/6)
             */
-            const auto u = r * (1 - 2 * sin(2 * tmp4 + M_PI / 6));
+            const auto u = r * (1 - 2 * sin(2 * tmp4 + std::numbers::pi / 6));
 
             const auto v = std::sqrt(u * u + e4 * q);
             const auto w_ = 0.5 * ell.e2 * ((u + v) - q) / v;
