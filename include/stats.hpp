@@ -16,7 +16,6 @@
 //#include <execution>
 #include <iterator>
 #include <limits>
-#include <numeric>
 #include <type_traits>
 #include <utility>
 
