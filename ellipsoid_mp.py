@@ -17,6 +17,9 @@ import gmpy2
 
 gmpy2.set_context(gmpy2.ieee(256))
 
+GM_WGS84 = gmpy2.mpfr('3.986004418E14') # geocentric gravitational constant (m³/s²)
+OMEGA_WGS84 = gmpy2.mpfr('7.292115E-5') # nominal mean angular velocity of the earth (rad/s)
+
 # pylint: disable=too-many-instance-attributes
 class Ellipsoid:
 
@@ -24,8 +27,8 @@ class Ellipsoid:
     def __init__(self,
                  _a: gmpy2.mpfr,
                  _f_recip: gmpy2.mpfr,
-                 _GM: gmpy2.mpfr = gmpy2.mpfr('3.986004418E14'),
-                 _omega: gmpy2.mpfr = gmpy2.mpfr('7.292115E-5')):
+                 _GM: gmpy2.mpfr = GM_WGS84,
+                 _omega: gmpy2.mpfr = OMEGA_WGS84):
 
         # defining parameters
         a = _a # semi-major axis (equatorial radius of the earth) (meters)
