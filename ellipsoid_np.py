@@ -168,10 +168,6 @@ Converted to Python and modified by Steven Ward.  No rights reserved.
         u = a2 / r
         v = a3 - a4 / r
 
-        s = 0
-        c = 0
-        ss = 0
-
         # cos(45°)² == ½
         if c2 > 0.5: # Equatorial
             s = (z / r) * (1 + c2 * (a1 + u + s2 * v) / r)
@@ -227,10 +223,6 @@ Converted to Python and modified by Steven Ward.  No rights reserved.
         c2 = w2 / r2
         u = a2 / r
         v = a3 - a4 / r
-
-        s = 0
-        c = 0
-        ss = 0
 
         # cos(45°)² == ½
         if c2 > 0.5: # Equatorial
