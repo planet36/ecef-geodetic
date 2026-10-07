@@ -15,6 +15,7 @@
 #include <cmath>
 #include <concepts>
 #include <functional>
+#include <limits>
 #include <numbers>
 #include <string>
 #include <utility>
@@ -4847,38 +4848,39 @@ void set_gc_to_gd_constants(SRM_GC_GD_Specific_Constants<T>& gc_gd_spec)
     )
 */
 
-    T del[5] = {NAN, NAN, NAN, NAN, NAN};
-    T hmn = NAN;
-    T hmx = NAN;
-    T g1 = NAN;
-    T g2 = NAN;
-    T g3 = NAN;
-    T g4 = NAN;
-    T gm = NAN;
-    T hm = NAN;
-    T d1 = NAN;
-    T d2 = NAN;
-    T d3 = NAN;
-    T d4 = NAN;
-    T d5 = NAN;
-    T d6 = NAN;
-    T sm = NAN;
-    T rnm = NAN;
-    T zm = NAN;
-    T wm = NAN;
-    T z2 = NAN;
-    T w2 = NAN;
-    T d7 = NAN;
-    T d8 = NAN;
-    T d9 = NAN;
-    T d10 = NAN;
-    T a1 = NAN;
-    T a2 = NAN;
-    T a3 = NAN;
-    T a4 = NAN;
-    T a5 = NAN;
-    T f1 = NAN;
-    T f2 = NAN;
+    constexpr T nan = std::numeric_limits<T>::quiet_NaN();
+    T del[5] = {nan, nan, nan, nan, nan};
+    T hmn = nan;
+    T hmx = nan;
+    T g1 = nan;
+    T g2 = nan;
+    T g3 = nan;
+    T g4 = nan;
+    T gm = nan;
+    T hm = nan;
+    T d1 = nan;
+    T d2 = nan;
+    T d3 = nan;
+    T d4 = nan;
+    T d5 = nan;
+    T d6 = nan;
+    T sm = nan;
+    T rnm = nan;
+    T zm = nan;
+    T wm = nan;
+    T z2 = nan;
+    T w2 = nan;
+    T d7 = nan;
+    T d8 = nan;
+    T d9 = nan;
+    T d10 = nan;
+    T a1 = nan;
+    T a2 = nan;
+    T a3 = nan;
+    T a4 = nan;
+    T a5 = nan;
+    T f1 = nan;
+    T f2 = nan;
 
     //if (ell.e > 1E-12)
     if (ell.e2 > 1E-24)
@@ -5442,38 +5444,39 @@ void set_gc_to_gd_constants(SRM_GC_GD_Specific_Constants<T>& gc_gd_spec)
     )
 */
 
-    T del[5] = {NAN, NAN, NAN, NAN, NAN};
-    T hmn = NAN;
-    T hmx = NAN;
-    T g1 = NAN;
-    T g2 = NAN;
-    T g3 = NAN;
-    T g4 = NAN;
-    T gm = NAN;
-    T hm = NAN;
-    T d1 = NAN;
-    T d2 = NAN;
-    T d3 = NAN;
-    T d4 = NAN;
-    T d5 = NAN;
-    T d6 = NAN;
-    T sm = NAN;
-    T rnm = NAN;
-    T zm = NAN;
-    T wm = NAN;
-    T z2 = NAN;
-    T w2 = NAN;
-    T d7 = NAN;
-    T d8 = NAN;
-    T d9 = NAN;
-    T d10 = NAN;
-    T a1 = NAN;
-    T a2 = NAN;
-    T a3 = NAN;
-    T a4 = NAN;
-    T a5 = NAN;
-    T f1 = NAN;
-    T f2 = NAN;
+    constexpr T nan = std::numeric_limits<T>::quiet_NaN();
+    T del[5] = {nan, nan, nan, nan, nan};
+    T hmn = nan;
+    T hmx = nan;
+    T g1 = nan;
+    T g2 = nan;
+    T g3 = nan;
+    T g4 = nan;
+    T gm = nan;
+    T hm = nan;
+    T d1 = nan;
+    T d2 = nan;
+    T d3 = nan;
+    T d4 = nan;
+    T d5 = nan;
+    T d6 = nan;
+    T sm = nan;
+    T rnm = nan;
+    T zm = nan;
+    T wm = nan;
+    T z2 = nan;
+    T w2 = nan;
+    T d7 = nan;
+    T d8 = nan;
+    T d9 = nan;
+    T d10 = nan;
+    T a1 = nan;
+    T a2 = nan;
+    T a3 = nan;
+    T a4 = nan;
+    T a5 = nan;
+    T f1 = nan;
+    T f2 = nan;
 
     //if (ell.e > 1E-12)
     if (ell.e2 > 1E-24)
