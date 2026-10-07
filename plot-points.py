@@ -2,31 +2,14 @@
 # SPDX-License-Identifier: MPL-2.0
 
 # pylint: disable=missing-function-docstring
-# pylint: disable=missing-module-docstring
 # pylint: disable=no-else-return
 # pylint: disable=bad-indentation
 # pylint: disable=fixme
 # pylint: disable=invalid-name
-# pylint: disable=pointless-string-statement
 # pylint: disable=trailing-newlines
 
-__author__ = 'Steven Ward'
-__license__ = 'MPL-2.0'
-__version__ = '2024-01-08'
-
-import sys
-from enum import Enum, auto, unique
-from types import FrameType
-from typing import NoReturn
-
-import matplotlib.pyplot as plt
-import numpy as np
-import numpy.typing as npt
-from matplotlib.patches import Ellipse
-
-from ellipsoid_np import WGS84
-
 '''
+Plot 2D points read from stdin.
 
 Examples:
 
@@ -59,6 +42,23 @@ python3 Nd-arange.py 0 90 1 -6_383_000 0 10_000 |
 python3 plot-points.py -v -g --ell --evo --km
 
 '''
+
+__author__ = 'Steven Ward'
+__license__ = 'MPL-2.0'
+__version__ = '2024-01-08'
+
+import sys
+from enum import Enum, auto, unique
+from types import FrameType
+from typing import NoReturn
+
+import matplotlib.pyplot as plt
+import numpy as np
+import numpy.typing as npt
+from matplotlib.patches import Ellipse
+
+from ellipsoid_np import WGS84
+
 
 # pylint: disable=too-many-arguments
 # pylint: disable=too-many-locals
