@@ -153,12 +153,10 @@ class INPUT_DATA_FORMAT(Enum):
     ECEF = auto()
     GEODETIC = auto()
 
-# pylint: disable=too-many-branches
-# pylint: disable=too-many-statements
 def main(argv = None):
 
     # pylint: disable=import-outside-toplevel
-    import getopt
+    import argparse
     import os
     import signal
 
@@ -169,24 +167,6 @@ def main(argv = None):
 
     program_authors = [__author__]
 
-    # default values
-    default_verbose = False
-    default_input_data_format = INPUT_DATA_FORMAT.ECEF
-    default_plot_ellipse = False
-    default_plot_evolute = False
-    default_limit_extents = False
-    default_dpi = plt.rcParams["figure.dpi"]
-    default_km = False
-
-    # mutable values
-    verbose = default_verbose
-    input_data_format = default_input_data_format
-    plot_ellipse = default_plot_ellipse
-    plot_evolute = default_plot_evolute
-    limit_extents = default_limit_extents
-    dpi = default_dpi
-    km = default_km
-
     # pylint: disable=unused-argument
     def signal_handler(signal_num, execution_frame):
         print()
@@ -195,114 +175,42 @@ def main(argv = None):
     signal.signal(signal.SIGINT, signal_handler)
     signal.signal(signal.SIGTERM, signal_handler)
 
-    def print_version():
-        """Print the version information"""
-        print(f"{program_name} {__version__}")
-        print(f"Written by {', '.join(program_authors)}")
-
-    def print_verbose(s):
-        """Print the message if verbose mode is on"""
-        if verbose:
-            print(f"# {s}", file=sys.stderr)
-
-    # pylint: disable=unused-variable
-    def print_warning(s):
-        """Print the warning message"""
-        print(f"Warning: {s}", file=sys.stderr)
-
-    def print_error(s):
-        """Print the error message"""
-        print(f"Error: {s}", file=sys.stderr)
-        print(f"Try '{program_name} --help' for more information.", file=sys.stderr)
-
-    def print_help():
-        """Print the help message"""
-
-        print(f'''Plot 2D points read from stdin.
-Usage: {program_name} [OPTION]...
+    parser = argparse.ArgumentParser(
+        prog=program_name,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        description='''Plot 2D points read from stdin.
 
 The default input data format is ECEF and can be changed to Geodetic with the '-g' option.
 
-ECEF (W, Z) data is in meters.  Geodetic (latitude, height) data is in degrees and meters.
+ECEF (W, Z) data is in meters.  Geodetic (latitude, height) data is in degrees and meters.''')
 
-OPTIONS
+    version = f"{program_name} {__version__}\nWritten by {', '.join(program_authors)}"
 
--V, --version
-    Print the version information, then exit.
+    parser.add_argument('-V', '--version', action='version', version=version)
+    parser.add_argument('-v', '--verbose', action='store_true',
+                        help='Print diagnostics.')
+    parser.add_argument('-g', dest='input_data_format', action='store_const',
+                        const=INPUT_DATA_FORMAT.GEODETIC, default=INPUT_DATA_FORMAT.ECEF,
+                        help='Set the input data format to Geodetic instead of ECEF.')
+    parser.add_argument('--ell', dest='plot_ellipse', action='store_true',
+                        help='Plot the 2D ellipse of the WGS-84 datum.')
+    parser.add_argument('--evo', dest='plot_evolute', action='store_true',
+                        help='Plot the evolute of the 2D ellipse of the WGS-84 datum.')
+    parser.add_argument('--lim', dest='limit_extents', action='store_true',
+                        help='Limit the plot area to the extents of the input data.')
+    parser.add_argument('--dpi', type=float, default=plt.rcParams["figure.dpi"],
+                        help='Specify the DPI value.  (default: %(default)s)')
+    parser.add_argument('-k', '--km', action='store_true',
+                        help='Convert the input data from meters to kilometers.')
 
--h, --help
-    Print this message, then exit.
+    args = parser.parse_args(argv[1:])
 
--v, --verbose
-    Print diagnostics.
-    (default: {default_verbose})
+    def print_verbose(s):
+        """Print the message if verbose mode is on"""
+        if args.verbose:
+            print(f"# {s}", file=sys.stderr)
 
--g
-    Set the input data format to Geodetic instead of ECEF.
-
---ell
-    Plot the 2D ellipse of the WGS-84 datum.
-
---evo
-    Plot the evolute of the 2D ellipse of the WGS-84 datum.
-
---lim
-    Limit the plot area to the extents of the input data.
-
---dpi DPI
-    Specify the DPI value.
-    (default: {default_dpi})
-
--k, --km
-    Convert the input data from meters to kilometers.
-''')
-
-    short_options = 'Vhvgk'
-    long_options = ['version', 'help', 'verbose', 'ell', 'evo', 'lim', 'dpi=', 'km']
-
-    try:
-        (options, remaining_args) = getopt.getopt(argv[1:], short_options, long_options)
-    except getopt.GetoptError as err:
-        print_error(err)
-        return 1
-
-    for (option, value) in options:
-        try:
-            if option in ['-V', '--version']:
-                print_version()
-                return 0
-            elif option in ['-h', '--help']:
-                print_help()
-                return 0
-            elif option in ['-v', '--verbose']:
-                verbose = True
-            elif option in ['-g']:
-                input_data_format = INPUT_DATA_FORMAT.GEODETIC
-            elif option in ['--ell']:
-                plot_ellipse = True
-            elif option in ['--evo']:
-                plot_evolute = True
-            elif option in ['--lim']:
-                limit_extents = True
-            elif option in ['--dpi']:
-                dpi = float(value)
-            elif option in ['-k', '--km']:
-                km = True
-            else:
-                print_error(f"Unhandled option: {option}")
-                return 1
-
-        except ValueError as err:
-            print_error(err)
-            return 1
-
-    print_verbose(f'{remaining_args=}')
-
-    print_verbose(f'{input_data_format=}')
-    print_verbose(f'{plot_ellipse=}')
-    print_verbose(f'{plot_evolute=}')
-    print_verbose(f'{limit_extents=}')
-    print_verbose(f'{dpi=}')
+    print_verbose(f'{args=}')
 
     # https://numpy.org/doc/stable/reference/generated/numpy.loadtxt.html
     points = np.loadtxt(sys.stdin, ndmin=2)
@@ -313,12 +221,12 @@ OPTIONS
     if points.size == 0: # empty
         return 1
 
-    if input_data_format == INPUT_DATA_FORMAT.GEODETIC:
+    if args.input_data_format == INPUT_DATA_FORMAT.GEODETIC:
         points = WGS84.geodetic_2d_to_ecef(points[:,0], points[:,1])
         print_verbose(f'{points=}')
         print_verbose(f'{points.shape=}')
 
-    if km:
+    if args.km:
         print_verbose('(convert m to km)')
         points /= 1000
         print_verbose(f'{points=}')
@@ -327,7 +235,8 @@ OPTIONS
     if points.shape[1] != 2:
         raise ValueError("Must give points of 2 dimensions")
 
-    plot_points_2d(points, plot_ellipse, plot_evolute, limit_extents, dpi, km)
+    plot_points_2d(points, args.plot_ellipse, args.plot_evolute, args.limit_extents, args.dpi,
+                   args.km)
 
 if __name__ == '__main__':
     sys.exit(main())
