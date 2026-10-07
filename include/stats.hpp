@@ -13,7 +13,6 @@
 
 #include <algorithm>
 #include <cmath>
-//#include <execution>
 #include <iterator>
 #include <limits>
 #include <type_traits>
@@ -23,11 +22,6 @@
 constexpr auto compare_abs_less = [](const auto& a, const auto& b)
 {
     return std::abs(a) < std::abs(b);
-};
-
-constexpr auto plus_abs = [](const auto& a, const auto& b)
-{
-    return std::abs(a) + std::abs(b);
 };
 
 #define POW2(x) ((x) * (x))
@@ -45,8 +39,7 @@ min_val(const Container& c)
     if (n == 0)
         return std::numeric_limits<T>::quiet_NaN();
 
-    return *std::min_element( //std::execution::par_unseq,
-        c.cbegin(), c.cend());
+    return *std::min_element(c.cbegin(), c.cend());
 }
 
 template <container Container>
@@ -60,8 +53,7 @@ min_abs_val(const Container& c)
     if (n == 0)
         return std::numeric_limits<T>::quiet_NaN();
 
-    return *std::min_element( //std::execution::par_unseq,
-        c.cbegin(), c.cend(), compare_abs_less);
+    return *std::min_element(c.cbegin(), c.cend(), compare_abs_less);
 }
 
 template <container Container>
@@ -75,8 +67,7 @@ max_val(const Container& c)
     if (n == 0)
         return std::numeric_limits<T>::quiet_NaN();
 
-    return *std::max_element( //std::execution::par_unseq,
-        c.cbegin(), c.cend());
+    return *std::max_element(c.cbegin(), c.cend());
 }
 
 template <container Container>
@@ -90,8 +81,7 @@ max_abs_val(const Container& c)
     if (n == 0)
         return std::numeric_limits<T>::quiet_NaN();
 
-    return *std::max_element( //std::execution::par_unseq,
-        c.cbegin(), c.cend(), compare_abs_less);
+    return *std::max_element(c.cbegin(), c.cend(), compare_abs_less);
 }
 
 template <container Container>
@@ -106,9 +96,7 @@ minmax_vals(const Container& c)
         return std::make_pair(std::numeric_limits<T>::quiet_NaN(),
                               std::numeric_limits<T>::quiet_NaN());
 
-    const auto& [min_iter, max_iter] = std::minmax_element(
-        //std::execution::par_unseq,
-        c.cbegin(), c.cend());
+    const auto& [min_iter, max_iter] = std::minmax_element(c.cbegin(), c.cend());
     return std::make_pair(*min_iter, *max_iter);
 }
 
@@ -124,9 +112,8 @@ minmax_abs_vals(const Container& c)
         return std::make_pair(std::numeric_limits<T>::quiet_NaN(),
                               std::numeric_limits<T>::quiet_NaN());
 
-    const auto& [min_iter, max_iter] = std::minmax_element(
-        //std::execution::par_unseq,
-        c.cbegin(), c.cend(), compare_abs_less);
+    const auto& [min_iter, max_iter] =
+        std::minmax_element(c.cbegin(), c.cend(), compare_abs_less);
     return std::make_pair(*min_iter, *max_iter);
 }
 
@@ -137,17 +124,12 @@ sum_val(const Container& c)
 {
     using T = Container::value_type;
 
-#if 0
-    return std::reduce(//std::execution::par_unseq,
-                       c.cbegin(), c.cend(), T{});
-#else
     T sum{};
     for (const auto& x : c)
     {
         sum += x;
     }
     return sum;
-#endif
 }
 
 template <container Container>
@@ -157,17 +139,12 @@ sum_abs_val(const Container& c)
 {
     using T = Container::value_type;
 
-#if 0
-    return std::reduce(//std::execution::par_unseq,
-                       c.cbegin(), c.cend(), T{}, plus_abs);
-#else
     T sum{};
     for (const auto& x : c)
     {
         sum += std::abs(x);
     }
     return sum;
-#endif
 }
 
 template <container Container>
