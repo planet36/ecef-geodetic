@@ -60,5 +60,9 @@ Checks:
   - -readability-math-missing-parentheses
   - -readability-named-parameter
   - -readability-use-concise-preprocessor-directives
+CheckOptions:
+  # The default of 0.001 flags many literals that only happen to lie near a constant.
+  # Any constant written to 7 or more significant digits lies within 1e-6 of its true value.
+  modernize-use-std-numbers.DiffThreshold: '1e-6'
 HeaderFilterRegex: '.*'
 ...
