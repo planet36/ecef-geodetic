@@ -14,6 +14,7 @@
 
 #include <cmath>
 #include <concepts>
+#include <limits>
 #include <numbers>
 #include <type_traits>
 #include <utility>
@@ -402,8 +403,8 @@ struct const_angle<angle_unit::milliradian, T>
     static constexpr angle quarter_turn{mrad_per_rad * std::numbers::pi_v<T> / 2};
     static constexpr angle half_turn{mrad_per_rad * std::numbers::pi_v<T>};
     static constexpr angle full_turn{mrad_per_rad * 2 * std::numbers::pi_v<T>};
-    static constexpr angle inf{T{INFINITY}};
-    static constexpr angle nan{T{NAN}};
+    static constexpr angle inf{std::numeric_limits<T>::infinity()};
+    static constexpr angle nan{std::numeric_limits<T>::quiet_NaN()};
 };
 
 /// alias template
@@ -420,8 +421,8 @@ struct const_angle<angle_unit::radian, T>
     static constexpr angle quarter_turn{std::numbers::pi_v<T> / 2};
     static constexpr angle half_turn{std::numbers::pi_v<T>};
     static constexpr angle full_turn{2 * std::numbers::pi_v<T>};
-    static constexpr angle inf{T{INFINITY}};
-    static constexpr angle nan{T{NAN}};
+    static constexpr angle inf{std::numeric_limits<T>::infinity()};
+    static constexpr angle nan{std::numeric_limits<T>::quiet_NaN()};
 };
 
 /// alias template
@@ -438,8 +439,8 @@ struct const_angle<angle_unit::revolution, T>
     static constexpr angle quarter_turn{T{0.25}};
     static constexpr angle half_turn{T{0.5}};
     static constexpr angle full_turn{T{1}};
-    static constexpr angle inf{T{INFINITY}};
-    static constexpr angle nan{T{NAN}};
+    static constexpr angle inf{std::numeric_limits<T>::infinity()};
+    static constexpr angle nan{std::numeric_limits<T>::quiet_NaN()};
 };
 
 /// alias template
@@ -456,8 +457,8 @@ struct const_angle<angle_unit::degree, T>
     static constexpr angle quarter_turn{T{90}};
     static constexpr angle half_turn{T{180}};
     static constexpr angle full_turn{T{360}};
-    static constexpr angle inf{T{INFINITY}};
-    static constexpr angle nan{T{NAN}};
+    static constexpr angle inf{std::numeric_limits<T>::infinity()};
+    static constexpr angle nan{std::numeric_limits<T>::quiet_NaN()};
 };
 
 /// alias template
@@ -474,8 +475,8 @@ struct const_angle<angle_unit::arcminute, T>
     static constexpr angle quarter_turn{T{5400}};
     static constexpr angle half_turn{T{10'800}};
     static constexpr angle full_turn{T{21'600}};
-    static constexpr angle inf{T{INFINITY}};
-    static constexpr angle nan{T{NAN}};
+    static constexpr angle inf{std::numeric_limits<T>::infinity()};
+    static constexpr angle nan{std::numeric_limits<T>::quiet_NaN()};
 };
 
 /// alias template
@@ -492,8 +493,8 @@ struct const_angle<angle_unit::arcsecond, T>
     static constexpr angle quarter_turn{T{324'000}};
     static constexpr angle half_turn{T{648'000}};
     static constexpr angle full_turn{T{1'296'000}};
-    static constexpr angle inf{T{INFINITY}};
-    static constexpr angle nan{T{NAN}};
+    static constexpr angle inf{std::numeric_limits<T>::infinity()};
+    static constexpr angle nan{std::numeric_limits<T>::quiet_NaN()};
 };
 
 /// alias template
