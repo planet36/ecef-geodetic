@@ -40,22 +40,10 @@ public:
     /// ctor
     constexpr angle(const T x) : value(x) {}
 
-    /// copy ctor
-    angle(const angle&) = default;
-
-    angle(angle&&) = default;
-    angle& operator=(angle&&) = default;
-
-    /// dtor
-    ~angle() = default;
-
     /// conversion ctor
     template <angle_unit U2, std::floating_point T2>
     constexpr angle(const angle<U2, T2>& a) : value(convert_from<U2, U>(a.scalar()))
     {}
-
-    /// default assignment
-    angle& operator=(const angle&) = default;
 
     constexpr angle& operator+=(const angle& that)
     {
