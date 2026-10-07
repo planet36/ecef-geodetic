@@ -120,7 +120,7 @@ struct ECEF
 
     auto operator<=>(const this_t&) const = default;
 
-    void normalize() {}
+    constexpr void normalize() {}
 
     [[nodiscard]] std::string to_string(int precision = ecef_default_precision) const
     {
@@ -146,7 +146,7 @@ operator-(const ECEF<T>& p1, const ECEF<T2>& p2)
 * \return the L1-norm
 */
 template <std::floating_point T>
-[[nodiscard]] auto
+[[nodiscard]] constexpr auto
 L1_norm(const ECEF<T>& p1)
 {
     return std::abs(p1.x) + std::abs(p1.y) + std::abs(p1.z);
@@ -161,7 +161,7 @@ L1_norm(const ECEF<T>& p1)
 * \return the L2-norm
 */
 template <std::floating_point T>
-[[nodiscard]] auto
+[[nodiscard]] constexpr auto
 L2_norm(const ECEF<T>& p1)
 {
     return std::sqrt(p1.x * p1.x + p1.y * p1.y + p1.z * p1.z);
@@ -176,7 +176,7 @@ L2_norm(const ECEF<T>& p1)
 * \return the Euclidean distance
 */
 template <std::floating_point T>
-[[nodiscard]] auto
+[[nodiscard]] constexpr auto
 euclidean_dist(const ECEF<T>& p1, const ECEF<T>& p2)
 {
 #if 0

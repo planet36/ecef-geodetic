@@ -114,7 +114,7 @@ struct Geodetic
 
     auto operator<=>(const this_t&) const = default;
 
-    void normalize() { normalize_geodetic(lat, lon); }
+    constexpr void normalize() { normalize_geodetic(lat, lon); }
 
     [[nodiscard]] std::string
     to_string(const int precision = geodetic_default_precision) const
