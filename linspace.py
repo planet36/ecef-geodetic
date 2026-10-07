@@ -25,10 +25,7 @@ def linspace(start: D | str, stop: D | str, num: int | str | None = 50,
     # XXX: stop is mandatory
     stop = D(stop)
 
-    if num is None:
-        num = 50 # default value in numpy.linspace
-    else:
-        num = int(num)
+    num = 50 if num is None else int(num) # 50 is the default value in numpy.linspace
 
     if num < 0:
         raise ValueError(f'Number of samples ({num}) must be non-negative')

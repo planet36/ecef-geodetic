@@ -24,10 +24,7 @@ def arange(start: D | str, stop: D | str | None = None, step: D | str | None = N
     else:
         stop = D(stop)
 
-    if step is None:
-        step = D(1) # default value in numpy.arange
-    else:
-        step = D(step)
+    step = D(1) if step is None else D(step) # 1 is the default value in numpy.arange
 
     if step == 0:
         raise ValueError(f'Step ({step}) must be non-zero')
