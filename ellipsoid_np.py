@@ -101,13 +101,14 @@ class Ellipsoid:
 
     # pylint: disable=too-many-arguments
     def get_ht(self, w: np.array, z: np.array, sin_lat: np.array, cos_lat: np.array, Rn: np.array) -> np.array:
-        # pylint: disable=no-else-return
         # https://www.gnu.org/software/libc/manual/html_node/Mathematical-Constants.html
         # cos(45°) == 1/√(2)
-        if cos_lat > 1 / np.sqrt(2): # Equatorial
-            return w / cos_lat - Rn
-        else: # Polar
-            return z / sin_lat - Rn * (1 - self.e2)
+        equatorial = cos_lat > 1 / np.sqrt(2)
+
+        # Both formulas run on every point and np.where keeps one.  The discarded one can
+        # divide by zero.
+        with np.errstate(divide='ignore', invalid='ignore'):
+            return np.where(equatorial, w / cos_lat - Rn, z / sin_lat - Rn * (1 - self.e2))
 
     def geodetic_to_ecef(self, lat_deg: np.array, lon_deg: np.array, ht: np.array) -> np.array:
 
@@ -175,20 +176,20 @@ Converted to Python and modified by Steven Ward.  No rights reserved.
         v = a3 - a4 / r
 
         # cos(45°)² == ½
-        if c2 > 0.5: # Equatorial
-            s = (z / r) * (1 + c2 * (a1 + u + s2 * v) / r)
-            lat_rad = np.asin(s)
-            ss = s * s
-            c = np.sqrt(1 - ss)
-        else: # Polar
-            c = (w / r) * (1 - s2 * (a5 - u - c2 * v) / r)
-            lat_rad = np.acos(c)
-            ss = 1 - c * c
-            s = np.sqrt(ss)
+        equatorial = c2 > 0.5
 
-            if z < 0:
-                lat_rad = -lat_rad
-                s = -s
+        # Both branches run on every point and np.where keeps one.  The discarded one can
+        # leave the domain of asin, acos, or sqrt.
+        with np.errstate(invalid='ignore'):
+            s_eq = (z / r) * (1 + c2 * (a1 + u + s2 * v) / r)
+            ss_eq = s_eq * s_eq
+            c_po = (w / r) * (1 - s2 * (a5 - u - c2 * v) / r)
+            ss_po = 1 - c_po * c_po
+
+            lat_rad = np.where(equatorial, np.asin(s_eq), np.copysign(np.acos(c_po), z))
+            ss = np.where(equatorial, ss_eq, ss_po)
+            s = np.where(equatorial, s_eq, np.copysign(np.sqrt(ss_po), z))
+            c = np.where(equatorial, np.sqrt(1 - ss_eq), c_po)
 
         d2 = 1 - self.e2 * ss
         Rn = self.a / np.sqrt(d2)
