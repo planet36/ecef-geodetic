@@ -33,7 +33,7 @@ public:
     }
     */
 
-    void clear()
+    constexpr void clear()
     {
         x_stats.clear();
         y_stats.clear();
@@ -53,15 +53,18 @@ public:
         n++;
     }
 
-    [[nodiscard]] auto num_data_values() const { return n; }
+    [[nodiscard]] constexpr auto num_data_values() const { return n; }
 
-    [[nodiscard]] auto slope() const
+    [[nodiscard]] constexpr auto slope() const
     {
         const auto S_xx = x_stats.variance() * (n - 1);
         return S_xy / S_xx;
     }
 
-    [[nodiscard]] auto intercept() const { return y_stats.mean() - slope() * x_stats.mean(); }
+    [[nodiscard]] constexpr auto intercept() const
+    {
+        return y_stats.mean() - slope() * x_stats.mean();
+    }
 
     [[nodiscard]] auto correlation() const
     {
