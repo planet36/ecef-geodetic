@@ -80,7 +80,7 @@ geodetic_to_ecef(const angle<U, T>& lat, const angle<U, T>& lon, const T ht, T& 
 }
 
 template <angle_unit U, std::floating_point T>
-auto
+[[nodiscard]] auto
 geodetic_to_ecef(const Geodetic<U, T>& geod)
 {
     T x{};

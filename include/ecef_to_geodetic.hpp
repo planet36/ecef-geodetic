@@ -137,7 +137,7 @@ ecef_to_geodetic(const T x, const T y, const T z, angle<U, T>& lat, angle<U, T>&
 }
 
 template <std::floating_point T>
-auto
+[[nodiscard]] auto
 ecef_to_geodetic(const ECEF<T>& ecef)
 {
     T lat_rad{};
