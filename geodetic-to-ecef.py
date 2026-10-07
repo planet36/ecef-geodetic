@@ -33,23 +33,17 @@ import sys
 from ellipsoid import WGS84
 
 for (line_num, line) in enumerate(sys.stdin, start=1):
-    fields = line.split()
+    match line.split():
+        case []:
+            continue
 
-    if not fields:
-        continue
+        case [lat_deg, ht]:
+            (w, z) = WGS84.geodetic_2d_to_ecef(float(lat_deg), float(ht))
+            print(f"{w} {z}")
 
-    if len(fields) == 2:
-        lat_deg = float(fields[0])
-        ht = float(fields[1])
-        (w, z) = WGS84.geodetic_2d_to_ecef(lat_deg, ht)
-        print(f"{w} {z}")
+        case [lat_deg, lon_deg, ht]:
+            (x, y, z) = WGS84.geodetic_to_ecef(float(lat_deg), float(lon_deg), float(ht))
+            print(f"{x} {y} {z}")
 
-    elif len(fields) == 3:
-        lat_deg = float(fields[0])
-        lon_deg = float(fields[1])
-        ht = float(fields[2])
-        (x, y, z) = WGS84.geodetic_to_ecef(lat_deg, lon_deg, ht)
-        print(f"{x} {y} {z}")
-
-    else:
-        sys.exit(f'Error: line {line_num}: expected 2 or 3 fields, got {len(fields)}')
+        case fields:
+            sys.exit(f'Error: line {line_num}: expected 2 or 3 fields, got {len(fields)}')
