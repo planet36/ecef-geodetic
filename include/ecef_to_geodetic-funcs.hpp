@@ -23,6 +23,12 @@ constexpr auto ell = WGS84<double>;
 
 /// get the 2D hypotenuse
 /**
+* Do not name this \c hypot.  The C library declares <code>::hypot(double, double)</code>,
+* and an unqualified call with two \c double arguments prefers that function over a
+* template, so every call would silently run the slower library version.
+*
+* The result overflows once \a x or \a y passes about 1E154, which \c std::hypot avoids.
+*
 * \sa https://mathworld.wolfram.com/Norm.html
 * \sa https://mathworld.wolfram.com/VectorNorm.html
 * \sa https://mathworld.wolfram.com/L2-Norm.html
@@ -32,7 +38,7 @@ constexpr auto ell = WGS84<double>;
 * \return the 2D hypotenuse
 */
 template <std::floating_point T>
-auto hypot(const T x, const T y)
+auto fast_hypot(const T x, const T y)
 {
 #if 0
     // SDW: this is a little more accurate, but much slower
@@ -53,7 +59,7 @@ auto hypot(const T x, const T y)
 template <std::floating_point T>
 void normalize(T& x, T& y)
 {
-    const auto h = hypot(x, y);
+    const auto h = fast_hypot(x, y);
     x /= h;
     y /= h;
 }
@@ -1134,7 +1140,7 @@ COMMON_FIRST_DECLS
 
     for (int i = 1; i <= max_iterations; ++i)
     {
-        A_n = hypot(S_n, C_n);
+        A_n = fast_hypot(S_n, C_n);
         B_n = 1.5 * c * S_n * C_n *
               ((w * S_n - z_c * C_n) * A_n - c * S_n * C_n);
 
@@ -1200,7 +1206,7 @@ COMMON_FIRST_DECLS
 
     for (int i = 1; i <= max_iterations; ++i)
     {
-        A_n = hypot(S_n, C_n);
+        A_n = fast_hypot(S_n, C_n);
         B_n = 1.5 * c * S_n * C_n *
               ((w * S_n - z_c * C_n) * A_n - c * S_n * C_n);
 
@@ -1215,7 +1221,9 @@ COMMON_FIRST_DECLS
 
     lat_rad = std::atan2(sin_lat, cos_lat);
 
-    normalize(cos_lat, sin_lat);
+    const auto h = std::hypot(cos_lat, sin_lat); // fast_hypot overflows near 1E292
+    cos_lat /= h;
+    sin_lat /= h;
     ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int line_end = __LINE__;
@@ -1269,10 +1277,10 @@ COMMON_FIRST_DECLS
         // possible that ht has overflowed to inf; but that's OK.
         //
         // Treat the case x, y finite, but w overflows to +inf by scaling by 2.
-        w = hypot(x/2, y/2);
+        w = fast_hypot(x/2, y/2);
         sin_lambda = w != 0 ? (y/2) / w : 0;
         cos_lambda = w != 0 ? (x/2) / w : 1;
-        const auto H = hypot(z/2, w);
+        const auto H = fast_hypot(z/2, w);
         sin_lat = (z/2) / H;
         cos_lat = w / H;
     }
@@ -1283,7 +1291,7 @@ COMMON_FIRST_DECLS
         // Treat the spherical case.  Dealing with underflow in the general case
         // with e2 = 0 is difficult.  Origin maps to N pole same as with
         // ellipsoid.
-        const auto H = hypot(ht == 0 ? 1 : z, w);
+        const auto H = fast_hypot(ht == 0 ? 1 : z, w);
         sin_lat = (ht == 0 ? 1 : z) / H;
         cos_lat = w / H;
 #ifdef USE_CUSTOM_HT
@@ -1348,11 +1356,11 @@ COMMON_FIRST_DECLS
 #ifdef USE_CUSTOM_HT
             const auto d = k1 * w / k2;
 #endif
-            const auto H = hypot(z/k1, w/k2);
+            const auto H = fast_hypot(z/k1, w/k2);
             sin_lat = (z/k1) / H;
             cos_lat = (w/k2) / H;
 #ifdef USE_CUSTOM_HT
-            ht = (1 - (1 - ell.e2)/k1) * hypot(d, z);
+            ht = (1 - (1 - ell.e2)/k1) * fast_hypot(d, z);
 #endif
         }
         else
@@ -1366,7 +1374,7 @@ COMMON_FIRST_DECLS
             // f < 0: w -> 0, k + e2 -> - e2 * sqrt(q)/sqrt(e4 - p)
             const auto zz = std::sqrt((ell.f >= 0 ? e4 - p : p) / (1 - ell.e2));
             const auto xx = std::sqrt(ell.f <  0 ? e4 - p : p);
-            const auto H = hypot(zz, xx);
+            const auto H = fast_hypot(zz, xx);
             sin_lat = zz / H;
             cos_lat = xx / H;
             if (z < 0)
@@ -1443,10 +1451,10 @@ COMMON_FIRST_DECLS
         // possible that ht has overflowed to inf; but that's OK.
         //
         // Treat the case x, y finite, but w overflows to +inf by scaling by 2.
-        w = hypot(x/2, y/2);
+        w = fast_hypot(x/2, y/2);
         sin_lambda = w != 0 ? (y/2) / w : 0;
         cos_lambda = w != 0 ? (x/2) / w : 1;
-        const auto H = hypot(z/2, w);
+        const auto H = fast_hypot(z/2, w);
         sin_lat = (z/2) / H;
         cos_lat = w / H;
     }
@@ -1457,7 +1465,7 @@ COMMON_FIRST_DECLS
         // Treat the spherical case.  Dealing with underflow in the general case
         // with e2 = 0 is difficult.  Origin maps to N pole same as with
         // ellipsoid.
-        const auto H = hypot(ht == 0 ? 1 : z, w);
+        const auto H = fast_hypot(ht == 0 ? 1 : z, w);
         sin_lat = (ht == 0 ? 1 : z) / H;
         cos_lat = w / H;
 #ifdef USE_CUSTOM_HT
@@ -1522,11 +1530,11 @@ COMMON_FIRST_DECLS
 #ifdef USE_CUSTOM_HT
             const auto d = k1 * w / k2;
 #endif
-            const auto H = hypot(z/k1, w/k2);
+            const auto H = fast_hypot(z/k1, w/k2);
             sin_lat = (z/k1) / H;
             cos_lat = (w/k2) / H;
 #ifdef USE_CUSTOM_HT
-            ht = (1 - (1 - ell.e2)/k1) * hypot(d, z);
+            ht = (1 - (1 - ell.e2)/k1) * fast_hypot(d, z);
 #endif
         }
         else
@@ -1540,7 +1548,7 @@ COMMON_FIRST_DECLS
             // f < 0: w -> 0, k + e2 -> - e2 * sqrt(q)/sqrt(e4 - p)
             const auto zz = std::sqrt((ell.f >= 0 ? e4 - p : p) / (1 - ell.e2));
             const auto xx = std::sqrt(ell.f <  0 ? e4 - p : p);
-            const auto H = hypot(zz, xx);
+            const auto H = fast_hypot(zz, xx);
             sin_lat = zz / H;
             cos_lat = xx / H;
             if (z < 0)
@@ -2388,7 +2396,7 @@ COMMON_FIRST_DECLS
 
     // std::abs needed for large heights
     const auto r0 = r0_1 + std::sqrt(std::abs(r0_2 - r0_3 - r0_4));
-    const auto V = hypot(w - ell.e2 * r0, (1 - ell.f) * z);
+    const auto V = fast_hypot(w - ell.e2 * r0, (1 - ell.f) * z);
     //const auto z0 = b2 * z / (a * V);
     // b2/a == a*(1-e2)
     //const auto z0 = a * (1-e2) * (z / V);
@@ -2404,7 +2412,7 @@ COMMON_FIRST_DECLS
     lat_rad = std::atan2(sin_lat, cos_lat);
 
 #ifdef USE_CUSTOM_HT
-    const auto U = hypot(w - ell.e2 * r0, z);
+    const auto U = fast_hypot(w - ell.e2 * r0, z);
     //ht = U * (1 - ell.b2 / (ell.a * V));
     // b2/a == (1-e2)*a
     // SDW: this is more accurate
@@ -2467,7 +2475,7 @@ COMMON_FIRST_DECLS
 
     // std::abs needed for large heights
     const auto r0 = r0_1 + std::sqrt(std::abs(r0_2 - r0_3 - r0_4));
-    const auto V = hypot(w - ell.e2 * r0, (1 - ell.f) * z);
+    const auto V = fast_hypot(w - ell.e2 * r0, (1 - ell.f) * z);
     //const auto z0 = b2 * z / (a * V);
     // b2/a == a*(1-e2)
     //const auto z0 = a * (1-e2) * (z / V);
@@ -2483,7 +2491,7 @@ COMMON_FIRST_DECLS
     lat_rad = std::atan2(sin_lat, cos_lat);
 
 #ifdef USE_CUSTOM_HT
-    const auto U = hypot(w - ell.e2 * r0, z);
+    const auto U = fast_hypot(w - ell.e2 * r0, z);
     //ht = U * (1 - ell.b2 / (ell.a * V));
     // b2/a == (1-e2)*a
     // SDW: this is more accurate
@@ -2744,7 +2752,7 @@ COMMON_FIRST_DECLS
     while (std::abs(dZ - dZ_new) > eps_a)
     {
         ZdZ = z + dZ;
-        Nh = hypot(w, ZdZ);
+        Nh = fast_hypot(w, ZdZ);
         sin_lat = ZdZ / Nh;
         Rn = ell.get_Rn(sin_lat);
         dZ = dZ_new;
@@ -2907,7 +2915,7 @@ COMMON_FIRST_DECLS
 
 #ifdef USE_CUSTOM_HT
     // SDW: This is not accurate
-    ht = hypot(w - we, z - ze);
+    ht = fast_hypot(w - we, z - ze);
 
     if (w + std::abs(z) < we + std::abs(ze))
         ht = -ht;
@@ -2977,7 +2985,7 @@ COMMON_FIRST_DECLS
 
 #ifdef USE_CUSTOM_HT
     // SDW: This is not accurate
-    ht = hypot(w - we, z - ze);
+    ht = fast_hypot(w - we, z - ze);
 
     if (w + std::abs(z) < we + std::abs(ze))
         ht = -ht;
@@ -3045,7 +3053,7 @@ COMMON_FIRST_DECLS
     lat_rad = std::atan2(sin_lat, cos_lat);
 
 #ifdef USE_CUSTOM_HT
-    ht = hypot(w - we, z - ze);
+    ht = fast_hypot(w - we, z - ze);
 
     if (w + std::abs(z) < we + std::abs(ze))
         ht = -ht;
@@ -3113,7 +3121,7 @@ COMMON_FIRST_DECLS
     lat_rad = std::atan2(sin_lat, cos_lat);
 
 #ifdef USE_CUSTOM_HT
-    ht = hypot(w - we, z - ze);
+    ht = fast_hypot(w - we, z - ze);
 
     if (w + std::abs(z) < we + std::abs(ze))
         ht = -ht;
@@ -3182,7 +3190,7 @@ COMMON_FIRST_DECLS
     lat_rad = std::atan2(sin_lat, cos_lat);
 
 #ifdef USE_CUSTOM_HT
-    ht = hypot(w - we, z - ze);
+    ht = fast_hypot(w - we, z - ze);
 
     if (w + std::abs(z) < we + std::abs(ze))
         ht = -ht;
@@ -3252,7 +3260,7 @@ COMMON_FIRST_DECLS
     lat_rad = std::atan2(sin_lat, cos_lat);
 
 #ifdef USE_CUSTOM_HT
-    ht = hypot(w - we, z - ze);
+    ht = fast_hypot(w - we, z - ze);
 
     if (w + std::abs(z) < we + std::abs(ze))
         ht = -ht;
@@ -4298,7 +4306,7 @@ COMMON_FIRST_DECLS
 
     ze = ell.b * z / r;
 
-    we_N = hypot(w, z + ell.ep2 * ze);
+    we_N = fast_hypot(w, z + ell.ep2 * ze);
     m = w / we_N;
     n = z / we_N;
     r_ = m * m + n * n / (1 - ell.e2);
@@ -4309,7 +4317,7 @@ COMMON_FIRST_DECLS
     // (i = 1)
     ze = z - n * ht;
 
-    we_N = hypot(w, z + ell.ep2 * ze);
+    we_N = fast_hypot(w, z + ell.ep2 * ze);
     m = w / we_N;
     n = z / we_N;
     r_ = m * m + n * n / (1 - ell.e2);
@@ -6011,7 +6019,7 @@ COMMON_FIRST_DECLS
     lat_rad = std::atan2(sin_lat, cos_lat);
 
 #ifdef USE_CUSTOM_HT
-    ht = k * hypot(w * ell.b / p, z * ell.a / q);
+    ht = k * fast_hypot(w * ell.b / p, z * ell.a / q);
 #else
     normalize(cos_lat, sin_lat);
     ht = ell.get_ht(w, z, sin_lat, cos_lat);
@@ -6067,7 +6075,7 @@ COMMON_FIRST_DECLS
     lat_rad = std::atan2(sin_lat, cos_lat);
 
 #ifdef USE_CUSTOM_HT
-    ht = k * hypot(w * ell.b / p, z * ell.a / q);
+    ht = k * fast_hypot(w * ell.b / p, z * ell.a / q);
 #else
     normalize(cos_lat, sin_lat);
     ht = ell.get_ht(w, z, sin_lat, cos_lat);
@@ -6124,7 +6132,7 @@ COMMON_FIRST_DECLS
     lat_rad = std::atan2(sin_lat, cos_lat);
 
 #ifdef USE_CUSTOM_HT
-    ht = k * hypot(w * ell.b / p, z * ell.a / q);
+    ht = k * fast_hypot(w * ell.b / p, z * ell.a / q);
 #else
     normalize(cos_lat, sin_lat);
     ht = ell.get_ht(w, z, sin_lat, cos_lat);
@@ -6182,7 +6190,7 @@ COMMON_FIRST_DECLS
     lat_rad = std::atan2(sin_lat, cos_lat);
 
 #ifdef USE_CUSTOM_HT
-    ht = k * hypot(w * ell.b / p, z * ell.a / q);
+    ht = k * fast_hypot(w * ell.b / p, z * ell.a / q);
 #else
     normalize(cos_lat, sin_lat);
     ht = ell.get_ht(w, z, sin_lat, cos_lat);
@@ -6577,7 +6585,7 @@ COMMON_FIRST_DECLS
     const auto k = std::sqrt(u + v + w_ * w_) - w_;
 
     const auto D = k * w / (k + ell.e2);
-    const auto tmp = hypot(D, z);
+    const auto tmp = fast_hypot(D, z);
 
     lat_rad = 2 * std::atan2(z, D + tmp);
 
@@ -6635,7 +6643,7 @@ COMMON_FIRST_DECLS
     const auto k = std::sqrt(u + v + w_ * w_) - w_;
 
     const auto D = k * w / (k + ell.e2);
-    const auto tmp = hypot(D, z);
+    const auto tmp = fast_hypot(D, z);
 
     lat_rad = 2 * std::atan2(z, D + tmp);
 
@@ -6703,7 +6711,7 @@ COMMON_FIRST_DECLS
         const auto k = (u + v) / (std::sqrt(w_ * w_ + u + v) + w_);
         const auto D = k * w / (k + ell.e2);
 
-        const auto tmp3 = hypot(D, z);
+        const auto tmp3 = fast_hypot(D, z);
         lat_rad = 2 * std::atan2(z, tmp3 + D);
 #ifdef USE_CUSTOM_HT
         //ht = (k + ell.e2 - 1) * tmp3 / k;
@@ -6731,7 +6739,7 @@ COMMON_FIRST_DECLS
             const auto k = (u + v) / (std::sqrt(w_ * w_ + (u + v)) + w_);
             const auto D = k * w / (k + ell.e2);
 
-            const auto tmp3 = hypot(D, z);
+            const auto tmp3 = fast_hypot(D, z);
             lat_rad = 2 * std::atan2(z, tmp3 + D);
 #ifdef USE_CUSTOM_HT
             //ht = (k + ell.e2 - 1) * tmp3 / k;
@@ -6813,7 +6821,7 @@ COMMON_FIRST_DECLS
         const auto k = (u + v) / (std::sqrt(w_ * w_ + u + v) + w_);
         const auto D = k * w / (k + ell.e2);
 
-        const auto tmp3 = hypot(D, z);
+        const auto tmp3 = fast_hypot(D, z);
         lat_rad = 2 * std::atan2(z, tmp3 + D);
 #ifdef USE_CUSTOM_HT
         //ht = (k + ell.e2 - 1) * tmp3 / k;
@@ -6841,7 +6849,7 @@ COMMON_FIRST_DECLS
             const auto k = (u + v) / (std::sqrt(w_ * w_ + (u + v)) + w_);
             const auto D = k * w / (k + ell.e2);
 
-            const auto tmp3 = hypot(D, z);
+            const auto tmp3 = fast_hypot(D, z);
             lat_rad = 2 * std::atan2(z, tmp3 + D);
 #ifdef USE_CUSTOM_HT
             //ht = (k + ell.e2 - 1) * tmp3 / k;
