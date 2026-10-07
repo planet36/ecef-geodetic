@@ -54,7 +54,7 @@ import numpy as np
 import numpy.typing as npt
 from matplotlib.patches import Ellipse
 
-from ellipsoid_np import WGS84
+from ellipsoid import WGS84
 
 
 # pylint: disable=too-many-arguments
@@ -233,7 +233,8 @@ ECEF (W, Z) data is in meters.  Geodetic (latitude, height) data is in degrees a
         return 1
 
     if args.input_data_format == INPUT_DATA_FORMAT.GEODETIC:
-        points = WGS84.geodetic_2d_to_ecef(points[:,0], points[:,1])
+        points = np.array([WGS84.geodetic_2d_to_ecef(lat_deg, ht)
+                           for (lat_deg, ht) in points.tolist()])
         print_verbose(f'{points=}')
         print_verbose(f'{points.shape=}')
 

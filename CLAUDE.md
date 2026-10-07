@@ -83,8 +83,9 @@ than those headers.
 
 The Python scripts at the top level generate and plot input data.  `Nd-arange.py` piped into
 `polar-to-cartesian.py` produces the ECEF grids, and `plot-points.py` draws them (see the
-`plot-ecef` and `plot-geod` targets).  The `ellipsoid*.py` files are float, numpy, and gmpy2
-versions of the ellipsoid math.  `olson_1996/` is the original C version with its own Makefile.
+`plot-ecef` and `plot-geod` targets).  `ellipsoid.py` holds the scalar ellipsoid math that the
+converter and plotting scripts share.  `olson_1996/` is the original C version with its own
+Makefile.
 
 ## Style
 
