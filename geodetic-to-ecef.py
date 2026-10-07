@@ -32,8 +32,11 @@ import sys
 
 from ellipsoid import WGS84
 
-for line in sys.stdin:
-    fields = line.strip().split()
+for (line_num, line) in enumerate(sys.stdin, start=1):
+    fields = line.split()
+
+    if not fields:
+        continue
 
     if len(fields) == 2:
         lat_deg = float(fields[0])
@@ -47,3 +50,6 @@ for line in sys.stdin:
         ht = float(fields[2])
         (x, y, z) = WGS84.geodetic_to_ecef(lat_deg, lon_deg, ht)
         print(f"{x} {y} {z}")
+
+    else:
+        sys.exit(f'Error: line {line_num}: expected 2 or 3 fields, got {len(fields)}')

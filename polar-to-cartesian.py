@@ -10,6 +10,8 @@ from cmath import rect
 from math import radians
 
 for line in sys.stdin:
+    if not line.strip():
+        continue
     (r, theta_deg) = map(float, line.split())
     z = rect(r, radians(theta_deg))
     print(z.real, z.imag)

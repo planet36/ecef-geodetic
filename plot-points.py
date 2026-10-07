@@ -210,6 +210,11 @@ ECEF (W, Z) data is in meters.  Geodetic (latitude, height) data is in degrees a
         if args.verbose:
             print(f"# {s}", file=sys.stderr)
 
+    def print_error(s):
+        """Print the error message"""
+        print(f"Error: {s}", file=sys.stderr)
+        print(f"Try '{program_name} --help' for more information.", file=sys.stderr)
+
     print_verbose(f'{args=}')
 
     # https://numpy.org/doc/stable/reference/generated/numpy.loadtxt.html
@@ -218,7 +223,12 @@ ECEF (W, Z) data is in meters.  Geodetic (latitude, height) data is in degrees a
     print_verbose(f'{points=}')
     print_verbose(f'{points.shape=}')
 
-    if points.size == 0: # empty
+    if points.size == 0:
+        print_error('No points were read')
+        return 1
+
+    if points.shape[1] != 2:
+        print_error(f'Expected 2 columns, got {points.shape[1]}')
         return 1
 
     if args.input_data_format == INPUT_DATA_FORMAT.GEODETIC:
@@ -231,9 +241,6 @@ ECEF (W, Z) data is in meters.  Geodetic (latitude, height) data is in degrees a
         points /= 1000
         print_verbose(f'{points=}')
         print_verbose(f'{points.shape=}')
-
-    if points.shape[1] != 2:
-        raise ValueError("Must give points of 2 dimensions")
 
     plot_points_2d(points, args.plot_ellipse, args.plot_evolute, args.limit_extents, args.dpi,
                    args.km)

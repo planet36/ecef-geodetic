@@ -28,6 +28,8 @@ l = []
 
 for g in more_itertools.grouper(sys.argv[1:], 3):
     (start, stop, num) = g
+    if stop is None:
+        sys.exit(f'Error: the group that starts at {start} has no stop value')
     a = linspace.linspace(start, stop, num, endpoint=True)
     d = map(remove_exponent.remove_exponent, a)
     #l.append(map(str, d))
