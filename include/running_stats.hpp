@@ -107,7 +107,7 @@ public:
     /// Get the population skewness, or NaN if fewer than 2 values were pushed
     [[nodiscard]] auto skewness() const
     {
-        return std::sqrt(static_cast<T>(n)) * M3 / std::pow(M2, T{1.5});
+        return std::sqrt(static_cast<T>(n)) * M3 / (M2 * std::sqrt(M2));
     }
 
     /// Get the population excess kurtosis, or NaN if fewer than 2 values were pushed
