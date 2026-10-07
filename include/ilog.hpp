@@ -18,7 +18,7 @@
 
 /// return the base-2 logarithm of \a x as a signed integer
 template <std::floating_point T>
-int
+constexpr int
 ilog2(const T x)
 {
     if constexpr (std::numeric_limits<T>::radix == 2)
@@ -29,7 +29,7 @@ ilog2(const T x)
 
 /// return the base-10 logarithm of \a x as a signed integer
 template <std::floating_point T>
-int
+constexpr int
 ilog10(const T x)
 {
     if constexpr (std::numeric_limits<T>::radix == 10)
