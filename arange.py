@@ -9,7 +9,9 @@ __author__ = 'Steven Ward'
 __license__ = 'MPL-2.0'
 
 from decimal import Decimal as D
+
 import numpy as np
+
 
 # https://numpy.org/doc/stable/reference/generated/numpy.arange.html
 def arange(start: D, stop: D = None, step: D = None, endpoint: bool = False):

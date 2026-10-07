@@ -10,7 +10,9 @@ __author__ = 'Steven Ward'
 __license__ = 'MPL-2.0'
 
 from decimal import Decimal as D
+
 import numpy as np
+
 
 # https://numpy.org/doc/stable/reference/generated/numpy.linspace.html
 # adapted from

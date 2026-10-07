@@ -11,7 +11,9 @@ __author__ = 'Steven Ward'
 __license__ = 'MPL-2.0'
 
 import math
+
 import numpy as np
+
 
 # pylint: disable=too-many-instance-attributes
 class Ellipsoid:

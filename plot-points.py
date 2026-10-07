@@ -14,12 +14,12 @@ __author__ = 'Steven Ward'
 __license__ = 'MPL-2.0'
 __version__ = '2024-01-08'
 
-from enum import Enum, auto, unique
 import sys
+from enum import Enum, auto, unique
 
-from matplotlib.patches import Ellipse
 import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib.patches import Ellipse
 
 from ellipsoid_np import WGS84
 

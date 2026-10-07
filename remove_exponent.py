@@ -14,6 +14,7 @@ __license__ = 'MPL-2.0'
 
 from decimal import Decimal
 
+
 def remove_exponent(d: Decimal) -> Decimal:
     '''Remove the exponential notation.'''
     return d.quantize(Decimal(1)) if d == d.to_integral_value() else d.normalize()

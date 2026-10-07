@@ -5,9 +5,9 @@
 
 '''Convert Cartesian coordinates (x, y) to Polar coordinates (r, theta (degrees)).'''
 
+import sys
 from cmath import polar
 from math import degrees
-import sys
 
 for line in sys.stdin:
     (x, y) = map(float, line.split())

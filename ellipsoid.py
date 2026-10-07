@@ -12,6 +12,7 @@ __license__ = 'MPL-2.0'
 
 import math
 
+
 # pylint: disable=too-many-instance-attributes
 class Ellipsoid:
 
