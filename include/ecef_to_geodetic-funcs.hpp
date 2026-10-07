@@ -4090,7 +4090,7 @@ auto ToGeodetic2D(const Vector3D<T>& positionOnEllipsoid)
     auto n = GeodeticSurfaceNormal(positionOnEllipsoid);
     return Geodetic2D<T>{
             std::asin(n.z / n.length()), // lat_rad
-            /*std::atan2(n.y, n.x)*/0 // lon_rad is already calculated
+            std::atan2(n.y, n.x) // lon_rad
         };
 }
 
