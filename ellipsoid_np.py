@@ -169,18 +169,21 @@ Converted to Python and modified by Steven Ward.  No rights reserved.
 
         r2 = w2 + z2
         r = np.sqrt(r2)
-
-        s2 = z2 / r2
-        c2 = w2 / r2
-        u = a2 / r
-        v = a3 - a4 / r
-
-        # cos(45°)² == ½
-        equatorial = c2 > 0.5
+        center = r == 0
 
         # Both branches run on every point and np.where keeps one.  The discarded one can
-        # leave the domain of asin, acos, or sqrt.
-        with np.errstate(invalid='ignore'):
+        # leave the domain of asin, acos, or sqrt.  Within about 45 km of the center of the
+        # earth, the kept one can too, and that point ends up NaN, as it would with C's asin
+        # and acos.  The center itself divides zero by zero and gets its answer at the end.
+        with np.errstate(divide='ignore', invalid='ignore'):
+            s2 = z2 / r2
+            c2 = w2 / r2
+            u = a2 / r
+            v = a3 - a4 / r
+
+            # cos(45°)² == ½
+            equatorial = c2 > 0.5
+
             s_eq = (z / r) * (1 + c2 * (a1 + u + s2 * v) / r)
             ss_eq = s_eq * s_eq
             c_po = (w / r) * (1 - s2 * (a5 - u - c2 * v) / r)
@@ -191,19 +194,23 @@ Converted to Python and modified by Steven Ward.  No rights reserved.
             s = np.where(equatorial, s_eq, np.copysign(np.sqrt(ss_po), z))
             c = np.where(equatorial, np.sqrt(1 - ss_eq), c_po)
 
-        d2 = 1 - self.e2 * ss
-        Rn = self.a / np.sqrt(d2)
-        Rm = (1 - self.e2) * Rn / d2
-        rf = (1 - self.e2) * Rn
-        u = w - Rn * c
-        v = z - rf * s
-        f = c * u + s * v
-        m = c * v - s * u
-        p = m / (Rm + f)
+            d2 = 1 - self.e2 * ss
+            Rn = self.a / np.sqrt(d2)
+            Rm = (1 - self.e2) * Rn / d2
+            rf = (1 - self.e2) * Rn
+            u = w - Rn * c
+            v = z - rf * s
+            f = c * u + s * v
+            m = c * v - s * u
+            p = m / (Rm + f)
 
-        lat_rad += p
+            lat_rad += p
 
-        ht = f + m * p / 2
+            ht = f + m * p / 2
+
+        # The C++ COMMON_FIRST_DECLS_CHECKED gives the same answer at the center of the earth.
+        lat_rad = np.where(center, 0.0, lat_rad)
+        ht = np.where(center, -self.a, ht)
 
         return np.stack((np.degrees(lat_rad), ht), axis=1)
 

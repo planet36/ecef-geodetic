@@ -171,6 +171,10 @@ Converted to Python and modified by Steven Ward.  No rights reserved.
         r2 = w2 + z2
         r = gmpy2.sqrt(r2)
 
+        # The C++ COMMON_FIRST_DECLS_CHECKED gives the same answer at the center of the earth.
+        if r == 0:
+            return (gmpy2.zero(), -self.a)
+
         s2 = z2 / r2
         c2 = w2 / r2
         u = a2 / r

@@ -167,19 +167,30 @@ Converted to Python and modified by Steven Ward.  No rights reserved.
         r2 = w2 + z2
         r = math.sqrt(r2)
 
+        # The C++ COMMON_FIRST_DECLS_CHECKED gives the same answer at the center of the earth.
+        if r == 0:
+            return (0.0, -self.a)
+
         s2 = z2 / r2
         c2 = w2 / r2
         u = a2 / r
         v = a3 - a4 / r
 
+        # Within about 45 km of the center of the earth, the series leaves the domain of asin
+        # or acos.  Return NaN there, as C's asin and acos would.
+
         # cos(45°)² == ½
         if c2 > 0.5: # Equatorial
             s = (z / r) * (1 + c2 * (a1 + u + s2 * v) / r)
+            if abs(s) > 1:
+                return (math.nan, math.nan)
             lat_rad = math.asin(s)
             ss = s * s
             c = math.sqrt(1 - ss)
         else: # Polar
             c = (w / r) * (1 - s2 * (a5 - u - c2 * v) / r)
+            if abs(c) > 1:
+                return (math.nan, math.nan)
             lat_rad = math.acos(c)
             ss = 1 - c * c
             s = math.sqrt(ss)
