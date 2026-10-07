@@ -28,12 +28,12 @@ define print_cpp_file_header(author, license, generated_by_file_name,
     generated_by_file_name);
 }
 
-/* get the size of the triangular square matrix from its array of values */
+/* get the order of the triangular matrix from its array of values */
 define get_tri_sq_mat_order(arr) {
     return floor(sqrt(2 * size(arr)));
 }
 
-/* get the size of the strictly triangular square matrix from its array of values */
+/* get the order of the strictly triangular matrix from its array of values */
 define get_strict_tri_sq_mat_order(arr) {
     return get_tri_sq_mat_order(arr)+1;
 }
@@ -43,7 +43,7 @@ define partial_sum(n) {
     return n*(n+1)/2;
 }
 
-/* create an upper triangular square matrix from the array of values */
+/* create an upper triangular matrix from the array of values */
 define mat_ut(arr) {
     local i, j, k, N, A;
 
@@ -65,7 +65,7 @@ define mat_ut(arr) {
     return A;
 }
 
-/* create a strictly upper triangular square matrix from the array of values */
+/* create a strictly upper triangular matrix from the array of values */
 define mat_sut(arr) {
     local i, j, k, N, A;
 
@@ -87,7 +87,7 @@ define mat_sut(arr) {
     return A;
 }
 
-/* create a lower triangular square matrix from the array of values */
+/* create a lower triangular matrix from the array of values */
 define mat_lt(arr) {
     local i, j, k, N, A;
 
@@ -109,7 +109,7 @@ define mat_lt(arr) {
     return A;
 }
 
-/* create a strictly lower triangular square matrix from the array of values */
+/* create a strictly lower triangular matrix from the array of values */
 define mat_slt(arr) {
     local i, j, k, N, A;
 
