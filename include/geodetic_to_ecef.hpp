@@ -30,7 +30,7 @@
 * \param[out] z Z coordinate (meters)
 */
 template <std::floating_point T>
-void
+constexpr void
 geodetic_to_ecef(const T lat_rad, const T lon_rad, const T ht, T& x, T& y, T& z)
 {
     static constexpr auto& ell = WGS84<T>;
@@ -61,7 +61,7 @@ geodetic_to_ecef(const T lat_rad, const T lon_rad, const T ht, T& x, T& y, T& z)
 * \param[out] z Z coordinate (meters)
 */
 template <angle_unit U, std::floating_point T>
-void
+constexpr void
 geodetic_to_ecef(const angle<U, T>& lat, const angle<U, T>& lon, const T ht, T& x, T& y, T& z)
 {
     static constexpr auto& ell = WGS84<T>;
@@ -80,7 +80,7 @@ geodetic_to_ecef(const angle<U, T>& lat, const angle<U, T>& lon, const T ht, T& 
 }
 
 template <angle_unit U, std::floating_point T>
-[[nodiscard]] auto
+[[nodiscard]] constexpr auto
 geodetic_to_ecef(const Geodetic<U, T>& geod)
 {
     T x{};

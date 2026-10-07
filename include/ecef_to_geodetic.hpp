@@ -36,7 +36,7 @@
 * \param[out] ht ellipsoid height (meters)
 */
 template <std::floating_point T>
-void
+constexpr void
 ecef_to_geodetic(const T x, const T y, const T z, T& lat_rad, T& lon_rad, T& ht)
 {
     static constexpr auto& ell = WGS84<T>;
@@ -126,7 +126,7 @@ ecef_to_geodetic(const T x, const T y, const T z, T& lat_rad, T& lon_rad, T& ht)
 * \param[out] ht ellipsoid height (meters)
 */
 template <angle_unit U, std::floating_point T>
-void
+constexpr void
 ecef_to_geodetic(const T x, const T y, const T z, angle<U, T>& lat, angle<U, T>& lon, T& ht)
 {
     T lat_rad{};
@@ -137,7 +137,7 @@ ecef_to_geodetic(const T x, const T y, const T z, angle<U, T>& lat, angle<U, T>&
 }
 
 template <std::floating_point T>
-[[nodiscard]] auto
+[[nodiscard]] constexpr auto
 ecef_to_geodetic(const ECEF<T>& ecef)
 {
     T lat_rad{};
