@@ -43,7 +43,7 @@ concept sorted_ascending =
 
 template <container Container>
 requires std::is_floating_point_v<typename Container::value_type>
-auto
+constexpr auto
 min_val(const Container& c)
 {
     using T = Container::value_type;
@@ -60,7 +60,7 @@ min_val(const Container& c)
 
 template <container Container>
 requires std::is_floating_point_v<typename Container::value_type>
-auto
+constexpr auto
 min_abs_val(const Container& c)
 {
     using T = Container::value_type;
@@ -74,7 +74,7 @@ min_abs_val(const Container& c)
 
 template <container Container>
 requires std::is_floating_point_v<typename Container::value_type>
-auto
+constexpr auto
 max_val(const Container& c)
 {
     using T = Container::value_type;
@@ -91,7 +91,7 @@ max_val(const Container& c)
 
 template <container Container>
 requires std::is_floating_point_v<typename Container::value_type>
-auto
+constexpr auto
 max_abs_val(const Container& c)
 {
     using T = Container::value_type;
@@ -105,7 +105,7 @@ max_abs_val(const Container& c)
 
 template <container Container>
 requires std::is_floating_point_v<typename Container::value_type>
-auto
+constexpr auto
 minmax_vals(const Container& c)
 {
     using T = Container::value_type;
@@ -128,7 +128,7 @@ minmax_vals(const Container& c)
 
 template <container Container>
 requires std::is_floating_point_v<typename Container::value_type>
-auto
+constexpr auto
 minmax_abs_vals(const Container& c)
 {
     using T = Container::value_type;
@@ -145,7 +145,7 @@ minmax_abs_vals(const Container& c)
 
 template <container Container>
 requires std::is_floating_point_v<typename Container::value_type>
-auto
+constexpr auto
 sum_val(const Container& c)
 {
     using T = Container::value_type;
@@ -160,7 +160,7 @@ sum_val(const Container& c)
 
 template <container Container>
 requires std::is_floating_point_v<typename Container::value_type>
-auto
+constexpr auto
 sum_abs_val(const Container& c)
 {
     using T = Container::value_type;
@@ -175,7 +175,7 @@ sum_abs_val(const Container& c)
 
 template <container Container>
 requires std::is_floating_point_v<typename Container::value_type>
-auto
+constexpr auto
 arithmetic_mean_val(const Container& c)
 {
     using T = Container::value_type;
@@ -192,7 +192,7 @@ arithmetic_mean_val(const Container& c)
 
 template <container Container>
 requires std::is_floating_point_v<typename Container::value_type>
-auto
+constexpr auto
 variance_val(const Container& c, const bool is_sample = false)
 {
     using T = Container::value_type;
@@ -224,7 +224,7 @@ variance_val(const Container& c, const bool is_sample = false)
 
 template <container Container>
 requires std::is_floating_point_v<typename Container::value_type>
-auto
+constexpr auto
 stdev_val(const Container& c, const bool is_sample = false)
 {
     return std::sqrt(variance_val(c, is_sample));
@@ -236,7 +236,7 @@ stdev_val(const Container& c, const bool is_sample = false)
 // https://brownmath.com/stat/shape.htm#Skewness
 template <container Container>
 requires std::is_floating_point_v<typename Container::value_type>
-auto
+constexpr auto
 skewness_val(const Container& c, const bool is_sample = false)
 {
     using T = Container::value_type;
@@ -274,7 +274,7 @@ skewness_val(const Container& c, const bool is_sample = false)
 // https://brownmath.com/stat/shape.htm#Kurtosis
 template <container Container>
 requires std::is_floating_point_v<typename Container::value_type>
-auto
+constexpr auto
 excess_kurtosis_val(const Container& c, const bool is_sample = false)
 {
     using T = Container::value_type;
@@ -309,7 +309,7 @@ excess_kurtosis_val(const Container& c, const bool is_sample = false)
 
 template <container Container>
 requires std::is_floating_point_v<typename Container::value_type>
-auto
+constexpr auto
 median_val(const Container& c)
 {
     using T = Container::value_type;
@@ -326,7 +326,7 @@ median_val(const Container& c)
 
 template <container Container>
 requires std::is_floating_point_v<typename Container::value_type>
-auto
+constexpr auto
 range_val(const Container& c)
 {
     const auto& [min_val, max_val] = minmax_vals(c);
