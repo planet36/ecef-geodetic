@@ -141,62 +141,12 @@ class Ellipsoid:
         return (w, z)
 
     def ecef_to_geodetic(self, x: float, y: float, z: float) -> tuple:
-        '''Olson, D. K. (1996). Converting Earth-Centered, Earth-Fixed Coordinates to Geodetic Coordinates. IEEE Transactions on Aerospace and Electronic Systems, 32(1), 473–476. https://doi.org/10.1109/7.481290
+        '''Olson (1996) in the meridian plane, through ecef_2d_to_geodetic.'''
 
-Converted to Python and modified by Steven Ward.  No rights reserved.
-'''
-
-        w2 = x * x + y * y
-        w = math.sqrt(w2)
-        z2 = z * z
         lon_rad = math.atan2(y, x)
+        (lat_deg, ht) = self.ecef_2d_to_geodetic(math.hypot(x, y), z)
 
-        a1 = self.a * self.e2
-        a2 = a1 * a1
-        a3 = a1 * self.e2 / 2
-        a4 = 2.5 * a2
-        a5 = a1 + a3
-        #a6 = (1 - self.e2)
-
-        r2 = w2 + z2
-        r = math.sqrt(r2)
-
-        s2 = z2 / r2
-        c2 = w2 / r2
-        u = a2 / r
-        v = a3 - a4 / r
-
-        # cos(45°)² == ½
-        if c2 > 0.5: # Equatorial
-            s = (z / r) * (1 + c2 * (a1 + u + s2 * v) / r)
-            lat_rad = math.asin(s)
-            ss = s * s
-            c = math.sqrt(1 - ss)
-        else: # Polar
-            c = (w / r) * (1 - s2 * (a5 - u - c2 * v) / r)
-            lat_rad = math.acos(c)
-            ss = 1 - c * c
-            s = math.sqrt(ss)
-
-            if z < 0:
-                lat_rad = -lat_rad
-                s = -s
-
-        d2 = 1 - self.e2 * ss
-        Rn = self.a / math.sqrt(d2)
-        Rm = (1 - self.e2) * Rn / d2
-        rf = (1 - self.e2) * Rn
-        u = w - Rn * c
-        v = z - rf * s
-        f = c * u + s * v
-        m = c * v - s * u
-        p = m / (Rm + f)
-
-        lat_rad += p
-
-        ht = f + m * p / 2
-
-        return (math.degrees(lat_rad), math.degrees(lon_rad), ht)
+        return (lat_deg, math.degrees(lon_rad), ht)
 
     def ecef_2d_to_geodetic(self, w: float, z: float) -> tuple:
         '''Olson, D. K. (1996). Converting Earth-Centered, Earth-Fixed Coordinates to Geodetic Coordinates. IEEE Transactions on Aerospace and Electronic Systems, 32(1), 473–476. https://doi.org/10.1109/7.481290

@@ -143,62 +143,12 @@ class Ellipsoid:
         return np.stack((w, z), axis=1)
 
     def ecef_to_geodetic(self, x: np.array, y: np.array, z: np.array) -> np.array:
-        '''Olson, D. K. (1996). Converting Earth-Centered, Earth-Fixed Coordinates to Geodetic Coordinates. IEEE Transactions on Aerospace and Electronic Systems, 32(1), 473–476. https://doi.org/10.1109/7.481290
+        '''Olson (1996) in the meridian plane, through ecef_2d_to_geodetic.'''
 
-Converted to Python and modified by Steven Ward.  No rights reserved.
-'''
-
-        w2 = x * x + y * y
-        w = np.sqrt(w2)
-        z2 = z * z
         lon_rad = np.atan2(y, x)
+        geod = self.ecef_2d_to_geodetic(np.hypot(x, y), z)
 
-        a1 = self.a * self.e2
-        a2 = a1 * a1
-        a3 = a1 * self.e2 / 2
-        a4 = 2.5 * a2
-        a5 = a1 + a3
-        #a6 = (1 - self.e2)
-
-        r2 = w2 + z2
-        r = np.sqrt(r2)
-
-        s2 = z2 / r2
-        c2 = w2 / r2
-        u = a2 / r
-        v = a3 - a4 / r
-
-        # cos(45°)² == ½
-        if c2 > 0.5: # Equatorial
-            s = (z / r) * (1 + c2 * (a1 + u + s2 * v) / r)
-            lat_rad = np.asin(s)
-            ss = s * s
-            c = np.sqrt(1 - ss)
-        else: # Polar
-            c = (w / r) * (1 - s2 * (a5 - u - c2 * v) / r)
-            lat_rad = np.acos(c)
-            ss = 1 - c * c
-            s = np.sqrt(ss)
-
-            if z < 0:
-                lat_rad = -lat_rad
-                s = -s
-
-        d2 = 1 - self.e2 * ss
-        Rn = self.a / np.sqrt(d2)
-        Rm = (1 - self.e2) * Rn / d2
-        rf = (1 - self.e2) * Rn
-        u = w - Rn * c
-        v = z - rf * s
-        f = c * u + s * v
-        m = c * v - s * u
-        p = m / (Rm + f)
-
-        lat_rad += p
-
-        ht = f + m * p / 2
-
-        return np.stack((np.degrees(lat_rad), np.degrees(lon_rad), ht), axis=1)
+        return np.stack((geod[:, 0], np.degrees(lon_rad), geod[:, 1]), axis=1)
 
     def ecef_2d_to_geodetic(self, w: np.array, z: np.array) -> np.array:
         '''Olson, D. K. (1996). Converting Earth-Centered, Earth-Fixed Coordinates to Geodetic Coordinates. IEEE Transactions on Aerospace and Electronic Systems, 32(1), 473–476. https://doi.org/10.1109/7.481290
