@@ -2,7 +2,6 @@
 # SPDX-License-Identifier: MPL-2.0
 
 # pylint: disable=fixme
-# pylint: disable=invalid-name
 # pylint: disable=missing-function-docstring
 # pylint: disable=missing-module-docstring
 

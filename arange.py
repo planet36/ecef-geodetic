@@ -1,7 +1,6 @@
 # SPDX-FileCopyrightText: Steven Ward
 # SPDX-License-Identifier: MPL-2.0
 
-# pylint: disable=invalid-name
 # pylint: disable=missing-function-docstring
 # pylint: disable=missing-module-docstring
 

@@ -1,8 +1,6 @@
 # SPDX-FileCopyrightText: Steven Ward
 # SPDX-License-Identifier: MPL-2.0
 
-# pylint: disable=invalid-name
-
 '''
 This module contains the remove_exponent function from the Python Decimal FAQ.
 

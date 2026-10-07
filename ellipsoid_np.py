@@ -102,7 +102,6 @@ class Ellipsoid:
                 - 2 * ht * (1 + self.f + self.m - 2 * self.f * sin_lat * sin_lat) / self.a
                 + 3 * ht * ht / self.a2)
 
-    # pylint: disable=too-many-arguments
     def get_ht(self, w: FloatArray, z: FloatArray, sin_lat: FloatArray, cos_lat: FloatArray, Rn: FloatArray) -> FloatArray:
         # https://www.gnu.org/software/libc/manual/html_node/Mathematical-Constants.html
         # cos(45°) == 1/√(2)

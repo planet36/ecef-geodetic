@@ -39,7 +39,6 @@ binary64_digits10 = int(gmpy2.ceil(log10_of_2 * gmpy2.ieee(64).precision))
 
 zero_threshold = gmpy2.mpfr(f'1E-{binary128_digits10}')
 
-# pylint: disable=redefined-outer-name
 def fix_zero(x: gmpy2.mpfr) -> gmpy2.mpfr:
     '''Treat -0.0 and very small numbers (e.g. 1.3E-65) as 0.0'''
     if x.is_zero() or (abs(x) < zero_threshold):

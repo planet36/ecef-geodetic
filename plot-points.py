@@ -2,10 +2,8 @@
 # SPDX-License-Identifier: MPL-2.0
 
 # pylint: disable=missing-function-docstring
-# pylint: disable=bad-indentation
 # pylint: disable=fixme
 # pylint: disable=invalid-name
-# pylint: disable=trailing-newlines
 
 '''
 Plot 2D points read from stdin.
