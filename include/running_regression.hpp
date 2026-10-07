@@ -82,6 +82,14 @@ template <std::floating_point T>
 [[nodiscard]] running_regression<T>
 operator+(const running_regression<T>& a, const running_regression<T>& b)
 {
+    // Merging an empty object returns the other one unchanged, because the
+    // formula below divides by the combined count.
+    if (a.n == 0)
+        return b;
+
+    if (b.n == 0)
+        return a;
+
     running_regression<T> combined;
 
     combined.x_stats = a.x_stats + b.x_stats;

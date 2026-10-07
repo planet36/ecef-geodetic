@@ -146,6 +146,15 @@ template <std::floating_point T>
 [[nodiscard]] running_stats<T>
 operator+(const running_stats<T>& a, const running_stats<T>& b)
 {
+    // Merging an empty object returns the other one unchanged.  The formulas
+    // below divide by the combined count, which is zero when both are empty,
+    // and the NaN that leaves in M1 would poison every later push().
+    if (a.n == 0)
+        return b;
+
+    if (b.n == 0)
+        return a;
+
     running_stats<T> combined;
 
     combined.n = a.n + b.n;
@@ -170,8 +179,7 @@ operator+(const running_stats<T>& a, const running_stats<T>& b)
         4 * delta * (a.n * b.M3 - b.n * a.M3) / combined.n;
 
     // The remaining members combine directly, the same way push() accumulates
-    // them.  fmin and fmax carry the empty-object NaN sentinel through, so
-    // merging an empty object leaves the other one's extrema.
+    // them.
     combined._sum = a._sum + b._sum;
     combined._min = std::fmin(a._min, b._min);
     combined._max = std::fmax(a._max, b._max);
