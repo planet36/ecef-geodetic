@@ -70,7 +70,7 @@ define val_print_as_cpp_var(s, x) {
 script_author = "Steven Ward"
 script_license = "MPL-2.0"
 script_name = "generate-series-approx-coeff-tm.cal"
-script_brief_description = "Transverse Mercator conversions"
+script_brief_description = "Geodetic, TM, PS, UTM, UPS, and MGRS constants"
 script_detailed_description = "* \\sa https://geographiclib.sourceforge.io/C++/doc/transversemercator.html#tmseries\n* \\sa https://geographiclib.sourceforge.io/html/tmseries30.html"
 
 print_cpp_file_header(script_author, script_license, script_name,

@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: Steven Ward
 // SPDX-License-Identifier: MPL-2.0
 
-/// Transverse Mercator conversions
+/// Geodetic, TM, PS, UTM, UPS, and MGRS constants
 /**
 * \file
 * \author Steven Ward
