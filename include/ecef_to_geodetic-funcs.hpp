@@ -437,8 +437,8 @@ namespace borkowski_1989
 {
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -512,8 +512,8 @@ namespace bowring_1976_x1
 constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -560,8 +560,8 @@ namespace bowring_1976_x2
 constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -616,8 +616,8 @@ namespace bowring_1985_x1
 constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -667,8 +667,8 @@ namespace bowring_1985_x2
 constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -726,8 +726,8 @@ namespace bowring_toms_1995_x1
 constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -785,8 +785,8 @@ namespace bowring_toms_1995_x2
 constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -871,8 +871,8 @@ auto fpp(const T t, const T u, [[maybe_unused]] const T v, const T w)
 }
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -1005,8 +1005,8 @@ auto fpp(const T t, const T u, [[maybe_unused]] const T v, const T w)
 }
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -1120,8 +1120,8 @@ namespace fukushima_2006_x1
 constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -1186,8 +1186,8 @@ namespace fukushima_2006_x2
 constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -1252,8 +1252,8 @@ namespace geographiclib
 {
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -1426,8 +1426,8 @@ namespace geographiclib_customht
 #define USE_CUSTOM_HT
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -1601,8 +1601,8 @@ namespace geotransformCpp
 
 constexpr int line_begin = __LINE__;
 //void Gcc_To_Gdc_Converter::Convert(int count, const Gcc_Coord_3d gcc[], Gdc_Coord_3d gdc[] )
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -1859,8 +1859,8 @@ namespace geotransformCpp_customht
 
 constexpr int line_begin = __LINE__;
 //void Gcc_To_Gdc_Converter::Convert(int count, const Gcc_Coord_3d gcc[], Gdc_Coord_3d gdc[] )
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -2116,8 +2116,8 @@ namespace gersten_1961
 {
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -2178,8 +2178,8 @@ namespace halley_x1
 constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -2225,8 +2225,8 @@ namespace halley_x2
 constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -2272,8 +2272,8 @@ namespace halley_quick_x1
 constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -2323,8 +2323,8 @@ namespace halley_quick_x2
 constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -2372,8 +2372,8 @@ namespace heikkinen_1982
 {
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -2451,8 +2451,8 @@ namespace heikkinen_1982_customht
 #define USE_CUSTOM_HT
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -2532,8 +2532,8 @@ namespace householder_x1
 constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -2579,8 +2579,8 @@ namespace householder_x2
 constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -2626,8 +2626,8 @@ namespace householder_quick_x1
 constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -2677,8 +2677,8 @@ namespace householder_quick_x2
 constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -2726,8 +2726,8 @@ namespace jat_geodetic
 {
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -2794,8 +2794,8 @@ namespace jones_2002_x1
 constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -2882,8 +2882,8 @@ namespace ligas_2011_I_x1
 constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -2952,8 +2952,8 @@ namespace ligas_2011_I_x2
 constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -3022,8 +3022,8 @@ namespace lin_wang_1995_x1
 constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -3090,8 +3090,8 @@ namespace lin_wang_1995_x2
 constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -3159,8 +3159,8 @@ namespace lin_wang_1995_customht_x1
 constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -3229,8 +3229,8 @@ namespace lin_wang_1995_customht_x2
 constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -3296,8 +3296,8 @@ namespace long_1974
 {
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -3348,8 +3348,8 @@ namespace naive_I_x1
 constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -3403,8 +3403,8 @@ namespace naive_I_x2
 constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -3458,8 +3458,8 @@ namespace naive_II_x1
 constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -3513,8 +3513,8 @@ namespace naive_II_x2
 constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -3568,8 +3568,8 @@ namespace newton_raphson_x1
 constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -3615,8 +3615,8 @@ namespace newton_raphson_x2
 constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -3662,8 +3662,8 @@ namespace newton_raphson_quick_x1
 constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -3713,8 +3713,8 @@ namespace newton_raphson_quick_x2
 constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -3762,8 +3762,8 @@ namespace olson_1996
 {
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -3854,8 +3854,8 @@ namespace olson_1996_customht
 #define USE_CUSTOM_HT
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -4105,8 +4105,8 @@ auto ToGeodetic3D(const Vector3D<T>& position)
     return Geodetic3D<T>{g2d, height};
 }
 
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
     const Vector3D<double> position{x, y, z};
     const auto result = ToGeodetic3D(position);
@@ -4141,8 +4141,8 @@ namespace ozone_1985
 {
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS_CHECKED
 
@@ -4205,8 +4205,8 @@ namespace paul_1973
 {
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -4286,8 +4286,8 @@ namespace pollard_2002_ht_x1
 {
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -4363,8 +4363,8 @@ namespace pollard_2002_naive_x1
 constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -4421,8 +4421,8 @@ namespace pollard_2002_naive_x2
 constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -4479,8 +4479,8 @@ namespace pollard_2002_newton_x1
 constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -4545,8 +4545,8 @@ namespace pollard_2002_newton_x2
 constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -4611,8 +4611,8 @@ namespace schroder_x1
 constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -4658,8 +4658,8 @@ namespace schroder_x2
 constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -4705,8 +4705,8 @@ namespace schroder_quick_x1
 constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -4756,8 +4756,8 @@ namespace schroder_quick_x2
 constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -4982,8 +4982,8 @@ Algorithm derived by Ralph Toms, SRI.
     //void                   *constants,
     //const double          source_generic_coord[4],
     //double          dest_generic_coord[4],
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -5577,8 +5577,8 @@ Algorithm derived by Ralph Toms, SRI.
     //void                   *constants,
     //const double          source_generic_coord[4],
     //double          dest_generic_coord[4],
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -5997,8 +5997,8 @@ namespace shu_2010_x1
 constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -6053,8 +6053,8 @@ namespace shu_2010_x2
 constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -6110,8 +6110,8 @@ namespace shu_2010_customht_x1
 constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -6168,8 +6168,8 @@ namespace shu_2010_customht_x2
 constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -6223,8 +6223,8 @@ namespace sofair_1993
 {
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -6307,8 +6307,8 @@ namespace sofair_2000
 {
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -6382,8 +6382,8 @@ namespace sudano_1997
 {
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -6463,8 +6463,8 @@ namespace turner_2013
 {
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -6564,8 +6564,8 @@ namespace vermeille_2004
 {
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -6622,8 +6622,8 @@ namespace vermeille_2004_customht
 #define USE_CUSTOM_HT
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -6680,8 +6680,8 @@ namespace vermeille_2011
 {
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -6790,8 +6790,8 @@ namespace vermeille_2011_customht
 #define USE_CUSTOM_HT
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -6902,8 +6902,8 @@ namespace wu_2003_x1
 constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS_CHECKED
 
@@ -6981,8 +6981,8 @@ namespace wu_2003_x2
 constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS_CHECKED
 
@@ -7058,8 +7058,8 @@ namespace zhang_2005
 {
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 
@@ -7161,8 +7161,8 @@ namespace zhu_1993
 {
 
 constexpr int line_begin = __LINE__;
-void ecef_to_geodetic(const double x, const double y, const double z,
-                      double& lat_rad, double& lon_rad, double& ht)
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht)
 {
 COMMON_FIRST_DECLS
 

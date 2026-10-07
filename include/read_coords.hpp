@@ -115,7 +115,7 @@ enum struct INPUT_DATA_COORD_SYSTEM
     GEODETIC,
 };
 
-[[nodiscard]] std::string_view
+[[nodiscard]] inline std::string_view
 to_string(const INPUT_DATA_COORD_SYSTEM& x)
 {
     switch (x)
