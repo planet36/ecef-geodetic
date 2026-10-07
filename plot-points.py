@@ -305,7 +305,7 @@ OPTIONS
     print_verbose(f'{dpi=}')
 
     # https://numpy.org/doc/stable/reference/generated/numpy.loadtxt.html
-    points = np.loadtxt(sys.stdin)
+    points = np.loadtxt(sys.stdin, ndmin=2)
 
     print_verbose(f'{points=}')
     print_verbose(f'{points.shape=}')
