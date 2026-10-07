@@ -16,9 +16,12 @@ __version__ = '2024-01-08'
 
 import sys
 from enum import Enum, auto, unique
+from types import FrameType
+from typing import NoReturn
 
 import matplotlib.pyplot as plt
 import numpy as np
+import numpy.typing as npt
 from matplotlib.patches import Ellipse
 
 from ellipsoid_np import WGS84
@@ -60,8 +63,9 @@ python3 plot-points.py -v -g --ell --evo --km
 # pylint: disable=too-many-arguments
 # pylint: disable=too-many-locals
 # pylint: disable=too-many-positional-arguments
-def plot_points_2d(points, plot_ellipse=False, plot_evolute=False,
-                   limit_extents=False, dpi=plt.rcParams["figure.dpi"], km=False):
+def plot_points_2d(points: npt.NDArray[np.float64], plot_ellipse: bool = False,
+                   plot_evolute: bool = False, limit_extents: bool = False,
+                   dpi: float = plt.rcParams["figure.dpi"], km: bool = False) -> None:
 
     # https://matplotlib.org/stable/gallery/color/named_colors.html
 
@@ -153,7 +157,7 @@ class INPUT_DATA_FORMAT(Enum):
     ECEF = auto()
     GEODETIC = auto()
 
-def main(argv = None):
+def main(argv: list[str] | None = None) -> int:
 
     # pylint: disable=import-outside-toplevel
     import argparse
@@ -168,7 +172,7 @@ def main(argv = None):
     program_authors = [__author__]
 
     # pylint: disable=unused-argument
-    def signal_handler(signal_num, execution_frame):
+    def signal_handler(signal_num: int, execution_frame: FrameType | None) -> NoReturn:
         print()
         sys.exit(128 + signal_num)
 
@@ -205,12 +209,12 @@ ECEF (W, Z) data is in meters.  Geodetic (latitude, height) data is in degrees a
 
     args = parser.parse_args(argv[1:])
 
-    def print_verbose(s):
+    def print_verbose(s: str) -> None:
         """Print the message if verbose mode is on"""
         if args.verbose:
             print(f"# {s}", file=sys.stderr)
 
-    def print_error(s):
+    def print_error(s: str) -> None:
         """Print the error message"""
         print(f"Error: {s}", file=sys.stderr)
         print(f"Try '{program_name} --help' for more information.", file=sys.stderr)
@@ -244,6 +248,8 @@ ECEF (W, Z) data is in meters.  Geodetic (latitude, height) data is in degrees a
 
     plot_points_2d(points, args.plot_ellipse, args.plot_evolute, args.limit_extents, args.dpi,
                    args.km)
+
+    return 0
 
 if __name__ == '__main__':
     sys.exit(main())
