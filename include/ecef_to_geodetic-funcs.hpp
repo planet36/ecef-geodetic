@@ -850,6 +850,8 @@ namespace fukushima_1999_x1
 // {{{
 {
 
+constexpr int max_iterations = 1;
+
 template <std::floating_point T>
 auto f(const T t, const T u, const T v, const T w)
 {
@@ -983,6 +985,8 @@ namespace fukushima_1999_customht_x1
 // {{{
 {
 #define USE_CUSTOM_HT
+
+constexpr int max_iterations = 1;
 
 template <std::floating_point T>
 auto f(const T t, const T u, const T v, const T w)
@@ -4285,6 +4289,8 @@ const auto func_info = func_info_t(
 namespace pollard_2002_ht_x1
 // {{{
 {
+
+constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
