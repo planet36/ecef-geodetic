@@ -107,8 +107,8 @@ public:
     /// Get the skewness, or NaN if fewer than 2 values were pushed
     [[nodiscard]] auto skewness() const { return std::sqrt(n) * M3 / std::pow(M2, 1.5); }
 
-    /// Get the kurtosis, or NaN if fewer than 2 values were pushed
-    [[nodiscard]] auto kurtosis() const { return n * M4 / (M2 * M2) - 3; }
+    /// Get the excess kurtosis, or NaN if fewer than 2 values were pushed
+    [[nodiscard]] auto excess_kurtosis() const { return n * M4 / (M2 * M2) - 3; }
 
     /// Get the sum of the values, or 0 if none were pushed
     [[nodiscard]] constexpr auto sum() const { return _sum; }
