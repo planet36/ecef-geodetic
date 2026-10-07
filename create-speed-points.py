@@ -10,7 +10,7 @@ Create 2D ECEF points to be used in the speed tests.
 
 __author__ = 'Steven Ward'
 __license__ = 'MPL-2.0'
-__version__ = '2024-01-03'
+__version__ = '2026-10-07'
 
 import gmpy2
 

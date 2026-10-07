@@ -42,7 +42,7 @@ python3 plot-points.py -v -g --ell --evo --km
 
 __author__ = 'Steven Ward'
 __license__ = 'MPL-2.0'
-__version__ = '2024-01-08'
+__version__ = '2026-10-07'
 
 import sys
 from enum import Enum, auto, unique
