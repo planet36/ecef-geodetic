@@ -161,13 +161,13 @@ def main(argv: list[str] | None = None) -> int:
 
     # pylint: disable=import-outside-toplevel
     import argparse
-    import os
     import signal
+    from pathlib import Path
 
     if argv is None:
         argv = sys.argv
 
-    program_name = os.path.basename(argv[0])
+    program_name = Path(argv[0]).name
 
     program_authors = [__author__]
 
