@@ -17,8 +17,8 @@
 #include <sstream>
 #include <string>
 
-constexpr int geodetic_default_precision = 6; ///< The default precision
-constexpr int geodetic_precision_add = 5; ///< The precision to add to the geodetic latitude and longitude
+inline constexpr int geodetic_default_precision = 6; ///< The default precision
+inline constexpr int geodetic_precision_add = 5; ///< The precision to add to the geodetic latitude and longitude
 
 /// Geodetic to string
 /**

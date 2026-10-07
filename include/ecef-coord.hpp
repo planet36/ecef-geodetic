@@ -16,7 +16,7 @@
 #include <string>
 #include <type_traits>
 
-constexpr int ecef_default_precision = 6; ///< The default precision
+inline constexpr int ecef_default_precision = 6; ///< The default precision
 
 /// ECEF to string
 /**
