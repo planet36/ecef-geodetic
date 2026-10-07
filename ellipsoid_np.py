@@ -13,6 +13,9 @@ __license__ = 'MPL-2.0'
 import math
 
 import numpy as np
+import numpy.typing as npt
+
+FloatArray = npt.NDArray[np.float64]
 
 
 # pylint: disable=too-many-instance-attributes
@@ -76,31 +79,31 @@ class Ellipsoid:
         self.k       = k
         self.m       = m
 
-    def get_Rn(self, sin_lat: np.array) -> np.array:
+    def get_Rn(self, sin_lat: FloatArray) -> FloatArray:
         d2 = 1 - self.e2 * sin_lat * sin_lat
         d = np.sqrt(d2)
         return self.a / d
 
-    def get_R(self, sin_lat: np.array) -> np.array:
+    def get_R(self, sin_lat: FloatArray) -> FloatArray:
         return self.get_Rn(sin_lat) * np.sqrt(1 - self.e2 * sin_lat * sin_lat * (2 - self.e2))
 
-    def get_Rm(self, sin_lat: np.array) -> np.array:
+    def get_Rm(self, sin_lat: FloatArray) -> FloatArray:
         d2 = 1 - self.e2 * sin_lat * sin_lat
         d = np.sqrt(d2)
         return self.a * (1 - self.e2) / (d2 * d)
 
-    def get_gamma(self, sin_lat: np.array) -> np.array:
+    def get_gamma(self, sin_lat: FloatArray) -> FloatArray:
         d2 = 1 - self.e2 * sin_lat * sin_lat
         d = np.sqrt(d2)
         return self.gamma_e * (1 + self.k * sin_lat * sin_lat) / d
 
-    def get_gamma_h(self, sin_lat: np.array, ht: np.array) -> np.array:
+    def get_gamma_h(self, sin_lat: FloatArray, ht: FloatArray) -> FloatArray:
         return self.get_gamma(sin_lat) * (1
                 - 2 * ht * (1 + self.f + self.m - 2 * self.f * sin_lat * sin_lat) / self.a
                 + 3 * ht * ht / self.a2)
 
     # pylint: disable=too-many-arguments
-    def get_ht(self, w: np.array, z: np.array, sin_lat: np.array, cos_lat: np.array, Rn: np.array) -> np.array:
+    def get_ht(self, w: FloatArray, z: FloatArray, sin_lat: FloatArray, cos_lat: FloatArray, Rn: FloatArray) -> FloatArray:
         # https://www.gnu.org/software/libc/manual/html_node/Mathematical-Constants.html
         # cos(45°) == 1/√(2)
         equatorial = cos_lat > 1 / np.sqrt(2)
@@ -110,7 +113,7 @@ class Ellipsoid:
         with np.errstate(divide='ignore', invalid='ignore'):
             return np.where(equatorial, w / cos_lat - Rn, z / sin_lat - Rn * (1 - self.e2))
 
-    def geodetic_to_ecef(self, lat_deg: np.array, lon_deg: np.array, ht: np.array) -> np.array:
+    def geodetic_to_ecef(self, lat_deg: FloatArray, lon_deg: FloatArray, ht: FloatArray) -> FloatArray:
 
         lat_rad = np.radians(lat_deg)
         lon_rad = np.radians(lon_deg)
@@ -129,7 +132,7 @@ class Ellipsoid:
 
         return np.stack((x, y, z), axis=1)
 
-    def geodetic_2d_to_ecef(self, lat_deg: np.array, ht: np.array) -> np.array:
+    def geodetic_2d_to_ecef(self, lat_deg: FloatArray, ht: FloatArray) -> FloatArray:
 
         lat_rad = np.radians(lat_deg)
 
@@ -143,7 +146,7 @@ class Ellipsoid:
 
         return np.stack((w, z), axis=1)
 
-    def ecef_to_geodetic(self, x: np.array, y: np.array, z: np.array) -> np.array:
+    def ecef_to_geodetic(self, x: FloatArray, y: FloatArray, z: FloatArray) -> FloatArray:
         '''Olson (1996) in the meridian plane, through ecef_2d_to_geodetic.'''
 
         lon_rad = np.atan2(y, x)
@@ -151,7 +154,7 @@ class Ellipsoid:
 
         return np.stack((geod[:, 0], np.degrees(lon_rad), geod[:, 1]), axis=1)
 
-    def ecef_2d_to_geodetic(self, w: np.array, z: np.array) -> np.array:
+    def ecef_2d_to_geodetic(self, w: FloatArray, z: FloatArray) -> FloatArray:
         '''Olson, D. K. (1996). Converting Earth-Centered, Earth-Fixed Coordinates to Geodetic Coordinates. IEEE Transactions on Aerospace and Electronic Systems, 32(1), 473–476. https://doi.org/10.1109/7.481290
 
 Converted to Python and modified by Steven Ward.  No rights reserved.

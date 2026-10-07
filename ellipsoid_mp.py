@@ -111,7 +111,7 @@ class Ellipsoid:
         else: # Polar
             return z / sin_lat - Rn * (1 - self.e2)
 
-    def geodetic_to_ecef(self, lat_deg: gmpy2.mpfr, lon_deg: gmpy2.mpfr, ht: gmpy2.mpfr) -> tuple:
+    def geodetic_to_ecef(self, lat_deg: gmpy2.mpfr, lon_deg: gmpy2.mpfr, ht: gmpy2.mpfr) -> tuple[gmpy2.mpfr, gmpy2.mpfr, gmpy2.mpfr]:
 
         lat_rad = gmpy2.radians(lat_deg)
         lon_rad = gmpy2.radians(lon_deg)
@@ -130,7 +130,7 @@ class Ellipsoid:
 
         return (x, y, z)
 
-    def geodetic_2d_to_ecef(self, lat_deg: gmpy2.mpfr, ht: gmpy2.mpfr) -> tuple:
+    def geodetic_2d_to_ecef(self, lat_deg: gmpy2.mpfr, ht: gmpy2.mpfr) -> tuple[gmpy2.mpfr, gmpy2.mpfr]:
 
         lat_rad = gmpy2.radians(lat_deg)
 
@@ -144,7 +144,7 @@ class Ellipsoid:
 
         return (w, z)
 
-    def ecef_to_geodetic(self, x: gmpy2.mpfr, y: gmpy2.mpfr, z: gmpy2.mpfr) -> tuple:
+    def ecef_to_geodetic(self, x: gmpy2.mpfr, y: gmpy2.mpfr, z: gmpy2.mpfr) -> tuple[gmpy2.mpfr, gmpy2.mpfr, gmpy2.mpfr]:
         '''Olson (1996) in the meridian plane, through ecef_2d_to_geodetic.'''
 
         lon_rad = gmpy2.atan2(y, x)
@@ -152,7 +152,7 @@ class Ellipsoid:
 
         return (lat_deg, gmpy2.degrees(lon_rad), ht)
 
-    def ecef_2d_to_geodetic(self, w: gmpy2.mpfr, z: gmpy2.mpfr) -> tuple:
+    def ecef_2d_to_geodetic(self, w: gmpy2.mpfr, z: gmpy2.mpfr) -> tuple[gmpy2.mpfr, gmpy2.mpfr]:
         '''Olson, D. K. (1996). Converting Earth-Centered, Earth-Fixed Coordinates to Geodetic Coordinates. IEEE Transactions on Aerospace and Electronic Systems, 32(1), 473–476. https://doi.org/10.1109/7.481290
 
 Converted to Python and modified by Steven Ward.  No rights reserved.

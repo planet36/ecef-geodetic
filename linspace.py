@@ -19,7 +19,8 @@ import numpy as np
 # https://github.com/numpy/numpy/blob/main/numpy/_core/function_base.py#L26
 # The start and stop values in numpy.linspace must be float type.
 #def linspace(start, stop, num=50, endpoint=True):
-def linspace(start: D, stop: D, num: int = 50, endpoint: bool = True):
+def linspace(start: D | str, stop: D | str, num: int | str | None = 50,
+             endpoint: bool = True) -> np.ndarray:
     start = D(start)
     # XXX: stop is mandatory
     stop = D(stop)

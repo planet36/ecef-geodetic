@@ -29,10 +29,10 @@ l = []
 for g in more_itertools.grouper(sys.argv[1:], 3):
     (start, stop, num) = g
     a = linspace.linspace(start, stop, num, endpoint=True)
-    a = map(remove_exponent.remove_exponent, a)
-    #l.append(map(str, a))
+    d = map(remove_exponent.remove_exponent, a)
+    #l.append(map(str, d))
     # pylint: disable=consider-using-f-string
-    l.append(map('{:f}'.format, a))
+    l.append(map('{:f}'.format, d))
 
 for x in itertools.product(*l):
     print(' '.join(x))
