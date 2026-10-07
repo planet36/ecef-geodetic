@@ -392,10 +392,10 @@ struct const_angle<angle_unit::milliradian, T>
 {
     using angle = ang_mrad<T>;
     static constexpr angle zero{};
-    static constexpr angle eighth_turn{mrad_per_rad * std::numbers::pi / 4};
-    static constexpr angle quarter_turn{mrad_per_rad * std::numbers::pi / 2};
-    static constexpr angle half_turn{mrad_per_rad * std::numbers::pi};
-    static constexpr angle full_turn{mrad_per_rad * 2 * std::numbers::pi};
+    static constexpr angle eighth_turn{mrad_per_rad * std::numbers::pi_v<T> / 4};
+    static constexpr angle quarter_turn{mrad_per_rad * std::numbers::pi_v<T> / 2};
+    static constexpr angle half_turn{mrad_per_rad * std::numbers::pi_v<T>};
+    static constexpr angle full_turn{mrad_per_rad * 2 * std::numbers::pi_v<T>};
     static constexpr angle inf{T{INFINITY}};
     static constexpr angle nan{T{NAN}};
 };
@@ -410,10 +410,10 @@ struct const_angle<angle_unit::radian, T>
 {
     using angle = ang_rad<T>;
     static constexpr angle zero{};
-    static constexpr angle eighth_turn{std::numbers::pi / 4};
-    static constexpr angle quarter_turn{std::numbers::pi / 2};
-    static constexpr angle half_turn{std::numbers::pi};
-    static constexpr angle full_turn{2 * std::numbers::pi};
+    static constexpr angle eighth_turn{std::numbers::pi_v<T> / 4};
+    static constexpr angle quarter_turn{std::numbers::pi_v<T> / 2};
+    static constexpr angle half_turn{std::numbers::pi_v<T>};
+    static constexpr angle full_turn{2 * std::numbers::pi_v<T>};
     static constexpr angle inf{T{INFINITY}};
     static constexpr angle nan{T{NAN}};
 };
