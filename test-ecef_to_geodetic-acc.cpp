@@ -358,6 +358,10 @@ main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
         read_coords(input_data_coord_system, ecef_vec);
         if (verbose)
             fmt::println(stderr, "done");
+
+        // With no points, every mean distance error would be NaN.
+        if (ecef_vec.empty())
+            errx(EXIT_FAILURE, "no input coordinates");
     }
 
     json_output["num_input_coords"] = ecef_vec.size();
