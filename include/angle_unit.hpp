@@ -34,14 +34,13 @@ template <angle_unit U>
 [[nodiscard]] constexpr std::string_view
 angle_unit_to_string() noexcept
 {
-    if constexpr (U == angle_unit::milliradian) {return "mrad"  ;}
-    if constexpr (U == angle_unit::radian     ) {return "rad"   ;}
-    if constexpr (U == angle_unit::revolution ) {return "rev"   ;}
-    if constexpr (U == angle_unit::degree     ) {return "deg"   ;}
-    if constexpr (U == angle_unit::arcminute  ) {return "arcmin";}
-    if constexpr (U == angle_unit::arcsecond  ) {return "arcsec";}
-
-    __builtin_unreachable();
+    if      constexpr (U == angle_unit::milliradian) {return "mrad"  ;}
+    else if constexpr (U == angle_unit::radian     ) {return "rad"   ;}
+    else if constexpr (U == angle_unit::revolution ) {return "rev"   ;}
+    else if constexpr (U == angle_unit::degree     ) {return "deg"   ;}
+    else if constexpr (U == angle_unit::arcminute  ) {return "arcmin";}
+    else if constexpr (U == angle_unit::arcsecond  ) {return "arcsec";}
+    else static_assert(false, "unhandled angle_unit");
 }
 
 /// in the forward order of angle units, get the next \c angle_unit from \a U
@@ -49,13 +48,13 @@ template <angle_unit U>
 constexpr angle_unit
 angle_unit_forward() noexcept
 {
-    if constexpr (U == angle_unit::milliradian) {return angle_unit::radian    ;}
-    if constexpr (U == angle_unit::radian     ) {return angle_unit::revolution;}
-    if constexpr (U == angle_unit::revolution ) {return angle_unit::degree    ;}
-    if constexpr (U == angle_unit::degree     ) {return angle_unit::arcminute ;}
-    if constexpr (U == angle_unit::arcminute  ) {return angle_unit::arcsecond ;}
-    if constexpr (U == angle_unit::arcsecond  ) {return angle_unit::arcsecond ;} // same
-    __builtin_unreachable();
+    if      constexpr (U == angle_unit::milliradian) {return angle_unit::radian    ;}
+    else if constexpr (U == angle_unit::radian     ) {return angle_unit::revolution;}
+    else if constexpr (U == angle_unit::revolution ) {return angle_unit::degree    ;}
+    else if constexpr (U == angle_unit::degree     ) {return angle_unit::arcminute ;}
+    else if constexpr (U == angle_unit::arcminute  ) {return angle_unit::arcsecond ;}
+    else if constexpr (U == angle_unit::arcsecond  ) {return angle_unit::arcsecond ;} // same
+    else static_assert(false, "unhandled angle_unit");
 }
 
 /// in the reverse order of angle units, get the next \c angle_unit from \a U
@@ -63,13 +62,13 @@ template <angle_unit U>
 constexpr angle_unit
 angle_unit_backward() noexcept
 {
-    if constexpr (U == angle_unit::milliradian) {return angle_unit::milliradian;} // same
-    if constexpr (U == angle_unit::radian     ) {return angle_unit::milliradian;}
-    if constexpr (U == angle_unit::revolution ) {return angle_unit::radian     ;}
-    if constexpr (U == angle_unit::degree     ) {return angle_unit::revolution ;}
-    if constexpr (U == angle_unit::arcminute  ) {return angle_unit::degree     ;}
-    if constexpr (U == angle_unit::arcsecond  ) {return angle_unit::arcminute  ;}
-    __builtin_unreachable();
+    if      constexpr (U == angle_unit::milliradian) {return angle_unit::milliradian;} // same
+    else if constexpr (U == angle_unit::radian     ) {return angle_unit::milliradian;}
+    else if constexpr (U == angle_unit::revolution ) {return angle_unit::radian     ;}
+    else if constexpr (U == angle_unit::degree     ) {return angle_unit::revolution ;}
+    else if constexpr (U == angle_unit::arcminute  ) {return angle_unit::degree     ;}
+    else if constexpr (U == angle_unit::arcsecond  ) {return angle_unit::arcminute  ;}
+    else static_assert(false, "unhandled angle_unit");
 }
 
 /// get the next angle_unit from \a U to \a U2
