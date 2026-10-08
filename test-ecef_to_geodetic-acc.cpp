@@ -48,6 +48,22 @@ const std::string_view glibc_version = gnu_get_libc_version();
 // https://gcc.gnu.org/onlinedocs/cpp/Common-Predefined-Macros.html
 inline constexpr std::string_view gcc_version = __VERSION__;
 
+/// the distance error (m) recorded in place of one that is not finite
+/**
+* It keeps the statistics finite, and it is large enough to make the algorithm's
+* \c ilog10_mean_dist_err 99.
+*/
+inline constexpr double non_finite_dist_err = 99E97;
+
+/// the \c ilog10_mean_dist_err reported when the mean distance error is exactly 0
+inline constexpr int ilog10_mean_dist_err_exact = -99;
+
+/// the \c ilog10_mean_dist_err reported for an inaccurate algorithm
+inline constexpr int ilog10_mean_dist_err_inaccurate = 99;
+
+/// the largest \c ilog10_mean_dist_err of an accurate algorithm
+inline constexpr int max_ilog10_mean_dist_err_accurate = 2;
+
 template <std::floating_point T>
 struct dist_err_stats
 {
@@ -94,7 +110,7 @@ do_ecef_to_geodetic_test_acc_running(const ecef_to_geodetic_func<T>& func,
         auto dist_err = round_trip_dist_err(func, ecef_given);
         if (!std::isfinite(dist_err))
         {
-            dist_err = 99E97;
+            dist_err = non_finite_dist_err;
         }
 
         rs.push(dist_err);
@@ -119,7 +135,7 @@ do_ecef_to_geodetic_test_acc_collect(const ecef_to_geodetic_func<T>& func,
         auto dist_err = round_trip_dist_err(func, ecef_given);
         if (!std::isfinite(dist_err))
         {
-            dist_err = 99E97;
+            dist_err = non_finite_dist_err;
         }
         ms.insert(dist_err);
     }
@@ -206,13 +222,13 @@ main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
     bool do_acc_test = false;
     bool do_single_point_acc_test = false;
     unsigned int num_speed_test_iterations = 0;
-    int max_ilog10_mean_dist_err = 99;
+    int max_ilog10_mean_dist_err = ilog10_mean_dist_err_inaccurate;
     INPUT_DATA_COORD_SYSTEM input_data_coord_system = default_input_data_coord_system;
     bool use_multiple_threads = false;
     bool collect_dist_err = false;
     json json_output;
 
-    const char* short_options = "+va1s:m:gtc";
+    constexpr const char* short_options = "+va1s:m:gtc";
 
     int c = 0;
     while ((c = getopt(argc, argv, short_options)) != -1)
@@ -388,11 +404,9 @@ main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
 
                     int ilog10_mean_dist_err = ilog10(stats.mean);
                     if (stats.mean == 0)
-                        // special value to denote exact algorithms
-                        ilog10_mean_dist_err = -99;
-                    else if (ilog10_mean_dist_err > 2)
-                        // special value to denote inaccurate algorithms
-                        ilog10_mean_dist_err = 99;
+                        ilog10_mean_dist_err = ilog10_mean_dist_err_exact;
+                    else if (ilog10_mean_dist_err > max_ilog10_mean_dist_err_accurate)
+                        ilog10_mean_dist_err = ilog10_mean_dist_err_inaccurate;
 
                     std::lock_guard guard{mtx};
 
@@ -419,11 +433,9 @@ main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
 
                 int ilog10_mean_dist_err = ilog10(stats.mean);
                 if (stats.mean == 0)
-                    // special value to denote exact algorithms
-                    ilog10_mean_dist_err = -99;
-                else if (ilog10_mean_dist_err > 2)
-                    // special value to denote inaccurate algorithms
-                    ilog10_mean_dist_err = 99;
+                    ilog10_mean_dist_err = ilog10_mean_dist_err_exact;
+                else if (ilog10_mean_dist_err > max_ilog10_mean_dist_err_accurate)
+                    ilog10_mean_dist_err = ilog10_mean_dist_err_inaccurate;
 
                 json_output["func_names"][func_name]["acc"] = {
                     {"mean_dist_err", stats.mean},
