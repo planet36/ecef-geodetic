@@ -79,6 +79,7 @@ try
     if (argc > 1)
     {
         // use given functions
+        func_names.reserve(static_cast<std::size_t>(argc - 1));
         for (int i = 1; i < argc; ++i)
         {
             func_names.emplace_back(argv[i]);
@@ -104,6 +105,7 @@ try
     else
     {
         // use all functions
+        func_names.reserve(map_func_name_to_func_info.size());
         for (const auto& [func_name, ignore] : map_func_name_to_func_info)
         {
             func_names.push_back(func_name);
