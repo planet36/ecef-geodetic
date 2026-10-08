@@ -136,7 +136,7 @@ constexpr int lines_common_first_decls = 4;
 constexpr int lines_common_first_decls_checked = 28;
 
 template <std::floating_point T>
-using ecef_to_geodetic_func = std::function<void(const T, const T, const T, T&, T&, T&)>;
+using ecef_to_geodetic_func = void (*)(const T, const T, const T, T&, T&, T&);
 
 struct func_info_t
 {
