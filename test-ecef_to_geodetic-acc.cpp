@@ -116,7 +116,8 @@ struct dist_err_stats
 
 /// get the round-trip distance error (m) of \a func at \a ecef_given
 /**
-* The geodetic result of \a func is converted back to ECEF exactly.
+* The geodetic result of \a func is converted back to ECEF exactly.  An error that is not
+* finite is replaced by \c non_finite_dist_err.
 */
 template <std::floating_point T>
 auto
@@ -130,7 +131,7 @@ round_trip_dist_err(const ecef_to_geodetic_func<T>& func, const ECEF<T>& ecef_gi
     const auto ecef_result = geodetic_to_ecef(geod_result);
     const auto dist_err = euclidean_dist(ecef_given, ecef_result);
 
-    return dist_err;
+    return std::isfinite(dist_err) ? dist_err : static_cast<T>(non_finite_dist_err);
 }
 
 /// get the distance error statistics of \a func over \a ecef_vec from running statistics
@@ -143,13 +144,7 @@ do_ecef_to_geodetic_test_acc_running(const ecef_to_geodetic_func<T>& func,
 
     for (const auto& ecef_given : ecef_vec)
     {
-        auto dist_err = round_trip_dist_err(func, ecef_given);
-        if (!std::isfinite(dist_err))
-        {
-            dist_err = non_finite_dist_err;
-        }
-
-        rs.push(dist_err);
+        rs.push(round_trip_dist_err(func, ecef_given));
     }
 
     return dist_err_stats(rs);
@@ -172,12 +167,7 @@ do_ecef_to_geodetic_test_acc_collect(const ecef_to_geodetic_func<T>& func,
 
     for (const auto& ecef_given : ecef_vec)
     {
-        auto dist_err = round_trip_dist_err(func, ecef_given);
-        if (!std::isfinite(dist_err))
-        {
-            dist_err = non_finite_dist_err;
-        }
-        dist_errs.push_back(dist_err);
+        dist_errs.push_back(round_trip_dist_err(func, ecef_given));
     }
 
     std::ranges::sort(dist_errs);
