@@ -198,6 +198,21 @@ do_ecef_to_geodetic_test_speed(const ecef_to_geodetic_func<T>& func,
     }
 }
 
+/// get the mean time (ns) that \a func takes to convert one point in \a ecef_vec
+template <std::floating_point T>
+double
+measure_time_per_call(const ecef_to_geodetic_func<T>& func,
+                      const std::vector<ECEF<T>>& ecef_vec) noexcept
+{
+    using namespace std::literals;
+
+    const auto t0 = std::chrono::steady_clock::now();
+    do_ecef_to_geodetic_test_speed(func, ecef_vec);
+    const auto t1 = std::chrono::steady_clock::now();
+
+    return ((t1 - t0) / 1.0ns) / ecef_vec.size();
+}
+
 /// print the command-line usage to stderr
 void
 print_usage(const char* program_name)
@@ -555,16 +570,8 @@ main(int argc, char* argv[])
                     {
                         const auto& func_info = map_func_name_to_func_info.at(func_name);
 
-                        const auto t0 = std::chrono::steady_clock::now();
-
-                        do_ecef_to_geodetic_test_speed(func_info.func, ecef_vec);
-
-                        const auto t1 = std::chrono::steady_clock::now();
-
-                        const auto duration = t1 - t0;
-
-                        // (nanoseconds)
-                        const double time_per_call = (duration / 1.0ns) / ecef_vec.size();
+                        const auto time_per_call =
+                            measure_time_per_call(func_info.func, ecef_vec);
 
                         std::lock_guard guard{mtx};
 
@@ -583,16 +590,7 @@ main(int argc, char* argv[])
 
                     const auto& func_info = map_func_name_to_func_info.at(func_name);
 
-                    const auto t0 = std::chrono::steady_clock::now();
-
-                    do_ecef_to_geodetic_test_speed(func_info.func, ecef_vec);
-
-                    const auto t1 = std::chrono::steady_clock::now();
-
-                    const auto duration = t1 - t0;
-
-                    // (nanoseconds)
-                    const double time_per_call = (duration / 1.0ns) / ecef_vec.size();
+                    const auto time_per_call = measure_time_per_call(func_info.func, ecef_vec);
 
                     map_func_name_to_time_per_call[func_name].insert(time_per_call);
                 }
