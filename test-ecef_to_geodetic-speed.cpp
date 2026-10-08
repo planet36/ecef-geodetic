@@ -3,16 +3,20 @@
 
 // test speed of ECEF-to-Geodetic functions
 
+#include "ecef-coord.hpp"
+#include "ecef_to_geodetic-funcs.hpp"
 #include "get_num_threads.hpp"
 #include "map_func_name_to_func_info.hpp"
 #include "read_coords.hpp"
 
 #include <benchmark/benchmark.h>
 #include <concepts>
+#include <cstddef>
 #include <cstdio>
 #include <cstdlib>
 #include <err.h>
 #include <exception>
+#include <fmt/format.h>
 #include <fmt/ranges.h>
 #include <ranges>
 #include <string>
