@@ -34,9 +34,9 @@ collect every error for precise statistics, `-m N` to skip algorithms whose
 10000.  In its JSON, an `ilog10_mean_dist_err` of 99 marks an inaccurate algorithm and -99 an
 exact one.
 
-Both binaries exit with an error message on a malformed input line and when they read no input
-coordinates.  The accuracy binary also exits on an option value that is not an integer in
-range.
+Both binaries exit with an error message on a malformed input line, when they read no input
+coordinates, and on an algorithm name that is unknown or given more than once.  The accuracy
+binary also exits on an option value that is not an integer in range.
 
 The speed binary is a Google Benchmark program that accepts the usual `--benchmark_*` flags and
 requires ECEF input.  `NUM_THREADS` sets how many threads run each benchmark.  It defaults to 1,
