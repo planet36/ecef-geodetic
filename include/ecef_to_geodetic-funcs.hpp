@@ -81,12 +81,15 @@ auto cos_from_sin(const T sin_x) noexcept
 // these are the lines in the function params and after the function body
 //constexpr int lines_to_ignore = 7+2;
 
-// POW2
+/// square
 #define SQ(X)   ((X) * (X))
-// POW3
+/// cube
 #define CB(X)   ((X) * (X) * (X))
+/// fourth power
 #define POW4(X) ((X) * (X) * (X) * (X))
+/// fifth power
 #define POW5(X) ((X) * (X) * (X) * (X) * (X))
+/// sixth power
 #define POW6(X) ((X) * (X) * (X) * (X) * (X) * (X))
 
 // common declarations for the ECEF-to-geodetic functions
