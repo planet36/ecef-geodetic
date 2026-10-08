@@ -188,7 +188,7 @@ do_ecef_to_geodetic_test_acc_collect(const ecef_to_geodetic_func<T>& func,
 * \param collect_dist_err whether to keep every distance error for more precise statistics
 */
 template <std::floating_point T>
-inline auto
+auto
 do_ecef_to_geodetic_test_acc(const ecef_to_geodetic_func<T>& func,
                              const std::vector<ECEF<T>>& ecef_vec,
                              const bool collect_dist_err)
