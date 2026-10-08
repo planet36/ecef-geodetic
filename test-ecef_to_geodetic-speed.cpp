@@ -3,17 +3,16 @@
 
 // test speed of ECEF-to-Geodetic functions
 
+#include "get_num_threads.hpp"
 #include "map_func_name_to_func_info.hpp"
 #include "read_coords.hpp"
 
-#include <algorithm>
 #include <benchmark/benchmark.h>
 #include <concepts>
 #include <cstdlib>
 #include <fmt/ranges.h>
 #include <ranges>
 #include <string>
-#include <thread>
 #include <vector>
 
 template <std::floating_point T>
@@ -56,34 +55,7 @@ main(int argc, char* argv[])
         return 1;
     */
 
-    // {{{ determine num_threads
-
-    constexpr int min_threads = 1;
-    const auto max_threads =
-        std::max(min_threads, static_cast<int>(std::thread::hardware_concurrency()));
-    // https://en.wikipedia.org/wiki/Elvis_operator
-    //const auto max_threads = static_cast<int>(std::thread::hardware_concurrency()) ?: min_threads;
-
-    auto num_threads = min_threads;
-
-    try
-    {
-        num_threads = std::stoi(std::getenv("NUM_THREADS"));
-    }
-    catch (...)
-    {
-        num_threads = min_threads;
-    }
-
-    num_threads = std::clamp(num_threads, min_threads, max_threads);
-
-    /*
-    if (num_threads > min_threads)
-        // Don't use all the cores
-        --num_threads;
-    */
-
-    // }}}
+    const int num_threads = get_num_threads();
 
     std::vector<std::string> func_names;
 
