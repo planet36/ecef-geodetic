@@ -30,10 +30,18 @@ NUM_THREADS=1 ./test-ecef_to_geodetic-speed olson_1996 sedris < ecef.2d.speed.tx
 The accuracy binary's flags are `-a` for the accuracy test, `-1` for the single-point test,
 `-g` when stdin holds geodetic rather than ECEF points, `-t` for multiple threads, `-c` to
 collect every error for precise statistics, `-m N` to skip algorithms whose
-`ilog10_mean_dist_err` exceeds N, and `-s N` for N rounds of a built-in speed test.  In its
-JSON, an `ilog10_mean_dist_err` of 99 marks an inaccurate algorithm and -99 an exact one.  The
-binary exits if it reads no input coordinates.  The speed binary is a Google Benchmark program
-that accepts the usual `--benchmark_*` flags and requires ECEF input.
+`ilog10_mean_dist_err` exceeds N, and `-s N` for N rounds of a built-in speed test, up to
+10000.  In its JSON, an `ilog10_mean_dist_err` of 99 marks an inaccurate algorithm and -99 an
+exact one.
+
+Both binaries exit with an error message on a malformed input line.  The accuracy binary also
+exits on an option value that is not an integer in range, and when it reads no input
+coordinates.
+
+The speed binary is a Google Benchmark program that accepts the usual `--benchmark_*` flags and
+requires ECEF input.  `NUM_THREADS` sets how many threads run each benchmark.  It defaults to 1,
+0 means one per hardware thread, and a value that is not an integer from 0 to the number of
+hardware threads is an error.
 
 `make acc` and `make speed` write timestamped JSON into `results/` and embed the compile
 options, which the build extracts from the binary with `readelf` into `*.opts`.  Combine an
