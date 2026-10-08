@@ -149,7 +149,7 @@ read_coords(const INPUT_DATA_COORD_SYSTEM input_data_coord_system,
             std::vector<Geodetic<angle_unit::degree, T>> geod_vec;
             read_coords_geod(geod_vec);
 
-            ecef_vec.reserve(geod_vec.size());
+            ecef_vec.reserve(ecef_vec.size() + geod_vec.size());
 
             for (const auto& geod : geod_vec)
             {
