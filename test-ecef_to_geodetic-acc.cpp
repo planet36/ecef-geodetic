@@ -473,7 +473,7 @@ main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
         std::mt19937_64 rng(seeder);
 
         // Used for padding the output string
-        const size_t max_strlen_num_speed_test_iterations =
+        const std::size_t max_strlen_num_speed_test_iterations =
             std::to_string(num_speed_test_iterations).size();
 
         // Used to estimate time remaining (minutes)
