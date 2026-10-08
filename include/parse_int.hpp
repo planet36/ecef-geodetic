@@ -55,7 +55,7 @@ template <from_chars_integral T = int>
 parse_int(std::string_view s,
           const T min = std::numeric_limits<T>::min(),
           const T max = std::numeric_limits<T>::max(),
-          int base = 10)
+          int base = 10) noexcept
 {
     if (base == 0)
     {
