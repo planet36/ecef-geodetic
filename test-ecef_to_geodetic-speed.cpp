@@ -121,9 +121,13 @@ try
     {
         const auto& func_info = map_func_name_to_func_info.at(func_name);
 
+        // Passing ecef_vec as an extra argument would copy it into every benchmark.  The
+        // reference is safe because ecef_vec outlives RunSpecifiedBenchmarks.
         benchmark::RegisterBenchmark(func_info.display_name,
-                                     &BM_do_ecef_to_geodetic_test_speed<double>,
-                                     func_info.func, ecef_vec)->Threads(num_threads);
+            [func = func_info.func, &ecef_vec](benchmark::State& BM_state)
+            {
+                BM_do_ecef_to_geodetic_test_speed(BM_state, func, ecef_vec);
+            })->Threads(num_threads);
     }
 
     benchmark::RunSpecifiedBenchmarks();
