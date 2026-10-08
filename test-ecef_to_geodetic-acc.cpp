@@ -392,12 +392,12 @@ main(int argc, char* argv[])
 
     // filter out the functions whose hard-coded ilog10_mean_dist_err exceeds
     // max_ilog10_mean_dist_err
-    erase_if(func_names,
-             [max_ilog10_mean_dist_err](const auto& func_name)
-             {
-                 const auto it = map_func_name_to_func_info.find(func_name);
-                 return it->second.ilog10_mean_dist_err > max_ilog10_mean_dist_err;
-             });
+    std::erase_if(func_names,
+                  [max_ilog10_mean_dist_err](const auto& func_name)
+                  {
+                      const auto& func_info = map_func_name_to_func_info.at(func_name);
+                      return func_info.ilog10_mean_dist_err > max_ilog10_mean_dist_err;
+                  });
 
     for (const auto& func_name : func_names)
     {
