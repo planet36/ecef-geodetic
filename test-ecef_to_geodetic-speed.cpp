@@ -17,9 +17,6 @@
 #include <cstdlib>
 #include <err.h>
 #include <exception>
-#include <fmt/format.h>
-#include <fmt/ranges.h>
-#include <ranges>
 #include <string>
 #include <vector>
 

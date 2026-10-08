@@ -30,7 +30,6 @@
 #include <execution>
 #include <fmt/chrono.h>
 #include <fmt/format.h>
-#include <fmt/ranges.h>
 #include <gnu/libc-version.h>
 #include <map>
 #include <mutex>
