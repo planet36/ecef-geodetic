@@ -1049,9 +1049,8 @@ fmod_remainder(const angle<U, T>& a1, const angle<U2, T2>& a2) noexcept
     return fmod_remainder(a1.template to<result_type>(), a2.template to<U, result_type>());
 }
 
-/// normalize the angle
+/// normalize the angle to the interval [-0.5, 0.5] revolutions
 /**
-* The result will be within the interval [-0.5, 0.5] revolutions.
 * \param[in,out] a the angle
 */
 template <angle_unit U, std::floating_point T>
@@ -1061,9 +1060,8 @@ normalize_angle_signed(angle<U, T>& a) noexcept
     a = ieee_remainder(a, const_angle<U, T>::full_turn);
 }
 
-/// normalize the angle
+/// normalize the angle to the interval [0, 1] revolutions
 /**
-* The result will be within the interval [0, 1] revolutions.
 * \param[in,out] a the angle
 */
 template <angle_unit U, std::floating_point T>

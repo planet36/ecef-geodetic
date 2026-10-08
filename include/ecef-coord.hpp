@@ -105,9 +105,9 @@ struct ECEF
 {
     using this_t = ECEF<T>;
 
-    T x{}; // X coordinate (meters)
-    T y{}; // Y coordinate (meters)
-    T z{}; // Z coordinate (meters)
+    T x{}; ///< X coordinate (meters)
+    T y{}; ///< Y coordinate (meters)
+    T z{}; ///< Z coordinate (meters)
 
     ECEF() = default;
 

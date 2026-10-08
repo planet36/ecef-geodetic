@@ -169,7 +169,7 @@ struct Ellipsoid
         return a / d;
     }
 
-    /**
+    /*
     * Derivation of ellipsoid radius:
     *
     * https://en.wikipedia.org/wiki/Ellipse#Polar_form_relative_to_center
