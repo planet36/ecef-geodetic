@@ -151,29 +151,29 @@ struct func_info_t
     const std::string url;
     const std::string citation;
 
-    func_info_t(const ecef_to_geodetic_func<double>& _func,
+    func_info_t(const ecef_to_geodetic_func<double> _func,
                 const int          _num_lines,
                 const bool         _needs_code_for_corner_cases,
                 const int          _ilog10_mean_dist_err,
-                const std::string& _display_name,
-                const std::string& _algo_author,
-                const std::string& _code_copyright,
-                const std::string& _license,
-                const std::string& _orig_impl_lang,
-                const std::string& _url,
-                const std::string& _citation
+                std::string        _display_name,
+                std::string        _algo_author,
+                std::string        _code_copyright,
+                std::string        _license,
+                std::string        _orig_impl_lang,
+                std::string        _url,
+                std::string        _citation
             ):
         func                       (_func                       ),
         num_lines                  (_num_lines                  ),
         needs_code_for_corner_cases(_needs_code_for_corner_cases),
         ilog10_mean_dist_err       (_ilog10_mean_dist_err       ),
-        display_name               (_display_name               ),
-        algo_author                (_algo_author                ),
-        code_copyright             (_code_copyright             ),
-        license                    (_license                    ),
-        orig_impl_lang             (_orig_impl_lang             ),
-        url                        (_url                        ),
-        citation                   (_citation                   )
+        display_name               (std::move(_display_name)    ),
+        algo_author                (std::move(_algo_author)     ),
+        code_copyright             (std::move(_code_copyright)  ),
+        license                    (std::move(_license)         ),
+        orig_impl_lang             (std::move(_orig_impl_lang)  ),
+        url                        (std::move(_url)             ),
+        citation                   (std::move(_citation)        )
     {
         if (needs_code_for_corner_cases)
             num_lines += lines_common_first_decls_checked;
