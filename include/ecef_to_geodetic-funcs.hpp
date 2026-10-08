@@ -39,7 +39,7 @@ constexpr auto ell = WGS84<double>;
 * \return the 2D hypotenuse
 */
 template <std::floating_point T>
-auto fast_hypot(const T x, const T y)
+auto fast_hypot(const T x, const T y) noexcept
 {
 #if 0
     // SDW: this is a little more accurate, but much slower
@@ -58,7 +58,7 @@ auto fast_hypot(const T x, const T y)
 * \param[in,out] y the Y coordinate
 */
 template <std::floating_point T>
-void normalize(T& x, T& y)
+void normalize(T& x, T& y) noexcept
 {
     const auto h = fast_hypot(x, y);
     x /= h;
@@ -73,7 +73,7 @@ void normalize(T& x, T& y)
 * \return the cosine of the angle
 */
 template <std::floating_point T>
-auto cos_from_sin(const T sin_x)
+auto cos_from_sin(const T sin_x) noexcept
 {
     return std::sqrt(1 - sin_x * sin_x);
 }
@@ -266,7 +266,7 @@ struct func_info_t
 /// get f, f′
 template <std::floating_point T>
 void get_f_fp(const T w, const T z, const T sin_lat, const T cos_lat,
-              T& f, T& fp)
+              T& f, T& fp) noexcept
 {
     const auto d2 = 1 - ell.e2 * sin_lat * sin_lat;
     const auto d = std::sqrt(d2);
@@ -280,7 +280,7 @@ constexpr int lines_f_fp = 10;
 /// get f, f′, f″
 template <std::floating_point T>
 void get_f_fp_fpp(const T w, const T z, const T sin_lat, const T cos_lat,
-                  T& f, T& fp, T& fpp)
+                  T& f, T& fp, T& fpp) noexcept
 {
     const auto d2 = 1 - ell.e2 * sin_lat * sin_lat;
     const auto d = std::sqrt(d2);
@@ -295,7 +295,7 @@ constexpr int lines_f_fp_fpp = 12;
 
 template <std::floating_point T>
 auto newton_raphson_delta_lat(const T w, const T z,
-                              const T sin_lat, const T cos_lat)
+                              const T sin_lat, const T cos_lat) noexcept
 {
     T f, fp;
     get_f_fp(w, z, sin_lat, cos_lat, f, fp);
@@ -306,7 +306,7 @@ constexpr int lines_newton_raphson_delta_lat = 8 + lines_f_fp;
 
 template <std::floating_point T>
 auto householder_delta_lat(const T w, const T z,
-                           const T sin_lat, const T cos_lat)
+                           const T sin_lat, const T cos_lat) noexcept
 {
     T f, fp, fpp;
     get_f_fp_fpp(w, z, sin_lat, cos_lat, f, fp, fpp);
@@ -317,7 +317,7 @@ constexpr int lines_householder_delta_lat = 8 + lines_f_fp_fpp;
 
 template <std::floating_point T>
 auto schroder_delta_lat(const T w, const T z,
-                        const T sin_lat, const T cos_lat)
+                        const T sin_lat, const T cos_lat) noexcept
 {
     T f, fp, fpp;
     get_f_fp_fpp(w, z, sin_lat, cos_lat, f, fp, fpp);
@@ -328,7 +328,7 @@ constexpr int lines_schroder_delta_lat = 8 + lines_f_fp_fpp;
 
 template <std::floating_point T>
 auto halley_delta_lat(const T w, const T z,
-                      const T sin_lat, const T cos_lat)
+                      const T sin_lat, const T cos_lat) noexcept
 {
     T f, fp, fpp;
     get_f_fp_fpp(w, z, sin_lat, cos_lat, f, fp, fpp);
@@ -339,25 +339,25 @@ constexpr int lines_halley_delta_lat = 8 + lines_f_fp_fpp;
 
 template <std::floating_point T>
 auto ligas_f1(const T w, const T we,
-              const T z, const T ze)
+              const T z, const T ze) noexcept
 {
     return (1 - ell.e2) * we * (ze - z) - ze * (we - w);
 }
 
 template <std::floating_point T>
-auto ligas_f2(const T we, const T ze)
+auto ligas_f2(const T we, const T ze) noexcept
 {
     return (1 - ell.e2) * we * we + ze * ze - ell.b2;
 }
 
 template <std::floating_point T>
-auto det(const T A[2][2])
+auto det(const T A[2][2]) noexcept
 {
     return A[0][0] * A[1][1] - A[0][1] * A[1][0];
 }
 
 template <std::floating_point T>
-void inv(const T A[2][2], T result[2][2])
+void inv(const T A[2][2], T result[2][2]) noexcept
 {
     const auto d = det(A);
 
@@ -368,7 +368,7 @@ void inv(const T A[2][2], T result[2][2])
 }
 
 template <std::floating_point T>
-void mul(const T A[2][2], const T X[2], T result[2])
+void mul(const T A[2][2], const T X[2], T result[2]) noexcept
 {
     result[0] = A[0][0] * X[0] + A[0][1] * X[1];
     result[1] = A[1][0] * X[0] + A[1][1] * X[1];
@@ -376,7 +376,7 @@ void mul(const T A[2][2], const T X[2], T result[2])
 
 template <std::floating_point T>
 void ligas_Jacobian(const T w, const T we, const T z, const T ze,
-                    T result[2][2])
+                    T result[2][2]) noexcept
 {
     result[0][0] = (1 - ell.e2) * (ze - z) - ze;
     result[0][1] = (1 - ell.e2) * we - (we - w);
@@ -387,7 +387,7 @@ void ligas_Jacobian(const T w, const T we, const T z, const T ze,
 constexpr int lines_ligas_util = 46;
 
 template <std::floating_point T>
-auto lin_wang_1995_delta_m(const T w2, const T z2, const T m)
+auto lin_wang_1995_delta_m(const T w2, const T z2, const T m) noexcept
 {
     const auto tmp_a = ell.a + 2 * m / ell.a;
     const auto tmp_b = ell.b + 2 * m / ell.b;
@@ -402,7 +402,7 @@ auto lin_wang_1995_delta_m(const T w2, const T z2, const T m)
 constexpr int lines_lin_wang_1995_delta_m = 11;
 
 template <std::floating_point T>
-auto shu_2010_delta_k(const T w2, const T z2, const T k)
+auto shu_2010_delta_k(const T w2, const T z2, const T k) noexcept
 {
     const auto p = ell.a + ell.b * k;
     const auto q = ell.b + ell.a * k;
@@ -419,7 +419,7 @@ auto shu_2010_delta_k(const T w2, const T z2, const T k)
 constexpr int lines_shu_2010_delta_k = 13;
 
 template <std::floating_point T>
-auto wu_2003_delta_t(const T A, const T B, const T C, const T t)
+auto wu_2003_delta_t(const T A, const T B, const T C, const T t) noexcept
 {
     const auto t2 = t * t;
     const auto t3 = t * t * t;
@@ -439,7 +439,7 @@ namespace borkowski_1989
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -514,7 +514,7 @@ constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -562,7 +562,7 @@ constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -618,7 +618,7 @@ constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -669,7 +669,7 @@ constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -728,7 +728,7 @@ constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -787,7 +787,7 @@ constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -853,21 +853,21 @@ namespace fukushima_1999_x1
 constexpr int max_iterations = 1;
 
 template <std::floating_point T>
-auto f(const T t, const T u, const T v, const T w)
+auto f(const T t, const T u, const T v, const T w) noexcept
 {
     // w * t⁴ + u * t³ + v * t - w
     return w * t * t * t * t + u * t * t * t + v * t - w;
 }
 
 template <std::floating_point T>
-auto fp(const T t, const T u, const T v, const T w)
+auto fp(const T t, const T u, const T v, const T w) noexcept
 {
     // 4 * w * t³ + 3 * u * t² + v
     return 4 * w * t * t * t + 3 * u * t * t + v;
 }
 
 template <std::floating_point T>
-auto fpp(const T t, const T u, [[maybe_unused]] const T v, const T w)
+auto fpp(const T t, const T u, [[maybe_unused]] const T v, const T w) noexcept
 {
     // 12 * w * t² + 6 * u * t
     return 12 * w * t * t + 6 * u * t;
@@ -875,7 +875,7 @@ auto fpp(const T t, const T u, [[maybe_unused]] const T v, const T w)
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -989,21 +989,21 @@ namespace fukushima_1999_customht_x1
 constexpr int max_iterations = 1;
 
 template <std::floating_point T>
-auto f(const T t, const T u, const T v, const T w)
+auto f(const T t, const T u, const T v, const T w) noexcept
 {
     // w * t⁴ + u * t³ + v * t - w
     return w * t * t * t * t + u * t * t * t + v * t - w;
 }
 
 template <std::floating_point T>
-auto fp(const T t, const T u, const T v, const T w)
+auto fp(const T t, const T u, const T v, const T w) noexcept
 {
     // 4 * w * t³ + 3 * u * t² + v
     return 4 * w * t * t * t + 3 * u * t * t + v;
 }
 
 template <std::floating_point T>
-auto fpp(const T t, const T u, [[maybe_unused]] const T v, const T w)
+auto fpp(const T t, const T u, [[maybe_unused]] const T v, const T w) noexcept
 {
     // 12 * w * t² + 6 * u * t
     return 12 * w * t * t + 6 * u * t;
@@ -1011,7 +1011,7 @@ auto fpp(const T t, const T u, [[maybe_unused]] const T v, const T w)
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -1126,7 +1126,7 @@ constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -1192,7 +1192,7 @@ constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -1258,7 +1258,7 @@ namespace geographiclib
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -1432,7 +1432,7 @@ namespace geographiclib_customht
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -1607,7 +1607,7 @@ namespace geotransformCpp
 constexpr int line_begin = __LINE__;
 //void Gcc_To_Gdc_Converter::Convert(int count, const Gcc_Coord_3d gcc[], Gdc_Coord_3d gdc[] )
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -1865,7 +1865,7 @@ namespace geotransformCpp_customht
 constexpr int line_begin = __LINE__;
 //void Gcc_To_Gdc_Converter::Convert(int count, const Gcc_Coord_3d gcc[], Gdc_Coord_3d gdc[] )
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -2122,7 +2122,7 @@ namespace gersten_1961
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -2184,7 +2184,7 @@ constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -2231,7 +2231,7 @@ constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -2278,7 +2278,7 @@ constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -2329,7 +2329,7 @@ constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -2378,7 +2378,7 @@ namespace heikkinen_1982
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -2457,7 +2457,7 @@ namespace heikkinen_1982_customht
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -2538,7 +2538,7 @@ constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -2585,7 +2585,7 @@ constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -2632,7 +2632,7 @@ constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -2683,7 +2683,7 @@ constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -2732,7 +2732,7 @@ namespace jat_geodetic
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -2800,7 +2800,7 @@ constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -2888,7 +2888,7 @@ constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -2958,7 +2958,7 @@ constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -3028,7 +3028,7 @@ constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -3096,7 +3096,7 @@ constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -3165,7 +3165,7 @@ constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -3235,7 +3235,7 @@ constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -3302,7 +3302,7 @@ namespace long_1974
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -3354,7 +3354,7 @@ constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -3409,7 +3409,7 @@ constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -3464,7 +3464,7 @@ constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -3519,7 +3519,7 @@ constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -3574,7 +3574,7 @@ constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -3621,7 +3621,7 @@ constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -3668,7 +3668,7 @@ constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -3719,7 +3719,7 @@ constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -3768,7 +3768,7 @@ namespace olson_1996
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -3860,7 +3860,7 @@ namespace olson_1996_customht
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -3960,13 +3960,13 @@ struct Vector3D
 
     Vector3D() = default;
 
-    Vector3D(const T _x, const T _y, const T _z): x(_x), y(_y), z(_z) {}
+    Vector3D(const T _x, const T _y, const T _z) noexcept: x(_x), y(_y), z(_z) {}
 
-    auto length_sq() const { return x * x + y * y + z * z; }
+    auto length_sq() const noexcept { return x * x + y * y + z * z; }
 
-    auto length() const { return std::sqrt(length_sq()); }
+    auto length() const noexcept { return std::sqrt(length_sq()); }
 
-    auto normalize() const
+    auto normalize() const noexcept
     {
         const auto l = length();
 
@@ -3976,19 +3976,19 @@ struct Vector3D
         return this->scale(1 / l);
     }
 
-    auto scale(const T s) const { return Vector3D<T>{x * s, y * s, z * s}; }
+    auto scale(const T s) const noexcept { return Vector3D<T>{x * s, y * s, z * s}; }
 
-    auto dot(const Vector3D<T>& that) const
+    auto dot(const Vector3D<T>& that) const noexcept
     {
         return this->x * that.x + this->y * that.y + this->z * that.z;
     }
 
-    auto subtract(const Vector3D<T>& that) const
+    auto subtract(const Vector3D<T>& that) const noexcept
     {
         return Vector3D<T>{this->x - that.x, this->y - that.y, this->z - that.z};
     }
 
-    auto multiply(const Vector3D<T>& that) const
+    auto multiply(const Vector3D<T>& that) const noexcept
     {
         return Vector3D<T>{this->x * that.x, this->y * that.y, this->z * that.z};
     }
@@ -4002,7 +4002,7 @@ struct Geodetic2D
 
     Geodetic2D() = default;
 
-    Geodetic2D(const T _lat_rad, const T _lon_rad):
+    Geodetic2D(const T _lat_rad, const T _lon_rad) noexcept:
     lat_rad(_lat_rad), lon_rad(_lon_rad)
     {}
 };
@@ -4016,17 +4016,17 @@ struct Geodetic3D
 
     Geodetic3D() = default;
 
-    Geodetic3D(const T _lat_rad, const T _lon_rad, const T _ht):
+    Geodetic3D(const T _lat_rad, const T _lon_rad, const T _ht) noexcept:
     lat_rad(_lat_rad), lon_rad(_lon_rad), ht(_ht)
     {}
 
-    Geodetic3D(const Geodetic2D<T>& g, T _ht = 0):
+    Geodetic3D(const Geodetic2D<T>& g, T _ht = 0) noexcept:
     lat_rad(g.lat_rad), lon_rad(g.lon_rad), ht(_ht)
     {}
 };
 
 template <std::floating_point T>
-auto ScaleToGeodeticSurface(const Vector3D<T>& position)
+auto ScaleToGeodeticSurface(const Vector3D<T>& position) noexcept
 {
     const auto x = position.x;
     const auto y = position.y;
@@ -4081,7 +4081,7 @@ auto ScaleToGeodeticSurface(const Vector3D<T>& position)
 }
 
 template <std::floating_point T>
-auto GeodeticSurfaceNormal(const Vector3D<T>& positionOnEllipsoid)
+auto GeodeticSurfaceNormal(const Vector3D<T>& positionOnEllipsoid) noexcept
 {
     return positionOnEllipsoid.multiply(Vector3D<T>{
                 1 / ell.a2,
@@ -4090,7 +4090,7 @@ auto GeodeticSurfaceNormal(const Vector3D<T>& positionOnEllipsoid)
 }
 
 template <std::floating_point T>
-auto ToGeodetic2D(const Vector3D<T>& positionOnEllipsoid)
+auto ToGeodetic2D(const Vector3D<T>& positionOnEllipsoid) noexcept
 {
     auto n = GeodeticSurfaceNormal(positionOnEllipsoid);
     return Geodetic2D<T>{
@@ -4100,7 +4100,7 @@ auto ToGeodetic2D(const Vector3D<T>& positionOnEllipsoid)
 }
 
 template <std::floating_point T>
-auto ToGeodetic3D(const Vector3D<T>& position)
+auto ToGeodetic3D(const Vector3D<T>& position) noexcept
 {
     const auto p = ScaleToGeodeticSurface(position);
     const auto h = position.subtract(p);
@@ -4111,7 +4111,7 @@ auto ToGeodetic3D(const Vector3D<T>& position)
 }
 
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
     const Vector3D<double> position{x, y, z};
     const auto result = ToGeodetic3D(position);
@@ -4147,7 +4147,7 @@ namespace ozone_1985
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS_CHECKED
 
@@ -4211,7 +4211,7 @@ namespace paul_1973
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -4294,7 +4294,7 @@ constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -4371,7 +4371,7 @@ constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -4429,7 +4429,7 @@ constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -4487,7 +4487,7 @@ constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -4553,7 +4553,7 @@ constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -4619,7 +4619,7 @@ constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -4666,7 +4666,7 @@ constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -4713,7 +4713,7 @@ constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -4764,7 +4764,7 @@ constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -4813,7 +4813,7 @@ namespace sedris
 
 constexpr int line_begin = __LINE__;
 template <std::floating_point T>
-auto gee(const T h, const T rn)
+auto gee(const T h, const T rn) noexcept
 {
     return (rn + h) / ((1 - ell.e2) * rn + h);
 }
@@ -4836,7 +4836,7 @@ struct SRM_GC_GD_Specific_Constants
 };
 
 template <std::floating_point T>
-void set_gc_to_gd_constants(SRM_GC_GD_Specific_Constants<T>& gc_gd_spec)
+void set_gc_to_gd_constants(SRM_GC_GD_Specific_Constants<T>& gc_gd_spec) noexcept
 {
     /*old function prototype
     void tf_set_gc_to_gd_constants
@@ -4991,7 +4991,7 @@ Algorithm derived by Ralph Toms, SRI.
     //const double          source_generic_coord[4],
     //double          dest_generic_coord[4],
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -5409,7 +5409,7 @@ namespace sedris_customht
 
 constexpr int line_begin = __LINE__;
 template <std::floating_point T>
-auto gee(const T h, const T rn)
+auto gee(const T h, const T rn) noexcept
 {
     return (rn + h) / ((1 - ell.e2) * rn + h);
 }
@@ -5432,7 +5432,7 @@ struct SRM_GC_GD_Specific_Constants
 };
 
 template <std::floating_point T>
-void set_gc_to_gd_constants(SRM_GC_GD_Specific_Constants<T>& gc_gd_spec)
+void set_gc_to_gd_constants(SRM_GC_GD_Specific_Constants<T>& gc_gd_spec) noexcept
 {
     /*old function prototype
     void tf_set_gc_to_gd_constants
@@ -5587,7 +5587,7 @@ Algorithm derived by Ralph Toms, SRI.
     //const double          source_generic_coord[4],
     //double          dest_generic_coord[4],
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -6007,7 +6007,7 @@ constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -6063,7 +6063,7 @@ constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -6120,7 +6120,7 @@ constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -6178,7 +6178,7 @@ constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -6233,7 +6233,7 @@ namespace sofair_1993
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -6317,7 +6317,7 @@ namespace sofair_2000
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -6392,7 +6392,7 @@ namespace sudano_1997
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -6473,7 +6473,7 @@ namespace turner_2013
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -6574,7 +6574,7 @@ namespace vermeille_2004
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -6632,7 +6632,7 @@ namespace vermeille_2004_customht
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -6690,7 +6690,7 @@ namespace vermeille_2011
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -6800,7 +6800,7 @@ namespace vermeille_2011_customht
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -6912,7 +6912,7 @@ constexpr int max_iterations = 1;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS_CHECKED
 
@@ -6991,7 +6991,7 @@ constexpr int max_iterations = 2;
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS_CHECKED
 
@@ -7068,7 +7068,7 @@ namespace zhang_2005
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
@@ -7171,7 +7171,7 @@ namespace zhu_1993
 
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
-                             double& lat_rad, double& lon_rad, double& ht)
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
 {
 COMMON_FIRST_DECLS
 
