@@ -65,6 +65,22 @@ inline constexpr int ilog10_mean_dist_err_inaccurate = 99;
 /// the largest \c ilog10_mean_dist_err of an accurate algorithm
 inline constexpr int max_ilog10_mean_dist_err_accurate = 2;
 
+/// get the \c ilog10_mean_dist_err to report for a mean distance error (m)
+template <std::floating_point T>
+constexpr int
+reported_ilog10_mean_dist_err(const T mean_dist_err) noexcept
+{
+    if (mean_dist_err == 0)
+        return ilog10_mean_dist_err_exact;
+
+    const int ilog10_mean_dist_err = ilog10(mean_dist_err);
+
+    if (ilog10_mean_dist_err > max_ilog10_mean_dist_err_accurate)
+        return ilog10_mean_dist_err_inaccurate;
+
+    return ilog10_mean_dist_err;
+}
+
 /// statistics of the distance errors (m) of one algorithm
 template <std::floating_point T>
 struct dist_err_stats
@@ -83,6 +99,19 @@ struct dist_err_stats
     max(rs.max_abs()),
     sum(rs.sum_abs())
     {}
+
+    /// format the statistics as the accuracy test reports them
+    [[nodiscard]] nlohmann::json
+    to_json() const
+    {
+        return {
+            {"mean_dist_err", mean},
+            {"stdev_dist_err", stdev},
+            {"max_dist_err", max},
+            {"sum_dist_err", sum},
+            {"ilog10_mean_dist_err", reported_ilog10_mean_dist_err(mean)},
+        };
+    }
 };
 
 /// get the round-trip distance error (m) of \a func at \a ecef_given
@@ -443,21 +472,9 @@ main(int argc, char* argv[])
                     const auto stats = do_ecef_to_geodetic_test_acc(func_info.func, ecef_vec,
                                                                     collect_dist_err);
 
-                    int ilog10_mean_dist_err = ilog10(stats.mean);
-                    if (stats.mean == 0)
-                        ilog10_mean_dist_err = ilog10_mean_dist_err_exact;
-                    else if (ilog10_mean_dist_err > max_ilog10_mean_dist_err_accurate)
-                        ilog10_mean_dist_err = ilog10_mean_dist_err_inaccurate;
-
                     std::lock_guard guard{mtx};
 
-                    json_output["func_names"][func_name]["acc"] = {
-                        {"mean_dist_err", stats.mean},
-                        {"stdev_dist_err", stats.stdev},
-                        {"max_dist_err", stats.max},
-                        {"sum_dist_err", stats.sum},
-                        {"ilog10_mean_dist_err", ilog10_mean_dist_err},
-                    };
+                    json_output["func_names"][func_name]["acc"] = stats.to_json();
                 });
         }
         else
@@ -472,19 +489,7 @@ main(int argc, char* argv[])
                 const auto stats =
                     do_ecef_to_geodetic_test_acc(func_info.func, ecef_vec, collect_dist_err);
 
-                int ilog10_mean_dist_err = ilog10(stats.mean);
-                if (stats.mean == 0)
-                    ilog10_mean_dist_err = ilog10_mean_dist_err_exact;
-                else if (ilog10_mean_dist_err > max_ilog10_mean_dist_err_accurate)
-                    ilog10_mean_dist_err = ilog10_mean_dist_err_inaccurate;
-
-                json_output["func_names"][func_name]["acc"] = {
-                    {"mean_dist_err", stats.mean},
-                    {"stdev_dist_err", stats.stdev},
-                    {"max_dist_err", stats.max},
-                    {"sum_dist_err", stats.sum},
-                    {"ilog10_mean_dist_err", ilog10_mean_dist_err},
-                };
+                json_output["func_names"][func_name]["acc"] = stats.to_json();
             }
         }
 
