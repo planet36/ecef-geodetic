@@ -9,7 +9,10 @@
 
 #include <benchmark/benchmark.h>
 #include <concepts>
+#include <cstdio>
 #include <cstdlib>
+#include <err.h>
+#include <exception>
 #include <fmt/ranges.h>
 #include <ranges>
 #include <string>
@@ -44,6 +47,7 @@ BM_do_ecef_to_geodetic_test_speed(benchmark::State& BM_state,
 
 int
 main(int argc, char* argv[])
+try
 {
     // Copied from benchmark.h
     benchmark::MaybeReenterWithoutASLR(argc, argv);
@@ -110,4 +114,9 @@ main(int argc, char* argv[])
     benchmark::Shutdown();
 
     return 0;
+}
+catch (const std::exception& ex)
+{
+    (void)std::fflush(stdout);
+    errx(EXIT_FAILURE, "%s", ex.what());
 }
