@@ -31,6 +31,7 @@
 #include <fmt/format.h>
 #include <fmt/ranges.h>
 #include <gnu/libc-version.h>
+#include <limits>
 #include <map>
 #include <mutex>
 #include <nlohmann/json.hpp>
@@ -305,7 +306,8 @@ try
             break;
 
         case 's':
-            num_speed_test_iterations = parse_option_int(optarg, "-s");
+            num_speed_test_iterations =
+                parse_option_int(optarg, 0, std::numeric_limits<int>::max(), "-s");
             break;
 
         case 'm':
