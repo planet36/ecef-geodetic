@@ -100,6 +100,10 @@ try
     std::vector<ECEF<double>> ecef_vec;
     read_coords_ecef(ecef_vec);
 
+    // With no points, the benchmark loop would read past the end of ecef_vec.
+    if (ecef_vec.empty())
+        errx(EXIT_FAILURE, "no input coordinates");
+
     for (const auto& func_name : func_names)
     {
         const auto& func_info = map_func_name_to_func_info.at(func_name);
