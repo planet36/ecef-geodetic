@@ -25,6 +25,9 @@
 *
 * The program exits if \c NUM_THREADS is not an integer in the interval from 0 to the number
 * of hardware threads.
+*
+* When the number of hardware threads cannot be determined, the count is always 1, and
+* \c NUM_THREADS may only be 0 or 1.
 * \return the thread count, from 1 to the number of hardware threads
 */
 [[nodiscard]] inline int
