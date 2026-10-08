@@ -116,7 +116,7 @@ enum struct INPUT_DATA_COORD_SYSTEM
 };
 
 [[nodiscard]] inline std::string_view
-to_string(const INPUT_DATA_COORD_SYSTEM& x) noexcept
+to_string(const INPUT_DATA_COORD_SYSTEM x) noexcept
 {
     switch (x)
     {
