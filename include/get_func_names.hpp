@@ -34,7 +34,7 @@
 * \param first_arg the index in \a argv of the first algorithm name
 * \pre \a first_arg is from 1 to \a argc
 * \return the names in the order given, or every key of \c map_func_name_to_func_info in
-* sorted order
+*         sorted order
 */
 [[nodiscard]] inline std::vector<std::string>
 get_func_names(const int argc, char* const* argv, const int first_arg)
