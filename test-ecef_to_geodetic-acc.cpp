@@ -24,6 +24,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <err.h>
+#include <exception>
 #include <execution>
 #include <fmt/chrono.h>
 #include <fmt/format.h>
@@ -254,6 +255,7 @@ Read the input coordinates from stdin.  Test every function unless FUNC_NAMEs ar
 
 int
 main(int argc, char* argv[])
+try
 {
     /*
     ** Methodology for testing a single point:
@@ -627,4 +629,9 @@ main(int argc, char* argv[])
     fmt::println("{}", json_output.dump(4));
 
     return 0;
+}
+catch (const std::exception& ex)
+{
+    (void)std::fflush(stdout);
+    errx(EXIT_FAILURE, "%s", ex.what());
 }
