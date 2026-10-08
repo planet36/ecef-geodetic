@@ -4,8 +4,11 @@
 // test accuracy of ECEF-to-Geodetic functions
 
 #include "angle.hpp"
+#include "angle_unit.hpp"
 #include "ecef-coord.hpp"
+#include "ecef_to_geodetic-funcs.hpp"
 #include "geodetic-coord.hpp"
+#include "geodetic_to_ecef.hpp"
 #include "ilog.hpp"
 #include "map_func_name_to_func_info.hpp"
 #include "read_coords.hpp"
@@ -17,6 +20,7 @@
 #include <chrono>
 #include <cmath>
 #include <concepts>
+#include <cstddef>
 #include <cstdio>
 #include <cstdlib>
 #include <err.h>
@@ -25,6 +29,7 @@
 #include <fmt/format.h>
 #include <fmt/ranges.h>
 #include <gnu/libc-version.h>
+#include <map>
 #include <mutex>
 #include <nlohmann/json.hpp>
 #include <numeric>
