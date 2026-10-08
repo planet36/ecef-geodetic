@@ -180,7 +180,6 @@ do_ecef_to_geodetic_test_acc(const ecef_to_geodetic_func<T>& func,
         return do_ecef_to_geodetic_test_acc_running(func, ecef_vec);
 }
 
-#if 1
 /// run \a func on every point in \a ecef_vec, keeping the compiler from discarding the results
 template <std::floating_point T>
 void
@@ -198,23 +197,6 @@ do_ecef_to_geodetic_test_speed(const ecef_to_geodetic_func<T>& func,
         benchmark::DoNotOptimize(ht);
     }
 }
-#else
-auto do_ecef_to_geodetic_test_speed =
-    []<std::floating_point T>(const ecef_to_geodetic_func<T>& func,
-                              const std::vector<ECEF<T>>& ecef_vec)
-{
-    for (const auto& ecef_given : ecef_vec)
-    {
-        T lat_rad{};
-        T lon_rad{};
-        T ht{};
-        func(ecef_given.x, ecef_given.y, ecef_given.z, lat_rad, lon_rad, ht);
-        benchmark::DoNotOptimize(lat_rad);
-        benchmark::DoNotOptimize(lon_rad);
-        benchmark::DoNotOptimize(ht);
-    }
-};
-#endif
 
 /// print the command-line usage to stderr
 void
