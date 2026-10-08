@@ -142,7 +142,7 @@ deg_from_rad(const T x_rad) noexcept
     return deg_per_rad_v<T> * x_rad;
 }
 
-/// convert from degrees to degees and arcminutes
+/// convert from degrees to degrees and arcminutes
 /**
 * \note \a arcmin will have the same sign as \a deg if the angle is not zero
 * \param[in] x_deg the angle (degrees)
@@ -160,7 +160,7 @@ deg_to_dm(const T x_deg, T& deg, T& arcmin) noexcept
     arcmin = tmp;
 }
 
-/// convert from degrees to degees, arcminutes, and arcseconds
+/// convert from degrees to degrees, arcminutes, and arcseconds
 /**
 * \note \a arcmin and \a arcsec will have the same sign as \a deg if the angle is not zero
 * \param[in] x_deg the angle (degrees)

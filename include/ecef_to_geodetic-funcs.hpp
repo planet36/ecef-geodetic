@@ -34,8 +34,8 @@ constexpr auto ell = WGS84<double>;
 * \sa https://mathworld.wolfram.com/VectorNorm.html
 * \sa https://mathworld.wolfram.com/L2-Norm.html
 * \sa https://en.cppreference.com/w/cpp/numeric/math/hypot
-* \param[in,out] x the X coordinate
-* \param[in,out] y the Y coordinate
+* \param x the X coordinate
+* \param y the Y coordinate
 * \return the 2D hypotenuse
 */
 template <std::floating_point T>

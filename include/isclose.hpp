@@ -13,7 +13,7 @@
 #include <cmath>
 #include <concepts>
 
-/// are two floating-point numbers are close to each other?
+/// are two floating-point numbers close to each other?
 /**
 * This is similar to the Python function \c math.isclose.
 * \sa https://docs.python.org/3/library/math.html#math.isclose

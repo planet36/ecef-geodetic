@@ -824,7 +824,7 @@ is_full_approx(const angle<U, T>& a,
 
 /// are complementary?
 /**
-* \pre \a a is non-negative
+* \pre \a a1 and \a a2 are non-negative
 * \sa https://mathworld.wolfram.com/ComplementaryAngles.html
 */
 template <angle_unit U, std::floating_point T>
@@ -836,7 +836,7 @@ are_complementary(const angle<U, T>& a1, const angle<U, T>& a2) noexcept
 
 /// are (approximately) complementary?
 /**
-* \pre \a a is non-negative
+* \pre \a a1 and \a a2 are non-negative
 * \sa https://mathworld.wolfram.com/ComplementaryAngles.html
 */
 template <angle_unit U, std::floating_point T>
@@ -851,7 +851,7 @@ are_complementary_approx(const angle<U, T>& a1,
 
 /// are supplementary?
 /**
-* \pre \a a is non-negative
+* \pre \a a1 and \a a2 are non-negative
 * \sa https://mathworld.wolfram.com/SupplementaryAngles.html
 */
 template <angle_unit U, std::floating_point T>
@@ -863,7 +863,7 @@ are_supplementary(const angle<U, T>& a1, const angle<U, T>& a2) noexcept
 
 /// are (approximately) supplementary?
 /**
-* \pre \a a is non-negative
+* \pre \a a1 and \a a2 are non-negative
 * \sa https://mathworld.wolfram.com/SupplementaryAngles.html
 */
 template <angle_unit U, std::floating_point T>
