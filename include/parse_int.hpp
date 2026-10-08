@@ -69,6 +69,7 @@ parse_int(std::string_view s,
     }
 
 #if defined(DEBUG)
+    assert(min <= max);
     assert((base >= 2) && (base <= 36));
 #endif
 
