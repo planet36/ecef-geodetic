@@ -32,7 +32,7 @@ enum struct angle_unit : unsigned char
 /// convert the \c angle_unit to a string
 template <angle_unit U>
 [[nodiscard]] constexpr std::string_view
-angle_unit_to_string()
+angle_unit_to_string() noexcept
 {
     if constexpr (U == angle_unit::milliradian) {return "mrad"  ;}
     if constexpr (U == angle_unit::radian     ) {return "rad"   ;}
@@ -47,7 +47,7 @@ angle_unit_to_string()
 /// in the forward order of angle units, get the next \c angle_unit from \a U
 template <angle_unit U>
 constexpr angle_unit
-angle_unit_forward()
+angle_unit_forward() noexcept
 {
     if constexpr (U == angle_unit::milliradian) {return angle_unit::radian    ;}
     if constexpr (U == angle_unit::radian     ) {return angle_unit::revolution;}
@@ -61,7 +61,7 @@ angle_unit_forward()
 /// in the reverse order of angle units, get the next \c angle_unit from \a U
 template <angle_unit U>
 constexpr angle_unit
-angle_unit_backward()
+angle_unit_backward() noexcept
 {
     if constexpr (U == angle_unit::milliradian) {return angle_unit::milliradian;} // same
     if constexpr (U == angle_unit::radian     ) {return angle_unit::milliradian;}
@@ -75,7 +75,7 @@ angle_unit_backward()
 /// get the next angle_unit from \a U to \a U2
 template <angle_unit U, angle_unit U2>
 constexpr angle_unit
-angle_unit_toward()
+angle_unit_toward() noexcept
 {
     if constexpr (U == U2)
         return U;
@@ -95,7 +95,7 @@ angle_unit_toward()
 */
 template <angle_unit To, angle_unit From, std::floating_point T>
 constexpr T
-convert_to(const T& x)
+convert_to(const T& x) noexcept
 {
     // convert same angle unit (i.e. do nothing)
 
@@ -136,7 +136,7 @@ convert_to(const T& x)
 */
 template <angle_unit From, angle_unit To, std::floating_point T>
 constexpr T
-convert_from(const T& x)
+convert_from(const T& x) noexcept
 {
     return convert_to<To, From>(x);
 }

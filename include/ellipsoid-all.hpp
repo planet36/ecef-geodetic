@@ -85,7 +85,7 @@ enum struct ELLIPSOID_ID_CODE : unsigned short
 
 /// Convert the Reference Ellipsoid ID Code to a string
 constexpr std::string_view
-ellipsoid_id_code_to_str(const ELLIPSOID_ID_CODE ell_id_code)
+ellipsoid_id_code_to_str(const ELLIPSOID_ID_CODE ell_id_code) noexcept
 {
     switch (ell_id_code)
     {

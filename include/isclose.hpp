@@ -26,7 +26,10 @@
 */
 template <std::floating_point T>
 constexpr bool
-isclose(const T a, const T b, const T allowed_rel_diff = 1E-9, const T allowed_abs_diff = 0)
+isclose(const T a,
+        const T b,
+        const T allowed_rel_diff = 1E-9,
+        const T allowed_abs_diff = 0) noexcept
 {
     if (a == b)
         return true;

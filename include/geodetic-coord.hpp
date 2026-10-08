@@ -98,7 +98,9 @@ struct Geodetic
 
     Geodetic() = default;
 
-    constexpr Geodetic(const angle<U, T>& _lat, const angle<U, T>& _lon, const T _ht = 0) :
+    constexpr Geodetic(const angle<U, T>& _lat,
+                       const angle<U, T>& _lon,
+                       const T _ht = 0) noexcept :
     lat(_lat),
     lon(_lon),
     ht(_ht)
@@ -106,7 +108,7 @@ struct Geodetic
 
     /// conversion ctor
     template <std::floating_point T2>
-    constexpr Geodetic(const Geodetic<U, T2>& that) :
+    constexpr Geodetic(const Geodetic<U, T2>& that) noexcept :
     lat(that.lat),
     lon(that.lon),
     ht(that.ht)
@@ -114,7 +116,7 @@ struct Geodetic
 
     auto operator<=>(const this_t&) const = default;
 
-    constexpr void normalize() { normalize_geodetic(lat, lon); }
+    constexpr void normalize() noexcept { normalize_geodetic(lat, lon); }
 
     [[nodiscard]] std::string
     to_string(const int precision = geodetic_default_precision) const

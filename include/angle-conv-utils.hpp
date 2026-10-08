@@ -49,7 +49,7 @@ inline constexpr unsigned short gradians_per_rev = 400;
 /// convert to radians from milliradians
 template <std::floating_point T>
 constexpr auto
-rad_from_mrad(const T x_mrad)
+rad_from_mrad(const T x_mrad) noexcept
 {
     return x_mrad / mrad_per_rad;
 }
@@ -57,7 +57,7 @@ rad_from_mrad(const T x_mrad)
 /// convert to milliradians from radians
 template <std::floating_point T>
 constexpr auto
-mrad_from_rad(const T x_rad)
+mrad_from_rad(const T x_rad) noexcept
 {
     return mrad_per_rad * x_rad;
 }
@@ -65,7 +65,7 @@ mrad_from_rad(const T x_rad)
 /// convert to revolutions from radians
 template <std::floating_point T>
 constexpr auto
-rev_from_rad(const T x_rad)
+rev_from_rad(const T x_rad) noexcept
 {
     return x_rad / rad_per_rev_v<T>;
 }
@@ -73,7 +73,7 @@ rev_from_rad(const T x_rad)
 /// convert to radians from revolutions
 template <std::floating_point T>
 constexpr auto
-rad_from_rev(const T x_rev)
+rad_from_rev(const T x_rev) noexcept
 {
     return rad_per_rev_v<T> * x_rev;
 }
@@ -81,7 +81,7 @@ rad_from_rev(const T x_rev)
 /// convert to revolutions from degrees
 template <std::floating_point T>
 constexpr auto
-rev_from_deg(const T x_deg)
+rev_from_deg(const T x_deg) noexcept
 {
     return x_deg / deg_per_rev;
 }
@@ -89,7 +89,7 @@ rev_from_deg(const T x_deg)
 /// convert to degrees from revolutions
 template <std::floating_point T>
 constexpr auto
-deg_from_rev(const T x_rev)
+deg_from_rev(const T x_rev) noexcept
 {
     return deg_per_rev * x_rev;
 }
@@ -97,7 +97,7 @@ deg_from_rev(const T x_rev)
 /// convert to degrees from arcminutes
 template <std::floating_point T>
 constexpr auto
-deg_from_arcmin(const T x_arcmin)
+deg_from_arcmin(const T x_arcmin) noexcept
 {
     return x_arcmin / arcmin_per_deg;
 }
@@ -105,7 +105,7 @@ deg_from_arcmin(const T x_arcmin)
 /// convert to arcminutes from degrees
 template <std::floating_point T>
 constexpr auto
-arcmin_from_deg(const T x_deg)
+arcmin_from_deg(const T x_deg) noexcept
 {
     return arcmin_per_deg * x_deg;
 }
@@ -113,7 +113,7 @@ arcmin_from_deg(const T x_deg)
 /// convert to arcminutes from arcseconds
 template <std::floating_point T>
 constexpr auto
-arcmin_from_arcsec(const T x_arcsec)
+arcmin_from_arcsec(const T x_arcsec) noexcept
 {
     return x_arcsec / arcsec_per_arcmin;
 }
@@ -121,7 +121,7 @@ arcmin_from_arcsec(const T x_arcsec)
 /// convert to arcseconds from arcminutes
 template <std::floating_point T>
 constexpr auto
-arcsec_from_arcmin(const T x_arcmin)
+arcsec_from_arcmin(const T x_arcmin) noexcept
 {
     return arcsec_per_arcmin * x_arcmin;
 }
@@ -129,7 +129,7 @@ arcsec_from_arcmin(const T x_arcmin)
 /// convert to radians from degrees
 template <std::floating_point T>
 constexpr auto
-rad_from_deg(const T x_deg)
+rad_from_deg(const T x_deg) noexcept
 {
     return x_deg / deg_per_rad_v<T>;
 }
@@ -137,7 +137,7 @@ rad_from_deg(const T x_deg)
 /// convert to degrees from radians
 template <std::floating_point T>
 constexpr auto
-deg_from_rad(const T x_rad)
+deg_from_rad(const T x_rad) noexcept
 {
     return deg_per_rad_v<T> * x_rad;
 }
@@ -151,7 +151,7 @@ deg_from_rad(const T x_rad)
 */
 template <std::floating_point T>
 constexpr void
-deg_to_dm(const T x_deg, T& deg, T& arcmin)
+deg_to_dm(const T x_deg, T& deg, T& arcmin) noexcept
 {
     auto tmp = x_deg;
     deg = std::trunc(tmp);
@@ -170,7 +170,7 @@ deg_to_dm(const T x_deg, T& deg, T& arcmin)
 */
 template <std::floating_point T>
 constexpr void
-deg_to_dms(const T x_deg, T& deg, T& arcmin, T& arcsec)
+deg_to_dms(const T x_deg, T& deg, T& arcmin, T& arcsec) noexcept
 {
     auto tmp = x_deg;
     deg = std::trunc(tmp);
@@ -190,7 +190,7 @@ deg_to_dms(const T x_deg, T& deg, T& arcmin, T& arcsec)
 */
 template <std::floating_point T>
 constexpr auto
-deg_from_dm(const T deg, const T arcmin)
+deg_from_dm(const T deg, const T arcmin) noexcept
 {
     return deg + deg_from_arcmin(arcmin);
 }
@@ -204,7 +204,7 @@ deg_from_dm(const T deg, const T arcmin)
 */
 template <std::floating_point T>
 constexpr auto
-deg_from_dms(const T deg, const T arcmin, const T arcsec)
+deg_from_dms(const T deg, const T arcmin, const T arcsec) noexcept
 {
     return deg_from_dm(deg, arcmin + arcmin_from_arcsec(arcsec));
 }

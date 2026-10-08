@@ -33,7 +33,7 @@ public:
     }
     */
 
-    constexpr void clear()
+    constexpr void clear() noexcept
     {
         x_stats.clear();
         y_stats.clear();
@@ -41,7 +41,7 @@ public:
         n = 0;
     }
 
-    void push(const T x, const T y)
+    void push(const T x, const T y) noexcept
     {
         // The means of empty stats are NaN, and 0 * NaN is still NaN, so the
         // first value must skip this term rather than rely on n being zero.
@@ -53,20 +53,20 @@ public:
         n++;
     }
 
-    [[nodiscard]] constexpr auto num_data_values() const { return n; }
+    [[nodiscard]] constexpr auto num_data_values() const noexcept { return n; }
 
-    [[nodiscard]] constexpr auto slope() const
+    [[nodiscard]] constexpr auto slope() const noexcept
     {
         const auto S_xx = x_stats.variance() * (n - 1);
         return S_xy / S_xx;
     }
 
-    [[nodiscard]] constexpr auto intercept() const
+    [[nodiscard]] constexpr auto intercept() const noexcept
     {
         return y_stats.mean() - slope() * x_stats.mean();
     }
 
-    [[nodiscard]] auto correlation() const
+    [[nodiscard]] auto correlation() const noexcept
     {
         const auto t = x_stats.standard_deviation() * y_stats.standard_deviation();
         return S_xy / ((n - 1) * t);
@@ -74,9 +74,9 @@ public:
 
     template <std::floating_point T2>
     friend running_regression<T2> operator+(const running_regression<T2>& a,
-                                            const running_regression<T2>& b);
+                                            const running_regression<T2>& b) noexcept;
 
-    running_regression<T>& operator+=(const running_regression<T>& that)
+    running_regression<T>& operator+=(const running_regression<T>& that) noexcept
     {
         const running_regression<T> combined = *this + that;
         *this = combined;
@@ -86,7 +86,7 @@ public:
 
 template <std::floating_point T>
 [[nodiscard]] running_regression<T>
-operator+(const running_regression<T>& a, const running_regression<T>& b)
+operator+(const running_regression<T>& a, const running_regression<T>& b) noexcept
 {
     // Merging an empty object returns the other one unchanged, because the
     // formula below divides by the combined count.

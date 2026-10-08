@@ -38,7 +38,7 @@ private:
 
 public:
     /// Reset all statistics to their initial state
-    constexpr void clear()
+    constexpr void clear() noexcept
     {
         M1 = 0;
         M2 = 0;
@@ -54,7 +54,7 @@ public:
     }
 
     /// Add a single value to the running statistics
-    void push(const T x)
+    void push(const T x) noexcept
     {
         const auto n1 = n;
         n++;
@@ -87,56 +87,56 @@ public:
     }
 
     /// Get the number of values pushed
-    [[nodiscard]] constexpr auto num_data_values() const { return n; }
+    [[nodiscard]] constexpr auto num_data_values() const noexcept { return n; }
 
     /// Get the mean, or NaN if no values were pushed
-    [[nodiscard]] constexpr auto mean() const
+    [[nodiscard]] constexpr auto mean() const noexcept
     {
         return (n > 0) ? M1 : std::numeric_limits<T>::quiet_NaN();
     }
 
     /// Get the sample variance, or NaN if fewer than 2 values were pushed
-    [[nodiscard]] constexpr auto variance() const
+    [[nodiscard]] constexpr auto variance() const noexcept
     {
         return (n > 1) ? M2 / (n - 1) : std::numeric_limits<T>::quiet_NaN();
     }
 
     /// Get the sample standard deviation, or NaN if fewer than 2 values were pushed
-    [[nodiscard]] auto standard_deviation() const { return std::sqrt(variance()); }
+    [[nodiscard]] auto standard_deviation() const noexcept { return std::sqrt(variance()); }
 
     /// Get the population skewness, or NaN if fewer than 2 values were pushed
-    [[nodiscard]] auto skewness() const
+    [[nodiscard]] auto skewness() const noexcept
     {
         return std::sqrt(static_cast<T>(n)) * M3 / (M2 * std::sqrt(M2));
     }
 
     /// Get the population excess kurtosis, or NaN if fewer than 2 values were pushed
-    [[nodiscard]] auto excess_kurtosis() const { return n * M4 / (M2 * M2) - 3; }
+    [[nodiscard]] auto excess_kurtosis() const noexcept { return n * M4 / (M2 * M2) - 3; }
 
     /// Get the sum of the values, or 0 if none were pushed
-    [[nodiscard]] constexpr auto sum() const { return _sum; }
+    [[nodiscard]] constexpr auto sum() const noexcept { return _sum; }
 
     /// Get the minimum value, or NaN if none were pushed
-    [[nodiscard]] constexpr auto min() const { return _min; }
+    [[nodiscard]] constexpr auto min() const noexcept { return _min; }
 
     /// Get the maximum value, or NaN if none were pushed
-    [[nodiscard]] constexpr auto max() const { return _max; }
+    [[nodiscard]] constexpr auto max() const noexcept { return _max; }
 
     /// Get the sum of the absolute values, or 0 if none were pushed
-    [[nodiscard]] constexpr auto sum_abs() const { return _sum_abs; }
+    [[nodiscard]] constexpr auto sum_abs() const noexcept { return _sum_abs; }
 
     /// Get the minimum absolute value, or NaN if none were pushed
-    [[nodiscard]] constexpr auto min_abs() const { return _min_abs; }
+    [[nodiscard]] constexpr auto min_abs() const noexcept { return _min_abs; }
 
     /// Get the maximum absolute value, or NaN if none were pushed
-    [[nodiscard]] constexpr auto max_abs() const { return _max_abs; }
+    [[nodiscard]] constexpr auto max_abs() const noexcept { return _max_abs; }
 
     template <std::floating_point T2>
     friend running_stats<T2> operator+(const running_stats<T2>& a,
-                                       const running_stats<T2>& b);
+                                       const running_stats<T2>& b) noexcept;
 
     /// Merge another \c running_stats into this one
-    running_stats<T>& operator+=(const running_stats<T>& that)
+    running_stats<T>& operator+=(const running_stats<T>& that) noexcept
     {
         const running_stats<T> combined = *this + that;
         *this = combined;
@@ -147,7 +147,7 @@ public:
 /// Merge two \c running_stats objects into one
 template <std::floating_point T>
 [[nodiscard]] running_stats<T>
-operator+(const running_stats<T>& a, const running_stats<T>& b)
+operator+(const running_stats<T>& a, const running_stats<T>& b) noexcept
 {
     // Merging an empty object returns the other one unchanged.  The formulas
     // below divide by the combined count, which is zero when both are empty,

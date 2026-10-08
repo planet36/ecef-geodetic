@@ -111,16 +111,16 @@ struct ECEF
 
     ECEF() = default;
 
-    constexpr ECEF(const T _x, const T _y, const T _z) : x(_x), y(_y), z(_z) {}
+    constexpr ECEF(const T _x, const T _y, const T _z) noexcept : x(_x), y(_y), z(_z) {}
 
     /// conversion ctor
     template <std::floating_point T2>
-    constexpr ECEF(const ECEF<T2>& that) : x(that.x), y(that.y), z(that.z)
+    constexpr ECEF(const ECEF<T2>& that) noexcept : x(that.x), y(that.y), z(that.z)
     {}
 
     auto operator<=>(const this_t&) const = default;
 
-    constexpr void normalize() {}
+    constexpr void normalize() noexcept {}
 
     [[nodiscard]] std::string to_string(int precision = ecef_default_precision) const
     {
@@ -131,7 +131,7 @@ struct ECEF
 /// ECEF<T> - ECEF<T2>
 template <std::floating_point T, std::floating_point T2>
 [[nodiscard]] constexpr auto
-operator-(const ECEF<T>& p1, const ECEF<T2>& p2)
+operator-(const ECEF<T>& p1, const ECEF<T2>& p2) noexcept
 {
     using result_type = std::common_type_t<T, T2>;
 
@@ -147,7 +147,7 @@ operator-(const ECEF<T>& p1, const ECEF<T2>& p2)
 */
 template <std::floating_point T>
 [[nodiscard]] constexpr auto
-L1_norm(const ECEF<T>& p1)
+L1_norm(const ECEF<T>& p1) noexcept
 {
     return std::abs(p1.x) + std::abs(p1.y) + std::abs(p1.z);
 }
@@ -162,7 +162,7 @@ L1_norm(const ECEF<T>& p1)
 */
 template <std::floating_point T>
 [[nodiscard]] constexpr auto
-L2_norm(const ECEF<T>& p1)
+L2_norm(const ECEF<T>& p1) noexcept
 {
     return std::sqrt(p1.x * p1.x + p1.y * p1.y + p1.z * p1.z);
 }
@@ -177,7 +177,7 @@ L2_norm(const ECEF<T>& p1)
 */
 template <std::floating_point T>
 [[nodiscard]] constexpr auto
-euclidean_dist(const ECEF<T>& p1, const ECEF<T>& p2)
+euclidean_dist(const ECEF<T>& p1, const ECEF<T>& p2) noexcept
 {
 #if 0
     return L2_norm(ECEF<T>{

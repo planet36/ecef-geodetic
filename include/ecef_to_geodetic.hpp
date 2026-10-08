@@ -37,7 +37,7 @@
 */
 template <std::floating_point T>
 constexpr void
-ecef_to_geodetic(const T x, const T y, const T z, T& lat_rad, T& lon_rad, T& ht)
+ecef_to_geodetic(const T x, const T y, const T z, T& lat_rad, T& lon_rad, T& ht) noexcept
 {
     static constexpr auto& ell = WGS84<T>;
 
@@ -127,7 +127,12 @@ ecef_to_geodetic(const T x, const T y, const T z, T& lat_rad, T& lon_rad, T& ht)
 */
 template <angle_unit U, std::floating_point T>
 constexpr void
-ecef_to_geodetic(const T x, const T y, const T z, angle<U, T>& lat, angle<U, T>& lon, T& ht)
+ecef_to_geodetic(const T x,
+                 const T y,
+                 const T z,
+                 angle<U, T>& lat,
+                 angle<U, T>& lon,
+                 T& ht) noexcept
 {
     T lat_rad{};
     T lon_rad{};
@@ -138,7 +143,7 @@ ecef_to_geodetic(const T x, const T y, const T z, angle<U, T>& lat, angle<U, T>&
 
 template <std::floating_point T>
 [[nodiscard]] constexpr auto
-ecef_to_geodetic(const ECEF<T>& ecef)
+ecef_to_geodetic(const ECEF<T>& ecef) noexcept
 {
     T lat_rad{};
     T lon_rad{};
