@@ -239,7 +239,7 @@ Read the input coordinates from stdin.  Test every function unless FUNC_NAMEs ar
 }
 
 int
-main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
+main(int argc, char* argv[])
 {
     /*
     ** Methodology for testing a single point:

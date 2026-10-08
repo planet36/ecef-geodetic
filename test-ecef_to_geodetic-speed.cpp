@@ -44,7 +44,7 @@ BM_do_ecef_to_geodetic_test_speed(benchmark::State& BM_state,
 }
 
 int
-main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
+main(int argc, char* argv[])
 {
     // Copied from benchmark.h
     benchmark::MaybeReenterWithoutASLR(argc, argv);
