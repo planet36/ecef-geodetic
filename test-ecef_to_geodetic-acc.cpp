@@ -40,6 +40,7 @@
 #include <string>
 #include <string_view>
 #include <unistd.h>
+#include <utility>
 #include <vector>
 
 inline constexpr std::string_view program_version = "2024-01-09";
@@ -76,7 +77,7 @@ struct dist_err_stats
     dist_err_stats() = default;
 
     /// copy the statistics from \a rs
-    explicit dist_err_stats(const running_stats<T>& rs) :
+    explicit dist_err_stats(const running_stats<T>& rs) noexcept :
     mean(rs.mean()),
     stdev(rs.standard_deviation()),
     max(rs.max_abs()),
@@ -90,7 +91,7 @@ struct dist_err_stats
 */
 template <std::floating_point T>
 auto
-round_trip_dist_err(const ecef_to_geodetic_func<T>& func, const ECEF<T>& ecef_given)
+round_trip_dist_err(const ecef_to_geodetic_func<T>& func, const ECEF<T>& ecef_given) noexcept
 {
     T lat_rad{};
     T lon_rad{};
@@ -107,7 +108,7 @@ round_trip_dist_err(const ecef_to_geodetic_func<T>& func, const ECEF<T>& ecef_gi
 template <std::floating_point T>
 auto
 do_ecef_to_geodetic_test_acc_running(const ecef_to_geodetic_func<T>& func,
-                                     const std::vector<ECEF<T>>& ecef_vec)
+                                     const std::vector<ECEF<T>>& ecef_vec) noexcept
 {
     running_stats<T> rs;
 
@@ -128,15 +129,16 @@ do_ecef_to_geodetic_test_acc_running(const ecef_to_geodetic_func<T>& func,
 /// get the distance error statistics of \a func over \a ecef_vec from every error, sorted
 /**
 * Summing the errors in ascending order tries to minimize floating-point precision loss.
-* However, it reduces the precision loss of the sum by less than 1E-12, and it is 8 times
-* slower than \c do_ecef_to_geodetic_test_acc_running.
+* However, it reduces the precision loss of the sum by less than 1E-12, and it takes about
+* twice as long as \c do_ecef_to_geodetic_test_acc_running.
 */
 template <std::floating_point T>
 auto
 do_ecef_to_geodetic_test_acc_collect(const ecef_to_geodetic_func<T>& func,
                                      const std::vector<ECEF<T>>& ecef_vec)
 {
-    std::multiset<T> ms;
+    std::vector<T> dist_errs;
+    dist_errs.reserve(ecef_vec.size());
     dist_err_stats<T> stats;
 
     for (const auto& ecef_given : ecef_vec)
@@ -146,14 +148,16 @@ do_ecef_to_geodetic_test_acc_collect(const ecef_to_geodetic_func<T>& func,
         {
             dist_err = non_finite_dist_err;
         }
-        ms.insert(dist_err);
+        dist_errs.push_back(dist_err);
     }
 
-    stats.mean = arithmetic_mean_val(ms);
+    std::ranges::sort(dist_errs);
+
+    stats.mean = arithmetic_mean_val(dist_errs);
     // the sample standard deviation, which is what running_stats gives
-    stats.stdev = stdev_val(ms, true);
-    stats.max = max_val(ms);
-    stats.sum = sum_val(ms);
+    stats.stdev = stdev_val(dist_errs, true);
+    stats.max = max_val(dist_errs);
+    stats.sum = sum_val(dist_errs);
 
     return stats;
 }
@@ -181,7 +185,7 @@ do_ecef_to_geodetic_test_acc(const ecef_to_geodetic_func<T>& func,
 template <std::floating_point T>
 void
 do_ecef_to_geodetic_test_speed(const ecef_to_geodetic_func<T>& func,
-                               const std::vector<ECEF<T>>& ecef_vec)
+                               const std::vector<ECEF<T>>& ecef_vec) noexcept
 {
     for (const auto& ecef_given : ecef_vec)
     {
@@ -365,6 +369,7 @@ main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
     else
     {
         // use all functions
+        func_names.reserve(map_func_name_to_func_info.size());
         for (const auto& [func_name, ignore] : map_func_name_to_func_info)
         {
             func_names.push_back(func_name);
@@ -374,7 +379,7 @@ main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
     // filter out the functions whose hard-coded ilog10_mean_dist_err exceeds
     // max_ilog10_mean_dist_err
     erase_if(func_names,
-             [max_ilog10_mean_dist_err](const auto func_name)
+             [max_ilog10_mean_dist_err](const auto& func_name)
              {
                  const auto it = map_func_name_to_func_info.find(func_name);
                  return it->second.ilog10_mean_dist_err > max_ilog10_mean_dist_err;
@@ -494,23 +499,29 @@ main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
 
     if (do_single_point_acc_test)
     {
+        // Every function's record for a point starts with the same string and radius.
+        std::vector<json> point_records;
+        point_records.reserve(ecef_vec.size());
         for (const auto& ecef_given : ecef_vec)
         {
-            const std::string ecef_str = ecef_given.to_string();
-            const auto radius = L2_norm(ecef_given);
+            point_records.push_back(
+                {{"ecef", ecef_given.to_string()}, {"radius", L2_norm(ecef_given)}});
+        }
 
-            for (const auto& func_name : func_names)
+        for (const auto& func_name : func_names)
+        {
+            const auto& func_info = map_func_name_to_func_info.at(func_name);
+            auto& acc1 = json_output["func_names"][func_name]["acc1"];
+
+            // Pair each point with its record in point_records.
+            for (const auto& [ecef_given, point_record] :
+                 std::views::zip(ecef_vec, point_records))
             {
-                const auto& func_info = map_func_name_to_func_info.at(func_name);
-
-                const auto dist_err = round_trip_dist_err(func_info.func, ecef_given);
-
-                json record;
-                record["ecef"] = ecef_str;
-                record["radius"] = radius;
-                record["dist_err"] = dist_err;
-
-                json_output["func_names"][func_name]["acc1"].push_back(record);
+                // Copy the record, since every function starts from the same one.
+                json record = point_record;
+                record["dist_err"] = round_trip_dist_err(func_info.func, ecef_given);
+                // Move the copy into the array, since it is not used again.
+                acc1.push_back(std::move(record));
             }
         }
     }
