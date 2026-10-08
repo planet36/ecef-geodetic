@@ -57,7 +57,7 @@ read_line_values(const std::string& line, const std::size_t line_num)
 /// read ECEF coordinates from stdin
 /**
 * Each line holds X, Y, and Z, or W and Z, in meters.  W is the distance from the Z axis, and a
-* line with W and Z puts the point on the prime meridian.
+* line with W and Z puts the point on the prime meridian.  Blank lines are skipped.
 * \param[in,out] ecef_vec the vector the points are appended to
 * \exception std::invalid_argument a line holds text that does not parse as a number, or
 * other than 2 or 3 values
@@ -72,6 +72,11 @@ read_coords_ecef(std::vector<ECEF<T>>& ecef_vec)
     {
         ++line_num;
         const auto input_vec = read_line_values<T>(input_line, line_num);
+
+        // The parser rejects any line whose tokens are not all numbers, so an empty result
+        // means the line is blank.
+        if (input_vec.empty())
+            continue;
 
         T x{};
         T y{};
@@ -105,7 +110,7 @@ read_coords_ecef(std::vector<ECEF<T>>& ecef_vec)
 /**
 * Each line holds the latitude, longitude, and height, or the latitude and height.  Angles are
 * in degrees and heights in meters, and a line without a longitude puts the point on the prime
-* meridian.
+* meridian.  Blank lines are skipped.
 * \param[in,out] geod_vec the vector the points are appended to
 * \exception std::invalid_argument a line holds text that does not parse as a number, or
 * other than 2 or 3 values
@@ -120,6 +125,11 @@ read_coords_geod(std::vector<Geodetic<angle_unit::degree, T>>& geod_vec)
     {
         ++line_num;
         const auto input_vec = read_line_values<T>(input_line, line_num);
+
+        // The parser rejects any line whose tokens are not all numbers, so an empty result
+        // means the line is blank.
+        if (input_vec.empty())
+            continue;
 
         // input angle unit is degrees
         ang_deg<T> lat;
