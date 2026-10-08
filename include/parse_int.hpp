@@ -34,6 +34,7 @@
 * \retval std::errc::result_out_of_range the value is not representable in
 *         \c T or is not in <code>[min, max]</code>
 * \return the parsed value, or one of the above error values
+* \pre \a min is at most \a max
 * \pre \a base is \c 0, or in the interval <code>[2, 36]</code> that
 *      \c std::from_chars accepts
 * \note Unlike \c std::stoi, this rejects leading whitespace, a leading
@@ -94,6 +95,7 @@ parse_int(std::string_view s,
 * \param max the maximum allowed value (inclusive)
 * \param option_name the option name, named by the exception message
 * \return the parsed value
+* \pre \a min is at most \a max
 * \exception std::invalid_argument \a optarg is null, or is not entirely an
 *            integer
 * \exception std::out_of_range the value is not in <code>[min, max]</code>
@@ -144,6 +146,7 @@ parse_option_int(const char* optarg, const char* option_name)
 * \param default_value the value returned if the variable is not set, which is
 *        not checked against <code>[min, max]</code>
 * \return the parsed value, or \a default_value if the variable is not set
+* \pre \a min is at most \a max
 * \exception std::invalid_argument the value is empty, or is not entirely an
 *            integer
 * \exception std::out_of_range the value is not in <code>[min, max]</code>
