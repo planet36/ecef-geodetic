@@ -53,7 +53,7 @@ concept from_chars_integral =
 template <from_chars_integral T = int>
 [[nodiscard]] constexpr std::expected<T, std::errc>
 parse_int(std::string_view s,
-          const T min = std::numeric_limits<T>::lowest(),
+          const T min = std::numeric_limits<T>::min(),
           const T max = std::numeric_limits<T>::max(),
           int base = 10)
 {
