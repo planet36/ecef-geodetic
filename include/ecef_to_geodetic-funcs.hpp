@@ -144,7 +144,7 @@ using ecef_to_geodetic_func = void (*)(const T, const T, const T, T&, T&, T&);
 /// an ECEF-to-geodetic algorithm and its metadata
 /**
 * \c ilog10_mean_dist_err is 99 when the mean distance error is at least 1000 meters or is not
-* finite.
+* finite, and -99 when it is exactly 0.
 */
 struct func_info_t
 {

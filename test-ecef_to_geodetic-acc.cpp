@@ -382,7 +382,10 @@ main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
                     const auto stats = do_ecef_to_geodetic_test_acc(func_info.func, ecef_vec, collect_dist_err);
 
                     int ilog10_mean_dist_err = ilog10(stats.mean);
-                    if (ilog10_mean_dist_err > 2)
+                    if (stats.mean == 0)
+                        // special value to denote exact algorithms
+                        ilog10_mean_dist_err = -99;
+                    else if (ilog10_mean_dist_err > 2)
                         // special value to denote inaccurate algorithms
                         ilog10_mean_dist_err = 99;
 
@@ -410,7 +413,10 @@ main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
                     do_ecef_to_geodetic_test_acc(func_info.func, ecef_vec, collect_dist_err);
 
                 int ilog10_mean_dist_err = ilog10(stats.mean);
-                if (ilog10_mean_dist_err > 2)
+                if (stats.mean == 0)
+                    // special value to denote exact algorithms
+                    ilog10_mean_dist_err = -99;
+                else if (ilog10_mean_dist_err > 2)
                     // special value to denote inaccurate algorithms
                     ilog10_mean_dist_err = 99;
 
