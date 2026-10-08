@@ -216,8 +216,6 @@ auto do_ecef_to_geodetic_test_speed =
 };
 #endif
 
-#define nl (void)putchar('\n')
-
 /// print the command-line usage to stderr
 void
 print_usage(const char* program_name)
