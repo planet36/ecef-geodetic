@@ -1168,6 +1168,7 @@ normalize_geodetic(angle<U, T>& lat, angle<U, T>& lon) noexcept
 
 /// get the 0-based quadrant that the angle is in
 /**
+* \pre \a a is finite
 * \param a the angle
 * \return the 0-based quadrant that the angle is in
 * \retval 0 for quadrant I
@@ -1180,7 +1181,8 @@ constexpr auto
 get_quadrant(angle<U, T> a) noexcept
 {
     normalize_angle_unsigned(a);
-    return static_cast<int>(a / const_angle<U, T>::quarter_turn);
+    // A tiny negative angle normalizes to exactly one full turn, which is quadrant 0, not 4.
+    return static_cast<int>(a / const_angle<U, T>::quarter_turn) % 4;
 }
 
 /// get the difference between the angles going from the first angle to the second angle
