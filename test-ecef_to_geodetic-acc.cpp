@@ -245,14 +245,14 @@ Read the input coordinates from stdin.  Test every function unless FUNC_NAMEs ar
 
   -a    run the accuracy test
   -1    run the single-point accuracy test
-  -s N  run N rounds of the speed test
+  -s N  run N rounds of the speed test (at most {})
   -m N  skip functions whose ilog10_mean_dist_err exceeds N
   -g    read geodetic input instead of ECEF
   -t    use multiple threads
   -c    collect every distance error for more precise statistics
   -v    print progress to stderr
 )",
-               program_name);
+               program_name, max_num_speed_test_iterations);
 }
 
 int
