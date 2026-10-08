@@ -5,6 +5,7 @@
 
 #include "ecef-coord.hpp"
 #include "ecef_to_geodetic-funcs.hpp"
+#include "get_func_names.hpp"
 #include "get_num_threads.hpp"
 #include "map_func_name_to_func_info.hpp"
 #include "read_coords.hpp"
@@ -74,43 +75,7 @@ try
 
     const int num_threads = get_num_threads();
 
-    std::vector<std::string> func_names;
-
-    if (argc > 1)
-    {
-        // use given functions
-        func_names.reserve(static_cast<std::size_t>(argc - 1));
-        for (int i = 1; i < argc; ++i)
-        {
-            func_names.emplace_back(argv[i]);
-        }
-
-        // validate func_names
-        for (const auto& func_name : func_names)
-        {
-            // verify the given function names are valid
-            if (!map_func_name_to_func_info.contains(func_name))
-            {
-                fmt::println(stderr, "Error: \"{}\" is not a valid function name.",
-                             func_name);
-
-                fmt::println(stderr, "Valid function names are:");
-                const auto keys = std::views::keys(map_func_name_to_func_info);
-                fmt::println(stderr, "  {}", fmt::join(keys, "\n  "));
-
-                return EXIT_FAILURE;
-            }
-        }
-    }
-    else
-    {
-        // use all functions
-        func_names.reserve(map_func_name_to_func_info.size());
-        for (const auto& [func_name, ignore] : map_func_name_to_func_info)
-        {
-            func_names.push_back(func_name);
-        }
-    }
+    const std::vector<std::string> func_names = get_func_names(argc, argv, 1);
 
     std::vector<ECEF<double>> ecef_vec;
     read_coords_ecef(ecef_vec);

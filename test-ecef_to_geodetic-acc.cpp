@@ -9,6 +9,7 @@
 #include "ecef_to_geodetic-funcs.hpp"
 #include "geodetic-coord.hpp"
 #include "geodetic_to_ecef.hpp"
+#include "get_func_names.hpp"
 #include "ilog.hpp"
 #include "map_func_name_to_func_info.hpp"
 #include "parse_int.hpp"
@@ -334,43 +335,7 @@ try
         }
     }
 
-    std::vector<std::string> func_names;
-
-    if (argc > optind)
-    {
-        // use given functions
-        func_names.reserve(static_cast<std::size_t>(argc - optind));
-        for (int i = optind; i < argc; ++i)
-        {
-            func_names.emplace_back(argv[i]);
-        }
-
-        // validate func_names
-        for (const auto& func_name : func_names)
-        {
-            // verify the given function names are valid
-            if (!map_func_name_to_func_info.contains(func_name))
-            {
-                fmt::println(stderr, "Error: \"{}\" is not a valid function name.",
-                             func_name);
-
-                fmt::println(stderr, "Valid function names are:");
-                const auto keys = std::views::keys(map_func_name_to_func_info);
-                fmt::println(stderr, "  {}", fmt::join(keys, "\n  "));
-
-                std::exit(EXIT_FAILURE);
-            }
-        }
-    }
-    else
-    {
-        // use all functions
-        func_names.reserve(map_func_name_to_func_info.size());
-        for (const auto& [func_name, ignore] : map_func_name_to_func_info)
-        {
-            func_names.push_back(func_name);
-        }
-    }
+    std::vector<std::string> func_names = get_func_names(argc, argv, optind);
 
     // filter out the functions whose hard-coded ilog10_mean_dist_err exceeds
     // max_ilog10_mean_dist_err
