@@ -11,6 +11,7 @@
 #include "geodetic_to_ecef.hpp"
 #include "ilog.hpp"
 #include "map_func_name_to_func_info.hpp"
+#include "parse_int.hpp"
 #include "read_coords.hpp"
 #include "running_stats.hpp"
 #include "stats.hpp"
@@ -33,11 +34,9 @@
 #include <map>
 #include <mutex>
 #include <nlohmann/json.hpp>
-#include <numeric>
 #include <random>
 #include <ranges>
 #include <set>
-#include <stdexcept>
 #include <string>
 #include <string_view>
 #include <unistd.h>
@@ -306,35 +305,11 @@ try
             break;
 
         case 's':
-            try
-            {
-                const auto tmp = std::stoll(optarg);
-                num_speed_test_iterations =
-                    std::saturating_cast<decltype(num_speed_test_iterations)>(tmp);
-            }
-            catch (const std::invalid_argument& ex)
-            {
-                errx(EXIT_FAILURE, "invalid argument: %s: \"%s\"", ex.what(), optarg);
-            }
-            catch (const std::out_of_range& ex)
-            {
-                errx(EXIT_FAILURE, "out of range: %s: \"%s\"", ex.what(), optarg);
-            }
+            num_speed_test_iterations = parse_option_int(optarg, "-s");
             break;
 
         case 'm':
-            try
-            {
-                max_ilog10_mean_dist_err = std::stoi(optarg);
-            }
-            catch (const std::invalid_argument& ex)
-            {
-                errx(EXIT_FAILURE, "invalid argument: %s: \"%s\"", ex.what(), optarg);
-            }
-            catch (const std::out_of_range& ex)
-            {
-                errx(EXIT_FAILURE, "out of range: %s: \"%s\"", ex.what(), optarg);
-            }
+            max_ilog10_mean_dist_err = parse_option_int(optarg, "-m");
             break;
 
         case 'g':
