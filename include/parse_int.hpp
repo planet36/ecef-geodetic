@@ -141,9 +141,11 @@ parse_option_int(const char* optarg, const char* option_name)
 * \param name the name of the environment variable
 * \param min the minimum allowed value (inclusive)
 * \param max the maximum allowed value (inclusive)
-* \param default_value the value returned if the variable is not set
+* \param default_value the value returned if the variable is not set, which is
+*        not checked against <code>[min, max]</code>
 * \return the parsed value, or \a default_value if the variable is not set
-* \exception std::invalid_argument the value is not entirely an integer
+* \exception std::invalid_argument the value is empty, or is not entirely an
+*            integer
 * \exception std::out_of_range the value is not in <code>[min, max]</code>
 */
 [[nodiscard]] inline int
