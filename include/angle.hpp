@@ -733,6 +733,9 @@ is_right(const angle<U, T>& a) noexcept
 /**
 * \pre \a a is non-negative
 * \sa https://mathworld.wolfram.com/RightAngle.html
+* \param a the angle
+* \param allowed_rel_diff the relative tolerance passed to \c isclose
+* \param allowed_abs_diff the absolute tolerance passed to \c isclose
 */
 template <angle_unit U, std::floating_point T>
 constexpr bool
@@ -772,6 +775,9 @@ is_straight(const angle<U, T>& a) noexcept
 /**
 * \pre \a a is non-negative
 * \sa https://mathworld.wolfram.com/StraightAngle.html
+* \param a the angle
+* \param allowed_rel_diff the relative tolerance passed to \c isclose
+* \param allowed_abs_diff the absolute tolerance passed to \c isclose
 */
 template <angle_unit U, std::floating_point T>
 constexpr bool
@@ -811,6 +817,9 @@ is_full(const angle<U, T>& a) noexcept
 /**
 * \pre \a a is non-negative
 * \sa https://mathworld.wolfram.com/FullAngle.html
+* \param a the angle
+* \param allowed_rel_diff the relative tolerance passed to \c isclose
+* \param allowed_abs_diff the absolute tolerance passed to \c isclose
 */
 template <angle_unit U, std::floating_point T>
 constexpr bool
@@ -838,6 +847,10 @@ are_complementary(const angle<U, T>& a1, const angle<U, T>& a2) noexcept
 /**
 * \pre \a a1 and \a a2 are non-negative
 * \sa https://mathworld.wolfram.com/ComplementaryAngles.html
+* \param a1 the first angle
+* \param a2 the second angle
+* \param allowed_rel_diff the relative tolerance passed to \c isclose
+* \param allowed_abs_diff the absolute tolerance passed to \c isclose
 */
 template <angle_unit U, std::floating_point T>
 constexpr bool
@@ -865,6 +878,10 @@ are_supplementary(const angle<U, T>& a1, const angle<U, T>& a2) noexcept
 /**
 * \pre \a a1 and \a a2 are non-negative
 * \sa https://mathworld.wolfram.com/SupplementaryAngles.html
+* \param a1 the first angle
+* \param a2 the second angle
+* \param allowed_rel_diff the relative tolerance passed to \c isclose
+* \param allowed_abs_diff the absolute tolerance passed to \c isclose
 */
 template <angle_unit U, std::floating_point T>
 constexpr bool
@@ -1176,6 +1193,7 @@ angle_diff(angle<U, T> a1, angle<U2, T2> a2) noexcept
 /**
 * \param a1 the first angle
 * \param a2 the second angle
+* \param[out] quo the sign and at least the three low-order bits of the quotient
 */
 template <angle_unit U, std::floating_point T>
 constexpr auto

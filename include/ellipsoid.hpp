@@ -131,6 +131,16 @@ struct Ellipsoid
 
     Ellipsoid() = delete;
 
+    /// construct an ellipsoid from its defining parameters
+    /**
+    * The defaults for \a GM_ and \a omega_ are the WGS 84 values.
+    * \param a_ semi-major axis (meters)
+    * \param f_recip_ reciprocal of the flattening, or infinity for a sphere
+    * \param GM_ geocentric gravitational constant (m³/s²)
+    * \param omega_ nominal mean angular velocity (rad/s)
+    * \exception std::invalid_argument \a a_, or the semi-minor axis it implies, is not
+    * positive and finite
+    */
     constexpr Ellipsoid(const T a_,
                         const T f_recip_, // 1 / f
                         const T GM_ = 3.986004418E14L,

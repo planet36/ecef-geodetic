@@ -50,6 +50,7 @@ geodetic_to_str(const angle<U, T>& lat,
 
 /// string to Geodetic
 /**
+* \a ht is left unchanged when \a s holds only the latitude and longitude.
 * \param s the string representation of the geodetic coordinate
 * \note \a lat and \a lon are converted from decimal degrees.
 * \param[out] lat geodetic latitude

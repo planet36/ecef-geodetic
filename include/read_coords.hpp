@@ -27,6 +27,12 @@
 #include <vector>
 
 /// read ECEF coordinates from stdin
+/**
+* Each line holds X, Y, and Z, or W and Z, in meters.  W is the distance from the Z axis, and a
+* line with W and Z puts the point on the prime meridian.
+* \param[in,out] ecef_vec the vector the points are appended to
+* \exception std::invalid_argument a line holds other than 2 or 3 values
+*/
 template <std::floating_point T>
 void
 read_coords_ecef(std::vector<ECEF<T>>& ecef_vec)
@@ -68,6 +74,13 @@ read_coords_ecef(std::vector<ECEF<T>>& ecef_vec)
 }
 
 /// read Geodetic coordinates from stdin
+/**
+* Each line holds the latitude, longitude, and height, or the latitude and height.  Angles are
+* in degrees and heights in meters, and a line without a longitude puts the point on the prime
+* meridian.
+* \param[in,out] geod_vec the vector the points are appended to
+* \exception std::invalid_argument a line holds other than 2 or 3 values
+*/
 template <std::floating_point T>
 void
 read_coords_geod(std::vector<Geodetic<angle_unit::degree, T>>& geod_vec)
@@ -133,6 +146,14 @@ to_string(const INPUT_DATA_COORD_SYSTEM x) noexcept
 }
 
 /// read ECEF or Geodetic coordinates from stdin
+/**
+* Geodetic input is converted to ECEF.  \c read_coords_ecef and \c read_coords_geod describe
+* the line formats.
+* \param input_data_coord_system the coordinate system of the input lines
+* \param[in,out] ecef_vec the vector the points are appended to
+* \exception std::invalid_argument a line holds other than 2 or 3 values, or
+* \a input_data_coord_system is not a known value
+*/
 template <std::floating_point T>
 void
 read_coords(const INPUT_DATA_COORD_SYSTEM input_data_coord_system,
