@@ -400,7 +400,7 @@ void ligas_Jacobian(const T w, const T we, const T z, const T ze,
     result[1][1] = 2 * ze;
 }
 
-constexpr int lines_ligas_util = 46;
+constexpr int lines_ligas_util = 6 + 5 + 5 + 10 + 6 + 9;
 
 /// get the Newton step for the Lin and Wang (1995) parameter m
 template <std::floating_point T>
@@ -416,7 +416,7 @@ auto lin_wang_1995_delta_m(const T w2, const T z2, const T m) noexcept
     return f / fp;
 }
 
-constexpr int lines_lin_wang_1995_delta_m = 11;
+constexpr int lines_lin_wang_1995_delta_m = 12;
 
 /// get the Newton step for the Shu (2010) parameter k
 template <std::floating_point T>
@@ -434,7 +434,7 @@ auto shu_2010_delta_k(const T w2, const T z2, const T k) noexcept
     return f / fp;
 }
 
-constexpr int lines_shu_2010_delta_k = 13;
+constexpr int lines_shu_2010_delta_k = 14;
 
 /// get the Newton step for the Wu (2003) parameter t
 template <std::floating_point T>
@@ -980,7 +980,7 @@ COMMON_FIRST_DECLS
 }
 constexpr int line_end = __LINE__;
 
-constexpr int lines_extra = 20;
+constexpr int lines_extra = 6 + 6;
 
 const auto func_info = func_info_t(
     /*.func                        =*/ ecef_to_geodetic,
@@ -1116,7 +1116,7 @@ COMMON_FIRST_DECLS
 }
 constexpr int line_end = __LINE__;
 
-constexpr int lines_extra = 20;
+constexpr int lines_extra = 6 + 6;
 
 const auto func_info = func_info_t(
     /*.func                        =*/ ecef_to_geodetic,
