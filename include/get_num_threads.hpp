@@ -25,6 +25,7 @@
 *
 * The program exits if \c NUM_THREADS is not an integer in the interval from 0 to the number
 * of hardware threads.
+* \return the thread count, from 1 to the number of hardware threads
 */
 [[nodiscard]] inline int
 get_num_threads() noexcept
