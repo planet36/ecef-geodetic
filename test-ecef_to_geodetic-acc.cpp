@@ -31,7 +31,6 @@
 #include <fmt/format.h>
 #include <fmt/ranges.h>
 #include <gnu/libc-version.h>
-#include <limits>
 #include <map>
 #include <mutex>
 #include <nlohmann/json.hpp>
@@ -65,6 +64,9 @@ inline constexpr int ilog10_mean_dist_err_inaccurate = 99;
 
 /// the largest \c ilog10_mean_dist_err of an accurate algorithm
 inline constexpr int max_ilog10_mean_dist_err_accurate = 2;
+
+/// the most rounds of the built-in speed test that -s accepts
+inline constexpr int max_num_speed_test_iterations = 10'000;
 
 /// get the \c ilog10_mean_dist_err to report for a mean distance error (m)
 template <std::floating_point T>
@@ -279,7 +281,7 @@ try
     bool verbose = false;
     bool do_acc_test = false;
     bool do_single_point_acc_test = false;
-    unsigned int num_speed_test_iterations = 0;
+    int num_speed_test_iterations = 0;
     int max_ilog10_mean_dist_err = ilog10_mean_dist_err_inaccurate;
     INPUT_DATA_COORD_SYSTEM input_data_coord_system = default_input_data_coord_system;
     bool use_multiple_threads = false;
@@ -307,7 +309,7 @@ try
 
         case 's':
             num_speed_test_iterations =
-                parse_option_int(optarg, 0, std::numeric_limits<int>::max(), "-s");
+                parse_option_int(optarg, 0, max_num_speed_test_iterations, "-s");
             break;
 
         case 'm':
