@@ -43,7 +43,7 @@
 #include <utility>
 #include <vector>
 
-inline constexpr std::string_view program_version = "2024-01-09";
+inline constexpr std::string_view program_version = "2026-10-07";
 // https://man7.org/linux/man-pages/man3/gnu_get_libc_version.3.html
 const std::string_view glibc_version = gnu_get_libc_version();
 // https://gcc.gnu.org/onlinedocs/cpp/Common-Predefined-Macros.html
