@@ -11,6 +11,7 @@
 
 #include "map_func_name_to_func_info.hpp"
 
+#include <algorithm>
 #include <cassert>
 #include <cstddef>
 #include <cstdio>
@@ -25,7 +26,7 @@
 /// get the algorithms named in \a argv from \a first_arg on, or all of them if none are named
 /**
 * The program exits with a list of the valid names if any name is not a key of
-* \c map_func_name_to_func_info.
+* \c map_func_name_to_func_info.  It also exits if a name is given more than once.
 * \param argc the argument count from \c main
 * \param argv the argument vector from \c main
 * \param first_arg the index in \a argv of the first algorithm name
@@ -63,6 +64,16 @@ get_func_names(const int argc, char* const* argv, const int first_arg)
                 fmt::println(stderr, "  {}", fmt::join(keys, "\n  "));
 
                 std::exit(EXIT_FAILURE);
+            }
+        }
+
+        // A repeated name would run its algorithm twice, and the accuracy test would
+        // overwrite or pool the results of the two runs under one name.
+        for (auto it = func_names.cbegin(); it != func_names.cend(); ++it)
+        {
+            if (std::find(func_names.cbegin(), it, *it) != it)
+            {
+                errx(EXIT_FAILURE, "\"%s\" is given more than once", it->c_str());
             }
         }
     }
