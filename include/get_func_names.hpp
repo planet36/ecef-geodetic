@@ -48,7 +48,6 @@ get_func_names(const int argc, char* const* argv, const int first_arg)
         // validate func_names
         for (const auto& func_name : func_names)
         {
-            // verify the given function names are valid
             if (!map_func_name_to_func_info.contains(func_name))
             {
                 warnx("\"%s\" is not a valid function name", func_name.c_str());
