@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: Steven Ward
 // SPDX-License-Identifier: MPL-2.0
 
-// test accuracy of ECEF-to-Geodetic functions
+// test accuracy (and optionally speed) of ECEF-to-Geodetic functions
 
 #include "angle.hpp"
 #include "angle_unit.hpp"
@@ -64,6 +64,7 @@ inline constexpr int ilog10_mean_dist_err_inaccurate = 99;
 /// the largest \c ilog10_mean_dist_err of an accurate algorithm
 inline constexpr int max_ilog10_mean_dist_err_accurate = 2;
 
+/// statistics of the distance errors (m) of one algorithm
 template <std::floating_point T>
 struct dist_err_stats
 {
@@ -74,6 +75,7 @@ struct dist_err_stats
 
     dist_err_stats() = default;
 
+    /// copy the statistics from \a rs
     explicit dist_err_stats(const running_stats<T>& rs) :
     mean(rs.mean()),
     stdev(rs.standard_deviation()),
@@ -82,6 +84,10 @@ struct dist_err_stats
     {}
 };
 
+/// get the round-trip distance error (m) of \a func at \a ecef_given
+/**
+* The geodetic result of \a func is converted back to ECEF exactly.
+*/
 template <std::floating_point T>
 auto
 round_trip_dist_err(const ecef_to_geodetic_func<T>& func, const ECEF<T>& ecef_given)
@@ -97,7 +103,7 @@ round_trip_dist_err(const ecef_to_geodetic_func<T>& func, const ECEF<T>& ecef_gi
     return dist_err;
 }
 
-// Add each dist_err to running stats.
+/// get the distance error statistics of \a func over \a ecef_vec from running statistics
 template <std::floating_point T>
 auto
 do_ecef_to_geodetic_test_acc_running(const ecef_to_geodetic_func<T>& func,
@@ -119,9 +125,12 @@ do_ecef_to_geodetic_test_acc_running(const ecef_to_geodetic_func<T>& func,
     return dist_err_stats(rs);
 }
 
-// Add all dist_err to a multiset.
-// This tries to minimize floating point precision loss.
-// However, it only reduces the precision loss of the dist_err sum by less than 1E-12 at the cost of being 8x slower.
+/// get the distance error statistics of \a func over \a ecef_vec from every error, sorted
+/**
+* Summing the errors in ascending order tries to minimize floating-point precision loss.
+* However, it reduces the precision loss of the sum by less than 1E-12, and it is 8 times
+* slower than \c do_ecef_to_geodetic_test_acc_running.
+*/
 template <std::floating_point T>
 auto
 do_ecef_to_geodetic_test_acc_collect(const ecef_to_geodetic_func<T>& func,
@@ -148,6 +157,12 @@ do_ecef_to_geodetic_test_acc_collect(const ecef_to_geodetic_func<T>& func,
     return stats;
 }
 
+/// get the distance error statistics of \a func over \a ecef_vec
+/**
+* \param func the algorithm under test
+* \param ecef_vec the input points
+* \param collect_dist_err whether to keep every distance error for more precise statistics
+*/
 template <std::floating_point T>
 inline auto
 do_ecef_to_geodetic_test_acc(const ecef_to_geodetic_func<T>& func,
@@ -161,6 +176,7 @@ do_ecef_to_geodetic_test_acc(const ecef_to_geodetic_func<T>& func,
 }
 
 #if 1
+/// run \a func on every point in \a ecef_vec, keeping the compiler from discarding the results
 template <std::floating_point T>
 void
 do_ecef_to_geodetic_test_speed(const ecef_to_geodetic_func<T>& func,
@@ -197,18 +213,39 @@ auto do_ecef_to_geodetic_test_speed =
 
 #define nl (void)putchar('\n')
 
+/// print the command-line usage to stderr
+void
+print_usage(const char* program_name)
+{
+    fmt::print(stderr, R"(Usage: {} [OPTION]... [FUNC_NAME]...
+Test the accuracy of ECEF-to-Geodetic functions, and print the results as JSON.
+Read the input coordinates from stdin.  Test every function unless FUNC_NAMEs are given.
+
+  -a    run the accuracy test
+  -1    run the single-point accuracy test
+  -s N  run N rounds of the speed test
+  -m N  skip functions whose ilog10_mean_dist_err exceeds N
+  -g    read geodetic input instead of ECEF
+  -t    use multiple threads
+  -c    collect every distance error for more precise statistics
+  -v    print progress to stderr
+)",
+               program_name);
+}
+
 int
 main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
 {
     /*
     ** Methodology for testing a single point:
     ** Given a Geodetic point (g1), perform an exact conversion to ECEF (e1).
-    ** For the given algorithm, convert e1 to Geodetic (g2), and measure the elapsed time of conversion.
+    ** For the given algorithm, convert e1 to Geodetic (g2).
     ** Perform an exact conversion of g2 to ECEF (e2).
-    ** Calculate the Euclidian distance from e1 to e2.  This is the distance error.
+    ** Calculate the Euclidean distance from e1 to e2.  This is the distance error.
     **
     ** For many Geodetic points, vary the latitude and height.
-    ** The longitude calculation is the same in all algorithms (lon = atan2(y, x)) so it's not meaningful to vary.
+    ** The longitude calculation is the same in all algorithms (lon = atan2(y, x)), so it's not
+    ** meaningful to vary.
     ** The set of test points must include some at the equator, the poles, and non-zero heights.
     */
 
@@ -292,6 +329,7 @@ main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
             break;
 
         default:
+            print_usage(argv[0]);
             std::exit(EXIT_FAILURE);
         }
     }
@@ -332,7 +370,8 @@ main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
         }
     }
 
-    // filter out funcs whose mean dist. error are above max_ilog10_mean_dist_err
+    // filter out the functions whose hard-coded ilog10_mean_dist_err exceeds
+    // max_ilog10_mean_dist_err
     erase_if(func_names,
              [max_ilog10_mean_dist_err](const auto func_name)
              {
@@ -400,7 +439,8 @@ main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
                 {
                     const auto& func_info = map_func_name_to_func_info.at(func_name);
 
-                    const auto stats = do_ecef_to_geodetic_test_acc(func_info.func, ecef_vec, collect_dist_err);
+                    const auto stats = do_ecef_to_geodetic_test_acc(func_info.func, ecef_vec,
+                                                                    collect_dist_err);
 
                     int ilog10_mean_dist_err = ilog10(stats.mean);
                     if (stats.mean == 0)
@@ -512,7 +552,8 @@ main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
 
             std::shuffle(func_names.begin(), func_names.end(), rng);
 
-            // Note: Presumably because of cache misses, each algorithm is about 20% slower on average.
+            // With multiple threads, each algorithm is about 20% slower on average, presumably
+            // because of cache misses.
             if (use_multiple_threads)
             {
                 std::mutex mtx;
@@ -589,7 +630,8 @@ main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
                 rs.push(multiset_time_per_call.cbegin(), multiset_time_per_call.cend());
 
                 json_output["func_names"][func_name]["speed"] = {
-                    {"median_time_per_call", fmt::format("{:.1f}", median_val(multiset_time_per_call))},
+                    {"median_time_per_call",
+                     fmt::format("{:.1f}", median_val(multiset_time_per_call))},
                     {"mean_time_per_call", fmt::format("{:.1f}", rs.mean())},
                     {"stdev_time_per_call", fmt::format("{:.1f}", rs.standard_deviation())},
                 };
