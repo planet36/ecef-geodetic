@@ -150,7 +150,8 @@ do_ecef_to_geodetic_test_acc_collect(const ecef_to_geodetic_func<T>& func,
     }
 
     stats.mean = arithmetic_mean_val(ms);
-    stats.stdev = stdev_val(ms);
+    // the sample standard deviation, which is what running_stats gives
+    stats.stdev = stdev_val(ms, true);
     stats.max = max_val(ms);
     stats.sum = sum_val(ms);
 
