@@ -22,6 +22,12 @@
 #include <string_view>
 #include <system_error>
 
+/// an integer type that \c std::from_chars can parse with a base
+template <typename T>
+concept from_chars_integral =
+    std::integral<T> &&
+    requires (const char* p, T& v) { std::from_chars(p, p, v, 10); };
+
 /// Parse all of \a s as an integer of type \c T in <code>[min, max]</code>
 /**
 * \tparam T the integer type of the result
@@ -44,7 +50,7 @@
 *       \c "0" hides the prefix, so \c "-010" parses as decimal -10.  A
 *       \c '-' after \c "0x" is accepted, so \c "0x-5" parses as -5.
 */
-template <std::integral T = int>
+template <from_chars_integral T = int>
 [[nodiscard]] constexpr std::expected<T, std::errc>
 parse_int(std::string_view s,
           const T min = std::numeric_limits<T>::lowest(),
