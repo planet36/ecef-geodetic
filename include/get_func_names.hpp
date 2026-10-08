@@ -12,7 +12,9 @@
 #include "map_func_name_to_func_info.hpp"
 
 #include <algorithm>
+#if defined(DEBUG)
 #include <cassert>
+#endif
 #include <cstddef>
 #include <cstdio>
 #include <cstdlib>
