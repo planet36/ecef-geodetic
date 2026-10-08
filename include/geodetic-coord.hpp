@@ -91,6 +91,7 @@ str_to_geodetic(const std::string& s, angle<U, T>& lat, angle<U, T>& lon, T& ht)
 template <angle_unit U, std::floating_point T>
 struct Geodetic
 {
+    /// this type
     using this_t = Geodetic<U, T>;
 
     angle<U, T> lat{}; ///< geodetic latitude
@@ -99,6 +100,7 @@ struct Geodetic
 
     Geodetic() = default;
 
+    /// construct from a latitude, a longitude, and an optional height (meters)
     constexpr Geodetic(const angle<U, T>& _lat,
                        const angle<U, T>& _lon,
                        const T _ht = 0) noexcept :
@@ -115,10 +117,13 @@ struct Geodetic
     ht(that.ht)
     {}
 
+    /// compare the latitude, then the longitude, then the height
     auto operator<=>(const this_t&) const = default;
 
+    /// fold the latitude into [-90, 90] degrees and the longitude into [-180, 180]
     constexpr void normalize() noexcept { normalize_geodetic(lat, lon); }
 
+    /// format the coordinate as text, as \c geodetic_to_str does
     [[nodiscard]] std::string
     to_string(const int precision = geodetic_default_precision) const
     {

@@ -19,6 +19,7 @@
 grep namespace ecef_to_geodetic-funcs.hpp | awk '{print "{\"" $2 "\", " $2 "::func_info},"}'
 */
 
+/// the algorithms under test, keyed by namespace name
 const std::map<std::string, func_info_t> map_func_name_to_func_info{
 
 {"borkowski_1989", borkowski_1989::func_info},

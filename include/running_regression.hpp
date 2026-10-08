@@ -79,6 +79,7 @@ public:
         return S_xy / ((n - 1) * t);
     }
 
+    /// Merge two \c running_regression objects into one
     template <std::floating_point T2>
     friend running_regression<T2> operator+(const running_regression<T2>& a,
                                             const running_regression<T2>& b) noexcept;

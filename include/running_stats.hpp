@@ -132,6 +132,7 @@ public:
     /// Get the maximum absolute value, or NaN if none were pushed
     [[nodiscard]] constexpr auto max_abs() const noexcept { return _max_abs; }
 
+    /// Merge two \c running_stats objects into one
     template <std::floating_point T2>
     friend running_stats<T2> operator+(const running_stats<T2>& a,
                                        const running_stats<T2>& b) noexcept;

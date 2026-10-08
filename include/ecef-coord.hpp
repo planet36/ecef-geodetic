@@ -103,6 +103,7 @@ WGS 84 Ellipsoid and the Z-axis serves as the rotational axis of this ellipsoid 
 template <std::floating_point T>
 struct ECEF
 {
+    /// this type
     using this_t = ECEF<T>;
 
     T x{}; ///< X coordinate (meters)
@@ -111,6 +112,7 @@ struct ECEF
 
     ECEF() = default;
 
+    /// construct from X, Y, and Z (meters)
     constexpr ECEF(const T _x, const T _y, const T _z) noexcept : x(_x), y(_y), z(_z) {}
 
     /// conversion ctor
@@ -118,10 +120,13 @@ struct ECEF
     constexpr ECEF(const ECEF<T2>& that) noexcept : x(that.x), y(that.y), z(that.z)
     {}
 
+    /// compare X, then Y, then Z
     auto operator<=>(const this_t&) const = default;
 
+    /// do nothing, because an ECEF coordinate needs no normalization
     constexpr void normalize() noexcept {}
 
+    /// format the coordinate as text, as \c ecef_to_str does
     [[nodiscard]] std::string to_string(int precision = ecef_default_precision) const
     {
         return ecef_to_str(x, y, z, precision);

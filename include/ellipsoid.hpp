@@ -320,6 +320,7 @@ struct Ellipsoid
         return get_ht(w, z, sin_lat, cos_lat);
     }
 
+    /// compare the defining parameters, which determine every derived constant
     constexpr bool operator==(const Ellipsoid& that) const noexcept
     {
         return this->a == that.a && this->f == that.f && this->GM == that.GM &&

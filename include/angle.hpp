@@ -45,55 +45,65 @@ public:
     constexpr angle(const angle<U2, T2>& a) noexcept : value(convert_from<U2, U>(a.scalar()))
     {}
 
+    /// add \a that to this angle
     constexpr angle& operator+=(const angle& that) noexcept
     {
         value += that.value;
         return *this;
     }
 
+    /// subtract \a that from this angle
     constexpr angle& operator-=(const angle& that) noexcept
     {
         value -= that.value;
         return *this;
     }
 
+    /// multiply this angle by \a x
     constexpr angle& operator*=(const T& x) noexcept
     {
         value *= x;
         return *this;
     }
 
+    /// divide this angle by \a x
     constexpr angle& operator/=(const T& x) noexcept
     {
         value /= x;
         return *this;
     }
 
+    /// get the angle in milliradians
     [[nodiscard]] constexpr T to_mrad() const noexcept
     {
         return convert_from<U, angle_unit::milliradian>(value);
     }
 
+    /// get the angle in radians
     [[nodiscard]] constexpr T to_rad() const noexcept
     {
         return convert_from<U, angle_unit::radian>(value);
     }
 
+    /// get the angle in revolutions
     [[nodiscard]] constexpr T to_rev() const noexcept
     {
         return convert_from<U, angle_unit::revolution>(value);
     }
 
+    /// get the angle in degrees
     [[nodiscard]] constexpr T to_deg() const noexcept
     {
         return convert_from<U, angle_unit::degree>(value);
     }
 
+    /// get the angle in arcminutes
     [[nodiscard]] constexpr T to_arcmin() const noexcept
     {
         return convert_from<U, angle_unit::arcminute>(value);
     }
 
+    /// get the angle in arcseconds
     [[nodiscard]] constexpr T to_arcsec() const noexcept
     {
         return convert_from<U, angle_unit::arcsecond>(value);
@@ -130,6 +140,7 @@ public:
         return angle<U2, T2>{*this};
     }
 
+    /// compare the values of two angles with the same unit and type
     auto operator<=>(const angle&) const = default;
 };
 
@@ -377,7 +388,17 @@ operator""_arcsec(const unsigned long long int x) noexcept
     return ang_arcsec<T>{static_cast<T>(x)};
 }
 
-/// primary template
+/// constant angles in unit \a U and type \a T
+/**
+* Each specialization provides these members:
+*
+* - \c angle, the type <code>angle<U, T></code>
+* - \c zero
+* - \c eighth_turn, \c quarter_turn, \c half_turn, and \c full_turn, which are 45, 90, 180,
+*   and 360 degrees
+* - \c inf, an infinite angle
+* - \c nan, a NaN angle
+*/
 template <angle_unit U, std::floating_point T>
 struct const_angle;
 

@@ -20,7 +20,10 @@
 #include <type_traits>
 #include <utility>
 
-// https://en.cppreference.com/w/cpp/named_req/Compare
+/// compare the magnitudes of two values
+/**
+* \sa https://en.cppreference.com/w/cpp/named_req/Compare
+*/
 constexpr auto compare_abs_less = [](const auto& a, const auto& b)
 {
     return std::abs(a) < std::abs(b);
@@ -37,8 +40,11 @@ concept sorted_ascending =
     (std::same_as<typename C::key_compare, std::less<typename C::key_type>> ||
      std::same_as<typename C::key_compare, std::less<>>);
 
+/// square
 #define POW2(x) ((x) * (x))
+/// cube
 #define POW3(x) ((x) * (x) * (x))
+/// fourth power
 #define POW4(x) ((x) * (x) * (x) * (x))
 
 /// get the minimum value, or NaN if \a c is empty
