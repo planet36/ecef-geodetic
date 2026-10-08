@@ -39,11 +39,22 @@ inline constexpr T deg_per_rad_v = 180 / std::numbers::pi_v<T>;
 /// degrees per radian, as a \c double
 inline constexpr double deg_per_rad = deg_per_rad_v<double>;
 
+/// quadrants per revolution
 inline constexpr unsigned short quadrants_per_rev = 4;
+
+/// sextants per revolution
 inline constexpr unsigned short sextants_per_rev = 6;
+
+/// octants per revolution
 inline constexpr unsigned short octants_per_rev = 8;
+
+/// hexacontades per revolution
 inline constexpr unsigned short hexacontades_per_rev = 60;
+
+/// binary degrees per revolution
 inline constexpr unsigned short binary_degrees_per_rev = 256;
+
+/// gradians per revolution
 inline constexpr unsigned short gradians_per_rev = 400;
 
 /// convert to radians from milliradians

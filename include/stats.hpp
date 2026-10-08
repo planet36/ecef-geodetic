@@ -41,6 +41,7 @@ concept sorted_ascending =
 #define POW3(x) ((x) * (x) * (x))
 #define POW4(x) ((x) * (x) * (x) * (x))
 
+/// get the minimum value, or NaN if \a c is empty
 template <container Container>
 requires std::is_floating_point_v<typename Container::value_type>
 constexpr auto
@@ -58,6 +59,7 @@ min_val(const Container& c)
         return *std::min_element(c.cbegin(), c.cend());
 }
 
+/// get the value with the smallest magnitude, or NaN if \a c is empty
 template <container Container>
 requires std::is_floating_point_v<typename Container::value_type>
 constexpr auto
@@ -72,6 +74,7 @@ min_abs_val(const Container& c)
     return *std::min_element(c.cbegin(), c.cend(), compare_abs_less);
 }
 
+/// get the maximum value, or NaN if \a c is empty
 template <container Container>
 requires std::is_floating_point_v<typename Container::value_type>
 constexpr auto
@@ -89,6 +92,7 @@ max_val(const Container& c)
         return *std::max_element(c.cbegin(), c.cend());
 }
 
+/// get the value with the largest magnitude, or NaN if \a c is empty
 template <container Container>
 requires std::is_floating_point_v<typename Container::value_type>
 constexpr auto
@@ -103,6 +107,7 @@ max_abs_val(const Container& c)
     return *std::max_element(c.cbegin(), c.cend(), compare_abs_less);
 }
 
+/// get the minimum and maximum values, or two NaNs if \a c is empty
 template <container Container>
 requires std::is_floating_point_v<typename Container::value_type>
 constexpr auto
@@ -126,6 +131,7 @@ minmax_vals(const Container& c)
     }
 }
 
+/// get the values with the smallest and largest magnitudes, or two NaNs if \a c is empty
 template <container Container>
 requires std::is_floating_point_v<typename Container::value_type>
 constexpr auto
@@ -143,6 +149,7 @@ minmax_abs_vals(const Container& c)
     return std::make_pair(*min_iter, *max_iter);
 }
 
+/// get the sum of the values, added in the order of \a c
 template <container Container>
 requires std::is_floating_point_v<typename Container::value_type>
 constexpr auto
@@ -158,6 +165,7 @@ sum_val(const Container& c)
     return sum;
 }
 
+/// get the sum of the absolute values, added in the order of \a c
 template <container Container>
 requires std::is_floating_point_v<typename Container::value_type>
 constexpr auto
@@ -173,6 +181,7 @@ sum_abs_val(const Container& c)
     return sum;
 }
 
+/// get the arithmetic mean, or NaN if \a c is empty
 template <container Container>
 requires std::is_floating_point_v<typename Container::value_type>
 constexpr auto
@@ -190,6 +199,12 @@ arithmetic_mean_val(const Container& c)
 // adapted from datamash
 // https://git.savannah.gnu.org/cgit/datamash.git/tree/src/utils.c#n119
 
+/// get the population or sample variance
+/**
+* \param c the values
+* \param is_sample whether to divide by n - 1 for the sample variance instead of by n
+* \return the variance, or NaN if \a c is empty, or holds 1 value and \a is_sample is true
+*/
 template <container Container>
 requires std::is_floating_point_v<typename Container::value_type>
 constexpr auto
@@ -222,6 +237,13 @@ variance_val(const Container& c, const bool is_sample = false)
     return variance;
 }
 
+/// get the population or sample standard deviation
+/**
+* \param c the values
+* \param is_sample whether to take the square root of the sample variance instead of the
+* population variance
+* \return the standard deviation, or NaN if \c variance_val returns NaN
+*/
 template <container Container>
 requires std::is_floating_point_v<typename Container::value_type>
 constexpr auto
@@ -234,6 +256,13 @@ stdev_val(const Container& c, const bool is_sample = false)
 // https://git.savannah.gnu.org/cgit/datamash.git/tree/src/utils.c#n209
 
 // https://brownmath.com/stat/shape.htm#Skewness
+/// get the population or sample skewness
+/**
+* \param c the values
+* \param is_sample whether to apply the small-sample adjustment
+* \return the skewness, or NaN if \a c holds fewer than 2 values, or fewer than 3 when
+* \a is_sample is true
+*/
 template <container Container>
 requires std::is_floating_point_v<typename Container::value_type>
 constexpr auto
@@ -272,6 +301,13 @@ skewness_val(const Container& c, const bool is_sample = false)
 // https://git.savannah.gnu.org/cgit/datamash.git/tree/src/utils.c#n269
 
 // https://brownmath.com/stat/shape.htm#Kurtosis
+/// get the population or sample excess kurtosis
+/**
+* \param c the values
+* \param is_sample whether to apply the small-sample adjustment
+* \return the excess kurtosis, or NaN if \a c holds fewer than 2 values, or fewer than 4
+* when \a is_sample is true
+*/
 template <container Container>
 requires std::is_floating_point_v<typename Container::value_type>
 constexpr auto
@@ -307,6 +343,10 @@ excess_kurtosis_val(const Container& c, const bool is_sample = false)
     return excess_kurtosis;
 }
 
+/// get the median, or NaN if \a c is empty
+/**
+* \pre \a c is sorted in ascending order
+*/
 template <container Container>
 requires std::is_floating_point_v<typename Container::value_type>
 constexpr auto
@@ -324,6 +364,7 @@ median_val(const Container& c)
         return *std::next(c.cbegin(), n / 2);
 }
 
+/// get the difference between the maximum and minimum values, or NaN if \a c is empty
 template <container Container>
 requires std::is_floating_point_v<typename Container::value_type>
 constexpr auto

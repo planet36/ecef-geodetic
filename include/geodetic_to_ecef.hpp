@@ -84,6 +84,7 @@ geodetic_to_ecef(const angle<U, T>& lat,
     z = (Rn * (1 - ell.e2) + ht) * sin_lat;
 }
 
+/// convert a geodetic coordinate to ECEF
 template <angle_unit U, std::floating_point T>
 [[nodiscard]] constexpr auto
 geodetic_to_ecef(const Geodetic<U, T>& geod) noexcept

@@ -1204,6 +1204,7 @@ remquo(const angle<U, T>& a1, const angle<U, T>& a2, int& quo) noexcept
 
 // XXX: this seems like more trouble than it's worth
 
+/// is \a y zero, infinite, or NaN, so that atan needs no argument reduction?
 template <std::floating_point T>
 constexpr bool
 atan_boundary_case(const T y) noexcept
@@ -1224,6 +1225,7 @@ atan_boundary_case(const T y) noexcept
     }
 }
 
+/// is \a y or \a x zero, infinite, or NaN, so that atan2 needs no argument reduction?
 template <std::floating_point T>
 constexpr bool
 atan2_boundary_case(const T y, const T x) noexcept

@@ -28,5 +28,6 @@ Version 1.0.0
 
 #include <concepts>
 
+/// the WGS 84 reference ellipsoid
 template <std::floating_point T>
 inline constexpr Ellipsoid<T> WGS84{6'378'137.0L, 298.257223563L};

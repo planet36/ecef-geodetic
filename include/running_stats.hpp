@@ -20,6 +20,7 @@
 #include <iterator>
 #include <limits>
 
+/// Statistics of a stream of values, updated one value at a time
 template <std::floating_point T = double>
 class running_stats
 {

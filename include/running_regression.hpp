@@ -15,6 +15,7 @@
 
 #include <concepts>
 
+/// Least-squares linear regression of y on x, updated one point at a time
 template <std::floating_point T = double>
 class running_regression
 {
@@ -33,6 +34,7 @@ public:
     }
     */
 
+    /// Reset all statistics to their initial state
     constexpr void clear() noexcept
     {
         x_stats.clear();
@@ -41,6 +43,7 @@ public:
         n = 0;
     }
 
+    /// Add a single (x, y) point to the regression
     void push(const T x, const T y) noexcept
     {
         // The means of empty stats are NaN, and 0 * NaN is still NaN, so the
@@ -53,19 +56,23 @@ public:
         n++;
     }
 
+    /// Get the number of points pushed
     [[nodiscard]] constexpr auto num_data_values() const noexcept { return n; }
 
+    /// Get the slope of the least-squares line, or NaN if fewer than 2 points were pushed
     [[nodiscard]] constexpr auto slope() const noexcept
     {
         const auto S_xx = x_stats.variance() * (n - 1);
         return S_xy / S_xx;
     }
 
+    /// Get the y-intercept of the least-squares line, or NaN if fewer than 2 points were pushed
     [[nodiscard]] constexpr auto intercept() const noexcept
     {
         return y_stats.mean() - slope() * x_stats.mean();
     }
 
+    /// Get the Pearson correlation coefficient, or NaN if fewer than 2 points were pushed
     [[nodiscard]] auto correlation() const noexcept
     {
         const auto t = x_stats.standard_deviation() * y_stats.standard_deviation();
@@ -76,6 +83,7 @@ public:
     friend running_regression<T2> operator+(const running_regression<T2>& a,
                                             const running_regression<T2>& b) noexcept;
 
+    /// Merge another \c running_regression into this one
     running_regression<T>& operator+=(const running_regression<T>& that) noexcept
     {
         const running_regression<T> combined = *this + that;
@@ -84,6 +92,7 @@ public:
     }
 };
 
+/// Merge two \c running_regression objects into one
 template <std::floating_point T>
 [[nodiscard]] running_regression<T>
 operator+(const running_regression<T>& a, const running_regression<T>& b) noexcept

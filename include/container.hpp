@@ -14,6 +14,7 @@
 #include <concepts>
 #include <iterator>
 
+/// a type that meets the C++ Container named requirement
 template <typename C>
 concept container = requires (C a, const C b) {
     requires std::regular<C>;

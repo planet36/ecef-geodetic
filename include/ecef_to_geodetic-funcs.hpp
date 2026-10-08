@@ -134,22 +134,28 @@ constexpr int lines_common_first_decls = 4;
 // these are the lines in the common first decls (checked)
 constexpr int lines_common_first_decls_checked = 28;
 
+/// a pointer to an ECEF-to-geodetic conversion function
 template <std::floating_point T>
 using ecef_to_geodetic_func = void (*)(const T, const T, const T, T&, T&, T&);
 
+/// an ECEF-to-geodetic algorithm and its metadata
+/**
+* \c ilog10_mean_dist_err is 99 when the mean distance error is at least 1000 meters or is not
+* finite.
+*/
 struct func_info_t
 {
-    ecef_to_geodetic_func<double> func;
-    int               num_lines;
-    const bool        needs_code_for_corner_cases;
-    const int         ilog10_mean_dist_err;
-    const std::string display_name;
-    const std::string algo_author;
-    const std::string code_copyright;
-    const std::string license;
-    const std::string orig_impl_lang;
-    const std::string url;
-    const std::string citation;
+    ecef_to_geodetic_func<double> func;            ///< the conversion function
+    int               num_lines;                   ///< lines of code, with prologue and helpers
+    const bool        needs_code_for_corner_cases; ///< uses \c COMMON_FIRST_DECLS_CHECKED
+    const int         ilog10_mean_dist_err;        ///< floor of log10 of the mean error (m)
+    const std::string display_name;                ///< the name shown in the results
+    const std::string algo_author;                 ///< who devised the algorithm
+    const std::string code_copyright;              ///< who holds the copyright of the code
+    const std::string license;                     ///< the license of the code
+    const std::string orig_impl_lang;              ///< the language of the original code
+    const std::string url;                         ///< where the algorithm is published
+    const std::string citation;                    ///< the publication that describes it
 
     func_info_t(const ecef_to_geodetic_func<double> _func,
                 const int          _num_lines,
@@ -293,6 +299,7 @@ void get_f_fp_fpp(const T w, const T z, const T sin_lat, const T cos_lat,
 
 constexpr int lines_f_fp_fpp = 12;
 
+/// get the Newton-Raphson step for the geodetic latitude
 template <std::floating_point T>
 auto newton_raphson_delta_lat(const T w, const T z,
                               const T sin_lat, const T cos_lat) noexcept
@@ -304,6 +311,7 @@ auto newton_raphson_delta_lat(const T w, const T z,
 
 constexpr int lines_newton_raphson_delta_lat = 8 + lines_f_fp;
 
+/// get Householder's step for the geodetic latitude
 template <std::floating_point T>
 auto householder_delta_lat(const T w, const T z,
                            const T sin_lat, const T cos_lat) noexcept
@@ -315,6 +323,7 @@ auto householder_delta_lat(const T w, const T z,
 
 constexpr int lines_householder_delta_lat = 8 + lines_f_fp_fpp;
 
+/// get Schröder's step for the geodetic latitude
 template <std::floating_point T>
 auto schroder_delta_lat(const T w, const T z,
                         const T sin_lat, const T cos_lat) noexcept
@@ -326,6 +335,7 @@ auto schroder_delta_lat(const T w, const T z,
 
 constexpr int lines_schroder_delta_lat = 8 + lines_f_fp_fpp;
 
+/// get Halley's step for the geodetic latitude
 template <std::floating_point T>
 auto halley_delta_lat(const T w, const T z,
                       const T sin_lat, const T cos_lat) noexcept
@@ -337,6 +347,7 @@ auto halley_delta_lat(const T w, const T z,
 
 constexpr int lines_halley_delta_lat = 8 + lines_f_fp_fpp;
 
+/// get Ligas's normal condition for the foot point (we, ze)
 template <std::floating_point T>
 auto ligas_f1(const T w, const T we,
               const T z, const T ze) noexcept
@@ -344,18 +355,21 @@ auto ligas_f1(const T w, const T we,
     return (1 - ell.e2) * we * (ze - z) - ze * (we - w);
 }
 
+/// get Ligas's ellipse condition for the foot point (we, ze)
 template <std::floating_point T>
 auto ligas_f2(const T we, const T ze) noexcept
 {
     return (1 - ell.e2) * we * we + ze * ze - ell.b2;
 }
 
+/// get the determinant of a 2×2 matrix
 template <std::floating_point T>
 auto det(const T A[2][2]) noexcept
 {
     return A[0][0] * A[1][1] - A[0][1] * A[1][0];
 }
 
+/// invert a 2×2 matrix
 template <std::floating_point T>
 void inv(const T A[2][2], T result[2][2]) noexcept
 {
@@ -367,6 +381,7 @@ void inv(const T A[2][2], T result[2][2]) noexcept
     result[1][1] = +A[0][0] / d;
 }
 
+/// multiply a 2×2 matrix by a 2-vector
 template <std::floating_point T>
 void mul(const T A[2][2], const T X[2], T result[2]) noexcept
 {
@@ -374,6 +389,7 @@ void mul(const T A[2][2], const T X[2], T result[2]) noexcept
     result[1] = A[1][0] * X[0] + A[1][1] * X[1];
 }
 
+/// get the Jacobian of Ligas's two conditions
 template <std::floating_point T>
 void ligas_Jacobian(const T w, const T we, const T z, const T ze,
                     T result[2][2]) noexcept
@@ -386,6 +402,7 @@ void ligas_Jacobian(const T w, const T we, const T z, const T ze,
 
 constexpr int lines_ligas_util = 46;
 
+/// get the Newton step for the Lin and Wang (1995) parameter m
 template <std::floating_point T>
 auto lin_wang_1995_delta_m(const T w2, const T z2, const T m) noexcept
 {
@@ -401,6 +418,7 @@ auto lin_wang_1995_delta_m(const T w2, const T z2, const T m) noexcept
 
 constexpr int lines_lin_wang_1995_delta_m = 11;
 
+/// get the Newton step for the Shu (2010) parameter k
 template <std::floating_point T>
 auto shu_2010_delta_k(const T w2, const T z2, const T k) noexcept
 {
@@ -418,6 +436,7 @@ auto shu_2010_delta_k(const T w2, const T z2, const T k) noexcept
 
 constexpr int lines_shu_2010_delta_k = 13;
 
+/// get the Newton step for the Wu (2003) parameter t
 template <std::floating_point T>
 auto wu_2003_delta_t(const T A, const T B, const T C, const T t) noexcept
 {

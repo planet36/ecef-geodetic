@@ -122,12 +122,14 @@ read_coords_geod(std::vector<Geodetic<angle_unit::degree, T>>& geod_vec)
     }
 }
 
+/// the coordinate system of the input lines
 enum struct INPUT_DATA_COORD_SYSTEM
 {
     ECEF,
     GEODETIC,
 };
 
+/// get the name of the input coordinate system
 [[nodiscard]] inline std::string_view
 to_string(const INPUT_DATA_COORD_SYSTEM x) noexcept
 {

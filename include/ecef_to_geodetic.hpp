@@ -141,6 +141,7 @@ ecef_to_geodetic(const T x,
     lon = ang_rad<T>{lon_rad};
 }
 
+/// convert an ECEF coordinate to geodetic, with angles in radians
 template <std::floating_point T>
 [[nodiscard]] constexpr auto
 ecef_to_geodetic(const ECEF<T>& ecef) noexcept
