@@ -25,7 +25,7 @@
 #include <string>
 #include <vector>
 
-/// get the algorithms named in \a argv from \a first_arg on, or all of them if none are named
+/// Get the algorithms named in \a argv from \a first_arg on, or all of them if none are named
 /**
 * The program exits with a list of the valid names if any name is not a key of
 * \c map_func_name_to_func_info.  It also exits if a name is given more than once.
