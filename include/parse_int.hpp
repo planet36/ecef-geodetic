@@ -133,10 +133,10 @@ parse_option_int(const char* optarg, const int min, const int max, const char* o
 * \param optarg the option argument to parse
 * \param option_name the option name, named by the exception message
 * \return the parsed value
-* \note The parsed value is bounded only by the range of \c int.
 * \exception std::invalid_argument \a optarg is null, or is not entirely an
 *            integer
 * \exception std::out_of_range the value is not representable in \c int
+* \note The parsed value is bounded only by the range of \c int.
 */
 [[nodiscard]] inline int
 parse_option_int(const char* optarg, const char* option_name)
