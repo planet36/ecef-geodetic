@@ -16,6 +16,7 @@
 
 #include <cmath>
 #include <concepts>
+#include <cstddef>
 #include <fmt/format.h>
 #include <iostream>
 #include <iterator>
@@ -26,24 +27,51 @@
 #include <utility>
 #include <vector>
 
+/// parse the numbers on one input line
+/**
+* \param line the input line
+* \param line_num the 1-based line number, for error messages
+* \return the numbers on the line
+* \exception std::invalid_argument the line holds text that does not parse as a number
+*/
+template <std::floating_point T>
+std::vector<T>
+read_line_values(const std::string& line, const std::size_t line_num)
+{
+    std::istringstream values_stream(line);
+    std::vector<T> values{std::istream_iterator<T>{values_stream}, std::istream_iterator<T>{}};
+
+    // istream_iterator stops quietly at the first token it cannot parse, such as "nan", "junk",
+    // or an overflow, so count the tokens to catch whatever it left behind.
+    std::istringstream tokens_stream(line);
+    const auto num_tokens = std::distance(std::istream_iterator<std::string>{tokens_stream},
+                                          std::istream_iterator<std::string>{});
+
+    if (std::cmp_not_equal(num_tokens, values.size()))
+        throw std::invalid_argument(
+            fmt::format("Invalid number on input line {}: {}", line_num, line));
+
+    return values;
+}
+
 /// read ECEF coordinates from stdin
 /**
 * Each line holds X, Y, and Z, or W and Z, in meters.  W is the distance from the Z axis, and a
 * line with W and Z puts the point on the prime meridian.
 * \param[in,out] ecef_vec the vector the points are appended to
-* \exception std::invalid_argument a line holds other than 2 or 3 values
+* \exception std::invalid_argument a line holds text that does not parse as a number, or
+* other than 2 or 3 values
 */
 template <std::floating_point T>
 void
 read_coords_ecef(std::vector<ECEF<T>>& ecef_vec)
 {
     std::string input_line;
+    std::size_t line_num = 0;
     while (std::getline(std::cin, input_line))
     {
-        std::istringstream iss(input_line);
-
-        const std::vector<T> input_vec{std::istream_iterator<T>{iss},
-                                       std::istream_iterator<T>{}};
+        ++line_num;
+        const auto input_vec = read_line_values<T>(input_line, line_num);
 
         T x{};
         T y{};
@@ -64,8 +92,8 @@ read_coords_ecef(std::vector<ECEF<T>>& ecef_vec)
             break;
 
         default:
-            throw std::invalid_argument(
-                fmt::format("Invalid input data dimensions: {}", input_vec.size()));
+            throw std::invalid_argument(fmt::format(
+                "Invalid input data dimensions on line {}: {}", line_num, input_vec.size()));
             break;
         }
 
@@ -79,19 +107,19 @@ read_coords_ecef(std::vector<ECEF<T>>& ecef_vec)
 * in degrees and heights in meters, and a line without a longitude puts the point on the prime
 * meridian.
 * \param[in,out] geod_vec the vector the points are appended to
-* \exception std::invalid_argument a line holds other than 2 or 3 values
+* \exception std::invalid_argument a line holds text that does not parse as a number, or
+* other than 2 or 3 values
 */
 template <std::floating_point T>
 void
 read_coords_geod(std::vector<Geodetic<angle_unit::degree, T>>& geod_vec)
 {
     std::string input_line;
+    std::size_t line_num = 0;
     while (std::getline(std::cin, input_line))
     {
-        std::istringstream iss(input_line);
-
-        const std::vector<T> input_vec{std::istream_iterator<T>{iss},
-                                       std::istream_iterator<T>{}};
+        ++line_num;
+        const auto input_vec = read_line_values<T>(input_line, line_num);
 
         // input angle unit is degrees
         ang_deg<T> lat;
@@ -113,8 +141,8 @@ read_coords_geod(std::vector<Geodetic<angle_unit::degree, T>>& geod_vec)
             break;
 
         default:
-            throw std::invalid_argument(
-                fmt::format("Invalid input data dimensions: {}", input_vec.size()));
+            throw std::invalid_argument(fmt::format(
+                "Invalid input data dimensions on line {}: {}", line_num, input_vec.size()));
             break;
         }
 
@@ -153,8 +181,8 @@ to_string(const INPUT_DATA_COORD_SYSTEM x) noexcept
 * the line formats.
 * \param input_data_coord_system the coordinate system of the input lines
 * \param[in,out] ecef_vec the vector the points are appended to
-* \exception std::invalid_argument a line holds other than 2 or 3 values, or
-* \a input_data_coord_system is not a known value
+* \exception std::invalid_argument a line holds text that does not parse as a number, or
+* other than 2 or 3 values, or \a input_data_coord_system is not a known value
 */
 template <std::floating_point T>
 void
