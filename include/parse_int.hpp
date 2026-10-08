@@ -81,12 +81,12 @@ parse_int(std::string_view s,
 
     T value{};
     const auto [ptr, ec] =
-        std::from_chars(std::data(s), std::data(s) + std::size(s), value, base);
+        std::from_chars(s.data(), s.data() + s.size(), value, base);
 
     if (ec != std::errc{})
         return std::unexpected{ec};
 
-    if (ptr != std::data(s) + std::size(s))
+    if (ptr != s.data() + s.size())
         return std::unexpected{std::errc::invalid_argument};
 
     if (value < min || value > max)
