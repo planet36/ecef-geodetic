@@ -339,6 +339,7 @@ try
     if (argc > optind)
     {
         // use given functions
+        func_names.reserve(static_cast<std::size_t>(argc - optind));
         for (int i = optind; i < argc; ++i)
         {
             func_names.emplace_back(argv[i]);
