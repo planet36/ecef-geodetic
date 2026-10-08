@@ -33,16 +33,15 @@
 [[nodiscard]] inline int
 get_num_threads() noexcept
 {
-    constexpr int min_threads = 1;
+    constexpr int default_threads = 1;
     const auto hw_threads = static_cast<int>(std::thread::hardware_concurrency());
-    const auto max_threads = std::max(min_threads, hw_threads);
+    const auto max_threads = std::max(default_threads, hw_threads);
 
-    int num_threads = min_threads;
+    int num_threads = default_threads;
 
     try
     {
-        // parse_env_int takes these args: name, min, max, default
-        num_threads = parse_env_int("NUM_THREADS", 0, max_threads, min_threads);
+        num_threads = parse_env_int("NUM_THREADS", 0, max_threads, default_threads);
     }
     catch (const std::exception& ex)
     {
