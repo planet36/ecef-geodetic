@@ -27,7 +27,7 @@
 * of hardware threads.
 */
 [[nodiscard]] inline int
-get_num_threads()
+get_num_threads() noexcept
 {
     constexpr int min_threads = 1;
     const auto hw_threads = static_cast<int>(std::thread::hardware_concurrency());
