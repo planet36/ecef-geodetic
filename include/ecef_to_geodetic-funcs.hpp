@@ -1152,35 +1152,38 @@ inline void ecef_to_geodetic(const double x, const double y, const double z,
 {
 COMMON_FIRST_DECLS
 
-    const auto z_c = z * (1 - ell.f);
-    const auto w_c = w * (1 - ell.f);
-    const auto c = ell.a * ell.e2;
+    const auto ec = 1 - ell.f;
+    // P is "p normalized", the distance from the polar axis in units of a
+    const auto P = w / ell.a; // (2)
+    const auto E = ell.e2; // (2)
 
-    double S_n = 0;
-    double C_n = 0;
-
-    double A_n = 0;
-    double B_n = 0; // correction factor of Halley's method
-
-    S_n = z;
-    C_n = w_c;
+    // (17) has a typo: it gives S_0 = Z, but the Fortran uses S_0 = |z|/a
+    auto S_n = std::abs(z) / ell.a; // (17)
+    auto C_n = ec * P; // (17)
+    const auto Z = ec * S_n; // (2), with S_n = S_0 = |z|/a
 
     for (int i = 1; i <= max_iterations; ++i)
     {
-        A_n = fast_hypot(S_n, C_n);
-        B_n = 1.5 * c * S_n * C_n *
-              ((w * S_n - z_c * C_n) * A_n - c * S_n * C_n);
+        const auto A_n = fast_hypot(S_n, C_n); // (14)
+        // correction factor of Halley's method
+        const auto B_n = 1.5 * E * S_n * SQ(C_n) *
+            ((P * S_n - Z * C_n) * A_n - E * S_n * C_n); // (15)
 
-        // SDW: at great heights (e.g. 8000 km), there is overflow
-        S_n = (z_c * CB(A_n) + c * CB(S_n)) * CB(A_n) - B_n * S_n;
-        C_n = (w * CB(A_n) - c * CB(C_n)) * CB(A_n) - B_n * C_n;
+        const auto D_n = Z * CB(A_n) + E * CB(S_n); // (12)
+        const auto F_n = P * CB(A_n) - E * CB(C_n); // (13)
+
+        S_n = D_n * F_n - B_n * S_n; // (10)
+        C_n = SQ(F_n) - B_n * C_n; // (11)
     }
 
     auto sin_lat = S_n;
     auto cos_lat = C_n;
-    cos_lat *= (1 - ell.f);
+    cos_lat *= ec; // (21)
 
-    lat_rad = std::atan2(sin_lat, cos_lat);
+    if (z < 0) // (19)
+        sin_lat = -sin_lat;
+
+    lat_rad = std::atan2(sin_lat, cos_lat); // (19)
 
     normalize(cos_lat, sin_lat);
     ht = ell.get_ht(w, z, sin_lat, cos_lat);
@@ -1218,39 +1221,40 @@ inline void ecef_to_geodetic(const double x, const double y, const double z,
 {
 COMMON_FIRST_DECLS
 
-    const auto z_c = z * (1 - ell.f);
-    const auto w_c = w * (1 - ell.f);
-    const auto c = ell.a * ell.e2;
+    const auto ec = 1 - ell.f;
+    // P is "p normalized", the distance from the polar axis in units of a
+    const auto P = w / ell.a; // (2)
+    const auto E = ell.e2; // (2)
 
-    double S_n = 0;
-    double C_n = 0;
-
-    double A_n = 0;
-    double B_n = 0; // correction factor of Halley's method
-
-    S_n = z;
-    C_n = w_c;
+    // (17) has a typo: it gives S_0 = Z, but the Fortran uses S_0 = |z|/a
+    auto S_n = std::abs(z) / ell.a; // (17)
+    auto C_n = ec * P; // (17)
+    const auto Z = ec * S_n; // (2), with S_n = S_0 = |z|/a
 
     for (int i = 1; i <= max_iterations; ++i)
     {
-        A_n = fast_hypot(S_n, C_n);
-        B_n = 1.5 * c * S_n * C_n *
-              ((w * S_n - z_c * C_n) * A_n - c * S_n * C_n);
+        const auto A_n = fast_hypot(S_n, C_n); // (14)
+        // correction factor of Halley's method
+        const auto B_n = 1.5 * E * S_n * SQ(C_n) *
+            ((P * S_n - Z * C_n) * A_n - E * S_n * C_n); // (15)
 
-        // SDW: at great heights (e.g. 8000 km), there is overflow
-        S_n = (z_c * CB(A_n) + c * CB(S_n)) * CB(A_n) - B_n * S_n;
-        C_n = (w * CB(A_n) - c * CB(C_n)) * CB(A_n) - B_n * C_n;
+        const auto D_n = Z * CB(A_n) + E * CB(S_n); // (12)
+        const auto F_n = P * CB(A_n) - E * CB(C_n); // (13)
+
+        S_n = D_n * F_n - B_n * S_n; // (10)
+        C_n = SQ(F_n) - B_n * C_n; // (11)
     }
 
     auto sin_lat = S_n;
     auto cos_lat = C_n;
-    cos_lat *= (1 - ell.f);
+    cos_lat *= ec; // (21)
 
-    lat_rad = std::atan2(sin_lat, cos_lat);
+    if (z < 0) // (19)
+        sin_lat = -sin_lat;
 
-    const auto h = std::hypot(cos_lat, sin_lat); // fast_hypot overflows near 1E292
-    cos_lat /= h;
-    sin_lat /= h;
+    lat_rad = std::atan2(sin_lat, cos_lat); // (19)
+
+    normalize(cos_lat, sin_lat);
     ht = ell.get_ht(w, z, sin_lat, cos_lat);
 }
 constexpr int line_end = __LINE__;
