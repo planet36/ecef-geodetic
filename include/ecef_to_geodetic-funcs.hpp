@@ -1352,6 +1352,9 @@ constexpr int line_end = __LINE__;
 
 constexpr int lines_extra = 0;
 
+// Original Fortran implementation
+// https://doi.org/10.13140/RG.2.1.1113.3602
+
 const auto func_info = func_info_t(
     /*.func                        =*/ ecef_to_geodetic,
     /*.num_lines                   =*/ line_end - line_begin + lines_extra,
@@ -1420,6 +1423,9 @@ COMMON_FIRST_DECLS
 constexpr int line_end = __LINE__;
 
 constexpr int lines_extra = 0;
+
+// Original Fortran implementation
+// https://doi.org/10.13140/RG.2.1.1113.3602
 
 const auto func_info = func_info_t(
     /*.func                        =*/ ecef_to_geodetic,
