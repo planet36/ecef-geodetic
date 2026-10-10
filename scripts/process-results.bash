@@ -70,11 +70,6 @@ printf 'To show the plot in a window, run:\npython3 %q %q\n' \
     "${SCRIPT_DIR}/plot-results.py" \
     "$OUTFILE_FILTERED"
 
-printf 'To save the plot as a PNG, run:\npython3 %q -o %q %q\n' \
-    "${SCRIPT_DIR}/plot-results.py" \
-    "${RESULTS_DIR}/acc-speed.png" \
-    "$OUTFILE_FILTERED"
-
 # Use datamash to get stats of the accurate algorithms.
 # Example:
 # datamash --header-in --field-separator=',' q1 4 mean 4 median 4 q3 4 iqr 4 < "$OUTFILE_FILTERED"

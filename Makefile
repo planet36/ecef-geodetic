@@ -217,10 +217,13 @@ speed: $(BIN_SPEED) input | $(OUTPUT_DIR)
 	jq --rawfile compile_opts $<.opts '. + {compile_opts: $$compile_opts}' \
 		< $(OUTPUT_DIR)/$@.json | sponge $(OUTPUT_DIR)/$@.json
 
-# Run both tests from the same make invocation, so they share $(OUTPUT_DIR), and combine them.
+# Run both tests from the same make invocation, so they share $(OUTPUT_DIR), then combine and
+# plot them.
 # .WAIT keeps the tests from running in parallel under make -j.
 full: $(BIN_ACC) $(BIN_SPEED) input .WAIT acc .WAIT speed
 	bash $(SCRIPTS_DIR)/process-results.bash $(OUTPUT_DIR)
+	python3 $(SCRIPTS_DIR)/plot-results.py -o $(OUTPUT_DIR)/acc-speed.png \
+		$(OUTPUT_DIR)/acc-speed.filtered.csv
 
 $(OUTPUT_DIR) $(INPUT_DIR)/.:
 	mkdir --verbose --parents -- $@
