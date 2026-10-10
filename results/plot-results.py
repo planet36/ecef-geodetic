@@ -154,7 +154,9 @@ def place_labels(ax: Axes, names: list[str], xs: list[float], ys: list[float]) -
 
     for i in sorted(range(len(names)), key=label_order):
         (px, py) = points[i]
-        text = ax.text(xs[i], ys[i], names[i], color=TEXT_SECONDARY, fontsize=11, zorder=4)
+        # https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.annotate.html
+        text = ax.annotate(names[i], (xs[i], ys[i]), xytext=(0, 0), textcoords='offset points',
+                           color=TEXT_SECONDARY, fontsize=11, zorder=4)
         extent = text.get_window_extent()
         (w, h) = (extent.width, extent.height)
 
@@ -170,8 +172,9 @@ def place_labels(ax: Axes, names: list[str], xs: list[float], ys: list[float]) -
         placements = []
         for candidates in searches:
             for (dist_pt, ((dx, dy), ha, va)) in candidates:
-                scale = dist_pt * px_per_pt / math.hypot(dx, dy)
-                anchor = (anchor_x, anchor_y) = (px + dx * scale, py + dy * scale)
+                scale = dist_pt / math.hypot(dx, dy)
+                offset = (dx * scale, dy * scale)
+                (anchor_x, anchor_y) = (px + offset[0] * px_per_pt, py + offset[1] * px_per_pt)
                 x0 = {'left': anchor_x, 'center': anchor_x - w / 2, 'right': anchor_x - w}[ha]
                 y0 = {'bottom': anchor_y, 'center': anchor_y - h / 2, 'top': anchor_y - h}[va]
                 bbox = Bbox.from_bounds(x0, y0, w, h)
@@ -179,7 +182,7 @@ def place_labels(ax: Axes, names: list[str], xs: list[float], ys: list[float]) -
                         axes_bbox.contains(bbox.x1, bbox.y1)):
                     continue
                 overlaps = sum(bbox.overlaps(o) for o in obstacles)
-                placements.append((overlaps, dist_pt, anchor, ha, va, bbox))
+                placements.append((overlaps, dist_pt, offset, ha, va, bbox))
                 if overlaps == 0:
                     break
             if placements:
@@ -189,17 +192,19 @@ def place_labels(ax: Axes, names: list[str], xs: list[float], ys: list[float]) -
             raise ValueError(f"no placement of the label {names[i]!r} fits inside the axes")
 
         # min returns the first of equal placements, which is the one most preferred.
-        (_, dist_pt, anchor, ha, va, bbox) = min(placements, key=lambda c: c[0])
+        (_, dist_pt, offset, ha, va, bbox) = min(placements, key=lambda c: c[0])
 
-        # https://matplotlib.org/stable/api/text_api.html#matplotlib.text.Text
-        text.set_position(tuple(ax.transData.inverted().transform(anchor)))
+        # https://matplotlib.org/stable/api/text_api.html#matplotlib.text.Annotation
+        text.xyann = offset
         text.set_horizontalalignment(ha)
         text.set_verticalalignment(va)
         obstacles.append(bbox)
 
         if dist_pt > LABEL_DISTANCES_PT[0]:
-            ax.plot(*zip((xs[i], ys[i]), ax.transData.inverted().transform(anchor)),
-                    color=LEADER, linewidth=0.8, zorder=1)
+            # An annotation without text draws its arrow from exactly the offset to the point.
+            ax.annotate('', (xs[i], ys[i]), xytext=offset, textcoords='offset points',
+                        arrowprops={'arrowstyle': '-', 'color': LEADER, 'linewidth': 0.8,
+                                    'shrinkA': 0, 'shrinkB': 0}, zorder=1)
 
 
 def axis_limit(largest: float, step: int) -> int:
