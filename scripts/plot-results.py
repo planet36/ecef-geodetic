@@ -277,6 +277,7 @@ def main() -> None:
     fig = plot_results(*results)
     if args.output:
         fig.savefig(args.output, dpi=200)
+        print(f"Created file:\n{args.output}")
     else:
         plt.show()
 
