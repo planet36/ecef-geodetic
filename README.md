@@ -13,11 +13,13 @@ To build the accuracy and speed tests
 > `make -j $(nproc)`
 
 To run the accuracy and speed tests
-> `make acc speed`
+> `make full`
 * Takes about 10 minutes to finish
-* Do not run these in parallel
+* Runs the two tests one after the other, even under `make -j`
 
 The output of the accuracy and speed tests are json files which are put in the `results` folder.
+`make full` then combines them into a CSV file and a filtered CSV file, and prints the commands
+that plot the filtered one in a window or save it as a PNG.
 
 See [Makefile](Makefile) for all possible targets.
 

@@ -13,7 +13,7 @@ recommendation is `olson_1996` (custom height) with 2 iterations for iterative a
 ```sh
 make -j $(nproc) input   # generate the input files in input/
 make -j $(nproc)         # build both test binaries (and the inputs)
-make acc speed           # run the full tests, about 10 minutes, never in parallel
+make full                # run both tests and combine them, about 10 minutes
 make acc1                # quick single-point accuracy check on the speed inputs
 make lint                # clang-tidy with the repo's .clang-tidy
 make clean-all           # remove binaries, .d/.opts files, and input files
@@ -44,9 +44,10 @@ requires ECEF input.  `NUM_THREADS` sets how many threads run each benchmark.  I
 hardware threads is an error.
 
 `make acc` and `make speed` write timestamped JSON into `results/` and embed the compile
-options, which the build extracts from the binary with `readelf` into `*.opts`.  Combine an
-accuracy file and a speed file into a CSV with
-`bash results/process-results.bash ACC.json SPEED.json`.  Plot the filtered CSV with
+options, which the build extracts from the binary with `readelf` into `*.opts`.  `make full`
+runs both with one shared timestamp, then combines the pair into a CSV and a filtered CSV
+with `bash results/process-results.bash ACC.json SPEED.json`.  That script prints the commands
+that plot the filtered CSV in a window or save it as a PNG.  To plot one by hand, run
 `python3 results/plot-results.py -o OUT.png results/acc-speed.X.filtered.csv`, or leave out
 `-o` to show the plot in a window.
 
