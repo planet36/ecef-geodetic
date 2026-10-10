@@ -975,6 +975,113 @@ https://link.springer.com/article/10.1007/s001900050271)"
 }
 // }}}
 
+namespace fukushima_1999_x2
+// {{{
+{
+
+constexpr int max_iterations = 2;
+
+template <std::floating_point T>
+auto f(const T t, const T u, const T v, const T w) noexcept
+{
+    // w * t⁴ + u * t³ + v * t - w
+    return w * t * t * t * t + u * t * t * t + v * t - w;
+}
+
+template <std::floating_point T>
+auto fp(const T t, const T u, const T v, const T w) noexcept
+{
+    // 4 * w * t³ + 3 * u * t² + v
+    return 4 * w * t * t * t + 3 * u * t * t + v;
+}
+
+constexpr int line_begin = __LINE__;
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
+{
+COMMON_FIRST_DECLS
+
+    constexpr auto c = ell.a * ell.e2;
+    constexpr auto ep = 1 - ell.f;
+    const auto zp = ep * std::abs(z);
+    const auto u = 2 * (zp - c);
+    const auto v = 2 * (zp + c);
+
+    const auto tM = (c - zp) / w;
+
+    double t = 0;
+
+    if (tM <= 0) // Case 1
+    {
+        t = (w - c + zp) / (w - c + 2 * zp);
+    }
+    else if (tM >= 1) // Case 2
+    {
+        // SDW: equation (14) ends with w / (zp + c), which is incorrect for t0
+        t = w / v;
+    }
+    else // Case 3
+    {
+        const auto fM = f(tM, u, v, w);
+
+        if (fM >= 0) // Case 3a // (same as Case 2)
+        {
+            // SDW: equation (14) ends with w / (zp + c), which is incorrect for t0
+            t = w / v;
+        }
+        else // fM < 0 // Case 3b // (same as Case 1)
+        {
+            t = (w - c + zp) / (w - c + 2 * zp);
+        }
+    }
+
+    for (int i = 1; i <= max_iterations; ++i)
+    {
+        t -= f(t, u, v, w) / fp(t, u, v, w);
+    }
+
+    // https://en.wikipedia.org/wiki/Tangent_half-angle_formula
+    auto sin_lat = (1 - t * t);
+    auto cos_lat = 2 * t * ep;
+
+    if (z < 0)
+        sin_lat = -sin_lat;
+
+    // 2 * tan(x/2) / (1 - tan(x/2)^2) == tan(x)
+    // https://www.wolframalpha.com/input/?i=2+*+tan(x%2F2)+%2F+(1+-+tan(x%2F2)%5E2),+tan(x)
+
+    lat_rad = std::atan2(sin_lat, cos_lat);
+
+#ifdef USE_CUSTOM_HT
+    ht = (2 * w * ep * t + std::abs(z) * (1 - t * t) - ell.a * ep * (1 + t * t)) /
+         std::sqrt(SQ(1 + t * t) - 4 * ell.e2 * t * t);
+#else
+    normalize(cos_lat, sin_lat);
+    ht = ell.get_ht(w, z, sin_lat, cos_lat);
+#endif
+}
+constexpr int line_end = __LINE__;
+
+constexpr int lines_extra = 6 + 6;
+
+const auto func_info = func_info_t(
+    /*.func                        =*/ ecef_to_geodetic,
+    /*.num_lines                   =*/ line_end - line_begin + lines_extra,
+    /*.needs_code_for_corner_cases =*/ false,
+    /*.ilog10_mean_dist_err        =*/ 99,
+    /*.display_name                =*/ "Fukushima 1999 (x2)",
+    /*.algo_author                 =*/ "Toshio Fukushima",
+    /*.code_copyright              =*/ "Steven Ward",
+    /*.license                     =*/ "MPL-2.0",
+    /*.orig_impl_lang              =*/ "None",
+    /*.url                         =*/ "https://www.researchgate.net/publication/226311152_Fast_transform_from_geocentric_to_geodetic_coordinates",
+    /*.citation                    =*/ R"(Fukushima, T. Journal of Geodesy (1999) 73: 603. https://doi.org/10.1007/s001900050271
+https://link.springer.com/article/10.1007/s001900050271)"
+);
+
+}
+// }}}
+
 namespace fukushima_1999_customht_x1
 // {{{
 {
@@ -1071,6 +1178,115 @@ const auto func_info = func_info_t(
     /*.needs_code_for_corner_cases =*/ false,
     /*.ilog10_mean_dist_err        =*/ 99,
     /*.display_name                =*/ "Fukushima 1999 (c.h.) (x1)",
+    /*.algo_author                 =*/ "Toshio Fukushima",
+    /*.code_copyright              =*/ "Steven Ward",
+    /*.license                     =*/ "MPL-2.0",
+    /*.orig_impl_lang              =*/ "None",
+    /*.url                         =*/ "https://www.researchgate.net/publication/226311152_Fast_transform_from_geocentric_to_geodetic_coordinates",
+    /*.citation                    =*/ R"(Fukushima, T. Journal of Geodesy (1999) 73: 603. https://doi.org/10.1007/s001900050271
+https://link.springer.com/article/10.1007/s001900050271)"
+);
+
+#undef USE_CUSTOM_HT
+}
+// }}}
+
+namespace fukushima_1999_customht_x2
+// {{{
+{
+#define USE_CUSTOM_HT
+
+constexpr int max_iterations = 2;
+
+template <std::floating_point T>
+auto f(const T t, const T u, const T v, const T w) noexcept
+{
+    // w * t⁴ + u * t³ + v * t - w
+    return w * t * t * t * t + u * t * t * t + v * t - w;
+}
+
+template <std::floating_point T>
+auto fp(const T t, const T u, const T v, const T w) noexcept
+{
+    // 4 * w * t³ + 3 * u * t² + v
+    return 4 * w * t * t * t + 3 * u * t * t + v;
+}
+
+constexpr int line_begin = __LINE__;
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
+{
+COMMON_FIRST_DECLS
+
+    constexpr auto c = ell.a * ell.e2;
+    constexpr auto ep = 1 - ell.f;
+    const auto zp = ep * std::abs(z);
+    const auto u = 2 * (zp - c);
+    const auto v = 2 * (zp + c);
+
+    const auto tM = (c - zp) / w;
+
+    double t = 0;
+
+    if (tM <= 0) // Case 1
+    {
+        t = (w - c + zp) / (w - c + 2 * zp);
+    }
+    else if (tM >= 1) // Case 2
+    {
+        // SDW: equation (14) ends with w / (zp + c), which is incorrect for t0
+        t = w / v;
+    }
+    else // Case 3
+    {
+        const auto fM = f(tM, u, v, w);
+
+        if (fM >= 0) // Case 3a // (same as Case 2)
+        {
+            // SDW: equation (14) ends with w / (zp + c), which is incorrect for t0
+            t = w / v;
+        }
+        else // fM < 0 // Case 3b // (same as Case 1)
+        {
+            t = (w - c + zp) / (w - c + 2 * zp);
+        }
+    }
+
+    for (int i = 1; i <= max_iterations; ++i)
+    {
+        t -= f(t, u, v, w) / fp(t, u, v, w);
+    }
+
+    // https://en.wikipedia.org/wiki/Tangent_half-angle_formula
+    auto sin_lat = (1 - t * t);
+    auto cos_lat = 2 * t * ep;
+
+    if (z < 0)
+        sin_lat = -sin_lat;
+
+    // 2 * tan(x/2) / (1 - tan(x/2)^2) == tan(x)
+    // https://www.wolframalpha.com/input/?i=2+*+tan(x%2F2)+%2F+(1+-+tan(x%2F2)%5E2),+tan(x)
+
+    lat_rad = std::atan2(sin_lat, cos_lat);
+
+#ifdef USE_CUSTOM_HT
+    ht = (2 * w * ep * t + std::abs(z) * (1 - t * t) - ell.a * ep * (1 + t * t)) /
+         std::sqrt(SQ(1 + t * t) - 4 * ell.e2 * t * t);
+#else
+    normalize(cos_lat, sin_lat);
+    ht = ell.get_ht(w, z, sin_lat, cos_lat);
+#endif
+}
+constexpr int line_end = __LINE__;
+
+constexpr int lines_extra = 6 + 6;
+
+const auto func_info = func_info_t(
+    /*.func                        =*/ ecef_to_geodetic,
+    /*.num_lines                   =*/ line_end - line_begin + lines_extra,
+    /*.needs_code_for_corner_cases =*/ false,
+    /*.ilog10_mean_dist_err        =*/ 99,
+    /*.display_name                =*/ "Fukushima 1999 (c.h.) (x2)",
     /*.algo_author                 =*/ "Toshio Fukushima",
     /*.code_copyright              =*/ "Steven Ward",
     /*.license                     =*/ "MPL-2.0",
