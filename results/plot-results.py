@@ -14,6 +14,7 @@ import argparse
 import csv
 import math
 import sys
+from typing import Literal
 
 import matplotlib.pyplot as plt
 from matplotlib.axes import Axes
@@ -43,9 +44,14 @@ EDGE_MARGIN = 0.03
 # The marker is this many points across.  It has a 2-point ring in the surface color.
 MARKER_SIZE_PT = 10
 
+# A direction from a point, with the horizontal and vertical text alignment of a label there
+HAlign = Literal['left', 'center', 'right']
+VAlign = Literal['bottom', 'center', 'top']
+Direction = tuple[tuple[int, int], HAlign, VAlign]
+
 # The directions a label may sit in from its point, in order of preference, with the text
 # alignment that keeps the label on that side
-LABEL_DIRECTIONS = (
+LABEL_DIRECTIONS: tuple[Direction, ...] = (
     ((0, 1), 'center', 'bottom'),
     ((1, 0), 'left', 'center'),
     ((-1, 0), 'right', 'center'),
@@ -66,7 +72,7 @@ CROWDING_RADIUS_PT = 150
 
 # Fixed placements for labels that the search leaves next to another point, with the direction,
 # alignment, and distance in the forms above.  These labels are placed before the others.
-LABEL_OVERRIDES = {
+LABEL_OVERRIDES: dict[str, tuple[tuple[int, int], HAlign, VAlign, int]] = {
     'Bowring 1976': ((1, 0), 'left', 'center', 8),
     'Halley': ((-1, 0), 'right', 'center', 8),
     'Heikkinen 1982': ((-1, 0), 'right', 'center', 8),
@@ -153,6 +159,7 @@ def place_labels(ax: Axes, names: list[str], xs: list[float], ys: list[float]) -
         (w, h) = (extent.width, extent.height)
 
         search = [(dist_pt, d) for dist_pt in LABEL_DISTANCES_PT for d in LABEL_DIRECTIONS]
+        searches: tuple[list[tuple[int, Direction]], ...]
         if names[i] in LABEL_OVERRIDES:
             (direction, ha, va, dist_pt) = LABEL_OVERRIDES[names[i]]
             # An override that leaves the axes falls back to the search.
@@ -185,7 +192,7 @@ def place_labels(ax: Axes, names: list[str], xs: list[float], ys: list[float]) -
         (_, dist_pt, anchor, ha, va, bbox) = min(placements, key=lambda c: c[0])
 
         # https://matplotlib.org/stable/api/text_api.html#matplotlib.text.Text
-        text.set_position(ax.transData.inverted().transform(anchor))
+        text.set_position(tuple(ax.transData.inverted().transform(anchor)))
         text.set_horizontalalignment(ha)
         text.set_verticalalignment(va)
         obstacles.append(bbox)
