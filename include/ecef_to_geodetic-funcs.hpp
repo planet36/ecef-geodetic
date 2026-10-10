@@ -1317,7 +1317,7 @@ constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
                              double& lat_rad, double& lon_rad, double& ht) noexcept
 {
-COMMON_FIRST_DECLS
+COMMON_FIRST_DECLS_CHECKED
 
     const auto ec = 1 - ell.f;
     // P is "p normalized", the distance from the polar axis in units of a
@@ -1376,7 +1376,7 @@ constexpr int lines_extra = 0;
 const auto func_info = func_info_t(
     /*.func                        =*/ ecef_to_geodetic,
     /*.num_lines                   =*/ line_end - line_begin + lines_extra,
-    /*.needs_code_for_corner_cases =*/ false,
+    /*.needs_code_for_corner_cases =*/ true,
     /*.ilog10_mean_dist_err        =*/ -5,
     /*.display_name                =*/ "Fukushima 2006 (x1)",
     /*.algo_author                 =*/ "Toshio Fukushima",
@@ -1400,7 +1400,7 @@ constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
                              double& lat_rad, double& lon_rad, double& ht) noexcept
 {
-COMMON_FIRST_DECLS
+COMMON_FIRST_DECLS_CHECKED
 
     const auto ec = 1 - ell.f;
     // P is "p normalized", the distance from the polar axis in units of a
@@ -1459,7 +1459,7 @@ constexpr int lines_extra = 0;
 const auto func_info = func_info_t(
     /*.func                        =*/ ecef_to_geodetic,
     /*.num_lines                   =*/ line_end - line_begin + lines_extra,
-    /*.needs_code_for_corner_cases =*/ false,
+    /*.needs_code_for_corner_cases =*/ true,
     /*.ilog10_mean_dist_err        =*/ -9,
     /*.display_name                =*/ "Fukushima 2006 (x2)",
     /*.algo_author                 =*/ "Toshio Fukushima",
@@ -1484,7 +1484,7 @@ constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
                              double& lat_rad, double& lon_rad, double& ht) noexcept
 {
-COMMON_FIRST_DECLS
+COMMON_FIRST_DECLS_CHECKED
 
     const auto ec = 1 - ell.f;
     // P is "p normalized", the distance from the polar axis in units of a
@@ -1543,7 +1543,7 @@ constexpr int lines_extra = 0;
 const auto func_info = func_info_t(
     /*.func                        =*/ ecef_to_geodetic,
     /*.num_lines                   =*/ line_end - line_begin + lines_extra,
-    /*.needs_code_for_corner_cases =*/ false,
+    /*.needs_code_for_corner_cases =*/ true,
     /*.ilog10_mean_dist_err        =*/ -5,
     /*.display_name                =*/ "Fukushima 2006 (c.h.) (x1)",
     /*.algo_author                 =*/ "Toshio Fukushima",
@@ -1569,7 +1569,7 @@ constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
                              double& lat_rad, double& lon_rad, double& ht) noexcept
 {
-COMMON_FIRST_DECLS
+COMMON_FIRST_DECLS_CHECKED
 
     const auto ec = 1 - ell.f;
     // P is "p normalized", the distance from the polar axis in units of a
@@ -1628,7 +1628,7 @@ constexpr int lines_extra = 0;
 const auto func_info = func_info_t(
     /*.func                        =*/ ecef_to_geodetic,
     /*.num_lines                   =*/ line_end - line_begin + lines_extra,
-    /*.needs_code_for_corner_cases =*/ false,
+    /*.needs_code_for_corner_cases =*/ true,
     /*.ilog10_mean_dist_err        =*/ -9,
     /*.display_name                =*/ "Fukushima 2006 (c.h.) (x2)",
     /*.algo_author                 =*/ "Toshio Fukushima",
