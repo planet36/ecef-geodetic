@@ -957,12 +957,12 @@ COMMON_FIRST_DECLS
     cos_lat = (1 - t * t);
 #else
     // SDW: This does not work
-    sin_lat = (1 - t * t) * ep;
-    cos_lat = 2 * t;
+    //sin_lat = (1 - t * t) * ep;
+    //cos_lat = 2 * t;
 
     // SDW: This does not work
-    //sin_lat = (1 - t * t);
-    //cos_lat = 2 * t * ep;
+    sin_lat = (1 - t * t);
+    cos_lat = 2 * t * ep;
 #endif
 
     if (z < 0)
@@ -1093,12 +1093,12 @@ COMMON_FIRST_DECLS
     cos_lat = (1 - t * t);
 #else
     // SDW: This does not work
-    sin_lat = (1 - t * t) * ep;
-    cos_lat = 2 * t;
+    //sin_lat = (1 - t * t) * ep;
+    //cos_lat = 2 * t;
 
     // SDW: This does not work
-    //sin_lat = (1 - t * t);
-    //cos_lat = 2 * t * ep;
+    sin_lat = (1 - t * t);
+    cos_lat = 2 * t * ep;
 #endif
 
     if (z < 0)
