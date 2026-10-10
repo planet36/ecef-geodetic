@@ -1,14 +1,14 @@
 # SPDX-FileCopyrightText: Steven Ward
 # SPDX-License-Identifier: MPL-2.0
 
-"""Plot speed against accuracy from an acc-speed.*.filtered.csv file."""
+"""Plot speed against accuracy from an acc-speed.filtered.csv file."""
 
 # The module name comes from the file name, which has a hyphen.
 # pylint: disable=invalid-name
 
 __author__ = 'Steven Ward'
 __license__ = 'MPL-2.0'
-__version__ = '2026-10-09'
+__version__ = '2026-10-10'
 
 import argparse
 import csv
@@ -252,7 +252,7 @@ def main() -> None:
     """Parse the options, then show or save the plot."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('results_file',
-                        help='an acc-speed.*.filtered.csv file from process-results.bash')
+                        help='an acc-speed.filtered.csv file from process-results.bash')
     parser.add_argument('-o', '--output',
                         help='save the plot to this file (for example, a .png) instead of '
                              'showing it')

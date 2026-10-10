@@ -7,20 +7,30 @@ SCRIPT_DIR="$(dirname -- "${BASH_SOURCE[0]}")"
 function print_usage
 {
     cat <<EOT 1>&2
-Usage: bash $SCRIPT_NAME INFILE_ACC INFILE_SPEED
+Usage: bash $SCRIPT_NAME RESULTS_DIR
 
-"INFILE_ACC" and "INFILE_SPEED" are the respective products of the "acc" and "speed" tests.
+"RESULTS_DIR" is a folder that holds the products of the "acc" and "speed" tests, acc.json and
+speed.json.  The CSV files are written to the same folder.
 EOT
 }
 
-if (($# < 2))
+if (($# < 1))
 then
     print_usage
     exit 1
 fi
 
-declare -r INFILE_ACC="$1"
-declare -r INFILE_SPEED="$2"
+declare -r RESULTS_DIR="$1"
+
+if [[ ! -d "$RESULTS_DIR" ]]
+then
+    printf 'Error: %q is not a folder\n' "$RESULTS_DIR" 1>&2
+    print_usage
+    exit 1
+fi
+
+declare -r INFILE_ACC="${RESULTS_DIR}/acc.json"
+declare -r INFILE_SPEED="${RESULTS_DIR}/speed.json"
 
 if [[ ! -f "$INFILE_ACC" ]]
 then
@@ -36,11 +46,8 @@ then
     exit 1
 fi
 
-DATETIME="$(date -u +'%Y%m%dT%H%M%S')"
-readonly DATETIME
-
-declare -r OUTFILE="${SCRIPT_DIR}/acc-speed.${DATETIME}.csv"
-declare -r OUTFILE_FILTERED="${SCRIPT_DIR}/acc-speed.${DATETIME}.filtered.csv"
+declare -r OUTFILE="${RESULTS_DIR}/acc-speed.csv"
+declare -r OUTFILE_FILTERED="${RESULTS_DIR}/acc-speed.filtered.csv"
 
 printf '%q\n' "$INFILE_ACC" > "$OUTFILE"
 printf '%q\n' "$INFILE_SPEED" >> "$OUTFILE"
@@ -65,7 +72,7 @@ printf 'To show the plot in a window, run:\npython3 %q %q\n' \
 
 printf 'To save the plot as a PNG, run:\npython3 %q -o %q %q\n' \
     "${SCRIPT_DIR}/plot-results.py" \
-    "${SCRIPT_DIR}/acc-speed.${DATETIME}.png" \
+    "${RESULTS_DIR}/acc-speed.png" \
     "$OUTFILE_FILTERED"
 
 # Use datamash to get stats of the accurate algorithms.

@@ -83,7 +83,7 @@ DPI = 180
 
 DATETIME := $(shell date -u +'%Y%m%dT%H%M%S')
 
-OUTPUT_DIR = results
+OUTPUT_DIR = results/$(DATETIME)
 
 SCRIPTS_DIR = scripts
 
@@ -100,7 +100,7 @@ DEPS = $(SRC_ACC:.cpp=.d) $(SRC_SPEED:.cpp=.d)
 #OBJS = $(SRC_ACC:.cpp=.o) $(SRC_SPEED:.cpp=.o)
 BINS = $(BIN_ACC) $(BIN_SPEED)
 
-all: $(BINS) input | $(OUTPUT_DIR)
+all: $(BINS) input
 
 # The built-in recipe for the implicit rule uses $^ instead of $<
 %: %.cpp
@@ -185,19 +185,19 @@ plot-geod:: $(INPUT_DIR)/geod.2d.neg-ht-1.txt $(INPUT_DIR)/geod.2d.neg-ht-2.txt
 	for F in $^; do python3 $(SCRIPTS_DIR)/plot-points.py -v -g --ell --evo       --km --dpi=$(DPI) < $$F; done
 
 acc: $(BIN_ACC) input | $(OUTPUT_DIR)
-	./$< -v -t -g -a < $(INPUT_DIR)/geod.2d.region-all.txt > $(OUTPUT_DIR)/$@.$(DATETIME).json
+	./$< -v -t -g -a < $(INPUT_DIR)/geod.2d.region-all.txt > $(OUTPUT_DIR)/$@.json
 
 	@# Insert compile options
 	jq --rawfile compile_opts $<.opts '. + {compile_opts: $$compile_opts}' \
-		< $(OUTPUT_DIR)/$@.$(DATETIME).json | sponge $(OUTPUT_DIR)/$@.$(DATETIME).json
+		< $(OUTPUT_DIR)/$@.json | sponge $(OUTPUT_DIR)/$@.json
 
 acc1: $(BIN_ACC) input | $(OUTPUT_DIR)
 	@# NOTE: Only run this test with a few input points
-	./$< -v -t -1 < $(INPUT_DIR)/ecef.2d.speed.txt > $(OUTPUT_DIR)/$@.$(DATETIME).json
+	./$< -v -t -1 < $(INPUT_DIR)/ecef.2d.speed.txt > $(OUTPUT_DIR)/$@.json
 
 	@# Insert compile options
 	jq --rawfile compile_opts $<.opts '. + {compile_opts: $$compile_opts}' \
-		< $(OUTPUT_DIR)/$@.$(DATETIME).json | sponge $(OUTPUT_DIR)/$@.$(DATETIME).json
+		< $(OUTPUT_DIR)/$@.json | sponge $(OUTPUT_DIR)/$@.json
 
 speed: $(BIN_SPEED) input | $(OUTPUT_DIR)
 	@# NOTE: The input data format must be ECEF, not Geodetic
@@ -206,23 +206,21 @@ speed: $(BIN_SPEED) input | $(OUTPUT_DIR)
 		--benchmark_repetitions=$(BENCHMARK_REPS) \
 		--benchmark_report_aggregates_only=true \
 		--benchmark_out_format=json \
-		--benchmark_out=$(OUTPUT_DIR)/$@.$(DATETIME).json \
+		--benchmark_out=$(OUTPUT_DIR)/$@.json \
 		< $(INPUT_DIR)/ecef.2d.speed.txt
 
 	@# Preserve the given order because --benchmark_enable_random_interleaving=true shuffles the order of the tests.
 	jq '.benchmarks |= sort_by(.family_index)' \
-		< $(OUTPUT_DIR)/$@.$(DATETIME).json | sponge $(OUTPUT_DIR)/$@.$(DATETIME).json
+		< $(OUTPUT_DIR)/$@.json | sponge $(OUTPUT_DIR)/$@.json
 
 	@# Insert compile options
 	jq --rawfile compile_opts $<.opts '. + {compile_opts: $$compile_opts}' \
-		< $(OUTPUT_DIR)/$@.$(DATETIME).json | sponge $(OUTPUT_DIR)/$@.$(DATETIME).json
+		< $(OUTPUT_DIR)/$@.json | sponge $(OUTPUT_DIR)/$@.json
 
-# Run both tests from the same make invocation, so they share $(DATETIME), and combine them.
+# Run both tests from the same make invocation, so they share $(OUTPUT_DIR), and combine them.
 # .WAIT keeps the tests from running in parallel under make -j.
 full: $(BIN_ACC) $(BIN_SPEED) input .WAIT acc .WAIT speed
-	bash $(OUTPUT_DIR)/process-results.bash \
-		$(OUTPUT_DIR)/acc.$(DATETIME).json \
-		$(OUTPUT_DIR)/speed.$(DATETIME).json
+	bash $(SCRIPTS_DIR)/process-results.bash $(OUTPUT_DIR)
 
 $(OUTPUT_DIR) $(INPUT_DIR)/.:
 	mkdir --verbose --parents -- $@
