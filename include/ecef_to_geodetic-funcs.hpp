@@ -901,8 +901,6 @@ inline void ecef_to_geodetic(const double x, const double y, const double z,
 {
 COMMON_FIRST_DECLS
 
-    double sin_lat = 0;
-    double cos_lat = 0;
     constexpr auto c = ell.a * ell.e2;
     constexpr auto ep = 1 - ell.f;
     const auto zp = ep * std::abs(z);
@@ -937,12 +935,14 @@ COMMON_FIRST_DECLS
         }
     }
 
-    // (i = 1)
-    t -= f(t, u, v, w) / fp(t, u, v, w);
+    for (int i = 1; i <= max_iterations; ++i)
+    {
+        t -= f(t, u, v, w) / fp(t, u, v, w);
+    }
 
     // https://en.wikipedia.org/wiki/Tangent_half-angle_formula
-    sin_lat = (1 - t * t);
-    cos_lat = 2 * t * ep;
+    auto sin_lat = (1 - t * t);
+    auto cos_lat = 2 * t * ep;
 
     if (z < 0)
         sin_lat = -sin_lat;
@@ -1016,8 +1016,6 @@ inline void ecef_to_geodetic(const double x, const double y, const double z,
 {
 COMMON_FIRST_DECLS
 
-    double sin_lat = 0;
-    double cos_lat = 0;
     constexpr auto c = ell.a * ell.e2;
     constexpr auto ep = 1 - ell.f;
     const auto zp = ep * std::abs(z);
@@ -1052,12 +1050,14 @@ COMMON_FIRST_DECLS
         }
     }
 
-    // (i = 1)
-    t -= f(t, u, v, w) / fp(t, u, v, w);
+    for (int i = 1; i <= max_iterations; ++i)
+    {
+        t -= f(t, u, v, w) / fp(t, u, v, w);
+    }
 
     // https://en.wikipedia.org/wiki/Tangent_half-angle_formula
-    sin_lat = (1 - t * t);
-    cos_lat = 2 * t * ep;
+    auto sin_lat = (1 - t * t);
+    auto cos_lat = 2 * t * ep;
 
     if (z < 0)
         sin_lat = -sin_lat;
