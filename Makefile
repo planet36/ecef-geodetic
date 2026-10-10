@@ -7,6 +7,9 @@ export LC_ALL = C
 REQUIRED_BINS := \
 awk \
 bash \
+basename \
+cat \
+dirname \
 g++ \
 grep \
 join \
