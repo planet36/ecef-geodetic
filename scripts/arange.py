@@ -29,7 +29,7 @@ def arange(start: D | str, stop: D | str | None = None, step: D | str | None = N
         raise ValueError(f'Step ({step}) must be non-zero')
 
     # NumPy's stubs omit Decimal, which np.arange accepts with an object dtype.
-    a = np.arange(start, stop, step, dtype=object) # type: ignore[call-overload]
+    a: np.ndarray = np.arange(start, stop, step, dtype=object) # type: ignore[call-overload]
 
     if endpoint and (len(a) == 0 or a[-1] != stop):
         # Make it a closed interval by appending the stop value.
