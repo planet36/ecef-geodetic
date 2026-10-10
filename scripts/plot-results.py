@@ -19,6 +19,7 @@ from typing import Literal
 import matplotlib.pyplot as plt
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
+from matplotlib.ticker import AutoMinorLocator
 from matplotlib.transforms import Bbox
 
 # Columns of the filtered CSV
@@ -32,6 +33,7 @@ MAX_MEAN_ERR_NM = 10
 # Colors of the dark theme
 SURFACE = '#1a1a19'
 GRID = '#3a3a37'
+GRID_MINOR = '#282826'
 TEXT_PRIMARY = '#ffffff'
 TEXT_SECONDARY = '#c3c2b7'
 LEADER = '#8a8983'
@@ -232,10 +234,14 @@ def plot_results(names: list[str], mean_errs_nm: list[float], speeds: list[float
     ax.set_ylim(0, axis_limit(max(speeds), 10))
 
     ax.grid(color=GRID, linewidth=1)
+    ax.xaxis.set_minor_locator(AutoMinorLocator(5))
+    ax.yaxis.set_minor_locator(AutoMinorLocator(5))
+    ax.grid(which='minor', color=GRID_MINOR, linewidth=0.8)
     ax.set_axisbelow(True)
     for spine in ax.spines.values():
         spine.set_color(GRID)
     ax.tick_params(colors=TEXT_SECONDARY, labelsize=11, length=0, pad=8)
+    ax.tick_params(which='minor', length=0)
 
     # https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.scatter.html
     ax.scatter(mean_errs_nm, speeds, s=MARKER_SIZE_PT**2, color=SERIES, edgecolors=SURFACE,
