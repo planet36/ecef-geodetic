@@ -46,8 +46,7 @@ hardware threads is an error.
 Each `make` run writes its test output into its own folder, `results/TIMESTAMP/`, named for
 the time the run started.  `make acc`, `make acc1`, and `make speed` write `acc.json`,
 `acc1.json`, and `speed.json` there and embed the compile options, which the build extracts
-from the binary with `readelf` into `*.opts`.  Runs from before 2026-10-10 still sit directly in
-`results/` under timestamped file names.
+from the binary with `readelf` into `*.opts`.
 
 `make full` runs both tests into one folder, then runs
 `bash scripts/process-results.bash results/TIMESTAMP`.  That writes `acc-speed.csv` and
