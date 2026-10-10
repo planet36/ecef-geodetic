@@ -46,7 +46,9 @@ hardware threads is an error.
 `make acc` and `make speed` write timestamped JSON into `results/` and embed the compile
 options, which the build extracts from the binary with `readelf` into `*.opts`.  Combine an
 accuracy file and a speed file into a CSV with
-`bash results/process-results.bash ACC.json SPEED.json`.
+`bash results/process-results.bash ACC.json SPEED.json`.  Plot the filtered CSV with
+`python3 results/plot-results.py -o OUT.png results/acc-speed.X.filtered.csv`, or leave out
+`-o` to show the plot in a window.
 
 ## Build constraints
 
