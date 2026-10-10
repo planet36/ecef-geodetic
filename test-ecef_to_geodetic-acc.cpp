@@ -239,7 +239,7 @@ measure_time_per_call(const ecef_to_geodetic_func<T>& func,
 void
 print_usage(const char* program_name)
 {
-    std::print(stderr, R"(Usage: {} [OPTION]... [FUNC_NAME]...
+    std::println(stderr, R"(Usage: {} [OPTION]... [FUNC_NAME]...
 Test the accuracy of ECEF-to-Geodetic functions, and print the results as JSON.
 Read the input coordinates from stdin.  Test every function unless FUNC_NAMEs are given.
 
@@ -250,9 +250,8 @@ Read the input coordinates from stdin.  Test every function unless FUNC_NAMEs ar
   -g    read geodetic input instead of ECEF
   -t    use multiple threads
   -c    collect every distance error for more precise statistics
-  -v    print progress to stderr
-)",
-               program_name, max_num_speed_test_iterations);
+  -v    print progress to stderr)",
+                 program_name, max_num_speed_test_iterations);
 }
 
 int
