@@ -919,7 +919,8 @@ COMMON_FIRST_DECLS
     }
     else if (tM >= 1) // Case 2
     {
-        t = w / (zp + c);
+        // SDW: equation (14) ends with w / (zp + c), which is incorrect for t0
+        t = w / v;
     }
     else // Case 3
     {
@@ -927,7 +928,8 @@ COMMON_FIRST_DECLS
 
         if (fM >= 0) // Case 3a // (same as Case 2)
         {
-            t = w / (zp + c);
+            // SDW: equation (14) ends with w / (zp + c), which is incorrect for t0
+            t = w / v;
         }
         else // fM < 0 // Case 3b // (same as Case 1)
         {
@@ -1055,7 +1057,8 @@ COMMON_FIRST_DECLS
     }
     else if (tM >= 1) // Case 2
     {
-        t = w / (zp + c);
+        // SDW: equation (14) ends with w / (zp + c), which is incorrect for t0
+        t = w / v;
     }
     else // Case 3
     {
@@ -1063,7 +1066,8 @@ COMMON_FIRST_DECLS
 
         if (fM >= 0) // Case 3a // (same as Case 2)
         {
-            t = w / (zp + c);
+            // SDW: equation (14) ends with w / (zp + c), which is incorrect for t0
+            t = w / v;
         }
         else // fM < 0 // Case 3b // (same as Case 1)
         {
