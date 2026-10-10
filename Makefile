@@ -82,6 +82,8 @@ DATETIME := $(shell date -u +'%Y%m%dT%H%M%S')
 
 OUTPUT_DIR = results
 
+SCRIPTS_DIR = scripts
+
 SRC_ACC = test-ecef_to_geodetic-acc.cpp
 #BIN_ACC = $(addsuffix .out, $(basename $(SRC_ACC)))
 BIN_ACC = $(basename $(SRC_ACC))
@@ -115,66 +117,66 @@ input: $(ALL_INFILES_ECEF) $(ALL_INFILES_GEOD)
 #    polar-to-cartesian.py is good enough for this case, even though it's input is geocentric latitude.
 
 ecef.2d.region-0.txt:
-	python3 Nd-arange.py 0 50_000 1_000 0 90 30 | python3 polar-to-cartesian.py > $@
+	python3 $(SCRIPTS_DIR)/Nd-arange.py 0 50_000 1_000 0 90 30 | python3 $(SCRIPTS_DIR)/polar-to-cartesian.py > $@
 
 ecef.2d.region-1.txt:
-	python3 Nd-arange.py 0 7_000_000 100_000 0 90 30 | python3 polar-to-cartesian.py > $@
+	python3 $(SCRIPTS_DIR)/Nd-arange.py 0 7_000_000 100_000 0 90 30 | python3 $(SCRIPTS_DIR)/polar-to-cartesian.py > $@
 
 ecef.2d.region-2.txt:
-	python3 Nd-arange.py 6_300_000 6_500_000 1_000 0 90 30 | python3 polar-to-cartesian.py > $@
+	python3 $(SCRIPTS_DIR)/Nd-arange.py 6_300_000 6_500_000 1_000 0 90 30 | python3 $(SCRIPTS_DIR)/polar-to-cartesian.py > $@
 
 ecef.2d.region-3.txt:
-	python3 Nd-arange.py 6_350_000 6_400_000 100 0 90 30 | python3 polar-to-cartesian.py > $@
+	python3 $(SCRIPTS_DIR)/Nd-arange.py 6_350_000 6_400_000 100 0 90 30 | python3 $(SCRIPTS_DIR)/polar-to-cartesian.py > $@
 
 ecef.2d.region-4.txt:
-	python3 Nd-arange.py 0 100_000_000 1_000_000 0 90 30 | python3 polar-to-cartesian.py > $@
+	python3 $(SCRIPTS_DIR)/Nd-arange.py 0 100_000_000 1_000_000 0 90 30 | python3 $(SCRIPTS_DIR)/polar-to-cartesian.py > $@
 
 ecef.2d.region-all.txt: ecef.2d.region-0.txt ecef.2d.region-1.txt ecef.2d.region-2.txt ecef.2d.region-3.txt ecef.2d.region-4.txt
 	LC_ALL=C sort -u -- $^ > $@
 
-ecef.2d.speed.txt: create-speed-points.py
-	python3 create-speed-points.py > $@
+ecef.2d.speed.txt: $(SCRIPTS_DIR)/create-speed-points.py
+	python3 $(SCRIPTS_DIR)/create-speed-points.py > $@
 
 # Geodetic points
 # vary geodetic latitude (degrees) and ellipsoid height (meters)
 
 geod.2d.region-0.txt:
-	python3 Nd-arange.py -90 90 0.0001 0 0 1 > $@
+	python3 $(SCRIPTS_DIR)/Nd-arange.py -90 90 0.0001 0 0 1 > $@
 
 geod.2d.region-1.txt:
-	python3 Nd-arange.py -90 90 0.001 -100 1000 100 > $@
+	python3 $(SCRIPTS_DIR)/Nd-arange.py -90 90 0.001 -100 1000 100 > $@
 
 geod.2d.region-2.txt:
-	python3 Nd-arange.py -90 90 0.01 -10_000 100_000 1_000 > $@
+	python3 $(SCRIPTS_DIR)/Nd-arange.py -90 90 0.01 -10_000 100_000 1_000 > $@
 
 geod.2d.region-3.txt:
-	python3 Nd-arange.py -90 90 0.1 -1_000_000 10_000_000 10_000 > $@
+	python3 $(SCRIPTS_DIR)/Nd-arange.py -90 90 0.1 -1_000_000 10_000_000 10_000 > $@
 
 geod.2d.region-4.txt:
-	python3 Nd-arange.py -90 90 1 -5_000_000 500_000_000 100_000 > $@
+	python3 $(SCRIPTS_DIR)/Nd-arange.py -90 90 1 -5_000_000 500_000_000 100_000 > $@
 
 geod.2d.region-all.txt: geod.2d.region-0.txt geod.2d.region-1.txt geod.2d.region-2.txt geod.2d.region-3.txt geod.2d.region-4.txt
 	LC_ALL=C sort -u -- $^ > $@
 
 geod.2d.neg-ht-1.txt:
-	python3 Nd-arange.py -90 90 5 -6_383_000 0 1_000 > $@
+	python3 $(SCRIPTS_DIR)/Nd-arange.py -90 90 5 -6_383_000 0 1_000 > $@
 
 geod.2d.neg-ht-2.txt:
-	python3 Nd-arange.py -90 90 1 -6_383_000 0 10_000 > $@
+	python3 $(SCRIPTS_DIR)/Nd-arange.py -90 90 1 -6_383_000 0 10_000 > $@
 
 # https://www.gnu.org/software/make/manual/html_node/Double_002dColon.html
 
 plot-ecef:: ecef.2d.region-all.txt
-	for F in $^; do python3 plot-points.py -v --ell --evo --lim --km --dpi=$(DPI) < $$F; done
+	for F in $^; do python3 $(SCRIPTS_DIR)/plot-points.py -v --ell --evo --lim --km --dpi=$(DPI) < $$F; done
 
 plot-ecef:: ecef.2d.speed.txt
-	for F in $^; do python3 plot-points.py -v --ell --evo       --km --dpi=$(DPI) < $$F; done
+	for F in $^; do python3 $(SCRIPTS_DIR)/plot-points.py -v --ell --evo       --km --dpi=$(DPI) < $$F; done
 
 plot-geod:: geod.2d.region-0.txt geod.2d.region-1.txt geod.2d.region-2.txt geod.2d.region-3.txt geod.2d.region-4.txt
-	for F in $^; do python3 plot-points.py -v -g --ell --evo --lim --km --dpi=$(DPI) < $$F; done
+	for F in $^; do python3 $(SCRIPTS_DIR)/plot-points.py -v -g --ell --evo --lim --km --dpi=$(DPI) < $$F; done
 
 plot-geod:: geod.2d.neg-ht-1.txt geod.2d.neg-ht-2.txt
-	for F in $^; do python3 plot-points.py -v -g --ell --evo       --km --dpi=$(DPI) < $$F; done
+	for F in $^; do python3 $(SCRIPTS_DIR)/plot-points.py -v -g --ell --evo       --km --dpi=$(DPI) < $$F; done
 
 acc: $(BIN_ACC) input | $(OUTPUT_DIR)
 	./$< -v -t -g -a < geod.2d.region-all.txt > $(OUTPUT_DIR)/$@.$(DATETIME).json

@@ -96,7 +96,7 @@ Two headers are generated.  `generate/generate.bash` runs `calc` scripts to writ
 `include/aux-lat-conv.hpp` and `include/utm-ups-const.hpp`, so edit the `.cal` sources rather
 than those headers.
 
-The Python scripts at the top level generate and plot input data.  `Nd-arange.py` piped into
+The Python scripts in `scripts/` generate and plot input data.  `Nd-arange.py` piped into
 `polar-to-cartesian.py` produces the ECEF grids, and `plot-points.py` draws them (see the
 `plot-ecef` and `plot-geod` targets).  `ellipsoid.py` holds the scalar ellipsoid math that the
 converter and plotting scripts share.  `olson_1996/` is the original C version with its own

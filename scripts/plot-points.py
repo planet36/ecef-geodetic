@@ -11,38 +11,38 @@ Plot 2D points read from stdin.
 Examples:
 
 # region 0
-python3 Nd-arange.py 0 90 0.0001 0 0 1 |
-python3 plot-points.py -v -g --ell --evo --lim --km
+python3 scripts/Nd-arange.py 0 90 0.0001 0 0 1 |
+python3 scripts/plot-points.py -v -g --ell --evo --lim --km
 
 # region 1
-python3 Nd-arange.py 0 90 0.001 -100 1000 100 |
-python3 plot-points.py -v -g --ell --evo --lim --km
+python3 scripts/Nd-arange.py 0 90 0.001 -100 1000 100 |
+python3 scripts/plot-points.py -v -g --ell --evo --lim --km
 
 # region 2
-python3 Nd-arange.py 0 90 0.01 -10_000 100_000 1_000 |
-python3 plot-points.py -v -g --ell --evo --lim --km
+python3 scripts/Nd-arange.py 0 90 0.01 -10_000 100_000 1_000 |
+python3 scripts/plot-points.py -v -g --ell --evo --lim --km
 
 # region 3
-python3 Nd-arange.py 0 90 0.1 -1_000_000 10_000_000 10_000 |
-python3 plot-points.py -v -g --ell --evo --lim --km
+python3 scripts/Nd-arange.py 0 90 0.1 -1_000_000 10_000_000 10_000 |
+python3 scripts/plot-points.py -v -g --ell --evo --lim --km
 
 # region 4
-python3 Nd-arange.py 0 90 1 -5_000_000 500_000_000 100_000 |
-python3 plot-points.py -v -g --ell --evo --lim --km
+python3 scripts/Nd-arange.py 0 90 1 -5_000_000 500_000_000 100_000 |
+python3 scripts/plot-points.py -v -g --ell --evo --lim --km
 
 # negative height, inside evolute
-python3 Nd-arange.py 0 90 5 -6_383_000 0 1_000 |
-python3 plot-points.py -v -g --ell --evo --km
+python3 scripts/Nd-arange.py 0 90 5 -6_383_000 0 1_000 |
+python3 scripts/plot-points.py -v -g --ell --evo --km
 
 # negative height, inside evolute
-python3 Nd-arange.py 0 90 1 -6_383_000 0 10_000 |
-python3 plot-points.py -v -g --ell --evo --km
+python3 scripts/Nd-arange.py 0 90 1 -6_383_000 0 10_000 |
+python3 scripts/plot-points.py -v -g --ell --evo --km
 
 '''
 
 __author__ = 'Steven Ward'
 __license__ = 'MPL-2.0'
-__version__ = '2026-10-07'
+__version__ = '2026-10-10'
 
 import sys
 from enum import Enum, auto, unique
