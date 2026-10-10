@@ -39,10 +39,7 @@ See [Makefile](Makefile) for all possible targets.
 
 ### Programs
 
-See [Makefile](Makefile) for detailed list of programs that are required to run.  Two of them need a minimum version:
-
-- g++ 14 or later, for `-std=c++26` and `<print>`
-- GNU awk 5.3 or later, for `--csv`
+See [Makefile](Makefile) for detailed list of programs that are required to run.  The build needs g++ 14 or later, for `-std=c++26` and `<print>`.
 
 ## Results
 

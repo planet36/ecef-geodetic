@@ -60,7 +60,7 @@ join -t ',' \
 
 # Select algorithms with good accuracy (mean dist err < 10 nm).
 # Change precision of output to 3 decimal places.
-awk --csv '$2 < 10 || NR <= 3 {print $0}' "$OUTFILE" \
+awk -F ',' '$2 < 10 || NR <= 3 {print $0}' "$OUTFILE" \
     | numfmt --header=3 --delimiter=, --field=2- --format='%0.3f' \
     > "$OUTFILE_FILTERED" || exit
 
