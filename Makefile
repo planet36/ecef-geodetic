@@ -49,7 +49,7 @@ CXXFLAGS += -frecord-gcc-switches
 
 #LDFLAGS =
 
-LDLIBS = -lbenchmark -lfmt -ltbb
+LDLIBS = -lbenchmark -ltbb
 
 INPUT_DIR = input
 

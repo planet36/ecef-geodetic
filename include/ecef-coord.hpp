@@ -11,7 +11,7 @@
 
 #include <cmath>
 #include <concepts>
-#include <fmt/format.h>
+#include <format>
 #include <sstream>
 #include <string>
 #include <type_traits>
@@ -30,7 +30,7 @@ template <std::floating_point T>
 [[nodiscard]] std::string
 ecef_to_str(const T x, const T y, const T z, int precision = ecef_default_precision)
 {
-    return fmt::format("{:.{}f} {:.{}f} {:.{}f}", x, precision, y, precision, z, precision);
+    return std::format("{:.{}f} {:.{}f} {:.{}f}", x, precision, y, precision, z, precision);
 }
 
 /// string to ECEF

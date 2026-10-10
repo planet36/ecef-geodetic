@@ -19,8 +19,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <err.h>
-#include <fmt/format.h>
-#include <fmt/ranges.h>
+#include <print>
 #include <ranges>
 #include <string>
 #include <vector>
@@ -61,9 +60,10 @@ get_func_names(const int argc, char* const* argv, const int first_arg)
             {
                 warnx("\"%s\" is not a valid function name", func_name.c_str());
 
-                fmt::println(stderr, "Valid function names are:");
+                std::println(stderr, "Valid function names are:");
                 const auto keys = std::views::keys(map_func_name_to_func_info);
-                fmt::println(stderr, "  {}", fmt::join(keys, "\n  "));
+                for (const auto& key : keys)
+                    std::println(stderr, "  {}", key);
 
                 std::exit(EXIT_FAILURE);
             }

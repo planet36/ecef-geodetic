@@ -13,7 +13,7 @@
 
 #include <cmath>
 #include <concepts>
-#include <fmt/format.h>
+#include <format>
 #include <sstream>
 #include <string>
 
@@ -39,11 +39,11 @@ geodetic_to_str(const angle<U, T>& lat,
 {
     std::string result;
 
-    result += fmt::format("{:.{}f}", lat.to_deg(), precision + geodetic_precision_add);
-    result += fmt::format(" {:.{}f}", lon.to_deg(), precision + geodetic_precision_add);
+    result += std::format("{:.{}f}", lat.to_deg(), precision + geodetic_precision_add);
+    result += std::format(" {:.{}f}", lon.to_deg(), precision + geodetic_precision_add);
 
     if (!std::isnan(ht))
-        result += fmt::format(" {:.{}f}", ht, precision);
+        result += std::format(" {:.{}f}", ht, precision);
 
     return result;
 }

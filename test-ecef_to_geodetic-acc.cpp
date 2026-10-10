@@ -28,12 +28,12 @@
 #include <err.h>
 #include <exception>
 #include <execution>
-#include <fmt/chrono.h>
-#include <fmt/format.h>
+#include <format>
 #include <gnu/libc-version.h>
 #include <map>
 #include <mutex>
 #include <nlohmann/json.hpp>
+#include <print>
 #include <random>
 #include <ranges>
 #include <set>
@@ -239,7 +239,7 @@ measure_time_per_call(const ecef_to_geodetic_func<T>& func,
 void
 print_usage(const char* program_name)
 {
-    fmt::print(stderr, R"(Usage: {} [OPTION]... [FUNC_NAME]...
+    std::print(stderr, R"(Usage: {} [OPTION]... [FUNC_NAME]...
 Test the accuracy of ECEF-to-Geodetic functions, and print the results as JSON.
 Read the input coordinates from stdin.  Test every function unless FUNC_NAMEs are given.
 
@@ -380,10 +380,10 @@ try
     if (do_acc_test || do_single_point_acc_test || (num_speed_test_iterations > 0))
     {
         if (verbose)
-            fmt::print(stderr, "# reading input data ... ");
+            std::print(stderr, "# reading input data ... ");
         read_coords(input_data_coord_system, ecef_vec);
         if (verbose)
-            fmt::println(stderr, "done");
+            std::println(stderr, "done");
 
         // With no points, every mean distance error would be NaN.
         if (ecef_vec.empty())
@@ -395,7 +395,7 @@ try
     if (do_acc_test)
     {
         if (verbose)
-            fmt::print(stderr, "# doing accuracy test ... ");
+            std::print(stderr, "# doing accuracy test ... ");
 
         if (use_multiple_threads)
         {
@@ -418,7 +418,7 @@ try
             for (const auto& func_name : func_names)
             {
                 if (verbose)
-                    fmt::println(stderr, "# {}", func_name);
+                    std::println(stderr, "# {}", func_name);
 
                 const auto& func_info = map_func_name_to_func_info.at(func_name);
 
@@ -430,7 +430,7 @@ try
         }
 
         if (verbose)
-            fmt::println(stderr, "done");
+            std::println(stderr, "done");
     }
 
     if (do_single_point_acc_test)
@@ -486,14 +486,14 @@ try
             const auto system_clock_now = std::chrono::system_clock::now();
 
             if (verbose)
-                fmt::println(stderr, "# speed tests remaining: {:{}};  {:%FT%T%z}",
+                std::println(stderr, "# speed tests remaining: {:{}};  {:%FT%T%z}",
                              num_speed_test_iterations, max_strlen_num_speed_test_iterations,
                              system_clock_now);
 
             if (speed_test_iteration_durations.num_data_values() > 0)
             {
                 if (verbose)
-                    fmt::println(stderr, "# est. time remaining: {:.1f} min",
+                    std::println(stderr, "# est. time remaining: {:.1f} min",
                                  speed_test_iteration_durations.mean() *
                                      num_speed_test_iterations);
             }
@@ -522,12 +522,12 @@ try
             else
             {
                 if (verbose)
-                    fmt::print(stderr, "# ");
+                    std::print(stderr, "# ");
 
                 for (const auto& func_name : func_names)
                 {
                     if (verbose)
-                        fmt::print(stderr, ".");
+                        std::print(stderr, ".");
 
                     const auto& func_info = map_func_name_to_func_info.at(func_name);
 
@@ -537,7 +537,7 @@ try
                 }
 
                 if (verbose)
-                    fmt::println(stderr, "");
+                    std::println(stderr, "");
             }
 
             const auto iteration_t1 = std::chrono::steady_clock::now();
@@ -562,15 +562,15 @@ try
 
                 json_output["func_names"][func_name]["speed"] = {
                     {"median_time_per_call",
-                     fmt::format("{:.1f}", median_val(multiset_time_per_call))},
-                    {"mean_time_per_call", fmt::format("{:.1f}", rs.mean())},
-                    {"stdev_time_per_call", fmt::format("{:.1f}", rs.standard_deviation())},
+                     std::format("{:.1f}", median_val(multiset_time_per_call))},
+                    {"mean_time_per_call", std::format("{:.1f}", rs.mean())},
+                    {"stdev_time_per_call", std::format("{:.1f}", rs.standard_deviation())},
                 };
             }
         }
     }
 
-    fmt::println("{}", json_output.dump(4));
+    std::println("{}", json_output.dump(4));
 
     return 0;
 }

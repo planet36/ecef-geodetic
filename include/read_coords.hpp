@@ -17,7 +17,7 @@
 #include <cmath>
 #include <concepts>
 #include <cstddef>
-#include <fmt/format.h>
+#include <format>
 #include <iostream>
 #include <iterator>
 #include <sstream>
@@ -49,7 +49,7 @@ read_line_values(const std::string& line, const std::size_t line_num)
 
     if (std::cmp_not_equal(num_tokens, values.size()))
         throw std::invalid_argument(
-            fmt::format("Invalid number on input line {}: {}", line_num, line));
+            std::format("Invalid number on input line {}: {}", line_num, line));
 
     return values;
 }
@@ -97,7 +97,7 @@ read_coords_ecef(std::vector<ECEF<T>>& ecef_vec)
             break;
 
         default:
-            throw std::invalid_argument(fmt::format(
+            throw std::invalid_argument(std::format(
                 "Invalid input data dimensions on line {}: {}", line_num, input_vec.size()));
             break;
         }
@@ -151,7 +151,7 @@ read_coords_geod(std::vector<Geodetic<angle_unit::degree, T>>& geod_vec)
             break;
 
         default:
-            throw std::invalid_argument(fmt::format(
+            throw std::invalid_argument(std::format(
                 "Invalid input data dimensions on line {}: {}", line_num, input_vec.size()));
             break;
         }
@@ -221,7 +221,7 @@ read_coords(const INPUT_DATA_COORD_SYSTEM input_data_coord_system,
         break;
 
     default:
-        throw std::invalid_argument(fmt::format("Invalid INPUT_DATA_COORD_SYSTEM: {}",
+        throw std::invalid_argument(std::format("Invalid INPUT_DATA_COORD_SYSTEM: {}",
                                                 std::to_underlying(input_data_coord_system)));
         break;
     }

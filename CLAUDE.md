@@ -54,9 +54,8 @@ accuracy file and a speed file into a CSV with
 
 - The compiler must be g++ with `-std=c++26`.  The Makefile states that clang++ is not
   supported.
-- Required libraries are Google Benchmark, fmt (10 or later), nlohmann-json, and oneTBB.  The
-  Makefile aborts if any program in `REQUIRED_BINS` (including `jq`, `sponge`, and `numfmt`)
-  is missing.
+- Required libraries are Google Benchmark, nlohmann-json, and oneTBB.  The Makefile aborts if
+  any program in `REQUIRED_BINS` (including `jq`, `sponge`, and `numfmt`) is missing.
 - Never enable `-ffinite-math-only`, `-ffast-math`, or `-Ofast`.  The other floating-point
   flags left commented in the Makefile trade accuracy for speed and are off on purpose.
 
