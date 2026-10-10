@@ -2,7 +2,6 @@
 # SPDX-License-Identifier: MPL-2.0
 
 # pylint: disable=invalid-name
-# pylint: disable=no-member
 
 '''
 Create 2D ECEF points to be used in the speed tests.
@@ -10,49 +9,99 @@ Create 2D ECEF points to be used in the speed tests.
 
 __author__ = 'Steven Ward'
 __license__ = 'MPL-2.0'
-__version__ = '2026-10-07'
+__version__ = '2026-10-10'
 
-import gmpy2
+from decimal import Context, Decimal, getcontext, localcontext
 
-# https://gmpy2.readthedocs.io/en/latest/mpfr.html
+# Significant decimal digits of the IEEE binary256 and binary128 formats
+binary256_digits10 = 72
+binary128_digits10 = 35
 
-gmpy2.set_context(gmpy2.ieee(256))
+getcontext().prec = binary256_digits10
 
-log10_of_2 = gmpy2.log10(2)
-pi = gmpy2.const_pi()
-cos = gmpy2.cos
-sin = gmpy2.sin
+# The pi, cos, and sin functions are copied from the recipes at
+# <https://docs.python.org/3/library/decimal.html#recipes>.
+
+
+def pi() -> Decimal:
+    '''Compute Pi to the current precision.'''
+    with localcontext() as ctx:
+        ctx.prec += 2 # extra digits for intermediate steps
+        three = Decimal(3)
+        # pylint: disable-next=redefined-outer-name
+        lasts, t, s, n, na, d, da = Decimal(0), three, three, 1, 0, 0, 24
+        while s != lasts:
+            lasts = s
+            n, na = n + na, na + 8
+            d, da = d + da, da + 32
+            t = (t * n) / d
+            s += t
+    return +s # unary plus applies the new precision
+
+
+def cos(x: Decimal) -> Decimal:
+    '''Return the cosine of x as measured in radians.'''
+    with localcontext() as ctx:
+        ctx.prec += 2
+        i, lasts, s, fact, num, sign = 0, Decimal(0), Decimal(1), 1, Decimal(1), 1
+        while s != lasts:
+            lasts = s
+            i += 2
+            fact *= i * (i - 1)
+            num *= x * x
+            sign *= -1
+            s += num / fact * sign
+    return +s
+
+
+def sin(x: Decimal) -> Decimal:
+    '''Return the sine of x as measured in radians.'''
+    with localcontext() as ctx:
+        ctx.prec += 2
+        i, lasts, s, fact, num, sign = 1, Decimal(0), x, 1, x, 1
+        while s != lasts:
+            lasts = s
+            i += 2
+            fact *= i * (i - 1)
+            num *= x * x
+            sign *= -1
+            s += num / fact * sign
+    return +s
+
 
 # WGS 84
-a = gmpy2.mpfr('6378137.0')
-b = gmpy2.mpfr('6356752.31424517949756396659963365515679817131108549733884857165128320852')
+a = Decimal('6378137.0')
+b = Decimal('6356752.31424517949756396659963365515679817131108549733884857165128320852')
+
+zero_threshold = Decimal(f'1E-{binary128_digits10}')
 
 
-binary256_digits10 = int(gmpy2.ceil(log10_of_2 * gmpy2.ieee(256).precision))
-# 72
-binary192_digits10 = int(gmpy2.ceil(log10_of_2 * gmpy2.ieee(192).precision))
-# 53
-binary128_digits10 = int(gmpy2.ceil(log10_of_2 * gmpy2.ieee(128).precision))
-# 35
-binary64_digits10 = int(gmpy2.ceil(log10_of_2 * gmpy2.ieee(64).precision))
-# 16
-
-zero_threshold = gmpy2.mpfr(f'1E-{binary128_digits10}')
-
-def fix_zero(x: gmpy2.mpfr) -> gmpy2.mpfr:
+def fix_zero(x: Decimal) -> Decimal:
     '''Treat -0.0 and very small numbers (e.g. 1.3E-65) as 0.0'''
     if x.is_zero() or (abs(x) < zero_threshold):
-        return gmpy2.zero()
+        return Decimal(0)
     return x
+
+
+output_context = Context(prec=binary128_digits10)
+
+
+def to_str(x: Decimal) -> str:
+    '''Format x to binary128 precision without trailing zeros.'''
+    # Note: read_coords_ecef only supports decimal float
+    s = f'{x.normalize(output_context):f}'
+    # Keep the decimal point on whole numbers, as in "0.0" and "6378137.0".
+    return s if '.' in s else s + '.0'
+
 
 # graph of ellipsoid and evolute
 # https://www.desmos.com/calculator/0kv3gs1lzg
 # https://www.desmos.com/calculator/vgwsyhnjvm
 
-all_t = (gmpy2.zero(),
-         pi/6,
-         pi/3,
-         pi/2,
+all_t = (Decimal(0),
+         pi()/6,
+         pi()/3,
+         pi()/2,
          )
 
 all_r = ((a/500, b/500), # inside the evolute
@@ -63,7 +112,7 @@ all_r = ((a/500, b/500), # inside the evolute
 
 points = []
 
-points.append((gmpy2.zero(), gmpy2.zero()))
+points.append((Decimal(0), Decimal(0)))
 
 for t in all_t:
     for r in all_r:
@@ -84,6 +133,4 @@ for t in all_t:
         points.append((w, -z))
 
 for p in points:
-    print(f'{p[0]:.{binary128_digits10}NG} {p[1]:.{binary128_digits10}NG}')
-    # Note: read_coords_ecef only supports decimal float
-    #print(f'{p[0]:NA} {p[1]:NA}')
+    print(f'{to_str(p[0])} {to_str(p[1])}')
