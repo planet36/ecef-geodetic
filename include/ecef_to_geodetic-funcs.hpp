@@ -937,35 +937,12 @@ COMMON_FIRST_DECLS
         }
     }
 
-    /*
-    // SDW: This does not work
-    sin_lat = z;
-    cos_lat = w * (1 - ell.f);
-
-    t = std::tan(sin_lat / cos_lat);
-    */
-
     // (i = 1)
     t -= f(t, u, v, w) / fp(t, u, v, w);
 
     // https://en.wikipedia.org/wiki/Tangent_half-angle_formula
-#if 0
-    // SDW: This does not work
-    sin_lat = 2 * t;
-    cos_lat = (1 - t * t) * ep;
-
-    // SDW: This does not work
-    sin_lat = 2 * t * ep;
-    cos_lat = (1 - t * t);
-#else
-    // SDW: This does not work
-    //sin_lat = (1 - t * t) * ep;
-    //cos_lat = 2 * t;
-
-    // SDW: This does not work
     sin_lat = (1 - t * t);
     cos_lat = 2 * t * ep;
-#endif
 
     if (z < 0)
         sin_lat = -sin_lat;
@@ -1075,35 +1052,12 @@ COMMON_FIRST_DECLS
         }
     }
 
-    /*
-    // SDW: This does not work
-    sin_lat = z;
-    cos_lat = w * (1 - ell.f);
-
-    t = std::tan(sin_lat / cos_lat);
-    */
-
     // (i = 1)
     t -= f(t, u, v, w) / fp(t, u, v, w);
 
     // https://en.wikipedia.org/wiki/Tangent_half-angle_formula
-#if 0
-    // SDW: This does not work
-    sin_lat = 2 * t;
-    cos_lat = (1 - t * t) * ep;
-
-    // SDW: This does not work
-    sin_lat = 2 * t * ep;
-    cos_lat = (1 - t * t);
-#else
-    // SDW: This does not work
-    //sin_lat = (1 - t * t) * ep;
-    //cos_lat = 2 * t;
-
-    // SDW: This does not work
     sin_lat = (1 - t * t);
     cos_lat = 2 * t * ep;
-#endif
 
     if (z < 0)
         sin_lat = -sin_lat;
