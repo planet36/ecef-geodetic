@@ -1,5 +1,4 @@
-ecef.2d.*.txt
-geod.2d.*.txt
+/input/
 test-ecef_to_geodetic-acc
 test-ecef_to_geodetic-acc.opts
 test-ecef_to_geodetic-speed

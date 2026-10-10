@@ -11,7 +11,7 @@ recommendation is `olson_1996` (custom height) with 2 iterations for iterative a
 ## Commands
 
 ```sh
-make -j $(nproc) input   # generate the ecef.2d.*.txt and geod.2d.*.txt input files
+make -j $(nproc) input   # generate the input files in input/
 make -j $(nproc)         # build both test binaries (and the inputs)
 make acc speed           # run the full tests, about 10 minutes, never in parallel
 make acc1                # quick single-point accuracy check on the speed inputs
@@ -23,8 +23,8 @@ There is no unit-test framework.  To exercise only some algorithms, pass their n
 keys in `include/map_func_name_to_func_info.hpp`) as trailing arguments:
 
 ```sh
-./test-ecef_to_geodetic-acc -v -a -g olson_1996 < geod.2d.region-all.txt
-NUM_THREADS=1 ./test-ecef_to_geodetic-speed olson_1996 sedris < ecef.2d.speed.txt
+./test-ecef_to_geodetic-acc -v -a -g olson_1996 < input/geod.2d.region-all.txt
+NUM_THREADS=1 ./test-ecef_to_geodetic-speed olson_1996 sedris < input/ecef.2d.speed.txt
 ```
 
 The accuracy binary's flags are `-a` for the accuracy test, `-1` for the single-point test,

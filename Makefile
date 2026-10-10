@@ -16,6 +16,7 @@ numfmt \
 python3 \
 readelf \
 rm \
+rmdir \
 sed \
 sort \
 sponge \
@@ -50,24 +51,26 @@ CXXFLAGS += -frecord-gcc-switches
 
 LDLIBS = -lbenchmark -lfmt -ltbb
 
+INPUT_DIR = input
+
 ALL_INFILES_GEOD := \
-geod.2d.region-0.txt \
-geod.2d.region-1.txt \
-geod.2d.region-2.txt \
-geod.2d.region-3.txt \
-geod.2d.region-4.txt \
-geod.2d.region-all.txt \
-geod.2d.neg-ht-1.txt \
-geod.2d.neg-ht-2.txt \
+$(INPUT_DIR)/geod.2d.region-0.txt \
+$(INPUT_DIR)/geod.2d.region-1.txt \
+$(INPUT_DIR)/geod.2d.region-2.txt \
+$(INPUT_DIR)/geod.2d.region-3.txt \
+$(INPUT_DIR)/geod.2d.region-4.txt \
+$(INPUT_DIR)/geod.2d.region-all.txt \
+$(INPUT_DIR)/geod.2d.neg-ht-1.txt \
+$(INPUT_DIR)/geod.2d.neg-ht-2.txt \
 
 ALL_INFILES_ECEF := \
-ecef.2d.region-0.txt \
-ecef.2d.region-1.txt \
-ecef.2d.region-2.txt \
-ecef.2d.region-3.txt \
-ecef.2d.region-4.txt \
-ecef.2d.region-all.txt \
-ecef.2d.speed.txt \
+$(INPUT_DIR)/ecef.2d.region-0.txt \
+$(INPUT_DIR)/ecef.2d.region-1.txt \
+$(INPUT_DIR)/ecef.2d.region-2.txt \
+$(INPUT_DIR)/ecef.2d.region-3.txt \
+$(INPUT_DIR)/ecef.2d.region-4.txt \
+$(INPUT_DIR)/ecef.2d.region-all.txt \
+$(INPUT_DIR)/ecef.2d.speed.txt \
 
 # Use N-1 threads in the speed test
 export NUM_THREADS := $(shell nproc --ignore 1)
@@ -108,6 +111,9 @@ all: $(BINS) input | $(OUTPUT_DIR)
 
 input: $(ALL_INFILES_ECEF) $(ALL_INFILES_GEOD)
 
+# The trailing /. keeps the directory distinct from the phony target of the same name.
+$(ALL_INFILES_ECEF) $(ALL_INFILES_GEOD): | $(INPUT_DIR)/.
+
 # ECEF points
 # NOTE: They can be generated 2 ways:
 # 1) vary W (meters) and Z (meters)
@@ -116,70 +122,70 @@ input: $(ALL_INFILES_ECEF) $(ALL_INFILES_GEOD)
 #    theta is geocentric latitude (not geodetic)
 #    polar-to-cartesian.py is good enough for this case, even though it's input is geocentric latitude.
 
-ecef.2d.region-0.txt:
+$(INPUT_DIR)/ecef.2d.region-0.txt:
 	python3 $(SCRIPTS_DIR)/Nd-arange.py 0 50_000 1_000 0 90 30 | python3 $(SCRIPTS_DIR)/polar-to-cartesian.py > $@
 
-ecef.2d.region-1.txt:
+$(INPUT_DIR)/ecef.2d.region-1.txt:
 	python3 $(SCRIPTS_DIR)/Nd-arange.py 0 7_000_000 100_000 0 90 30 | python3 $(SCRIPTS_DIR)/polar-to-cartesian.py > $@
 
-ecef.2d.region-2.txt:
+$(INPUT_DIR)/ecef.2d.region-2.txt:
 	python3 $(SCRIPTS_DIR)/Nd-arange.py 6_300_000 6_500_000 1_000 0 90 30 | python3 $(SCRIPTS_DIR)/polar-to-cartesian.py > $@
 
-ecef.2d.region-3.txt:
+$(INPUT_DIR)/ecef.2d.region-3.txt:
 	python3 $(SCRIPTS_DIR)/Nd-arange.py 6_350_000 6_400_000 100 0 90 30 | python3 $(SCRIPTS_DIR)/polar-to-cartesian.py > $@
 
-ecef.2d.region-4.txt:
+$(INPUT_DIR)/ecef.2d.region-4.txt:
 	python3 $(SCRIPTS_DIR)/Nd-arange.py 0 100_000_000 1_000_000 0 90 30 | python3 $(SCRIPTS_DIR)/polar-to-cartesian.py > $@
 
-ecef.2d.region-all.txt: ecef.2d.region-0.txt ecef.2d.region-1.txt ecef.2d.region-2.txt ecef.2d.region-3.txt ecef.2d.region-4.txt
+$(INPUT_DIR)/ecef.2d.region-all.txt: $(INPUT_DIR)/ecef.2d.region-0.txt $(INPUT_DIR)/ecef.2d.region-1.txt $(INPUT_DIR)/ecef.2d.region-2.txt $(INPUT_DIR)/ecef.2d.region-3.txt $(INPUT_DIR)/ecef.2d.region-4.txt
 	LC_ALL=C sort -u -- $^ > $@
 
-ecef.2d.speed.txt: $(SCRIPTS_DIR)/create-speed-points.py
+$(INPUT_DIR)/ecef.2d.speed.txt: $(SCRIPTS_DIR)/create-speed-points.py
 	python3 $(SCRIPTS_DIR)/create-speed-points.py > $@
 
 # Geodetic points
 # vary geodetic latitude (degrees) and ellipsoid height (meters)
 
-geod.2d.region-0.txt:
+$(INPUT_DIR)/geod.2d.region-0.txt:
 	python3 $(SCRIPTS_DIR)/Nd-arange.py -90 90 0.0001 0 0 1 > $@
 
-geod.2d.region-1.txt:
+$(INPUT_DIR)/geod.2d.region-1.txt:
 	python3 $(SCRIPTS_DIR)/Nd-arange.py -90 90 0.001 -100 1000 100 > $@
 
-geod.2d.region-2.txt:
+$(INPUT_DIR)/geod.2d.region-2.txt:
 	python3 $(SCRIPTS_DIR)/Nd-arange.py -90 90 0.01 -10_000 100_000 1_000 > $@
 
-geod.2d.region-3.txt:
+$(INPUT_DIR)/geod.2d.region-3.txt:
 	python3 $(SCRIPTS_DIR)/Nd-arange.py -90 90 0.1 -1_000_000 10_000_000 10_000 > $@
 
-geod.2d.region-4.txt:
+$(INPUT_DIR)/geod.2d.region-4.txt:
 	python3 $(SCRIPTS_DIR)/Nd-arange.py -90 90 1 -5_000_000 500_000_000 100_000 > $@
 
-geod.2d.region-all.txt: geod.2d.region-0.txt geod.2d.region-1.txt geod.2d.region-2.txt geod.2d.region-3.txt geod.2d.region-4.txt
+$(INPUT_DIR)/geod.2d.region-all.txt: $(INPUT_DIR)/geod.2d.region-0.txt $(INPUT_DIR)/geod.2d.region-1.txt $(INPUT_DIR)/geod.2d.region-2.txt $(INPUT_DIR)/geod.2d.region-3.txt $(INPUT_DIR)/geod.2d.region-4.txt
 	LC_ALL=C sort -u -- $^ > $@
 
-geod.2d.neg-ht-1.txt:
+$(INPUT_DIR)/geod.2d.neg-ht-1.txt:
 	python3 $(SCRIPTS_DIR)/Nd-arange.py -90 90 5 -6_383_000 0 1_000 > $@
 
-geod.2d.neg-ht-2.txt:
+$(INPUT_DIR)/geod.2d.neg-ht-2.txt:
 	python3 $(SCRIPTS_DIR)/Nd-arange.py -90 90 1 -6_383_000 0 10_000 > $@
 
 # https://www.gnu.org/software/make/manual/html_node/Double_002dColon.html
 
-plot-ecef:: ecef.2d.region-all.txt
+plot-ecef:: $(INPUT_DIR)/ecef.2d.region-all.txt
 	for F in $^; do python3 $(SCRIPTS_DIR)/plot-points.py -v --ell --evo --lim --km --dpi=$(DPI) < $$F; done
 
-plot-ecef:: ecef.2d.speed.txt
+plot-ecef:: $(INPUT_DIR)/ecef.2d.speed.txt
 	for F in $^; do python3 $(SCRIPTS_DIR)/plot-points.py -v --ell --evo       --km --dpi=$(DPI) < $$F; done
 
-plot-geod:: geod.2d.region-0.txt geod.2d.region-1.txt geod.2d.region-2.txt geod.2d.region-3.txt geod.2d.region-4.txt
+plot-geod:: $(INPUT_DIR)/geod.2d.region-0.txt $(INPUT_DIR)/geod.2d.region-1.txt $(INPUT_DIR)/geod.2d.region-2.txt $(INPUT_DIR)/geod.2d.region-3.txt $(INPUT_DIR)/geod.2d.region-4.txt
 	for F in $^; do python3 $(SCRIPTS_DIR)/plot-points.py -v -g --ell --evo --lim --km --dpi=$(DPI) < $$F; done
 
-plot-geod:: geod.2d.neg-ht-1.txt geod.2d.neg-ht-2.txt
+plot-geod:: $(INPUT_DIR)/geod.2d.neg-ht-1.txt $(INPUT_DIR)/geod.2d.neg-ht-2.txt
 	for F in $^; do python3 $(SCRIPTS_DIR)/plot-points.py -v -g --ell --evo       --km --dpi=$(DPI) < $$F; done
 
 acc: $(BIN_ACC) input | $(OUTPUT_DIR)
-	./$< -v -t -g -a < geod.2d.region-all.txt > $(OUTPUT_DIR)/$@.$(DATETIME).json
+	./$< -v -t -g -a < $(INPUT_DIR)/geod.2d.region-all.txt > $(OUTPUT_DIR)/$@.$(DATETIME).json
 
 	@# Insert compile options
 	jq --rawfile compile_opts $<.opts '. + {compile_opts: $$compile_opts}' \
@@ -187,7 +193,7 @@ acc: $(BIN_ACC) input | $(OUTPUT_DIR)
 
 acc1: $(BIN_ACC) input | $(OUTPUT_DIR)
 	@# NOTE: Only run this test with a few input points
-	./$< -v -t -1 < ecef.2d.speed.txt > $(OUTPUT_DIR)/$@.$(DATETIME).json
+	./$< -v -t -1 < $(INPUT_DIR)/ecef.2d.speed.txt > $(OUTPUT_DIR)/$@.$(DATETIME).json
 
 	@# Insert compile options
 	jq --rawfile compile_opts $<.opts '. + {compile_opts: $$compile_opts}' \
@@ -201,7 +207,7 @@ speed: $(BIN_SPEED) input | $(OUTPUT_DIR)
 		--benchmark_report_aggregates_only=true \
 		--benchmark_out_format=json \
 		--benchmark_out=$(OUTPUT_DIR)/$@.$(DATETIME).json \
-		< ecef.2d.speed.txt
+		< $(INPUT_DIR)/ecef.2d.speed.txt
 
 	@# Preserve the given order because --benchmark_enable_random_interleaving=true shuffles the order of the tests.
 	jq '.benchmarks |= sort_by(.family_index)' \
@@ -211,7 +217,7 @@ speed: $(BIN_SPEED) input | $(OUTPUT_DIR)
 	jq --rawfile compile_opts $<.opts '. + {compile_opts: $$compile_opts}' \
 		< $(OUTPUT_DIR)/$@.$(DATETIME).json | sponge $(OUTPUT_DIR)/$@.$(DATETIME).json
 
-$(OUTPUT_DIR):
+$(OUTPUT_DIR) $(INPUT_DIR)/.:
 	mkdir --verbose --parents -- $@
 
 clean:
@@ -220,6 +226,7 @@ clean:
 clean-input:
 	@$(RM) --verbose -- \
 		$(ALL_INFILES_ECEF) $(ALL_INFILES_GEOD)
+	@if [ -d $(INPUT_DIR) ]; then rmdir --verbose --ignore-fail-on-non-empty -- $(INPUT_DIR); fi
 
 clean-all: clean clean-input
 
