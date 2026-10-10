@@ -1340,13 +1340,24 @@ COMMON_FIRST_DECLS
     auto cos_lat = C_n;
     cos_lat *= ec; // (21)
 
+#ifdef USE_CUSTOM_HT
+    const auto sin_lat2 = SQ(sin_lat);
+    const auto cos_lat2 = SQ(cos_lat);
+    // In the paper, (20) has b * A_{n+1} in place of a * sqrt(...), which is equal.
+    ht = (w * cos_lat + std::abs(z) * sin_lat -
+          ell.a * std::sqrt((1 - E) * sin_lat2 + cos_lat2)) /
+         std::sqrt(sin_lat2 + cos_lat2); // (20)
+#endif
+
     if (z < 0) // (19)
         sin_lat = -sin_lat;
 
     lat_rad = std::atan2(sin_lat, cos_lat); // (19)
 
+#if !defined(USE_CUSTOM_HT)
     normalize(cos_lat, sin_lat);
     ht = ell.get_ht(w, z, sin_lat, cos_lat);
+#endif
 }
 constexpr int line_end = __LINE__;
 
@@ -1412,13 +1423,24 @@ COMMON_FIRST_DECLS
     auto cos_lat = C_n;
     cos_lat *= ec; // (21)
 
+#ifdef USE_CUSTOM_HT
+    const auto sin_lat2 = SQ(sin_lat);
+    const auto cos_lat2 = SQ(cos_lat);
+    // In the paper, (20) has b * A_{n+1} in place of a * sqrt(...), which is equal.
+    ht = (w * cos_lat + std::abs(z) * sin_lat -
+          ell.a * std::sqrt((1 - E) * sin_lat2 + cos_lat2)) /
+         std::sqrt(sin_lat2 + cos_lat2); // (20)
+#endif
+
     if (z < 0) // (19)
         sin_lat = -sin_lat;
 
     lat_rad = std::atan2(sin_lat, cos_lat); // (19)
 
+#if !defined(USE_CUSTOM_HT)
     normalize(cos_lat, sin_lat);
     ht = ell.get_ht(w, z, sin_lat, cos_lat);
+#endif
 }
 constexpr int line_end = __LINE__;
 
@@ -1441,6 +1463,176 @@ const auto func_info = func_info_t(
     /*.citation                    =*/ R"(Fukushima, Toshio. (2006). Transformation from Cartesian to Geodetic Coordinates Accelerated by Halley’s Method. Journal of Geodesy. 79. 689-693. 10.1007/s00190-006-0023-2.)"
 );
 
+}
+// }}}
+
+namespace fukushima_2006_customht_x1
+// {{{
+{
+#define USE_CUSTOM_HT
+
+constexpr int max_iterations = 1;
+
+constexpr int line_begin = __LINE__;
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
+{
+COMMON_FIRST_DECLS
+
+    const auto ec = 1 - ell.f;
+    // P is "p normalized", the distance from the polar axis in units of a
+    const auto P = w / ell.a; // (2)
+    const auto E = ell.e2; // (2)
+
+    // (17) has a typo: it gives S_0 = Z, but the Fortran uses S_0 = |z|/a
+    auto S_n = std::abs(z) / ell.a; // (17)
+    auto C_n = ec * P; // (17)
+    const auto Z = ec * S_n; // (2), with S_n = S_0 = |z|/a
+
+    for (int i = 1; i <= max_iterations; ++i)
+    {
+        const auto A_n = fast_hypot(S_n, C_n); // (14)
+        // correction factor of Halley's method
+        const auto B_n = 1.5 * E * S_n * SQ(C_n) *
+            ((P * S_n - Z * C_n) * A_n - E * S_n * C_n); // (15)
+
+        const auto D_n = Z * CB(A_n) + E * CB(S_n); // (12)
+        const auto F_n = P * CB(A_n) - E * CB(C_n); // (13)
+
+        S_n = D_n * F_n - B_n * S_n; // (10)
+        C_n = SQ(F_n) - B_n * C_n; // (11)
+    }
+
+    auto sin_lat = S_n;
+    auto cos_lat = C_n;
+    cos_lat *= ec; // (21)
+
+#ifdef USE_CUSTOM_HT
+    const auto sin_lat2 = SQ(sin_lat);
+    const auto cos_lat2 = SQ(cos_lat);
+    // In the paper, (20) has b * A_{n+1} in place of a * sqrt(...), which is equal.
+    ht = (w * cos_lat + std::abs(z) * sin_lat -
+          ell.a * std::sqrt((1 - E) * sin_lat2 + cos_lat2)) /
+         std::sqrt(sin_lat2 + cos_lat2); // (20)
+#endif
+
+    if (z < 0) // (19)
+        sin_lat = -sin_lat;
+
+    lat_rad = std::atan2(sin_lat, cos_lat); // (19)
+
+#if !defined(USE_CUSTOM_HT)
+    normalize(cos_lat, sin_lat);
+    ht = ell.get_ht(w, z, sin_lat, cos_lat);
+#endif
+}
+constexpr int line_end = __LINE__;
+
+constexpr int lines_extra = 0;
+
+// Original Fortran implementation
+// https://doi.org/10.13140/RG.2.1.1113.3602
+
+const auto func_info = func_info_t(
+    /*.func                        =*/ ecef_to_geodetic,
+    /*.num_lines                   =*/ line_end - line_begin + lines_extra,
+    /*.needs_code_for_corner_cases =*/ false,
+    /*.ilog10_mean_dist_err        =*/ -5,
+    /*.display_name                =*/ "Fukushima 2006 (c.h.) (x1)",
+    /*.algo_author                 =*/ "Toshio Fukushima",
+    /*.code_copyright              =*/ "Toshio Fukushima",
+    /*.license                     =*/ "Unknown",
+    /*.orig_impl_lang              =*/ "Fortran",
+    /*.url                         =*/ "https://www.researchgate.net/publication/227215135_Transformation_from_Cartesian_to_Geodetic_Coordinates_Accelerated_by_Halley%27s_Method",
+    /*.citation                    =*/ R"(Fukushima, Toshio. (2006). Transformation from Cartesian to Geodetic Coordinates Accelerated by Halley’s Method. Journal of Geodesy. 79. 689-693. 10.1007/s00190-006-0023-2.)"
+);
+
+#undef USE_CUSTOM_HT
+}
+// }}}
+
+namespace fukushima_2006_customht_x2
+// {{{
+{
+#define USE_CUSTOM_HT
+
+constexpr int max_iterations = 2;
+
+constexpr int line_begin = __LINE__;
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
+{
+COMMON_FIRST_DECLS
+
+    const auto ec = 1 - ell.f;
+    // P is "p normalized", the distance from the polar axis in units of a
+    const auto P = w / ell.a; // (2)
+    const auto E = ell.e2; // (2)
+
+    // (17) has a typo: it gives S_0 = Z, but the Fortran uses S_0 = |z|/a
+    auto S_n = std::abs(z) / ell.a; // (17)
+    auto C_n = ec * P; // (17)
+    const auto Z = ec * S_n; // (2), with S_n = S_0 = |z|/a
+
+    for (int i = 1; i <= max_iterations; ++i)
+    {
+        const auto A_n = fast_hypot(S_n, C_n); // (14)
+        // correction factor of Halley's method
+        const auto B_n = 1.5 * E * S_n * SQ(C_n) *
+            ((P * S_n - Z * C_n) * A_n - E * S_n * C_n); // (15)
+
+        const auto D_n = Z * CB(A_n) + E * CB(S_n); // (12)
+        const auto F_n = P * CB(A_n) - E * CB(C_n); // (13)
+
+        S_n = D_n * F_n - B_n * S_n; // (10)
+        C_n = SQ(F_n) - B_n * C_n; // (11)
+    }
+
+    auto sin_lat = S_n;
+    auto cos_lat = C_n;
+    cos_lat *= ec; // (21)
+
+#ifdef USE_CUSTOM_HT
+    const auto sin_lat2 = SQ(sin_lat);
+    const auto cos_lat2 = SQ(cos_lat);
+    // In the paper, (20) has b * A_{n+1} in place of a * sqrt(...), which is equal.
+    ht = (w * cos_lat + std::abs(z) * sin_lat -
+          ell.a * std::sqrt((1 - E) * sin_lat2 + cos_lat2)) /
+         std::sqrt(sin_lat2 + cos_lat2); // (20)
+#endif
+
+    if (z < 0) // (19)
+        sin_lat = -sin_lat;
+
+    lat_rad = std::atan2(sin_lat, cos_lat); // (19)
+
+#if !defined(USE_CUSTOM_HT)
+    normalize(cos_lat, sin_lat);
+    ht = ell.get_ht(w, z, sin_lat, cos_lat);
+#endif
+}
+constexpr int line_end = __LINE__;
+
+constexpr int lines_extra = 0;
+
+// Original Fortran implementation
+// https://doi.org/10.13140/RG.2.1.1113.3602
+
+const auto func_info = func_info_t(
+    /*.func                        =*/ ecef_to_geodetic,
+    /*.num_lines                   =*/ line_end - line_begin + lines_extra,
+    /*.needs_code_for_corner_cases =*/ false,
+    /*.ilog10_mean_dist_err        =*/ -9,
+    /*.display_name                =*/ "Fukushima 2006 (c.h.) (x2)",
+    /*.algo_author                 =*/ "Toshio Fukushima",
+    /*.code_copyright              =*/ "Toshio Fukushima",
+    /*.license                     =*/ "Unknown",
+    /*.orig_impl_lang              =*/ "Fortran",
+    /*.url                         =*/ "https://www.researchgate.net/publication/227215135_Transformation_from_Cartesian_to_Geodetic_Coordinates_Accelerated_by_Halley%27s_Method",
+    /*.citation                    =*/ R"(Fukushima, Toshio. (2006). Transformation from Cartesian to Geodetic Coordinates Accelerated by Halley’s Method. Journal of Geodesy. 79. 689-693. 10.1007/s00190-006-0023-2.)"
+);
+
+#undef USE_CUSTOM_HT
 }
 // }}}
 

@@ -35,6 +35,8 @@ const std::map<std::string, func_info_t> map_func_name_to_func_info{
 {"fukushima_1999_customht_x2", fukushima_1999_customht_x2::func_info},
 {"fukushima_2006_x1", fukushima_2006_x1::func_info},
 {"fukushima_2006_x2", fukushima_2006_x2::func_info},
+{"fukushima_2006_customht_x1", fukushima_2006_customht_x1::func_info},
+{"fukushima_2006_customht_x2", fukushima_2006_customht_x2::func_info},
 {"geographiclib", geographiclib::func_info},
 {"geographiclib_customht", geographiclib_customht::func_info},
 {"geotransformCpp", geotransformCpp::func_info},
