@@ -35,7 +35,6 @@ See [Makefile](Makefile) for all possible targets.
 ### Python modules
 
 - [matplotlib](https://matplotlib.org/)
-- [more-itertools](https://github.com/more-itertools/more-itertools)
 - [numpy](https://numpy.org/)
 
 ### Programs

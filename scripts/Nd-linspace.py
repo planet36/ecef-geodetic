@@ -19,14 +19,13 @@ __license__ = 'MPL-2.0'
 import itertools
 import sys
 
-import more_itertools
-
 import linspace
 import remove_exponent
 
 l = []
 
-for g in more_itertools.grouper(sys.argv[1:], 3):
+# Group the arguments in threes, and pad a short last group with None.
+for g in itertools.zip_longest(*[iter(sys.argv[1:])] * 3):
     (start, stop, num) = g
     if stop is None:
         sys.exit(f'Error: the group that starts at {start} has no stop value')
