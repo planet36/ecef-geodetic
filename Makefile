@@ -217,6 +217,13 @@ speed: $(BIN_SPEED) input | $(OUTPUT_DIR)
 	jq --rawfile compile_opts $<.opts '. + {compile_opts: $$compile_opts}' \
 		< $(OUTPUT_DIR)/$@.$(DATETIME).json | sponge $(OUTPUT_DIR)/$@.$(DATETIME).json
 
+# Run both tests from the same make invocation, so they share $(DATETIME), and combine them.
+# .WAIT keeps the tests from running in parallel under make -j.
+full: $(BIN_ACC) $(BIN_SPEED) input .WAIT acc .WAIT speed
+	bash $(OUTPUT_DIR)/process-results.bash \
+		$(OUTPUT_DIR)/acc.$(DATETIME).json \
+		$(OUTPUT_DIR)/speed.$(DATETIME).json
+
 $(OUTPUT_DIR) $(INPUT_DIR)/.:
 	mkdir --verbose --parents -- $@
 
@@ -234,7 +241,7 @@ lint:
 	-clang-tidy --quiet $(SRCS) -- $(CPPFLAGS) $(CXXFLAGS)
 
 # https://www.gnu.org/software/make/manual/make.html#Phony-Targets
-.PHONY: all input plot-ecef plot-geod acc acc1 speed clean clean-input clean-all lint
+.PHONY: all input plot-ecef plot-geod acc acc1 speed full clean clean-input clean-all lint
 
 # https://www.gnu.org/software/make/manual/html_node/Special-Targets.html#index-removing-targets-on-failure
 .DELETE_ON_ERROR:
