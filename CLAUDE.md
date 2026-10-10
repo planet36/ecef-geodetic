@@ -13,7 +13,7 @@ recommendation is `olson_1996` (custom height) with 2 iterations for iterative a
 ```sh
 make -j $(nproc) input   # generate the input files in input/
 make -j $(nproc)         # build both test binaries (and the inputs)
-make full                # run both tests and combine them, about 10 minutes
+make full                # run both tests and combine them, about 1 minute
 make acc1                # quick single-point accuracy check on the speed inputs
 make lint                # clang-tidy with the repo's .clang-tidy
 make clean-all           # remove binaries, .d/.opts files, and input files

@@ -14,7 +14,7 @@ To build the accuracy and speed tests
 
 To run the accuracy and speed tests
 > `make full`
-* Takes about 10 minutes to finish
+* Takes about 1 minute to finish
 * Runs the two tests one after the other, even under `make -j`
 
 The output of the accuracy and speed tests are json files which are put in the `results` folder.
