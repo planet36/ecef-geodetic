@@ -95,16 +95,26 @@ def load_results(path: str) -> tuple[list[str], list[float], list[float]]:
     if not rows:
         raise ValueError('no data rows')
 
-    mean_errs_nm = [float(r[MEAN_ERR_COL]) for r in rows]
-    times_ns = [float(r[TIME_COL]) for r in rows]
+    mean_errs_nm = []
+    times_ns = []
 
-    for (r, mean_err_nm, time_ns) in zip(rows, mean_errs_nm, times_ns):
+    for r in rows:
+        # DictReader fills the fields missing from a short row with None.
+        if None in r.values():
+            raise ValueError(f"{r[NAME_COL]!r} has too few fields")
+        try:
+            mean_err_nm = float(r[MEAN_ERR_COL])
+            time_ns = float(r[TIME_COL])
+        except ValueError as e:
+            raise ValueError(f"{r[NAME_COL]!r}: {e}") from e
         if not 0 <= mean_err_nm < MAX_MEAN_ERR_NM:
             raise ValueError(f"{r[NAME_COL]!r} has a mean error of {mean_err_nm} nm, which is "
                              f"not under {MAX_MEAN_ERR_NM} nm (is this the filtered file?)")
         if not 0 < time_ns < math.inf:
             raise ValueError(f"{r[NAME_COL]!r} has a time of {time_ns} ns, which is not "
                              "positive and finite")
+        mean_errs_nm.append(mean_err_nm)
+        times_ns.append(time_ns)
 
     # Every iterative algorithm does 2 iterations, as the README says.
     names = [r[NAME_COL].removesuffix(' (x2)') for r in rows]
