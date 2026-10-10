@@ -974,7 +974,7 @@ COMMON_FIRST_DECLS
     lat_rad = std::atan2(sin_lat, cos_lat);
 
 #ifdef USE_CUSTOM_HT
-    ht = (2 * w * ep * t + z * (1 - t * t) - ell.a * ep * (1 + t * t)) /
+    ht = (2 * w * ep * t + std::abs(z) * (1 - t * t) - ell.a * ep * (1 + t * t)) /
          std::sqrt(SQ(1 + t * t) - 4 * ell.e2 * t * t);
 #else
     normalize(cos_lat, sin_lat);
@@ -1110,7 +1110,7 @@ COMMON_FIRST_DECLS
     lat_rad = std::atan2(sin_lat, cos_lat);
 
 #ifdef USE_CUSTOM_HT
-    ht = (2 * w * ep * t + z * (1 - t * t) - ell.a * ep * (1 + t * t)) /
+    ht = (2 * w * ep * t + std::abs(z) * (1 - t * t) - ell.a * ep * (1 + t * t)) /
          std::sqrt(SQ(1 + t * t) - 4 * ell.e2 * t * t);
 #else
     normalize(cos_lat, sin_lat);
