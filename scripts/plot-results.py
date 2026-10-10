@@ -269,6 +269,11 @@ def main() -> None:
         print(f"{parser.prog}: warning: no point is named {name!r}, so its label override is "
               "unused", file=sys.stderr)
 
+    if args.output:
+        # Saving a file needs no window.  An interactive backend would still load its GUI
+        # toolkit, which can print graphics warnings.
+        plt.switch_backend('agg')
+
     fig = plot_results(*results)
     if args.output:
         fig.savefig(args.output, dpi=200)
