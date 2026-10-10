@@ -122,10 +122,9 @@ def place_labels(ax: Axes, names: list[str], xs: list[float], ys: list[float]) -
     overlaps.  A label in LABEL_OVERRIDES takes its fixed placement instead, unless that
     placement leaves the axes.
     """
-    renderer = ax.figure.canvas.get_renderer()
     px_per_pt = ax.figure.dpi / 72
     marker_r_px = MARKER_SIZE_PT / 2 * px_per_pt
-    axes_bbox = ax.get_window_extent(renderer)
+    axes_bbox = ax.get_window_extent()
 
     points = [tuple(ax.transData.transform((x, y))) for (x, y) in zip(xs, ys)]
     obstacles = [Bbox.from_extents(px - marker_r_px, py - marker_r_px,
@@ -140,7 +139,7 @@ def place_labels(ax: Axes, names: list[str], xs: list[float], ys: list[float]) -
     for i in sorted(range(len(names)), key=label_order):
         (px, py) = points[i]
         text = ax.text(xs[i], ys[i], names[i], color=TEXT_SECONDARY, fontsize=11, zorder=4)
-        extent = text.get_window_extent(renderer)
+        extent = text.get_window_extent()
         (w, h) = (extent.width, extent.height)
 
         search = [(dist_pt, d) for dist_pt in LABEL_DISTANCES_PT for d in LABEL_DIRECTIONS]
