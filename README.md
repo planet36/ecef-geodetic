@@ -17,9 +17,10 @@ To run the accuracy and speed tests
 * Takes about 1 minute to finish
 * Runs the two tests one after the other, even under `make -j`
 
-The output of the accuracy and speed tests are json files which are put in the `results` folder.
-`make full` then combines them into a CSV file and a filtered CSV file, and prints the commands
-that plot the filtered one in a window or save it as a PNG.
+The output of the accuracy and speed tests are json files which are put in a timestamped folder
+within the `results` folder.
+`make full` then combines them into a CSV file and a filtered CSV file in that same folder, and
+plots the filtered one into a PNG file there.
 
 See [Makefile](Makefile) for all possible targets.
 

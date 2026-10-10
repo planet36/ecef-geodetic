@@ -43,13 +43,18 @@ requires ECEF input.  `NUM_THREADS` sets how many threads run each benchmark.  I
 0 means one per hardware thread, and a value that is not an integer from 0 to the number of
 hardware threads is an error.
 
-`make acc` and `make speed` write timestamped JSON into `results/` and embed the compile
-options, which the build extracts from the binary with `readelf` into `*.opts`.  `make full`
-runs both with one shared timestamp, then combines the pair into a CSV and a filtered CSV
-with `bash results/process-results.bash ACC.json SPEED.json`.  That script prints the commands
-that plot the filtered CSV in a window or save it as a PNG.  To plot one by hand, run
-`python3 results/plot-results.py -o OUT.png results/acc-speed.X.filtered.csv`, or leave out
-`-o` to show the plot in a window.
+Each `make` run writes its test output into its own folder, `results/TIMESTAMP/`, named for
+the time the run started.  `make acc`, `make acc1`, and `make speed` write `acc.json`,
+`acc1.json`, and `speed.json` there and embed the compile options, which the build extracts
+from the binary with `readelf` into `*.opts`.  Runs from before 2026-10-10 still sit directly in
+`results/` under timestamped file names.
+
+`make full` runs both tests into one folder, then runs
+`bash scripts/process-results.bash results/TIMESTAMP`.  That writes `acc-speed.csv` and
+`acc-speed.filtered.csv` next to the JSON, and `make full` then plots the filtered CSV into
+`acc-speed.png` in the same folder.  To plot one by hand, run
+`python3 scripts/plot-results.py -o OUT.png results/TIMESTAMP/acc-speed.filtered.csv`, or leave
+out `-o` to show the plot in a window.
 
 ## Build constraints
 
@@ -99,8 +104,9 @@ than those headers.
 The Python scripts in `scripts/` generate and plot input data.  `Nd-arange.py` piped into
 `polar-to-cartesian.py` produces the ECEF grids, and `plot-points.py` draws them (see the
 `plot-ecef` and `plot-geod` targets).  `ellipsoid.py` holds the scalar ellipsoid math that the
-converter and plotting scripts share.  `olson_1996/` is the original C version with its own
-Makefile.
+converter and plotting scripts share.  `process-results.bash`, `filter-benchmark-results.jq`,
+and `plot-results.py` turn the test results into CSV files and a plot.  `olson_1996/` is the
+original C version with its own Makefile.
 
 ## Style
 
