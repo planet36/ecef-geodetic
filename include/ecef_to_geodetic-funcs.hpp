@@ -888,13 +888,6 @@ auto fp(const T t, const T u, const T v, const T w) noexcept
     return 4 * w * t * t * t + 3 * u * t * t + v;
 }
 
-template <std::floating_point T>
-auto fpp(const T t, const T u, [[maybe_unused]] const T v, const T w) noexcept
-{
-    // 12 * w * t² + 6 * u * t
-    return 12 * w * t * t + 6 * u * t;
-}
-
 constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
                              double& lat_rad, double& lon_rad, double& ht) noexcept
@@ -1001,13 +994,6 @@ auto fp(const T t, const T u, const T v, const T w) noexcept
 {
     // 4 * w * t³ + 3 * u * t² + v
     return 4 * w * t * t * t + 3 * u * t * t + v;
-}
-
-template <std::floating_point T>
-auto fpp(const T t, const T u, [[maybe_unused]] const T v, const T w) noexcept
-{
-    // 12 * w * t² + 6 * u * t
-    return 12 * w * t * t + 6 * u * t;
 }
 
 constexpr int line_begin = __LINE__;
