@@ -1317,7 +1317,16 @@ constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
                              double& lat_rad, double& lon_rad, double& ht) noexcept
 {
-COMMON_FIRST_DECLS_CHECKED
+COMMON_FIRST_DECLS
+
+    // Consider a point within a * 1E-16 of the axis of rotation to be on it.
+    constexpr auto a2_eps = ell.a2 * 1E-32;
+    if (w2 <= a2_eps)
+    {
+        lat_rad = std::copysign(std::numbers::pi / 2, z);
+        ht = std::abs(z) - ell.b;
+        return;
+    }
 
     const auto ec = 1 - ell.f;
     // P is "p normalized", the distance from the polar axis in units of a
@@ -1376,7 +1385,7 @@ constexpr int lines_extra = 0;
 const auto func_info = func_info_t(
     /*.func                        =*/ ecef_to_geodetic,
     /*.num_lines                   =*/ line_end - line_begin + lines_extra,
-    /*.needs_code_for_corner_cases =*/ true,
+    /*.needs_code_for_corner_cases =*/ false,
     /*.ilog10_mean_dist_err        =*/ -5,
     /*.display_name                =*/ "Fukushima 2006 (x1)",
     /*.algo_author                 =*/ "Toshio Fukushima",
@@ -1400,7 +1409,16 @@ constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
                              double& lat_rad, double& lon_rad, double& ht) noexcept
 {
-COMMON_FIRST_DECLS_CHECKED
+COMMON_FIRST_DECLS
+
+    // Consider a point within a * 1E-16 of the axis of rotation to be on it.
+    constexpr auto a2_eps = ell.a2 * 1E-32;
+    if (w2 <= a2_eps)
+    {
+        lat_rad = std::copysign(std::numbers::pi / 2, z);
+        ht = std::abs(z) - ell.b;
+        return;
+    }
 
     const auto ec = 1 - ell.f;
     // P is "p normalized", the distance from the polar axis in units of a
@@ -1459,7 +1477,7 @@ constexpr int lines_extra = 0;
 const auto func_info = func_info_t(
     /*.func                        =*/ ecef_to_geodetic,
     /*.num_lines                   =*/ line_end - line_begin + lines_extra,
-    /*.needs_code_for_corner_cases =*/ true,
+    /*.needs_code_for_corner_cases =*/ false,
     /*.ilog10_mean_dist_err        =*/ -9,
     /*.display_name                =*/ "Fukushima 2006 (x2)",
     /*.algo_author                 =*/ "Toshio Fukushima",
@@ -1484,7 +1502,16 @@ constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
                              double& lat_rad, double& lon_rad, double& ht) noexcept
 {
-COMMON_FIRST_DECLS_CHECKED
+COMMON_FIRST_DECLS
+
+    // Consider a point within a * 1E-16 of the axis of rotation to be on it.
+    constexpr auto a2_eps = ell.a2 * 1E-32;
+    if (w2 <= a2_eps)
+    {
+        lat_rad = std::copysign(std::numbers::pi / 2, z);
+        ht = std::abs(z) - ell.b;
+        return;
+    }
 
     const auto ec = 1 - ell.f;
     // P is "p normalized", the distance from the polar axis in units of a
@@ -1543,7 +1570,7 @@ constexpr int lines_extra = 0;
 const auto func_info = func_info_t(
     /*.func                        =*/ ecef_to_geodetic,
     /*.num_lines                   =*/ line_end - line_begin + lines_extra,
-    /*.needs_code_for_corner_cases =*/ true,
+    /*.needs_code_for_corner_cases =*/ false,
     /*.ilog10_mean_dist_err        =*/ -5,
     /*.display_name                =*/ "Fukushima 2006 (c.h.) (x1)",
     /*.algo_author                 =*/ "Toshio Fukushima",
@@ -1569,7 +1596,16 @@ constexpr int line_begin = __LINE__;
 inline void ecef_to_geodetic(const double x, const double y, const double z,
                              double& lat_rad, double& lon_rad, double& ht) noexcept
 {
-COMMON_FIRST_DECLS_CHECKED
+COMMON_FIRST_DECLS
+
+    // Consider a point within a * 1E-16 of the axis of rotation to be on it.
+    constexpr auto a2_eps = ell.a2 * 1E-32;
+    if (w2 <= a2_eps)
+    {
+        lat_rad = std::copysign(std::numbers::pi / 2, z);
+        ht = std::abs(z) - ell.b;
+        return;
+    }
 
     const auto ec = 1 - ell.f;
     // P is "p normalized", the distance from the polar axis in units of a
@@ -1628,7 +1664,7 @@ constexpr int lines_extra = 0;
 const auto func_info = func_info_t(
     /*.func                        =*/ ecef_to_geodetic,
     /*.num_lines                   =*/ line_end - line_begin + lines_extra,
-    /*.needs_code_for_corner_cases =*/ true,
+    /*.needs_code_for_corner_cases =*/ false,
     /*.ilog10_mean_dist_err        =*/ -9,
     /*.display_name                =*/ "Fukushima 2006 (c.h.) (x2)",
     /*.algo_author                 =*/ "Toshio Fukushima",
