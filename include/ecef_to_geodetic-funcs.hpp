@@ -81,15 +81,15 @@ auto cos_from_sin(const T sin_x) noexcept
 // these are the lines in the function params and after the function body
 //constexpr int lines_to_ignore = 7+2;
 
-/// square
+// NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
 #define SQ(X)   ((X) * (X))
-/// cube
+// NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
 #define CB(X)   ((X) * (X) * (X))
-/// fourth power
+// NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
 #define POW4(X) ((X) * (X) * (X) * (X))
-/// fifth power
+// NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
 #define POW5(X) ((X) * (X) * (X) * (X) * (X))
-/// sixth power
+// NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
 #define POW6(X) ((X) * (X) * (X) * (X) * (X) * (X))
 
 // common declarations for the ECEF-to-geodetic functions
