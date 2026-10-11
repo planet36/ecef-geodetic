@@ -40,7 +40,7 @@ angle_unit_to_string() noexcept
     else if constexpr (U == angle_unit::degree     ) {return "deg"   ;}
     else if constexpr (U == angle_unit::arcminute  ) {return "arcmin";}
     else if constexpr (U == angle_unit::arcsecond  ) {return "arcsec";}
-    else static_assert(false, "unhandled angle_unit");
+    else {static_assert(false, "unhandled angle_unit");}
 }
 
 /// in the forward order of angle units, get the next \c angle_unit from \a U
@@ -54,7 +54,7 @@ angle_unit_forward() noexcept
     else if constexpr (U == angle_unit::degree     ) {return angle_unit::arcminute ;}
     else if constexpr (U == angle_unit::arcminute  ) {return angle_unit::arcsecond ;}
     else if constexpr (U == angle_unit::arcsecond  ) {return angle_unit::arcsecond ;} // same
-    else static_assert(false, "unhandled angle_unit");
+    else {static_assert(false, "unhandled angle_unit");}
 }
 
 /// in the reverse order of angle units, get the next \c angle_unit from \a U
@@ -68,7 +68,7 @@ angle_unit_backward() noexcept
     else if constexpr (U == angle_unit::degree     ) {return angle_unit::revolution ;}
     else if constexpr (U == angle_unit::arcminute  ) {return angle_unit::degree     ;}
     else if constexpr (U == angle_unit::arcsecond  ) {return angle_unit::arcminute  ;}
-    else static_assert(false, "unhandled angle_unit");
+    else {static_assert(false, "unhandled angle_unit");}
 }
 
 /// get the next angle_unit from \a U to \a U2

@@ -26,7 +26,9 @@ constexpr int
 ilog2(const T x) noexcept
 {
     if constexpr (std::numeric_limits<T>::radix == 2)
+    {
         return std::ilogb(x);
+    }
     else
     {
         // Match std::ilogb where the logarithm is not finite, as ilog10 does.
@@ -50,7 +52,9 @@ constexpr int
 ilog10(const T x) noexcept
 {
     if constexpr (std::numeric_limits<T>::radix == 10)
+    {
         return std::ilogb(x);
+    }
     else
     {
         // Match std::ilogb where the logarithm is not finite.  The logarithm of zero is
