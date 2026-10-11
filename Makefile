@@ -66,6 +66,7 @@ $(INPUT_DIR)/geod.2d.region-all.txt \
 $(INPUT_DIR)/geod.2d.neg-ht-1.txt \
 $(INPUT_DIR)/geod.2d.neg-ht-2.txt \
 $(INPUT_DIR)/geod.2d.polar.txt \
+$(INPUT_DIR)/geod.2d.equatorial.txt \
 
 ALL_INFILES_ECEF := \
 $(INPUT_DIR)/ecef.2d.region-0.txt \
@@ -176,6 +177,9 @@ $(INPUT_DIR)/geod.2d.neg-ht-2.txt:
 
 $(INPUT_DIR)/geod.2d.polar.txt: $(SCRIPTS_DIR)/create-polar-points.py
 	python3 $(SCRIPTS_DIR)/create-polar-points.py > $@
+
+$(INPUT_DIR)/geod.2d.equatorial.txt: $(SCRIPTS_DIR)/create-equatorial-points.py
+	python3 $(SCRIPTS_DIR)/create-equatorial-points.py > $@
 
 # https://www.gnu.org/software/make/manual/html_node/Double_002dColon.html
 
