@@ -17,6 +17,7 @@
 #include <cmath>
 #include <concepts>
 #include <cstddef>
+#include <cstdint>
 #include <format>
 #include <iostream>
 #include <iterator>
@@ -161,7 +162,7 @@ read_coords_geod(std::vector<Geodetic<angle_unit::degree, T>>& geod_vec)
 }
 
 /// the coordinate system of the input lines
-enum struct INPUT_DATA_COORD_SYSTEM
+enum struct INPUT_DATA_COORD_SYSTEM : std::uint8_t
 {
     ECEF,
     GEODETIC,
