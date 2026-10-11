@@ -5403,15 +5403,16 @@ in scope in the caller of this macro and that the A
 member contains the semi-major ellipsoid axis.
 Algorithm derived by Ralph Toms, SRI.
 */
-#define COMPUTE_RN_FAST(arg, answer)                 \
-    {                                                \
-        const auto _alpha = 1.004244;                \
-        const auto _d1 = -0.5 * ell.e2;              \
-        const auto _x = _d1 * (arg);                 \
-        const auto _ak = 0.5 + _x;                   \
-        const auto _z = 1 - _alpha * _x;             \
-        (answer) = ell.a * _z * (1.5 - _ak * _z * _z); \
-    }
+// SDW: converted the macro COMPUTE_RN_FAST to a function
+[[nodiscard]] auto compute_rn_fast(const std::floating_point auto arg) noexcept
+{
+    const auto _alpha = 1.004244;
+    const auto _d1 = -0.5 * ell.e2;
+    const auto _x = _d1 * arg;
+    const auto _ak = 0.5 + _x;
+    const auto _z = 1 - _alpha * _x;
+    return ell.a * _z * (1.5 - _ak * _z * _z);
+}
 
 //unsigned int SRM_ChangeGC_GD(
     //void                   *constants,
@@ -5631,7 +5632,7 @@ END_REGION_CHECK:
                 double Rn = 0;
                 /*uses a Newton-Raphson single iteration with
                 excellent first guess usin only multiplications*/
-                COMPUTE_RN_FAST(s12, Rn);
+                Rn = compute_rn_fast(s12);
 #if 0
                 fprintf(stderr,"rn fast is %.15f\n",Rn);
 #endif
@@ -5682,7 +5683,7 @@ END_REGION_CHECK:
                 /*Fast Rn computation*/
                 {
                     double Rn = 0;
-                    COMPUTE_RN_FAST(s12, Rn);
+                    Rn = compute_rn_fast(s12);
                     /*Fast Computation of Rn = a/std::sqrt(1-Eps2*sin_squared(latitude))*/
 
                     if (s12 <= 0.5)
@@ -5806,7 +5807,6 @@ END_REGION_CHECK:
     ht = ell.get_ht(w, z, lat_rad);
 #endif
 }
-#undef COMPUTE_RN_FAST
 constexpr int line_end = __LINE__;
 
 constexpr int lines_extra = 0;
@@ -5999,15 +5999,16 @@ in scope in the caller of this macro and that the A
 member contains the semi-major ellipsoid axis.
 Algorithm derived by Ralph Toms, SRI.
 */
-#define COMPUTE_RN_FAST(arg, answer)                 \
-    {                                                \
-        const auto _alpha = 1.004244;                \
-        const auto _d1 = -0.5 * ell.e2;              \
-        const auto _x = _d1 * (arg);                 \
-        const auto _ak = 0.5 + _x;                   \
-        const auto _z = 1 - _alpha * _x;             \
-        (answer) = ell.a * _z * (1.5 - _ak * _z * _z); \
-    }
+// SDW: converted the macro COMPUTE_RN_FAST to a function
+[[nodiscard]] auto compute_rn_fast(const std::floating_point auto arg) noexcept
+{
+    const auto _alpha = 1.004244;
+    const auto _d1 = -0.5 * ell.e2;
+    const auto _x = _d1 * arg;
+    const auto _ak = 0.5 + _x;
+    const auto _z = 1 - _alpha * _x;
+    return ell.a * _z * (1.5 - _ak * _z * _z);
+}
 
 //unsigned int SRM_ChangeGC_GD(
     //void                   *constants,
@@ -6227,7 +6228,7 @@ END_REGION_CHECK:
                 double Rn = 0;
                 /*uses a Newton-Raphson single iteration with
                 excellent first guess usin only multiplications*/
-                COMPUTE_RN_FAST(s12, Rn);
+                Rn = compute_rn_fast(s12);
 #if 0
                 fprintf(stderr,"rn fast is %.15f\n",Rn);
 #endif
@@ -6278,7 +6279,7 @@ END_REGION_CHECK:
                 /*Fast Rn computation*/
                 {
                     double Rn = 0;
-                    COMPUTE_RN_FAST(s12, Rn);
+                    Rn = compute_rn_fast(s12);
                     /*Fast Computation of Rn = a/std::sqrt(1-Eps2*sin_squared(latitude))*/
 
                     if (s12 <= 0.5)
@@ -6402,7 +6403,6 @@ END_REGION_CHECK:
     ht = ell.get_ht(w, z, lat_rad);
 #endif
 }
-#undef COMPUTE_RN_FAST
 constexpr int line_end = __LINE__;
 
 constexpr int lines_extra = 0;
