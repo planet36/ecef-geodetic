@@ -65,6 +65,7 @@ $(INPUT_DIR)/geod.2d.region-4.txt \
 $(INPUT_DIR)/geod.2d.region-all.txt \
 $(INPUT_DIR)/geod.2d.neg-ht-1.txt \
 $(INPUT_DIR)/geod.2d.neg-ht-2.txt \
+$(INPUT_DIR)/geod.2d.polar.txt \
 
 ALL_INFILES_ECEF := \
 $(INPUT_DIR)/ecef.2d.region-0.txt \
@@ -172,6 +173,9 @@ $(INPUT_DIR)/geod.2d.neg-ht-1.txt:
 
 $(INPUT_DIR)/geod.2d.neg-ht-2.txt:
 	python3 $(SCRIPTS_DIR)/Nd-arange.py -90 90 1 -6_383_000 0 10_000 > $@
+
+$(INPUT_DIR)/geod.2d.polar.txt: $(SCRIPTS_DIR)/create-polar-points.py
+	python3 $(SCRIPTS_DIR)/create-polar-points.py > $@
 
 # https://www.gnu.org/software/make/manual/html_node/Double_002dColon.html
 
