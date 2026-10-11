@@ -166,7 +166,7 @@ $(INPUT_DIR)/geod.2d.region-3.txt:
 $(INPUT_DIR)/geod.2d.region-4.txt:
 	python3 $(SCRIPTS_DIR)/Nd-arange.py -90 90 1 -5_000_000 500_000_000 100_000 > $@
 
-$(INPUT_DIR)/geod.2d.region-all.txt: $(INPUT_DIR)/geod.2d.region-0.txt $(INPUT_DIR)/geod.2d.region-1.txt $(INPUT_DIR)/geod.2d.region-2.txt $(INPUT_DIR)/geod.2d.region-3.txt $(INPUT_DIR)/geod.2d.region-4.txt
+$(INPUT_DIR)/geod.2d.region-all.txt: $(INPUT_DIR)/geod.2d.region-0.txt $(INPUT_DIR)/geod.2d.region-1.txt $(INPUT_DIR)/geod.2d.region-2.txt $(INPUT_DIR)/geod.2d.region-3.txt $(INPUT_DIR)/geod.2d.region-4.txt $(INPUT_DIR)/geod.2d.polar.txt $(INPUT_DIR)/geod.2d.equatorial.txt
 	LC_ALL=C sort -u -- $^ > $@
 
 $(INPUT_DIR)/geod.2d.neg-ht-1.txt:
