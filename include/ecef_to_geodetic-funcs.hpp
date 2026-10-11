@@ -4447,7 +4447,7 @@ struct Geodetic3D
     lat_rad(_lat_rad), lon_rad(_lon_rad), ht(_ht)
     {}
 
-    Geodetic3D(const Geodetic2D<T>& g, T _ht = 0) noexcept:
+    explicit Geodetic3D(const Geodetic2D<T>& g, T _ht = 0) noexcept:
     lat_rad(g.lat_rad), lon_rad(g.lon_rad), ht(_ht)
     {}
 };
