@@ -5398,12 +5398,12 @@ in it are assumptions about the eccentricity of the
 ellipsoids being less than that for Clark1880 ellipsoid.
 The routine uses empirically optimized coefficients
 whose derivation is not directly obvious from the code.
-The routine also assumes the variable e_constants is
-in scope in the caller of this macro and that the A
-member contains the semi-major ellipsoid axis.
+SDW: This was the macro COMPUTE_RN_FAST, and it is now
+a function.  It takes the semi-major axis and the
+eccentricity squared from ell, not from the variable
+e_constants in the caller's scope.
 Algorithm derived by Ralph Toms, SRI.
 */
-// SDW: converted the macro COMPUTE_RN_FAST to a function
 [[nodiscard]] auto compute_rn_fast(const std::floating_point auto arg) noexcept
 {
     const auto _alpha = 1.004244;
@@ -5994,12 +5994,12 @@ in it are assumptions about the eccentricity of the
 ellipsoids being less than that for Clark1880 ellipsoid.
 The routine uses empirically optimized coefficients
 whose derivation is not directly obvious from the code.
-The routine also assumes the variable e_constants is
-in scope in the caller of this macro and that the A
-member contains the semi-major ellipsoid axis.
+SDW: This was the macro COMPUTE_RN_FAST, and it is now
+a function.  It takes the semi-major axis and the
+eccentricity squared from ell, not from the variable
+e_constants in the caller's scope.
 Algorithm derived by Ralph Toms, SRI.
 */
-// SDW: converted the macro COMPUTE_RN_FAST to a function
 [[nodiscard]] auto compute_rn_fast(const std::floating_point auto arg) noexcept
 {
     const auto _alpha = 1.004244;
