@@ -187,8 +187,9 @@ to_string(const INPUT_DATA_COORD_SYSTEM x) noexcept
 
 /// read ECEF or Geodetic coordinates from stdin
 /**
-* Geodetic input is converted to ECEF.  \c read_coords_ecef and \c read_coords_geod describe
-* the line formats.
+* Geodetic input is converted to ECEF, and a point at a latitude of exactly 90 or -90 degrees is
+* put on the polar axis.  \c read_coords_ecef and \c read_coords_geod describe the line
+* formats.
 * \param input_data_coord_system the coordinate system of the input lines
 * \param[in,out] ecef_vec the vector the points are appended to
 * \exception std::invalid_argument a line holds text that does not parse as a number, or
@@ -214,7 +215,17 @@ read_coords(const INPUT_DATA_COORD_SYSTEM input_data_coord_system,
 
             for (const auto& geod : geod_vec)
             {
-                ecef_vec.push_back(geodetic_to_ecef(geod));
+                auto ecef = geodetic_to_ecef(geod);
+
+                // The cosine of 90 degrees in radians is about 6.1E-17, not 0, so a pole at the
+                // surface would land about 4E-10 m from the polar axis instead of on it.
+                if (std::abs(geod.lat.scalar()) == 90)
+                {
+                    ecef.x = 0;
+                    ecef.y = 0;
+                }
+
+                ecef_vec.push_back(ecef);
             }
         }
 
