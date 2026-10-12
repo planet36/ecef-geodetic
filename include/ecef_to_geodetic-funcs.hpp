@@ -148,7 +148,7 @@ using ecef_to_geodetic_func = void (*)(const T, const T, const T, T&, T&, T&);
 */
 struct func_info_t
 {
-    ecef_to_geodetic_func<double> func;            ///< the conversion function
+    ecef_to_geodetic_func<double> func{};          ///< the conversion function
     int               num_lines;                   ///< lines of code, with prologue and helpers
     const bool        needs_code_for_corner_cases; ///< uses \c COMMON_FIRST_DECLS_CHECKED
     const int         ilog10_mean_dist_err;        ///< floor of log10 of the mean error (m)
