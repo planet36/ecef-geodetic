@@ -5777,7 +5777,7 @@ END_REGION_CHECK:
             }
             break;
 
-        case REGION_SPHERICAL:
+        case REGION_SPHERICAL: // NOLINT(bugprone-branch-clone)
             /*This case gets out of the switch statement and lets the longitude
              *be computed at the end of the routine with a single return statement
              *Conclusion:  Don't Remove this case or there won't be a good way
@@ -6373,7 +6373,7 @@ END_REGION_CHECK:
             }
             break;
 
-        case REGION_SPHERICAL:
+        case REGION_SPHERICAL: // NOLINT(bugprone-branch-clone)
             /*This case gets out of the switch statement and lets the longitude
              *be computed at the end of the routine with a single return statement
              *Conclusion:  Don't Remove this case or there won't be a good way

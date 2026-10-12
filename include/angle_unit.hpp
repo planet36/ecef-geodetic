@@ -48,6 +48,7 @@ template <angle_unit U>
 constexpr angle_unit
 angle_unit_forward() noexcept
 {
+    // NOLINTBEGIN(bugprone-branch-clone)
     if      constexpr (U == angle_unit::milliradian) {return angle_unit::radian    ;}
     else if constexpr (U == angle_unit::radian     ) {return angle_unit::revolution;}
     else if constexpr (U == angle_unit::revolution ) {return angle_unit::degree    ;}
@@ -55,6 +56,7 @@ angle_unit_forward() noexcept
     else if constexpr (U == angle_unit::arcminute  ) {return angle_unit::arcsecond ;}
     else if constexpr (U == angle_unit::arcsecond  ) {return angle_unit::arcsecond ;} // same
     else {static_assert(false, "unhandled angle_unit");}
+    // NOLINTEND(bugprone-branch-clone)
 }
 
 /// in the reverse order of angle units, get the next \c angle_unit from \a U
@@ -62,6 +64,7 @@ template <angle_unit U>
 constexpr angle_unit
 angle_unit_backward() noexcept
 {
+    // NOLINTBEGIN(bugprone-branch-clone)
     if      constexpr (U == angle_unit::milliradian) {return angle_unit::milliradian;} // same
     else if constexpr (U == angle_unit::radian     ) {return angle_unit::milliradian;}
     else if constexpr (U == angle_unit::revolution ) {return angle_unit::radian     ;}
@@ -69,6 +72,7 @@ angle_unit_backward() noexcept
     else if constexpr (U == angle_unit::arcminute  ) {return angle_unit::degree     ;}
     else if constexpr (U == angle_unit::arcsecond  ) {return angle_unit::arcminute  ;}
     else {static_assert(false, "unhandled angle_unit");}
+    // NOLINTEND(bugprone-branch-clone)
 }
 
 /// get the next angle_unit from \a U to \a U2
