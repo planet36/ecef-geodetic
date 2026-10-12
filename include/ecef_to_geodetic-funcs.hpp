@@ -4389,11 +4389,11 @@ struct Vector3D
 
     Vector3D(const T _x, const T _y, const T _z) noexcept: x(_x), y(_y), z(_z) {}
 
-    auto length_sq() const noexcept { return x * x + y * y + z * z; }
+    [[nodiscard]] auto length_sq() const noexcept { return x * x + y * y + z * z; }
 
-    auto length() const noexcept { return std::sqrt(length_sq()); }
+    [[nodiscard]] auto length() const noexcept { return std::sqrt(length_sq()); }
 
-    auto normalize() const noexcept
+    [[nodiscard]] auto normalize() const noexcept
     {
         const auto l = length();
 
@@ -4403,19 +4403,19 @@ struct Vector3D
         return this->scale(1 / l);
     }
 
-    auto scale(const T s) const noexcept { return Vector3D<T>{x * s, y * s, z * s}; }
+    [[nodiscard]] auto scale(const T s) const noexcept { return Vector3D{x * s, y * s, z * s}; }
 
-    auto dot(const Vector3D<T>& that) const noexcept
+    [[nodiscard]] auto dot(const Vector3D<T>& that) const noexcept
     {
         return this->x * that.x + this->y * that.y + this->z * that.z;
     }
 
-    auto subtract(const Vector3D<T>& that) const noexcept
+    [[nodiscard]] auto subtract(const Vector3D<T>& that) const noexcept
     {
         return Vector3D<T>{this->x - that.x, this->y - that.y, this->z - that.z};
     }
 
-    auto multiply(const Vector3D<T>& that) const noexcept
+    [[nodiscard]] auto multiply(const Vector3D<T>& that) const noexcept
     {
         return Vector3D<T>{this->x * that.x, this->y * that.y, this->z * that.z};
     }
