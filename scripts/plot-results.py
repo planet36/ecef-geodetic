@@ -77,12 +77,10 @@ CROWDING_RADIUS_PT = 150
 LABEL_OVERRIDES: dict[str, tuple[tuple[int, int], HAlign, VAlign, int]] = {
     'Bowring 1976': ((1, 0), 'left', 'center', 8),
     'Halley': ((-1, 0), 'right', 'center', 8),
-    'Heikkinen 1982': ((-1, 0), 'right', 'center', 8),
     'Householder': ((-1, -1), 'right', 'top', 8),
     'Lin-Wang 1995': ((-1, 1), 'right', 'bottom', 8),
     'Lin-Wang 1995 (c.h.)': ((0, 1), 'center', 'bottom', 20),
     'Schroder': ((1, 1), 'left', 'bottom', 8),
-    'Shu 2010': ((0, -1), 'center', 'top', 8),
 }
 
 
@@ -216,7 +214,7 @@ def axis_limit(largest: float, step: int) -> int:
 
 def plot_results(names: list[str], mean_errs_nm: list[float], speeds: list[float]) -> Figure:
     """Return a scatter plot of speed against mean error."""
-    fig, ax = plt.subplots(figsize=(16, 11.5))
+    fig, ax = plt.subplots(figsize=(11.5, 11.5))
 
     fig.set_facecolor(SURFACE)
     ax.set_facecolor(SURFACE)
