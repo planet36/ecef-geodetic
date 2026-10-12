@@ -272,7 +272,6 @@ try
     */
 
     using namespace std::literals;
-    using json = nlohmann::json;
 
     constexpr INPUT_DATA_COORD_SYSTEM default_input_data_coord_system =
         INPUT_DATA_COORD_SYSTEM::ECEF;
@@ -285,7 +284,7 @@ try
     INPUT_DATA_COORD_SYSTEM input_data_coord_system = default_input_data_coord_system;
     bool use_multiple_threads = false;
     bool collect_dist_err = false;
-    json json_output;
+    nlohmann::json json_output;
 
     constexpr const char* short_options = "+va1s:m:gtc";
 
@@ -435,7 +434,7 @@ try
     if (do_single_point_acc_test)
     {
         // Every function's record for a point starts with the same string and radius.
-        std::vector<json> point_records;
+        std::vector<nlohmann::json> point_records;
         point_records.reserve(ecef_vec.size());
         for (const auto& ecef_given : ecef_vec)
         {
@@ -453,7 +452,7 @@ try
                  std::views::zip(ecef_vec, point_records))
             {
                 // Copy the record, since every function starts from the same one.
-                json record = point_record;
+                nlohmann::json record = point_record;
                 record["dist_err"] = round_trip_dist_err(func_info.func, ecef_given);
                 // Move the copy into the array, since it is not used again.
                 acc1.push_back(std::move(record));
