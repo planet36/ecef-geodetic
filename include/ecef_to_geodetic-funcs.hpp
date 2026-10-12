@@ -367,14 +367,14 @@ auto ligas_f2(const T we, const T ze) noexcept
 
 /// get the determinant of a 2×2 matrix
 template <std::floating_point T>
-auto det(const T A[2][2]) noexcept
+auto det(const T (&A)[2][2]) noexcept
 {
     return A[0][0] * A[1][1] - A[0][1] * A[1][0];
 }
 
 /// invert a 2×2 matrix
 template <std::floating_point T>
-void inv(const T A[2][2], T result[2][2]) noexcept
+void inv(const T (&A)[2][2], T (&result)[2][2]) noexcept
 {
     const auto d = det(A);
 
@@ -386,7 +386,7 @@ void inv(const T A[2][2], T result[2][2]) noexcept
 
 /// multiply a 2×2 matrix by a 2-vector
 template <std::floating_point T>
-void mul(const T A[2][2], const T X[2], T result[2]) noexcept
+void mul(const T (&A)[2][2], const T (&X)[2], T (&result)[2]) noexcept
 {
     result[0] = A[0][0] * X[0] + A[0][1] * X[1];
     result[1] = A[1][0] * X[0] + A[1][1] * X[1];
@@ -395,7 +395,7 @@ void mul(const T A[2][2], const T X[2], T result[2]) noexcept
 /// get the Jacobian of Ligas's two conditions
 template <std::floating_point T>
 void ligas_Jacobian(const T w, const T we, const T z, const T ze,
-                    T result[2][2]) noexcept
+                    T (&result)[2][2]) noexcept
 {
     result[0][0] = (1 - ell.e2) * (ze - z) - ze;
     result[0][1] = (1 - ell.e2) * we - (we - w);
