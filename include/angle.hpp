@@ -38,10 +38,12 @@ public:
     angle() = default;
 
     /// ctor
+    // NOLINTNEXTLINE(*-explicit-constructor)
     constexpr angle(const T x) noexcept : value(x) {}
 
     /// conversion ctor
     template <angle_unit U2, std::floating_point T2>
+    // NOLINTNEXTLINE(*-explicit-constructor)
     constexpr angle(const angle<U2, T2>& a) noexcept : value(convert_from<U2, U>(a.scalar()))
     {}
 
