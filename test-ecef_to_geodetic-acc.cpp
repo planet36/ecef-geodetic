@@ -558,9 +558,10 @@ try
                 // convert the multiset of speed data to running stats
                 rs.push(multiset_time_per_call.cbegin(), multiset_time_per_call.cend());
 
+                const auto median = median_val(multiset_time_per_call);
+
                 json_output["func_names"][func_name]["speed"] = {
-                    {"median_time_per_call",
-                     std::format("{:.1f}", median_val(multiset_time_per_call))},
+                    {"median_time_per_call", std::format("{:.1f}", median)},
                     {"mean_time_per_call", std::format("{:.1f}", rs.mean())},
                     {"stdev_time_per_call", std::format("{:.1f}", rs.standard_deviation())},
                 };
