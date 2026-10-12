@@ -4467,10 +4467,10 @@ auto ScaleToGeodeticSurface(const Vector3D<T>& position) noexcept
             x2 / ell.a2 +
             y2 / ell.a2 +
             z2 / ell.b2);
-    auto n = Vector3D<T>{
+    auto n = Vector3D<T>(
             beta * x / ell.a2,
             beta * y / ell.a2,
-            beta * z / ell.b2}.length();
+            beta * z / ell.b2).length();
     auto alpha = (1 - beta) * (position.length() / n);
 
     T da = 0;
@@ -4510,20 +4510,20 @@ auto ScaleToGeodeticSurface(const Vector3D<T>& position) noexcept
 template <std::floating_point T>
 auto GeodeticSurfaceNormal(const Vector3D<T>& positionOnEllipsoid) noexcept
 {
-    return positionOnEllipsoid.multiply(Vector3D<T>{
+    return positionOnEllipsoid.multiply(Vector3D<T>(
                 1 / ell.a2,
                 1 / ell.a2,
-                1 / ell.b2}).normalize();
+                1 / ell.b2)).normalize();
 }
 
 template <std::floating_point T>
 auto ToGeodetic2D(const Vector3D<T>& positionOnEllipsoid) noexcept
 {
     auto n = GeodeticSurfaceNormal(positionOnEllipsoid);
-    return Geodetic2D<T>{
+    return Geodetic2D<T>(
             std::asin(n.z / n.length()), // lat_rad
             std::atan2(n.y, n.x) // lon_rad
-        };
+        );
 }
 
 template <std::floating_point T>

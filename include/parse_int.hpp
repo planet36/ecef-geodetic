@@ -111,18 +111,18 @@ parse_int(std::string_view s,
 parse_option_int(const char* optarg, const int min, const int max, const char* option_name)
 {
     if (optarg == nullptr)
-        throw std::invalid_argument{std::format("null argument: {}", option_name)};
+        throw std::invalid_argument(std::format("null argument: {}", option_name));
 
     const auto value = parse_int<int>(optarg, min, max);
 
     if (!value.has_value())
     {
         if (value.error() == std::errc::result_out_of_range)
-            throw std::out_of_range{
-                std::format("out of range: {}: \"{}\"", option_name, optarg)};
+            throw std::out_of_range(
+                std::format("out of range: {}: \"{}\"", option_name, optarg));
 
-        throw std::invalid_argument{
-            std::format("invalid argument: {}: \"{}\"", option_name, optarg)};
+        throw std::invalid_argument(
+            std::format("invalid argument: {}: \"{}\"", option_name, optarg));
     }
 
     return *value;
