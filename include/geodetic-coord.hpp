@@ -111,7 +111,7 @@ struct Geodetic
 
     /// conversion ctor
     template <std::floating_point T2>
-    constexpr Geodetic(const Geodetic<U, T2>& that) noexcept :
+    explicit constexpr Geodetic(const Geodetic<U, T2>& that) noexcept :
     lat(that.lat),
     lon(that.lon),
     ht(that.ht)

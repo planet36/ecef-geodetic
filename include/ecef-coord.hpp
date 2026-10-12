@@ -117,7 +117,7 @@ struct ECEF
 
     /// conversion ctor
     template <std::floating_point T2>
-    constexpr ECEF(const ECEF<T2>& that) noexcept : x(that.x), y(that.y), z(that.z)
+    explicit constexpr ECEF(const ECEF<T2>& that) noexcept : x(that.x), y(that.y), z(that.z)
     {}
 
     /// compare X, then Y, then Z
