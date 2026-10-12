@@ -542,7 +542,9 @@ try
 
             const auto iteration_duration = iteration_t1 - iteration_t0;
 
-            speed_test_iteration_durations.push(iteration_duration / 1.0min);
+            const auto minutes = static_cast<double>(iteration_duration / 1.0min);
+
+            speed_test_iteration_durations.push(minutes);
 
             num_speed_test_iterations--;
         }
