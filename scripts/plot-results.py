@@ -130,21 +130,26 @@ def load_results(path: str) -> tuple[list[str], list[float], list[float]]:
 
 
 # pylint: disable-next=too-many-locals
-def place_labels(ax: Axes, names: list[str], xs: list[float], ys: list[float]) -> None:
+def place_labels(ax: Axes, names: list[str], xs: list[float], ys: list[float]) -> list[str]:
     """Label every point where the label overlaps no other label or point, if it can.
 
     Each label takes the first placement, in order of preference, that overlaps nothing placed
     so far.  When every placement overlaps something, it takes the one with the fewest
     overlaps.  A label in LABEL_OVERRIDES takes its fixed placement instead, unless that
     placement leaves the axes.
+
+    Return a description of each overlap left in the plot.
     """
     px_per_pt = ax.figure.dpi / 72
     marker_r_px = MARKER_SIZE_PT / 2 * px_per_pt
     axes_bbox = ax.get_window_extent()
 
     points = [tuple(ax.transData.transform((x, y))) for (x, y) in zip(xs, ys)]
-    obstacles = [Bbox.from_extents(px - marker_r_px, py - marker_r_px,
-                                   px + marker_r_px, py + marker_r_px) for (px, py) in points]
+    # Each obstacle is a box that labels avoid, with the words that name it in a warning.
+    obstacles = [(Bbox.from_extents(px - marker_r_px, py - marker_r_px,
+                                    px + marker_r_px, py + marker_r_px), f"the point {name!r}")
+                 for (name, (px, py)) in zip(names, points)]
+    collisions = []
 
     # Label the fixed placements first, then the most crowded points, while the most room is
     # left around them.
@@ -181,9 +186,9 @@ def place_labels(ax: Axes, names: list[str], xs: list[float], ys: list[float]) -
                 if not (axes_bbox.contains(bbox.x0, bbox.y0) and
                         axes_bbox.contains(bbox.x1, bbox.y1)):
                     continue
-                overlaps = sum(bbox.overlaps(o) for o in obstacles)
-                placements.append((overlaps, dist_pt, offset, ha, va, bbox))
-                if overlaps == 0:
+                hits = [what for (obstacle, what) in obstacles if bbox.overlaps(obstacle)]
+                placements.append((len(hits), dist_pt, offset, ha, va, bbox, hits))
+                if not hits:
                     break
             if placements:
                 break
@@ -192,13 +197,14 @@ def place_labels(ax: Axes, names: list[str], xs: list[float], ys: list[float]) -
             raise ValueError(f"no placement of the label {names[i]!r} fits inside the axes")
 
         # min returns the first of equal placements, which is the one most preferred.
-        (_, dist_pt, offset, ha, va, bbox) = min(placements, key=lambda c: c[0])
+        (_, dist_pt, offset, ha, va, bbox, hits) = min(placements, key=lambda c: c[0])
+        collisions += [f"the label {names[i]!r} overlaps {what}" for what in hits]
 
         # https://matplotlib.org/stable/api/text_api.html#matplotlib.text.Annotation
         text.xyann = offset
         text.set_horizontalalignment(ha)
         text.set_verticalalignment(va)
-        obstacles.append(bbox)
+        obstacles.append((bbox, f"the label {names[i]!r}"))
 
         if dist_pt > LABEL_DISTANCES_PT[0]:
             # An annotation without text draws its arrow from exactly the offset to the point.
@@ -206,14 +212,17 @@ def place_labels(ax: Axes, names: list[str], xs: list[float], ys: list[float]) -
                         arrowprops={'arrowstyle': '-', 'color': LEADER, 'linewidth': 0.8,
                                     'shrinkA': 0, 'shrinkB': 0}, zorder=1)
 
+    return collisions
+
 
 def axis_limit(largest: float, step: int) -> int:
     """Return the first multiple of step that leaves EDGE_MARGIN of the axis past largest."""
     return step * (math.floor(largest / (1 - EDGE_MARGIN) / step) + 1)
 
 
-def plot_results(names: list[str], mean_errs_nm: list[float], speeds: list[float]) -> Figure:
-    """Return a scatter plot of speed against mean error."""
+def plot_results(names: list[str], mean_errs_nm: list[float],
+                 speeds: list[float]) -> tuple[Figure, list[str]]:
+    """Return a scatter plot of speed against mean error, and the label overlaps left in it."""
     fig, ax = plt.subplots(figsize=(11.5, 11.5))
 
     fig.set_facecolor(SURFACE)
@@ -247,9 +256,9 @@ def plot_results(names: list[str], mean_errs_nm: list[float], speeds: list[float
 
     # The labels are placed in display coordinates, so the layout must be final first.
     fig.tight_layout()
-    place_labels(ax, names, mean_errs_nm, speeds)
+    collisions = place_labels(ax, names, mean_errs_nm, speeds)
 
-    return fig
+    return (fig, collisions)
 
 
 def main() -> None:
@@ -278,7 +287,10 @@ def main() -> None:
         # toolkit, which can print graphics warnings.
         plt.switch_backend('agg')
 
-    fig = plot_results(*results)
+    (fig, collisions) = plot_results(*results)
+    for collision in collisions:
+        print(f"{parser.prog}: warning: {collision}", file=sys.stderr)
+
     if args.output:
         # By default, an SVG holds the time it was saved and randomly salted element IDs.  A
         # fixed salt and no date make the same results always give the same file.
