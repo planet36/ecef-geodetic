@@ -75,12 +75,18 @@ CROWDING_RADIUS_PT = 150
 # Fixed placements for labels that the search leaves next to another point, with the direction,
 # alignment, and distance in the forms above.  These labels are placed before the others.
 LABEL_OVERRIDES: dict[str, tuple[tuple[int, int], HAlign, VAlign, int]] = {
-    'Bowring 1976': ((1, 0), 'left', 'center', 8),
+    'Bowring 1976': ((1, 1), 'left', 'bottom', 8),
+    'Bowring 1985': ((1, -1), 'left', 'top', 8),
+    'Bowring-Toms 1995': ((-1, -1), 'right', 'top', 20),
+    'Fukushima 2006 (c.h.)': ((1, 1), 'left', 'bottom', 8),
     'Halley': ((-1, 0), 'right', 'center', 8),
+    'Halley quick': ((-1, 1), 'right', 'bottom', 8),
     'Householder': ((-1, -1), 'right', 'top', 8),
-    'Lin-Wang 1995': ((-1, 1), 'right', 'bottom', 8),
+    'Lin-Wang 1995': ((-1, -1), 'right', 'top', 8),
     'Lin-Wang 1995 (c.h.)': ((0, 1), 'center', 'bottom', 20),
-    'Schroder': ((1, 1), 'left', 'bottom', 8),
+    'Schroder': ((-1, 1), 'right', 'bottom', 8),
+    'Vermeille 2011': ((0, -1), 'center', 'top', 8),
+    'Zhang 2005': ((0, -1), 'center', 'top', 8),
 }
 
 
