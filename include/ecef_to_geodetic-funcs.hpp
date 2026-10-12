@@ -1745,7 +1745,7 @@ COMMON_FIRST_DECLS
             std::swap(p, q);
         }
 
-        if (!(e4 * q == 0 && r <= 0))
+        if (!(e4 * q == 0 && r <= 0)) // NOLINT(readability-simplify-boolean-expr)
         {
             // Avoid possible division by zero when r = 0 by multiplying
             // equations for s and t by r^3 and r, resp.
@@ -1919,7 +1919,7 @@ COMMON_FIRST_DECLS
             std::swap(p, q);
         }
 
-        if (!(e4 * q == 0 && r <= 0))
+        if (!(e4 * q == 0 && r <= 0)) // NOLINT(readability-simplify-boolean-expr)
         {
             // Avoid possible division by zero when r = 0 by multiplying
             // equations for s and t by r^3 and r, resp.
