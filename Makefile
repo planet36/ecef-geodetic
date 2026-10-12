@@ -50,6 +50,12 @@ CXXFLAGS += -frecord-gcc-switches
 
 # Do not use -ffinite-math-only (enabled with -ffast-math (enabled with -Ofast))
 
+LINT_CPPFLAGS = $(CPPFLAGS)
+# clang cannot call std::sqrt in a constant expression, so every constexpr built from the
+# ellipsoid is an error under clang-tidy.  Keep going past those errors so the checks reach
+# the end of each file.
+LINT_CXXFLAGS = $(filter-out -Wfatal-errors,$(CXXFLAGS)) -ferror-limit=0
+
 #LDFLAGS =
 
 LDLIBS = -lbenchmark -ltbb
@@ -250,7 +256,7 @@ clean-input:
 clean-all: clean clean-input
 
 lint:
-	-clang-tidy --quiet $(SRCS) -- $(CPPFLAGS) $(CXXFLAGS)
+	-clang-tidy --quiet $(SRCS) -- $(LINT_CPPFLAGS) $(LINT_CXXFLAGS)
 
 # https://www.gnu.org/software/make/manual/make.html#Phony-Targets
 .PHONY: all input plot-ecef plot-geod acc acc1 speed full clean clean-input clean-all lint
