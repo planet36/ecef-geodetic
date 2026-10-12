@@ -407,7 +407,7 @@ try
                     const auto stats = do_ecef_to_geodetic_test_acc(func_info.func, ecef_vec,
                                                                     collect_dist_err);
 
-                    std::lock_guard guard{mtx};
+                    std::scoped_lock guard{mtx};
 
                     json_output["func_names"][func_name]["acc"] = stats.to_json();
                 });
@@ -513,7 +513,7 @@ try
                         const auto time_per_call =
                             measure_time_per_call(func_info.func, ecef_vec);
 
-                        std::lock_guard guard{mtx};
+                        std::scoped_lock guard{mtx};
 
                         map_func_name_to_time_per_call[func_name].insert(time_per_call);
                     });
