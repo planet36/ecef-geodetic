@@ -260,7 +260,7 @@ def main() -> None:
     parser.add_argument('results_file',
                         help='an acc-speed.filtered.csv file from process-results.bash')
     parser.add_argument('-o', '--output',
-                        help='save the plot to this file (for example, a .png) instead of '
+                        help='save the plot to this file (for example, a .svg) instead of '
                              'showing it')
     args = parser.parse_args()
 
@@ -282,7 +282,13 @@ def main() -> None:
 
     fig = plot_results(*results)
     if args.output:
-        fig.savefig(args.output, dpi=200)
+        # By default, an SVG holds the time it was saved and randomly salted element IDs.  A
+        # fixed salt and no date make the same results always give the same file.
+        metadata = None
+        if args.output.lower().endswith('.svg'):
+            plt.rcParams['svg.hashsalt'] = 'plot-results'
+            metadata = {'Date': None}
+        fig.savefig(args.output, dpi=200, metadata=metadata)
         print(f"Created file:\n{args.output}")
     else:
         plt.show()

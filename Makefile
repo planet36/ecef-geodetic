@@ -233,7 +233,7 @@ speed: $(BIN_SPEED) input | $(OUTPUT_DIR)
 # .WAIT keeps the tests from running in parallel under make -j.
 full: $(BIN_ACC) $(BIN_SPEED) input .WAIT acc .WAIT speed
 	@bash $(SCRIPTS_DIR)/process-results.bash $(OUTPUT_DIR)
-	@python3 $(SCRIPTS_DIR)/plot-results.py -o $(OUTPUT_DIR)/acc-speed.png \
+	@python3 $(SCRIPTS_DIR)/plot-results.py -o $(OUTPUT_DIR)/acc-speed.svg \
 		$(OUTPUT_DIR)/acc-speed.filtered.csv
 
 $(OUTPUT_DIR) $(INPUT_DIR)/.:

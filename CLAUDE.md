@@ -51,8 +51,8 @@ from the binary with `readelf` into `*.opts`.
 `make full` runs both tests into one folder, then runs
 `bash scripts/process-results.bash results/TIMESTAMP`.  That writes `acc-speed.csv` and
 `acc-speed.filtered.csv` next to the JSON, and `make full` then plots the filtered CSV into
-`acc-speed.png` in the same folder.  To plot one by hand, run
-`python3 scripts/plot-results.py -o OUT.png results/TIMESTAMP/acc-speed.filtered.csv`, or leave
+`acc-speed.svg` in the same folder.  To plot one by hand, run
+`python3 scripts/plot-results.py -o OUT.svg results/TIMESTAMP/acc-speed.filtered.csv`, or leave
 out `-o` to show the plot in a window.
 
 ## Build constraints

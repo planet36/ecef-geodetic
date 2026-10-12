@@ -20,7 +20,7 @@ To run the accuracy and speed tests
 The output of the accuracy and speed tests are json files which are put in a timestamped folder
 within the `results` folder.
 `make full` then combines them into a CSV file and a filtered CSV file in that same folder, and
-plots the filtered one into a PNG file there.
+plots the filtered one into an SVG file there.
 
 See [Makefile](Makefile) for all possible targets.
 
