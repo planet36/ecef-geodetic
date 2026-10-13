@@ -114,7 +114,11 @@ operator+(const running_regression<T>& a, const running_regression<T>& b) noexce
 
     auto delta_x = b.x_stats.mean() - a.x_stats.mean();
     auto delta_y = b.y_stats.mean() - a.y_stats.mean();
-    combined.S_xy = a.S_xy + b.S_xy + a.n * b.n * delta_x * delta_y / combined.n;
+    // The counts are taken in T, because their product overflows long long.
+    const auto na = static_cast<T>(a.n);
+    const auto nb = static_cast<T>(b.n);
+    const auto nc = static_cast<T>(combined.n);
+    combined.S_xy = a.S_xy + b.S_xy + na * nb * delta_x * delta_y / nc;
 
     return combined;
 }
