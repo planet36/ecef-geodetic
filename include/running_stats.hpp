@@ -59,13 +59,15 @@ public:
     {
         const auto n1 = n;
         n++;
+        // The count is taken in T for the same reason operator+ gives.
+        const auto nt = static_cast<T>(n);
         const auto delta = x - M1;
-        const auto delta_n = delta / n;
+        const auto delta_n = delta / nt;
         const auto delta_n2 = delta_n * delta_n;
         const auto term1 = delta * delta_n * n1;
         M1 += delta_n;
-        M4 += term1 * delta_n2 * (n * n - 3 * n + 3) + 6 * delta_n2 * M2 - 4 * delta_n * M3;
-        M3 += term1 * delta_n * (n - 2) - 3 * delta_n * M2;
+        M4 += term1 * delta_n2 * (nt * nt - 3 * nt + 3) + 6 * delta_n2 * M2 - 4 * delta_n * M3;
+        M3 += term1 * delta_n * (nt - 2) - 3 * delta_n * M2;
         M2 += term1;
 
         _sum += x;
@@ -164,24 +166,28 @@ operator+(const running_stats<T>& a, const running_stats<T>& b) noexcept
 
     combined.n = a.n + b.n;
 
+    // The formulas take the counts in T, because products of counts overflow
+    // long long.  The cube of the combined count does so once it reaches 2^21.
+    const auto na = static_cast<T>(a.n);
+    const auto nb = static_cast<T>(b.n);
+    const auto nc = static_cast<T>(combined.n);
+
     const auto delta = b.M1 - a.M1;
     const auto delta2 = delta * delta;
     const auto delta3 = delta * delta2;
     const auto delta4 = delta2 * delta2;
 
-    combined.M1 = (a.n * a.M1 + b.n * b.M1) / combined.n;
+    combined.M1 = (na * a.M1 + nb * b.M1) / nc;
 
-    combined.M2 = a.M2 + b.M2 + delta2 * a.n * b.n / combined.n;
+    combined.M2 = a.M2 + b.M2 + delta2 * na * nb / nc;
 
-    combined.M3 = a.M3 + b.M3 + delta3 * a.n * b.n * (a.n - b.n) / (combined.n * combined.n);
-    combined.M3 += 3 * delta * (a.n * b.M2 - b.n * a.M2) / combined.n;
+    combined.M3 = a.M3 + b.M3 + delta3 * na * nb * (na - nb) / (nc * nc);
+    combined.M3 += 3 * delta * (na * b.M2 - nb * a.M2) / nc;
 
     combined.M4 = a.M4 + b.M4 +
-                  delta4 * a.n * b.n * (a.n * a.n - a.n * b.n + b.n * b.n) /
-                      (combined.n * combined.n * combined.n);
-    combined.M4 +=
-        6 * delta2 * (a.n * a.n * b.M2 + b.n * b.n * a.M2) / (combined.n * combined.n) +
-        4 * delta * (a.n * b.M3 - b.n * a.M3) / combined.n;
+                  delta4 * na * nb * (na * na - na * nb + nb * nb) / (nc * nc * nc);
+    combined.M4 += 6 * delta2 * (na * na * b.M2 + nb * nb * a.M2) / (nc * nc) +
+                   4 * delta * (na * b.M3 - nb * a.M3) / nc;
 
     // The remaining members combine directly, the same way push() accumulates
     // them.
