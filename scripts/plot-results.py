@@ -8,7 +8,7 @@
 
 __author__ = 'Steven Ward'
 __license__ = 'MPL-2.0'
-__version__ = '2026-10-10'
+__version__ = '2026-10-14'
 
 import argparse
 import csv
@@ -93,9 +93,6 @@ LABEL_OVERRIDES: dict[str, tuple[tuple[int, int], HAlign, VAlign, int]] = {
 def load_results(path: str) -> tuple[list[str], list[float], list[float]]:
     """Return the names, mean errors (nm), and speeds (M conversions/s) in a CSV file."""
     with open(path, newline='', encoding='utf-8') as f:
-        # The first two lines name the input files, and the third is the header.
-        f.readline()
-        f.readline()
         reader = csv.DictReader(f)
         rows = list(reader)
 

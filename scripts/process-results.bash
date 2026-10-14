@@ -49,9 +49,7 @@ fi
 declare -r OUTFILE="${RESULTS_DIR}/acc-speed.csv"
 declare -r OUTFILE_FILTERED="${RESULTS_DIR}/acc-speed.filtered.csv"
 
-printf '%q\n' "$INFILE_ACC" > "$OUTFILE"
-printf '%q\n' "$INFILE_SPEED" >> "$OUTFILE"
-printf 'Name,Mean dist. error (nm),Max dist. error (nm),Time/call (ns)\n' >> "$OUTFILE"
+printf 'Name,Mean dist. error (nm),Max dist. error (nm),Time/call (ns)\n' > "$OUTFILE"
 
 join -t ',' \
     <(jq -r '.func_names | keys[] as $k | "\(.[$k].info.display_name),\(.[$k].acc.mean_dist_err*1e9),\(.[$k].acc.max_dist_err*1e9)"' "$INFILE_ACC" | sort) \
@@ -60,8 +58,8 @@ join -t ',' \
 
 # Select algorithms with good accuracy (mean dist err < 10 nm).
 # Change precision of output to 3 decimal places.
-awk -F ',' '$2 < 10 || NR <= 3 {print $0}' "$OUTFILE" \
-    | numfmt --header=3 --delimiter=, --field=2- --format='%0.3f' \
+awk -F ',' '$2 < 10 || NR == 1 {print $0}' "$OUTFILE" \
+    | numfmt --header=1 --delimiter=, --field=2- --format='%0.3f' \
     > "$OUTFILE_FILTERED" || exit
 
 printf 'Created files:\n%q\n%q\n' "$OUTFILE" "$OUTFILE_FILTERED"
