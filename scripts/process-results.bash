@@ -4,6 +4,8 @@
 SCRIPT_NAME="$(basename -- "${BASH_SOURCE[0]}")"
 SCRIPT_DIR="$(dirname -- "${BASH_SOURCE[0]}")"
 
+export LC_ALL=C
+
 function print_usage
 {
     cat <<EOT 1>&2
