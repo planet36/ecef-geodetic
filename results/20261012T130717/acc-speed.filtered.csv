@@ -1,5 +1,3 @@
-results/20261012T130717/acc.json
-results/20261012T130717/speed.json
 Name,Mean dist. error (nm),Max dist. error (nm),Time/call (ns)
 Bowring 1976 (x2),2.454,567.758,36.263
 Bowring 1985 (x2),2.393,140.848,42.735
