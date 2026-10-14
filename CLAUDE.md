@@ -103,8 +103,9 @@ than those headers.
 The Python scripts in `scripts/` generate and plot input data.  `Nd-arange.py` piped into
 `polar-to-cartesian.py` produces the ECEF grids, and `plot-points.py` draws them (see the
 `plot-ecef` and `plot-geod` targets).  `ellipsoid.py` holds the scalar ellipsoid math that the
-converter and plotting scripts share.  `process-results.bash`, `filter-benchmark-results.jq`,
-and `plot-results.py` turn the test results into CSV files and a plot.  `olson_1996/` is the
+converter and plotting scripts share.  `process-results.bash`, `filter-accuracy-results.jq`,
+`filter-benchmark-results.jq`, and `plot-results.py` turn the test results into CSV files and
+a plot.  `olson_1996/` is the
 original C version with its own Makefile.
 
 ## Style

@@ -54,7 +54,7 @@ declare -r OUTFILE_FILTERED="${RESULTS_DIR}/acc-speed.filtered.csv"
 printf 'Name,Mean dist. error (nm),Max dist. error (nm),Time/call (ns)\n' > "$OUTFILE"
 
 join -t ',' \
-    <(jq -r '.func_names | keys[] as $k | "\(.[$k].info.display_name),\(.[$k].acc.mean_dist_err*1e9),\(.[$k].acc.max_dist_err*1e9)"' "$INFILE_ACC" | sort) \
+    <(jq -r --from-file "${SCRIPT_DIR}/filter-accuracy-results.jq" "$INFILE_ACC" | sort) \
     <(jq -r --from-file "${SCRIPT_DIR}/filter-benchmark-results.jq" "$INFILE_SPEED" | sort) >> \
     "$OUTFILE" || exit
 
