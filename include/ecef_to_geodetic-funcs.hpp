@@ -1328,33 +1328,38 @@ COMMON_FIRST_DECLS
         return;
     }
 
-    const auto ec = 1 - ell.f;
+    const auto ec = 1 - ell.f; // SDW: was sqrt(ec2), which equals 1 - f
     // P is "p normalized", the distance from the polar axis in units of a
-    const auto P = w / ell.a; // (2)
+    const auto P = w / ell.a; // (2) SDW: was p*ainv
     const auto E = ell.e2; // (2)
 
     // (17) has a typo: it gives S_0 = Z, but the Fortran uses S_0 = |z|/a
-    auto S_n = std::abs(z) / ell.a; // (17)
+    auto S_n = std::abs(z) / ell.a; // (17) SDW: was absz*ainv
     auto C_n = ec * P; // (17)
     const auto Z = ec * S_n; // (2), with S_n = S_0 = |z|/a
 
+    // SDW: The Fortran applies one iteration, with the B_0 of (18), which holds only at the
+    // starting values.  This loop uses the general B_n of (15).
     for (int i = 1; i <= max_iterations; ++i)
     {
-        const auto A_n = fast_hypot(S_n, C_n); // (14)
-        // correction factor of Halley's method
+        // Newton correction factors
+        const auto A_n2 = SQ(C_n) + SQ(S_n);
+        const auto A_n = std::sqrt(A_n2); // (14)
+        const auto A_n3 = A_n2 * A_n;
+        const auto D_n = Z * A_n3 + E * CB(S_n); // (12)
+        const auto F_n = P * A_n3 - E * CB(C_n); // (13)
+
+        // Halley correction factor
         const auto B_n = 1.5 * E * S_n * SQ(C_n) *
             ((P * S_n - Z * C_n) * A_n - E * S_n * C_n); // (15)
-
-        const auto D_n = Z * CB(A_n) + E * CB(S_n); // (12)
-        const auto F_n = P * CB(A_n) - E * CB(C_n); // (13)
 
         S_n = D_n * F_n - B_n * S_n; // (10)
         C_n = SQ(F_n) - B_n * C_n; // (11)
     }
 
     auto sin_lat = S_n;
-    auto cos_lat = C_n;
-    cos_lat *= ec; // (21)
+    // SDW: The Fortran applies this factor of ec inside its one iteration.
+    auto cos_lat = ec * C_n; // (21)
 
 #ifdef USE_CUSTOM_HT
     const auto sin_lat2 = SQ(sin_lat);
@@ -1368,6 +1373,7 @@ COMMON_FIRST_DECLS
     if (z < 0) // (19)
         sin_lat = -sin_lat;
 
+    // SDW: was atan(s1/cc), then the sign of z, which is slightly less accurate
     lat_rad = std::atan2(sin_lat, cos_lat); // (19)
 
 #if !defined(USE_CUSTOM_HT)
@@ -1420,33 +1426,38 @@ COMMON_FIRST_DECLS
         return;
     }
 
-    const auto ec = 1 - ell.f;
+    const auto ec = 1 - ell.f; // SDW: was sqrt(ec2), which equals 1 - f
     // P is "p normalized", the distance from the polar axis in units of a
-    const auto P = w / ell.a; // (2)
+    const auto P = w / ell.a; // (2) SDW: was p*ainv
     const auto E = ell.e2; // (2)
 
     // (17) has a typo: it gives S_0 = Z, but the Fortran uses S_0 = |z|/a
-    auto S_n = std::abs(z) / ell.a; // (17)
+    auto S_n = std::abs(z) / ell.a; // (17) SDW: was absz*ainv
     auto C_n = ec * P; // (17)
     const auto Z = ec * S_n; // (2), with S_n = S_0 = |z|/a
 
+    // SDW: The Fortran applies one iteration, with the B_0 of (18), which holds only at the
+    // starting values.  This loop uses the general B_n of (15).
     for (int i = 1; i <= max_iterations; ++i)
     {
-        const auto A_n = fast_hypot(S_n, C_n); // (14)
-        // correction factor of Halley's method
+        // Newton correction factors
+        const auto A_n2 = SQ(C_n) + SQ(S_n);
+        const auto A_n = std::sqrt(A_n2); // (14)
+        const auto A_n3 = A_n2 * A_n;
+        const auto D_n = Z * A_n3 + E * CB(S_n); // (12)
+        const auto F_n = P * A_n3 - E * CB(C_n); // (13)
+
+        // Halley correction factor
         const auto B_n = 1.5 * E * S_n * SQ(C_n) *
             ((P * S_n - Z * C_n) * A_n - E * S_n * C_n); // (15)
-
-        const auto D_n = Z * CB(A_n) + E * CB(S_n); // (12)
-        const auto F_n = P * CB(A_n) - E * CB(C_n); // (13)
 
         S_n = D_n * F_n - B_n * S_n; // (10)
         C_n = SQ(F_n) - B_n * C_n; // (11)
     }
 
     auto sin_lat = S_n;
-    auto cos_lat = C_n;
-    cos_lat *= ec; // (21)
+    // SDW: The Fortran applies this factor of ec inside its one iteration.
+    auto cos_lat = ec * C_n; // (21)
 
 #ifdef USE_CUSTOM_HT
     const auto sin_lat2 = SQ(sin_lat);
@@ -1460,6 +1471,7 @@ COMMON_FIRST_DECLS
     if (z < 0) // (19)
         sin_lat = -sin_lat;
 
+    // SDW: was atan(s1/cc), then the sign of z, which is slightly less accurate
     lat_rad = std::atan2(sin_lat, cos_lat); // (19)
 
 #if !defined(USE_CUSTOM_HT)
@@ -1513,33 +1525,38 @@ COMMON_FIRST_DECLS
         return;
     }
 
-    const auto ec = 1 - ell.f;
+    const auto ec = 1 - ell.f; // SDW: was sqrt(ec2), which equals 1 - f
     // P is "p normalized", the distance from the polar axis in units of a
-    const auto P = w / ell.a; // (2)
+    const auto P = w / ell.a; // (2) SDW: was p*ainv
     const auto E = ell.e2; // (2)
 
     // (17) has a typo: it gives S_0 = Z, but the Fortran uses S_0 = |z|/a
-    auto S_n = std::abs(z) / ell.a; // (17)
+    auto S_n = std::abs(z) / ell.a; // (17) SDW: was absz*ainv
     auto C_n = ec * P; // (17)
     const auto Z = ec * S_n; // (2), with S_n = S_0 = |z|/a
 
+    // SDW: The Fortran applies one iteration, with the B_0 of (18), which holds only at the
+    // starting values.  This loop uses the general B_n of (15).
     for (int i = 1; i <= max_iterations; ++i)
     {
-        const auto A_n = fast_hypot(S_n, C_n); // (14)
-        // correction factor of Halley's method
+        // Newton correction factors
+        const auto A_n2 = SQ(C_n) + SQ(S_n);
+        const auto A_n = std::sqrt(A_n2); // (14)
+        const auto A_n3 = A_n2 * A_n;
+        const auto D_n = Z * A_n3 + E * CB(S_n); // (12)
+        const auto F_n = P * A_n3 - E * CB(C_n); // (13)
+
+        // Halley correction factor
         const auto B_n = 1.5 * E * S_n * SQ(C_n) *
             ((P * S_n - Z * C_n) * A_n - E * S_n * C_n); // (15)
-
-        const auto D_n = Z * CB(A_n) + E * CB(S_n); // (12)
-        const auto F_n = P * CB(A_n) - E * CB(C_n); // (13)
 
         S_n = D_n * F_n - B_n * S_n; // (10)
         C_n = SQ(F_n) - B_n * C_n; // (11)
     }
 
     auto sin_lat = S_n;
-    auto cos_lat = C_n;
-    cos_lat *= ec; // (21)
+    // SDW: The Fortran applies this factor of ec inside its one iteration.
+    auto cos_lat = ec * C_n; // (21)
 
 #ifdef USE_CUSTOM_HT
     const auto sin_lat2 = SQ(sin_lat);
@@ -1553,6 +1570,7 @@ COMMON_FIRST_DECLS
     if (z < 0) // (19)
         sin_lat = -sin_lat;
 
+    // SDW: was atan(s1/cc), then the sign of z, which is slightly less accurate
     lat_rad = std::atan2(sin_lat, cos_lat); // (19)
 
 #if !defined(USE_CUSTOM_HT)
@@ -1607,33 +1625,38 @@ COMMON_FIRST_DECLS
         return;
     }
 
-    const auto ec = 1 - ell.f;
+    const auto ec = 1 - ell.f; // SDW: was sqrt(ec2), which equals 1 - f
     // P is "p normalized", the distance from the polar axis in units of a
-    const auto P = w / ell.a; // (2)
+    const auto P = w / ell.a; // (2) SDW: was p*ainv
     const auto E = ell.e2; // (2)
 
     // (17) has a typo: it gives S_0 = Z, but the Fortran uses S_0 = |z|/a
-    auto S_n = std::abs(z) / ell.a; // (17)
+    auto S_n = std::abs(z) / ell.a; // (17) SDW: was absz*ainv
     auto C_n = ec * P; // (17)
     const auto Z = ec * S_n; // (2), with S_n = S_0 = |z|/a
 
+    // SDW: The Fortran applies one iteration, with the B_0 of (18), which holds only at the
+    // starting values.  This loop uses the general B_n of (15).
     for (int i = 1; i <= max_iterations; ++i)
     {
-        const auto A_n = fast_hypot(S_n, C_n); // (14)
-        // correction factor of Halley's method
+        // Newton correction factors
+        const auto A_n2 = SQ(C_n) + SQ(S_n);
+        const auto A_n = std::sqrt(A_n2); // (14)
+        const auto A_n3 = A_n2 * A_n;
+        const auto D_n = Z * A_n3 + E * CB(S_n); // (12)
+        const auto F_n = P * A_n3 - E * CB(C_n); // (13)
+
+        // Halley correction factor
         const auto B_n = 1.5 * E * S_n * SQ(C_n) *
             ((P * S_n - Z * C_n) * A_n - E * S_n * C_n); // (15)
-
-        const auto D_n = Z * CB(A_n) + E * CB(S_n); // (12)
-        const auto F_n = P * CB(A_n) - E * CB(C_n); // (13)
 
         S_n = D_n * F_n - B_n * S_n; // (10)
         C_n = SQ(F_n) - B_n * C_n; // (11)
     }
 
     auto sin_lat = S_n;
-    auto cos_lat = C_n;
-    cos_lat *= ec; // (21)
+    // SDW: The Fortran applies this factor of ec inside its one iteration.
+    auto cos_lat = ec * C_n; // (21)
 
 #ifdef USE_CUSTOM_HT
     const auto sin_lat2 = SQ(sin_lat);
@@ -1647,6 +1670,7 @@ COMMON_FIRST_DECLS
     if (z < 0) // (19)
         sin_lat = -sin_lat;
 
+    // SDW: was atan(s1/cc), then the sign of z, which is slightly less accurate
     lat_rad = std::atan2(sin_lat, cos_lat); // (19)
 
 #if !defined(USE_CUSTOM_HT)
