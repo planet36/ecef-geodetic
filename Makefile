@@ -36,9 +36,12 @@ CPPFLAGS += -I include
 
 CXXFLAGS = -std=c++26
 CXXFLAGS += -pipe -Wall -Wextra -Wpedantic -Wfatal-errors
-CXXFLAGS += -O3 -flto=auto -march=native
+CXXFLAGS += -O3 -flto=auto
 CXXFLAGS += -fno-math-errno
+
+CXXFLAGS += -march=native
 #CXXFLAGS += -march=raptorlake
+
 # -frecord-gcc-switches is used by readelf
 CXXFLAGS += -frecord-gcc-switches
 # https://gcc.gnu.org/wiki/FloatingPointMath
