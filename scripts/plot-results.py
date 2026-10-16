@@ -8,7 +8,7 @@
 
 __author__ = 'Steven Ward'
 __license__ = 'MPL-2.0'
-__version__ = '2026-10-14'
+__version__ = '2026-10-16'
 
 import argparse
 import csv
@@ -78,14 +78,21 @@ LABEL_OVERRIDES: dict[str, tuple[tuple[int, int], HAlign, VAlign, int]] = {
     'Bowring 1976': ((1, 1), 'left', 'bottom', 8),
     'Bowring 1985': ((1, -1), 'left', 'top', 8),
     'Bowring-Toms 1995': ((-1, -1), 'right', 'top', 20),
-    'Fukushima 2006 (c.h.)': ((1, 1), 'left', 'bottom', 8),
-    'Halley': ((-1, 0), 'right', 'center', 8),
-    'Halley quick': ((-1, 1), 'right', 'bottom', 8),
-    'Householder': ((-1, -1), 'right', 'top', 8),
-    'Lin-Wang 1995': ((-1, -1), 'right', 'top', 8),
-    'Lin-Wang 1995 (c.h.)': ((0, 1), 'center', 'bottom', 20),
-    'Schroder': ((-1, 1), 'right', 'bottom', 8),
-    'Vermeille 2011': ((0, -1), 'center', 'top', 8),
+    'Fukushima 2006': ((0, 1), 'center', 'bottom', 26),
+    'Fukushima 2006 (c.h.)': ((1, 0), 'left', 'center', 8),
+    'Halley': ((1, 0), 'left', 'center', 8),
+    'Halley quick': ((-1, 0), 'right', 'center', 8),
+    'Heikkinen 1982 (c.h.)': ((1, 1), 'left', 'bottom', 34),
+    'Householder': ((-1, 0), 'right', 'center', 8),
+    'Householder quick': ((-1, 1), 'right', 'bottom', 8),
+    'Lin-Wang 1995': ((-1, -1), 'right', 'top', 20),
+    'Lin-Wang 1995 (c.h.)': ((-1, 1), 'right', 'bottom', 34),
+    'Schroder': ((-1, 1), 'right', 'bottom', 20),
+    'Schroder quick': ((1, -1), 'left', 'top', 8),
+    'Shu 2010': ((1, 0), 'left', 'center', 20),
+    'Shu 2010 (c.h.)': ((1, 1), 'left', 'bottom', 8),
+    'Vermeille 2011': ((0, -1), 'center', 'top', 20),
+    'Vermeille 2011 (c.h.)': ((1, 0), 'left', 'center', 8),
     'Zhang 2005': ((0, -1), 'center', 'top', 8),
 }
 
