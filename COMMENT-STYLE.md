@@ -32,7 +32,8 @@ those reads as well.
 **3. Colons introduce lists and explanations.**  A colon before a real list is
 correct, and so is one whose second half explains the clause before it.  What
 sits before the colon should be a clause rather than a bare noun phrase used as
-a label.
+a label.  A bold run-in label is such a noun phrase, so it ends with a period,
+as each rule's title here does, and the text after it is a full sentence.
 
 **4. Dashes set off a parenthetical or land a closing clause.**  A pair of
 dashes around a parenthetical is acceptable, and real parentheses are usually
@@ -61,8 +62,20 @@ carries across is that a file settles on one ending, not which ending it is.
 
 ## Paragraphs
 
-**6. Keep a paragraph to about five lines.**  Past that, split it into two
-paragraphs or cut it down.  A wall of text is not thorough, it is unread.
+**6. Keep a paragraph to one topic.**  A wall of text is not thorough, it is
+unread.  Settle the sentences under rule 1 first, because splitting a paragraph
+of run-on sentences only spreads them out.
+
+Look closer at a paragraph past about 100 words or five sentences, counting
+rendered words rather than source lines, since wrapping varies from file to
+file.  Neither number is an automatic split.  Split where the topic, the step,
+or the audience changes, and open each new paragraph with the sentence that
+states its point.
+
+A sequence of steps or parallel items written as prose is a list, so make it
+one.  Keep an example or a caveat with the claim it qualifies.  A single idea
+stays in one paragraph even when it runs long, and if it runs too long, cut it
+rather than split it.  A split changes paragraph breaks, not wording.
 
 **7. Put two spaces after a sentence-ending period.**  That holds in code
 comments, doc blocks, commit messages, and documentation files alike, markdown
@@ -214,3 +227,8 @@ Never "programme", in any sense.
 **15. Use the serial comma** before the final conjunction.
 
 **16. Never write "load-bearing".**  Name the actual dependency instead.
+
+**17. Write numbers in one format.**  A number of four digits stands plain, and
+one of five or more digits takes a comma before each group of three, as in 6200
+and 14,400.  A percentage takes no space before its sign.  A number that is
+code, such as a command-line argument or a literal, stays as the code spells it.
