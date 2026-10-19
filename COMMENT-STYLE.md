@@ -41,8 +41,8 @@ better.  A single dash may set off a trailing clause where the pause earns its
 keep, but a fragment that wanted to be a sentence is not fixed by hanging it
 off a dash.
 
-In a code comment, spell a dash as two hyphens rather than as a real em dash.
-Documentation files keep their own practice.
+In a code comment or a commit message, spell a dash as two hyphens rather than
+as a real em dash.  Documentation files keep their own practice.
 
 **5. Finish the sentence.**  Detail paragraphs are complete sentences with
 verbs.  A `///` brief line or a docstring summary may be a noun phrase.
@@ -59,6 +59,14 @@ paragraphs inside the block punctuate normally.
 Another language keeps its own convention.  A Python docstring ends its summary
 line with a period, because PEP 257 says so.  What carries across is that a
 file settles on one ending, not which ending it is.
+
+**5b. A commit subject is an imperative phrase with no terminating period.**
+It names what the commit does, as in "Add a README".  It is not past tense, as
+in "Added a README", and not a description, as in "Adds a README".  It is the
+commit's brief, so it ends without a period, as a Doxygen brief does.
+
+The body below it is detail and punctuates normally.  It may tell what the
+code did before in the past tense, and what it does now in the present.
 
 ## Paragraphs
 
@@ -100,8 +108,8 @@ no second line to move to.
 **7b. Put one space before a trailing comment in a C-family file.**  That is
 the gap between code and the `//` or `///<` that follows it on the same line.
 Rule 7 governs a different place, so do not let the two spaces after a period
-pull this one to two.  A language with its own rule wins, and PEP 8 asks for two
-spaces before an inline `#`.
+pull this one to two.  A language with its own rule wins, and PEP 8 asks for at
+least two spaces before an inline `#`.
 
 A run of trailing comments on consecutive declarations is the one exception.
 It may pad out to a shared column instead, and then every comment in the run
