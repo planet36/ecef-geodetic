@@ -1,6 +1,6 @@
 # COMMENT-STYLE.md
 
-The rules for prose in a repo that adopts this file.  They cover code
+This file sets the rules for prose in a repo that adopts it.  They cover code
 comments, doc blocks, and commit messages.  Documentation files follow them
 too, though a table or a reference list may need its own shape.
 
@@ -57,12 +57,12 @@ ends the same way.  A `///<` trailing brief follows the same rule.  Detail
 paragraphs inside the block punctuate normally.
 
 Another language keeps its own convention.  A Python docstring ends its summary
-line with a period, because PEP 257 says so and the linters check it.  What
-carries across is that a file settles on one ending, not which ending it is.
+line with a period, because PEP 257 says so.  What carries across is that a
+file settles on one ending, not which ending it is.
 
 ## Paragraphs
 
-**6. Keep a paragraph to one topic.**  A wall of text is not thorough, it is
+**6. Keep a paragraph to one topic.**  A wall of text is not thorough — it is
 unread.  Settle the sentences under rule 1 first, because splitting a paragraph
 of run-on sentences only spreads them out.
 
@@ -221,10 +221,14 @@ wrong one is worse than no reference.
 
 ## Wording
 
-**14. American spellings.**  Watch `-our`, `-ise`, `-re`, and "judgment".
-Never "programme", in any sense.
+**14. Use American spellings.**  Watch for the British endings `-our`, `-ise`,
+`-yse`, and `-re`, and for a doubled `l` before a suffix, as in "travelled".
+These spellings are forbidden in any sense: "programme", "judgement",
+"licence", "defence", and "grey".  A spelling that is code, such as an
+identifier, stays as the code spells it.
 
-**15. Use the serial comma** before the final conjunction.
+**15. Use the serial comma.**  Put a comma before the final conjunction in a
+list of three or more.
 
 **16. Never write "load-bearing".**  Name the actual dependency instead.
 
