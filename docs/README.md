@@ -2,7 +2,7 @@
 
 This folder contains _Comparison of Earth-Centered, Earth-Fixed to Geodetic Coordinate Conversion Algorithms_, presented at the [2020 Simulation Innovation Workshop (SIW)](https://web.archive.org/web/20200813024039/https://www.sisostds.org/2020SIW.aspx).
 
-From the original published paper, the following changes to the title page were made.
+I made these changes to the title page of the published paper.
 - Removed work mail address and work email address
 - Added personal email address and version/date
 
