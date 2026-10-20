@@ -95,21 +95,21 @@ so inputs vary only latitude and height.
 `include/ecef_to_geodetic.hpp` is separate from the test harness.  It is a standalone,
 templated Olson 1996 implementation built on the library types in `include/` (`angle`,
 `ECEF`, `Geodetic`, and the ellipsoids), and it does not depend on the test code.
+`olson_1996/` is the original C version with its own Makefile.
 
 Two headers are generated.  `generate/generate.bash` runs `calc` scripts to write
 `include/aux-lat-conv.hpp` and `include/utm-ups-const.hpp`, so edit the `.cal` sources rather
 than those headers.
 
-The scripts in `scripts/` generate and plot input data and process the test results.
-`Nd-arange.py` produces the geodetic grids, and piped into `polar-to-cartesian.py` it produces
-the ECEF grids.  The `create-*.py` scripts produce the polar, equatorial, and speed points,
-and `plot-points.py` draws the inputs (see the `plot-ecef` and `plot-geod` targets).
-`ellipsoid.py` holds the scalar ellipsoid math that
-`ecef-to-geodetic.py`, `geodetic-to-ecef.py`, `create-speed-points.py`, and `plot-points.py`
-share.  `process-results.bash`, `filter-accuracy-results.jq`,
-`filter-benchmark-results.jq`, and `plot-results.py` turn the test results into CSV files and
-a plot.  `olson_1996/` is the
-original C version with its own Makefile.
+Several scripts in `scripts/` generate and plot the input data.  `Nd-arange.py` produces the
+geodetic grids, and piped into `polar-to-cartesian.py` it produces the ECEF grids.  The
+`create-*.py` scripts produce the polar, equatorial, and speed points, and `plot-points.py`
+draws the inputs (see the `plot-ecef` and `plot-geod` targets).  `ellipsoid.py` holds the
+scalar ellipsoid math that `ecef-to-geodetic.py`, `geodetic-to-ecef.py`,
+`create-speed-points.py`, and `plot-points.py` share.
+
+`process-results.bash`, `filter-accuracy-results.jq`, `filter-benchmark-results.jq`, and
+`plot-results.py` turn the test results into CSV files and a plot.
 
 ## Style
 
