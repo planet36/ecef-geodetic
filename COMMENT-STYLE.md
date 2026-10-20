@@ -144,8 +144,7 @@ suggestion forms.
 **10a. Write an argument once.**  A second site that needs it states the
 consequence in a sentence and points at where the argument lives.  Copying the
 reasoning means every copy is a place to update when the answer changes.  Point
-only at something that travels with the file, so that a file copied into
-another program does not end up referring to a document it left behind.
+only at something that goes along when the file is copied into another program.
 
 A document that stays behind is off limits, however permanent it looks from
 here.  A file may point at a companion file only when it carries that companion
@@ -221,6 +220,13 @@ names match.  An overload that names them differently draws an "is not found in
 the argument list" warning, and a block with its own `\exception` lines ends up
 carrying each one twice.
 
+Matching names is the only part Doxygen checks.  A `\pre` or a postcondition
+that holds for only some of the overloads is copied into the rest, and so is an
+`\a` naming a parameter that some of them lack.  Doxygen reports neither.  A
+target block therefore holds only what is true of every overload that copies
+it.  Where the contracts differ, the whole block does not transfer, and rule 12
+applies.
+
 **12. Use `\copybrief` plus one specific paragraph when it does not.**  Two
 overloads that spell the same parameter differently are the usual case.  One
 taking `data` and `len` cannot `\copydoc` from one taking `src`, because the
@@ -237,6 +243,12 @@ wrong one is worse than no reference.
 These spellings are forbidden in any sense: "programme", "judgement",
 "licence", "defence", and "grey".  A spelling that is code, such as an
 identifier, stays as the code spells it.
+
+**14a. Put punctuation inside quotation marks only when it belongs to the
+quoted text.**  Rule 14 asks for American spelling, not the American habit of
+putting every period and comma inside.  Quoted text in code and commit messages
+is usually literal, such as a commit subject, an error message, or a command,
+and a mark added inside the quotes reads as part of it.
 
 **15. Use the serial comma.**  Put a comma before the final conjunction in a
 list of three or more.
