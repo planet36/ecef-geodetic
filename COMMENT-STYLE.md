@@ -75,7 +75,7 @@ code did before in the past tense, and what it does now in the present.
 unread.  Settle the sentences under rule 1 first, because splitting a paragraph
 of run-on sentences only spreads them out.
 
-Look closer at a paragraph past about 100 words or five sentences, counting
+Look closer at a paragraph past about 100 words or 5 sentences, counting
 rendered words rather than source lines, since wrapping varies from file to
 file.  Neither number is an automatic split.  Split where the topic, the step,
 or the audience changes, and open each new paragraph with the sentence that
@@ -263,8 +263,11 @@ example" or "that is", which would take a comma in the same place.
 
 **17. Write numbers in one format.**  A number of four digits stands plain, and
 one of five or more digits takes a comma before each group of three, as in 6200
-and 14,400.  A percentage takes no space before its sign.  A number that is
-code, such as a command-line argument or a literal, stays as the code spells it.
+and 14,400.  Write a measured quantity as numerals, as in 2 iterations, 96
+columns, and 100 words.  A count of everyday things stays a word, as in two
+spaces or two thoughts.  A percentage takes no space before its sign.  A number
+that is code, such as a command-line argument or a literal, stays as the code
+spells it.
 
 **18. Write a heading in sentence case.**  Capitalize its first word and
 lowercase the rest, as in "Benchmark results".  A name, an acronym, or a word
