@@ -43,7 +43,7 @@ See [Makefile](Makefile) for detailed list of programs that are required to run.
 
 ## Results
 
-Only algorithms with a mean distance error less than 10nm were included in the figure below.  All iterative algorithms did 2 iterations.  "(c.h.)" means the algorithm used a "custom height" formula to calculate ellipsoid height instead of the standard formula.
+Only algorithms with a mean distance error less than 10nm were included in the figure below.  Each iterative algorithm in the figure did 2 iterations.  "(c.h.)" means the algorithm used a "custom height" formula to calculate ellipsoid height instead of the standard formula.
 
 ![Scatter plot of accuracy vs speed](results/20261016T102423/acc-speed.svg)
 *Scatter plot of ***accuracy***, measured by mean distance error (nm), versus ***speed***, measured in millions of conversions per second*
