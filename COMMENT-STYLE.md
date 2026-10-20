@@ -265,9 +265,9 @@ example" or "that is", which would take a comma in the same place.
 one of five or more digits takes a comma before each group of three, as in 6200
 and 14,400.  Write a measured quantity as numerals, as in 2 iterations, 96
 columns, and 100 words.  A count of everyday things stays a word, as in two
-spaces or two thoughts.  A percentage takes no space before its sign.  A number
-that is code, such as a command-line argument or a literal, stays as the code
-spells it.
+spaces or two thoughts.  A unit symbol takes a space after the number, as in
+10 nm, and a percentage takes none.  A number that is code, such as a
+command-line argument or a literal, stays as the code spells it.
 
 **18. Write a heading in sentence case.**  Capitalize its first word and
 lowercase the rest, as in "Benchmark results".  A name, an acronym, or a word
