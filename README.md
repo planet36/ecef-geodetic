@@ -32,6 +32,12 @@ plots the filtered one into an SVG file there.
 
 See [Makefile](Makefile) for all possible targets.
 
+To test only some algorithms, run a test binary directly and name them as trailing arguments.  The names are the keys in [the function map](include/map_func_name_to_func_info.hpp), and an unknown name prints the list of valid ones.
+
+```sh
+./test-ecef_to_geodetic-acc -v -a -g olson_1996 sedris < input/geod.2d.region-all.txt
+```
+
 ## Requirements
 
 ### C++ libraries
