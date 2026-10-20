@@ -1,7 +1,5 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
 ## What this repo is
 
 A test suite that measures the accuracy and speed of about 80 ECEF-to-geodetic conversion
