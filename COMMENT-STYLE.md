@@ -90,8 +90,8 @@ in one paragraph even when it runs long, and if it runs too long, cut it rather
 than split it.  A split changes paragraph breaks, not wording.
 
 **7. Put two spaces after a sentence-ending period.**  That holds in code
-comments, doc blocks, commit messages, and documentation files alike, markdown
-included.  An abbreviation such as "e.g." takes one space, since no sentence
+comments, doc blocks, commit messages, and documentation files alike, Markdown
+included.  An abbreviation such as "vs." takes one space, since no sentence
 ends there.
 
 Do not bulk-convert a file you are not otherwise editing.  Any line you do
@@ -99,7 +99,7 @@ modify comes back with two spaces.
 
 **7a. Keep a line to 96 columns.**  That is a ceiling for code and prose alike.
 Comment prose is usually wrapped narrower, and a paragraph you edit keeps the
-width it already had rather than being reflowed to the ceiling.  A markdown
+width it already had rather than being reflowed to the ceiling.  A Markdown
 file that puts each paragraph on one long line stays that way.
 
 Four more things are exempt, because wrapping them costs more than it returns.
@@ -256,9 +256,18 @@ and a mark added inside the quotes reads as part of it.
 **15. Use the serial comma.**  Put a comma before the final conjunction in a
 list of three or more.
 
+**15a. Follow "e.g." and "i.e." with a comma.**  Each one stands in for "for
+example" or "that is", which would take a comma in the same place.
+
 **16. Never write "load-bearing".**  Name the actual dependency instead.
 
 **17. Write numbers in one format.**  A number of four digits stands plain, and
 one of five or more digits takes a comma before each group of three, as in 6200
 and 14,400.  A percentage takes no space before its sign.  A number that is
 code, such as a command-line argument or a literal, stays as the code spells it.
+
+**18. Write a heading in sentence case.**  Capitalize its first word and
+lowercase the rest, as in "Benchmark results".  A name, an acronym, or a word
+that is code keeps its own spelling wherever it falls, so "glibc" stays
+lowercase even as the first word.  A heading that quotes a title, such as a
+section of a standard, keeps the title's own case.
