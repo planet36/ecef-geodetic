@@ -32,8 +32,8 @@ those reads as well.
 **3. Colons introduce lists and explanations.**  A colon before a real list is
 correct, and so is one whose second half explains the clause before it.  What
 sits before the colon should be a clause rather than a bare noun phrase used as
-a label.  A bold run-in label is such a noun phrase, so it ends with a period,
-as each rule's title here does, and the text after it is a full sentence.
+a label.  A bold run-in label ends with a period rather than a colon, as each
+rule's title here does, and the text after it is a full sentence.
 
 **4. Dashes set off a parenthetical or land a closing clause.**  A pair of
 dashes around a parenthetical is acceptable, and real parentheses are usually
@@ -45,7 +45,8 @@ In a code comment or a commit message, spell a dash as two hyphens rather than
 as a real em dash.  Documentation files keep their own practice.
 
 **5. Finish the sentence.**  Detail paragraphs are complete sentences with
-verbs.  A `///` brief line or a docstring summary may be a noun phrase.
+verbs.  A `///` brief line may be a noun phrase, and a docstring summary follows
+its language's convention.
 
 Keep a brief short.  Brevity is what this asks for, not a line count, so a
 brief that still runs past the column limit wraps onto a second line.  Rule
@@ -98,8 +99,8 @@ Comment prose is usually wrapped narrower, and a paragraph you edit keeps the
 width it already had rather than being reflowed to the ceiling.  A markdown
 file that puts each paragraph on one long line stays that way.
 
-Four things are exempt, because wrapping them costs more than it returns.  A
-URL wraps into something the reader cannot click.  A run of column-aligned
+Four more things are exempt, because wrapping them costs more than it returns.
+A URL wraps into something the reader cannot click.  A run of column-aligned
 declarations or table rows loses the alignment that made it readable.  A string
 literal wraps only by splitting it, which puts the text further from what the
 program prints.  A pragma or lint suppression that has to sit on one line has
@@ -123,19 +124,22 @@ parameter names, and the return type.  A comment earns its place by saying
 something the code does not.
 
 **9. Do not explain what was rejected.**  Rationale for a road not taken
-belongs in a plan document or a ledger, never in a comment or a commit message.
+belongs in a plan document or a decision ledger, never in a comment or a
+commit message.
 
 **10. Do not state the obvious.**  "Increment the counter" above a line that
 increments the counter is noise.
 
-Cutting has a floor.  Rules 8, 9, and 10 delete what the reader can already
-see, never what the reader could not reconstruct.  A comment trimmed until it
-is merely shorter than the fact it recorded has been broken, not tightened.
+Cutting has a floor.  Rules 8 and 10 delete what the reader can already see,
+never what the reader could not reconstruct.  A comment trimmed until it is
+merely shorter than the fact it recorded has been broken, not tightened.
 
 Rule 9 is the one most often overread.  It sends a design alternative that was
 weighed and dropped to the ledger.  It does not send away a hazard the reader
 is likely to walk into, and a warning against a change that would silently
-break something stays next to the code it protects.
+break something stays next to the code it protects.  Nor does it send away an
+argument that heads off a likely suggestion, which rule 10a keeps where the
+suggestion forms.
 
 **10a. Write an argument once.**  A second site that needs it states the
 consequence in a sentence and points at where the argument lives.  Copying the
@@ -143,10 +147,9 @@ reasoning means every copy is a place to update when the answer changes.  Point
 only at something that travels with the file, so that a file copied into
 another program does not end up referring to a document it left behind.
 
-A file written to be copied out must stand alone.  It points at no document
-that stays behind, however permanent that document looks from here.  It may
-point at a companion file only when it carries that companion along, the way a
-header carries the header it includes.
+A document that stays behind is off limits, however permanent it looks from
+here.  A file may point at a companion file only when it carries that companion
+along, the way a header carries the header it includes.
 
 Where the argument lives somewhere that does not travel, the consequence
 sentence carries no pointer and stands by itself.  Such a sentence is the only
@@ -161,10 +164,10 @@ elsewhere.
 
 ## Doxygen
 
-This section assumes Doxygen, and rules 5, 5a, and 7b spell a brief its way.  A
-repo on another doc-comment system keeps every rule and reads `///` and `///<`
-as whatever that system writes them.  Where that system has its own hard
-convention, it wins, and rules 5a and 7b record the two cases that come up.
+This section assumes Doxygen, and so do the `///` and `///<` in rules 5, 5a,
+and 7b.  A repo on another doc-comment system keeps every rule and reads `///`
+and `///<` as whatever that system writes them.  Where that system has its own
+hard convention, it wins, and rules 5a and 7b record the two cases that arise.
 
 The Doxygen behavior described below was checked against version 1.18.0.
 
@@ -196,11 +199,11 @@ matches the `\param` and `\return` it sits beside.
 **10f. Monospace one token with `\c`, and a phrase with `<code>`.**  `\c` marks
 only the word that follows it, so `\c operator new` sets `operator` in
 monospace and leaves `new` in the running text.  Doxygen reports nothing when
-that happens, the same way it says nothing about a misspelled `\a`.
+that happens, the same way it says nothing about a misspelled `\a` parameter.
 
 Reach for `<code>...</code>` when the span runs to more than one token, and for
 nothing else.  Two spellings with a rule between them keep a search for either
-exhaustive.
+exhaustive, so do not add Markdown backticks as a third.
 
 **10g. Set `MULTILINE_CPP_IS_BRIEF = YES`.**  Under the default of `NO`, only a
 one-line `///` block counts as a brief.  A brief that wraps onto a second line
@@ -218,7 +221,7 @@ names match.  An overload that names them differently draws an "is not found in
 the argument list" warning, and a block with its own `\exception` lines ends up
 carrying each one twice.
 
-**12. Use `\copybrief` plus one specific paragraph when they do not.**  Two
+**12. Use `\copybrief` plus one specific paragraph when it does not.**  Two
 overloads that spell the same parameter differently are the usual case.  One
 taking `data` and `len` cannot `\copydoc` from one taking `src`, because the
 imported `\param` names would not match the signature.
