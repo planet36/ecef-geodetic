@@ -4,16 +4,24 @@ A test suite that measures the accuracy and speed of about 80 ECEF-to-geodetic c
 
 ## Usage
 
-To create the input data files
-> `make -j $(nproc) input`
+Generate the input data files, which are text files of ECEF and geodetic coordinates.
 
-They are text files with ECEF and geodetic coordinates.
+```sh
+make -j $(nproc) input
+```
 
-To build the accuracy and speed tests
-> `make -j $(nproc)`
+Build the accuracy and speed tests.
 
-To run the accuracy and speed tests
-> `make full`
+```sh
+make -j $(nproc)
+```
+
+Run the accuracy and speed tests.
+
+```sh
+make full
+```
+
 * Takes about 1 minute to finish
 * Runs the two tests one after the other, even under `make -j`
 
