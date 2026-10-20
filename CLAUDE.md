@@ -64,6 +64,8 @@ out `-o` to show the plot in a window.
   any program in `REQUIRED_BINS` (including `jq`, `sponge`, and `numfmt`) is missing.
 - Never enable `-ffinite-math-only`, `-ffast-math`, or `-Ofast`.  The other floating-point
   flags left commented in the Makefile trade accuracy for speed and are off on purpose.
+- The Makefile compiles with `-march=native`, so speed results hold only for the host that
+  built and ran them.
 
 ## Architecture
 
