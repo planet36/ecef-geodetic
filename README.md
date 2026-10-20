@@ -17,8 +17,8 @@ To run the accuracy and speed tests
 * Takes about 1 minute to finish
 * Runs the two tests one after the other, even under `make -j`
 
-The output of the accuracy and speed tests are json files which are put in a timestamped folder
-within the `results` folder.
+The accuracy and speed tests write JSON files into a folder within `results` that is named for
+the UTC time the run started.
 `make full` then combines them into a CSV file and a filtered CSV file in that same folder, and
 plots the filtered one into an SVG file there.
 
