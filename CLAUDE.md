@@ -30,7 +30,8 @@ The accuracy binary's flags are `-a` for the accuracy test, `-1` for the single-
 collect every error for precise statistics, `-m N` to skip algorithms whose hard-coded
 `ilog10_mean_dist_err` in `func_info` exceeds N, `-v` to print progress to stderr, and `-s N`
 for N rounds of a built-in speed test, up to 10,000.  In its JSON, an `ilog10_mean_dist_err` of
-99 marks an inaccurate algorithm and -99 an exact one.
+99 marks an inaccurate algorithm (a mean error of 1000 m or more) and -99 an exact one.  A
+distance error that is not finite counts as 99E97 m.
 
 Both binaries exit with an error message on a malformed input line, when they read no input
 coordinates, and on an algorithm name that is unknown or given more than once.  The accuracy
