@@ -73,10 +73,11 @@ own namespace with a `double`-only `ecef_to_geodetic(x, y, z, lat_rad, lon_rad, 
 algorithm that uses its own height formula instead of `ell.get_ht`.
 
 The `func_info_t` metadata includes a code-size figure computed from `__LINE__` markers placed
-around the function body.  The constructor adds the lines of whichever prologue macro the
-function uses, `COMMON_FIRST_DECLS` or `COMMON_FIRST_DECLS_CHECKED`, and `lines_extra` counts
-shared helpers.  Keep those markers and constants accurate when editing a function, because
-the line counts are reported as results.
+around the function body.  The constructor adds the lines of the prologue macro that
+`needs_code_for_corner_cases` names, `COMMON_FIRST_DECLS_CHECKED` when true and
+`COMMON_FIRST_DECLS` when false, so keep that flag matching the macro the function uses.
+`lines_extra` counts shared helpers.  Keep those markers and constants accurate when editing a
+function, because the line counts are reported as results.
 
 A hand-counted constant runs from a helper's `template` line through its closing brace,
 without its doc comments.  A constant that covers several helpers is written as a sum with one
