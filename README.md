@@ -10,7 +10,7 @@ Generate the input data files, which are text files of ECEF and geodetic coordin
 make -j $(nproc) input
 ```
 
-Build the accuracy and speed tests.
+Build the accuracy and speed tests, along with the input files.
 
 ```sh
 make -j $(nproc)
