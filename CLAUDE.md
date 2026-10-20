@@ -102,9 +102,11 @@ Two headers are generated.  `generate/generate.bash` runs `calc` scripts to writ
 `include/aux-lat-conv.hpp` and `include/utm-ups-const.hpp`, so edit the `.cal` sources rather
 than those headers.
 
-The Python scripts in `scripts/` generate and plot input data.  `Nd-arange.py` piped into
-`polar-to-cartesian.py` produces the ECEF grids, and `plot-points.py` draws them (see the
-`plot-ecef` and `plot-geod` targets).  `ellipsoid.py` holds the scalar ellipsoid math that
+The scripts in `scripts/` generate and plot input data and process the test results.
+`Nd-arange.py` produces the geodetic grids, and piped into `polar-to-cartesian.py` it produces
+the ECEF grids.  The `create-*.py` scripts produce the polar, equatorial, and speed points,
+and `plot-points.py` draws the inputs (see the `plot-ecef` and `plot-geod` targets).
+`ellipsoid.py` holds the scalar ellipsoid math that
 `ecef-to-geodetic.py`, `geodetic-to-ecef.py`, `create-speed-points.py`, and `plot-points.py`
 share.  `process-results.bash`, `filter-accuracy-results.jq`,
 `filter-benchmark-results.jq`, and `plot-results.py` turn the test results into CSV files and
