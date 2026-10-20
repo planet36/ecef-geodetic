@@ -41,7 +41,8 @@ binary also exits on an option value that is not an integer in range.
 The speed binary is a Google Benchmark program that accepts the usual `--benchmark_*` flags and
 requires ECEF input.  `NUM_THREADS` sets how many threads run each benchmark.  It defaults to 1,
 0 means one per hardware thread, and a value that is not an integer from 0 to the number of
-hardware threads is an error.
+hardware threads is an error.  The Makefile exports `NUM_THREADS` as one less than `nproc`, so
+`make speed` and `make full` do not use the default.
 
 Each `make` run writes its test output into its own folder, `results/TIMESTAMP/`, named for
 the time the run started.  `make acc`, `make acc1`, and `make speed` write `acc.json`,
