@@ -67,8 +67,9 @@ in "Added a README", and not a description, as in "Adds a README".  It is the
 commit's brief, so it ends without a period, as a Doxygen brief does.
 
 The body below it is detail and punctuates normally.  It may tell what the
-code did before in the past tense, and what it does now in the present.  A body
-reads best wrapped at 72 columns.
+code did before in the past tense, and what it does now in the present.  An
+editor that recognizes a commit message wraps its body at 72 columns, so a body
+reads best at that width.
 
 ## Paragraphs
 
