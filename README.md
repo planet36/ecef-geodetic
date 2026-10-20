@@ -46,7 +46,7 @@ The tests need Linux with glibc, because the accuracy test reads the glibc versi
 
 ### C++ libraries
 
-- [Google Benchmark](https://github.com/google/benchmark)
+- [Google Benchmark](https://github.com/google/benchmark) 1.9.3 or later, for `benchmark::MaybeReenterWithoutASLR`
 - [nlohmann-json](https://github.com/nlohmann/json)
 - [oneTBB](https://github.com/oneapi-src/oneTBB)
 
