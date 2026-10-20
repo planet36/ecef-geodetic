@@ -88,11 +88,11 @@ To add an algorithm, write a new namespace in that file and add a matching entry
 command that regenerates the map from the namespaces.  Both test programs discover
 algorithms only through that map.
 
-The accuracy test measures round-trip error.  It converts each input point to ECEF exactly,
-runs the algorithm under test, converts the result back exactly with
-`include/geodetic_to_ecef.hpp`, and reports the Euclidean distance between the two ECEF
-points.  Every algorithm returns the same longitude, so inputs vary only latitude and
-height.
+The accuracy test measures round-trip error.  It takes each ECEF input point as given, or
+converts a geodetic one (`-g`) to ECEF exactly.  It then runs the algorithm under test,
+converts the result back exactly with `include/geodetic_to_ecef.hpp`, and reports the
+Euclidean distance between the two ECEF points.  Every algorithm returns the same longitude,
+so inputs vary only latitude and height.
 
 `include/ecef_to_geodetic.hpp` is separate from the test harness.  It is a standalone,
 templated Olson 1996 implementation built on the library types in `include/` (`angle`,
