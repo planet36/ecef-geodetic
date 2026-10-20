@@ -29,7 +29,7 @@ The accuracy binary's flags are `-a` for the accuracy test, `-1` for the single-
 `-g` when stdin holds geodetic rather than ECEF points, `-t` for multiple threads, `-c` to
 collect every error for precise statistics, `-m N` to skip algorithms whose hard-coded
 `ilog10_mean_dist_err` in `func_info` exceeds N, and `-s N` for N rounds of a built-in speed
-test, up to 10000.  In its JSON, an `ilog10_mean_dist_err` of 99 marks an inaccurate algorithm
+test, up to 10,000.  In its JSON, an `ilog10_mean_dist_err` of 99 marks an inaccurate algorithm
 and -99 an exact one.
 
 Both binaries exit with an error message on a malformed input line, when they read no input
