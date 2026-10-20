@@ -2,6 +2,8 @@
 
 This folder contains _Comparison of Earth-Centered, Earth-Fixed to Geodetic Coordinate Conversion Algorithms_, presented at the [2020 Simulation Innovation Workshop (SIW)](https://web.archive.org/web/20200813024039/https://www.sisostds.org/2020SIW.aspx).
 
+The paper's version is 2020-02-05.  The paper says the author's code is under OSL-3.0, but the repo has since moved to MPL-2.0.  The [top-level README](../README.md) shows the current results.
+
 I made these changes to the title page of the published paper.
 - Removed work postal address and work email address
 - Added personal email address and version/date
