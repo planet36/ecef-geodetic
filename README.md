@@ -39,7 +39,7 @@ See [Makefile](Makefile) for all possible targets.
 
 ### Programs
 
-See [Makefile](Makefile) for detailed list of programs that are required to run.  The build needs g++ 14 or later, for `-std=c++26` and `<print>`.
+See [Makefile](Makefile) for detailed list of programs that are required to run.  The build needs g++ 14 or later, for `-std=c++26` and `<print>`.  `make full` needs GNU Make 4.4 or later, for `.WAIT`.
 
 ## Results
 
