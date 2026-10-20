@@ -1,6 +1,6 @@
 # ecef-geodetic
 
-A test suite that measures the accuracy and speed of about 80 ECEF-to-geodetic conversion functions on the WGS 84 ellipsoid.
+A test suite that measures the accuracy and speed of about 80 ECEF-to-geodetic conversion functions on the WGS 84 ellipsoid.  The results back the 2020 SIW paper in [docs](docs/), which recommends Olson 1996 (custom height), and 2 iterations for any iterative algorithm.
 
 ## Usage
 
