@@ -185,9 +185,9 @@ monospace.  The italic sets a parameter apart, where monospace blends it into
 the identifiers the prose already writes that way.
 
 Neither one checks that the word names a real parameter, so a typo in either is
-silent.  Only `\param` checks.  `\p` and the `\c` of rule 10f are one
-directive under two names, so this rule bans naming a parameter with it, not
-the monospace itself.
+silent.  Only `\param` checks.  `\p` is another name for the `\c` of rule 10f.
+This rule bans it only as a way to name a parameter, and `\c` stays the way to
+monospace a token.
 
 **10d. Line the block's stars up with its `/**`.**  A continuation line inside
 a `/** ... */` block starts its `*` in the same column as the opening `/**`,
