@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this repo is
 
-A test suite that measures the accuracy and speed of about 75 ECEF-to-geodetic conversion
+A test suite that measures the accuracy and speed of about 80 ECEF-to-geodetic conversion
 functions on the WGS 84 ellipsoid.  It backs the 2020 SIW paper in `docs/`, whose
 recommendation is `olson_1996` (custom height) with 2 iterations for iterative algorithms.
 
