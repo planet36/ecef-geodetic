@@ -1,6 +1,6 @@
 # ecef-geodetic
 
-A test suite of ECEF-to-geodetic coordinate conversion functions
+A test suite that measures the accuracy and speed of about 80 ECEF-to-geodetic conversion functions on the WGS 84 ellipsoid.
 
 ## Usage
 
