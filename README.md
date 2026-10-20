@@ -7,7 +7,7 @@ A test suite of ECEF-to-geodetic coordinate conversion functions
 To create the input data files
 > `make -j $(nproc) input`
 
-They are text files with ECEF and Geodetic coordinates.
+They are text files with ECEF and geodetic coordinates.
 
 To build the accuracy and speed tests
 > `make -j $(nproc)`
