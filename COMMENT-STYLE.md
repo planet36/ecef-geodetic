@@ -179,14 +179,14 @@ The Doxygen behavior described below was checked against version 1.18.0.
 detail.  Do not use `\brief` inside the block.  A declaration whose brief says
 everything needs no block at all.
 
-**10c. Refer to a parameter with `\a`, not `\p`.**  Both mark a word as a
-parameter in running text.  `\a` renders it italic and `\p` renders it
-monospace.  The italic sets a parameter apart, where monospace blends it into
-the identifiers the prose already writes that way.
+**10c. Use `\a` for a parameter and `\c` for code, never `\p`.**  `\a` and `\p`
+both mark a word as a parameter in running text.  `\a` renders it italic and
+`\p` renders it monospace.  The italic sets a parameter apart, where monospace
+blends it into the identifiers the prose already writes that way.
 
 Neither one checks that the word names a real parameter, so a typo in either is
 silent.  Only `\param` checks.  `\p` is another name for the `\c` of rule 10f,
-and `\c` is the spelling to use.
+so for code it would only add a second spelling to search for.
 
 **10d. Line the block's stars up with its `/**`.**  A continuation line inside
 a `/** ... */` block starts its `*` in the same column as the opening `/**`,
