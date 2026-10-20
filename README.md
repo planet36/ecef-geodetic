@@ -67,3 +67,7 @@ Only algorithms with a mean distance error less than 10 nm were included in the 
 *Scatter plot of **accuracy**, measured by mean distance error (nm), versus **speed**, measured in millions of conversions per second*
 
 Results closer to the upper-left corner of the figure are better.
+
+## License
+
+Most files are under MPL-2.0, as their SPDX headers state.  Some ported algorithms carry their own licenses, which each one's `func_info` records and the accuracy test's JSON reports.
