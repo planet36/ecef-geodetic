@@ -40,6 +40,10 @@ To test only some algorithms, run a test binary directly and name them as traili
 
 ## Requirements
 
+### Platform
+
+The tests need Linux with glibc, because the accuracy test reads the glibc version.
+
 ### C++ libraries
 
 - [Google Benchmark](https://github.com/google/benchmark)
