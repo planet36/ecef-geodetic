@@ -5,8 +5,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## What this repo is
 
 A test suite that measures the accuracy and speed of about 80 ECEF-to-geodetic conversion
-functions on the WGS 84 ellipsoid.  It backs the 2020 SIW paper in `docs/`, whose
-recommendation is `olson_1996` (custom height) with 2 iterations for iterative algorithms.
+functions on the WGS 84 ellipsoid.  It backs the 2020 SIW paper in `docs/`.  The paper
+recommends `olson_1996_customht`, and 2 iterations for any iterative algorithm.
 
 ## Commands
 
