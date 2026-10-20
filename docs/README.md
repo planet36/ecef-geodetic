@@ -22,7 +22,7 @@ Other factors such as code size, copyright, and licensing are presented, and sug
 
 > For the given input data, over a dozen algorithms yielded nanometer accuracy, which should be enough for everyone.™
 
-> The **olson_1996** _(custom height)_ algorithm is recommended for ECEF-to-geodetic coordinate conversion.  It was the fastest algorithm tested, of an acceptable size, and, being in the public domain, may be copied freely.
+> The **[olson_1996](https://doi.org/10.1109/7.481290)** _(custom height)_ algorithm is recommended for ECEF-to-geodetic coordinate conversion.  It was the fastest algorithm tested, of an acceptable size, and, being in the public domain, may be copied freely.
 
 > When using an iterative algorithm, doing 2 iterations is recommended.
 
