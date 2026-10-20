@@ -82,9 +82,12 @@ or the audience changes, and open each new paragraph with the sentence that
 states its point.
 
 A sequence of steps or parallel items written as prose is a list, so make it
-one.  Keep an example or a caveat with the claim it qualifies.  A single idea
-stays in one paragraph even when it runs long, and if it runs too long, cut it
-rather than split it.  A split changes paragraph breaks, not wording.
+one.  A list item that is a full sentence ends with a period, and a fragment
+does not.  One list does not mix the two.
+
+Keep an example or a caveat with the claim it qualifies.  A single idea stays
+in one paragraph even when it runs long, and if it runs too long, cut it rather
+than split it.  A split changes paragraph breaks, not wording.
 
 **7. Put two spaces after a sentence-ending period.**  That holds in code
 comments, doc blocks, commit messages, and documentation files alike, markdown
