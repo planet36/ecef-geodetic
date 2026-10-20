@@ -121,8 +121,6 @@ convert_to(const T& x) noexcept
     if constexpr (To == angle_unit::arcsecond && From == angle_unit::arcminute) {return arcsec_from_arcmin(x);}
     if constexpr (To == angle_unit::arcminute && From == angle_unit::arcsecond) {return arcmin_from_arcsec(x);}
 
-    // TODO: it might be possible to do conversion of the irregular units here
-
     // convert between non-adjacent units
 
     constexpr angle_unit inter = angle_unit_toward<To, From>();
