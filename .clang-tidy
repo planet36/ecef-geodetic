@@ -52,6 +52,7 @@ Checks:
   - -modernize-macro-to-enum
   - -modernize-use-trailing-return-type
   - -portability-avoid-pragma-once
+  - -portability-simd-intrinsics
   - -readability-avoid-unconditional-preprocessor-if
   - -readability-braces-around-statements
   - -readability-else-after-return
