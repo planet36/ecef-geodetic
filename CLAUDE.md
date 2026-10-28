@@ -122,6 +122,6 @@ follows `COMMENT-STYLE.md`.  Read it before writing any of those.  Headers use D
 `///` briefs above `/** */` detail blocks, and each source file and script carries SPDX
 license headers.
 
-`include/Doxyfile` sets `MULTILINE_CPP_IS_BRIEF = YES` (rule 10g), so running `doxygen` in
+`include/Doxyfile` sets `MULTILINE_CPP_IS_BRIEF = YES` (rule 22b), so running `doxygen` in
 `include/` checks the headers' doc blocks.  It writes `include/html/`, which git does not
 ignore, so delete that folder afterward.
