@@ -14,8 +14,7 @@ the rules below are about where that line falls.
 Write the rules into the first draft.  A comment that needs a rewrite pass to
 satisfy them was written wrong.
 
-A letter on a rule number marks a rule inserted at that point in document
-order.  It does not make the rule a sub-case of the number it follows.
+A letter on a rule number marks a sub-case of the rule with that number.
 
 ## Sentences
 
@@ -45,31 +44,9 @@ In a code comment or a commit message, spell a dash as two hyphens rather than
 as a real em dash.  Documentation files keep their own practice.
 
 **5. Finish the sentence.**  Detail paragraphs are complete sentences with
-verbs.  A `///` brief line may be a noun phrase, and a docstring summary follows
-its language's convention.
-
-Keep a brief short.  Brevity is what this asks for, not a line count, so a
-brief that still runs past the column limit wraps onto a second line.  Rule
-10g covers what a wrapped brief needs from the doc generator.
-
-**5a. A Doxygen brief takes no terminating period.**  That holds whether the
-brief reads as a noun phrase or as a full sentence, so every brief in a file
-ends the same way.  A `///<` trailing brief follows the same rule.  Detail
-paragraphs inside the block punctuate normally.
-
-Another language keeps its own convention.  A Python docstring ends its summary
-line with a period, because PEP 257 says so.  What carries across is that a
-file settles on one ending, not which ending it is.
-
-**5b. A commit subject is an imperative phrase with no terminating period.**
-It names what the commit does, as in "Add a README".  It is not past tense, as
-in "Added a README", and not a description, as in "Adds a README".  It is the
-commit's brief, so it ends without a period, as a Doxygen brief does.
-
-The body below it is detail and punctuates normally.  It may tell what the
-code did before in the past tense, and what it does now in the present.  An
-editor that recognizes a commit message wraps its body at 72 columns, so a body
-reads best at that width.
+verbs.  A summary line is the exception.  Rule 21 makes a commit subject an
+imperative phrase, rule 22 lets a Doxygen brief be a noun phrase, and a
+docstring summary follows its language's convention.
 
 ## Paragraphs
 
@@ -91,6 +68,11 @@ Keep an example or a caveat with the claim it qualifies.  A single idea stays
 in one paragraph even when it runs long, and if it runs too long, cut it rather
 than split it.  A split changes paragraph breaks, not wording.
 
+## Punctuation
+
+The marks that join clauses into one sentence are under Sentences, and this
+section holds the rest.
+
 **7. Put two spaces after a sentence-ending period.**  That holds in code
 comments, doc blocks, commit messages, and documentation files alike, Markdown
 included.  An abbreviation such as "vs." takes one space, since no sentence
@@ -99,7 +81,21 @@ ends there.
 Do not bulk-convert a file you are not otherwise editing.  Any line you do
 modify comes back with two spaces.
 
-**7a. Keep a line to 96 columns.**  That is a ceiling for code and prose alike.
+**8. Put punctuation inside quotation marks only when it belongs to the quoted
+text.**  American spelling does not bring with it the American habit of
+putting every period and comma inside.  Quoted text in code and commit messages
+is usually literal, such as a commit subject, an error message, or a command,
+and a mark added inside the quotes reads as part of it.
+
+**9. Use the serial comma.**  Put a comma before the final conjunction in a
+list of three or more.
+
+**10. Follow "e.g." and "i.e." with a comma.**  Each one stands in for "for
+example" or "that is", which would take a comma in the same place.
+
+## Layout
+
+**11. Keep a line to 96 columns.**  That is a ceiling for code and prose alike.
 Comment prose is usually wrapped narrower, and a paragraph you edit keeps the
 width it already had rather than being reflowed to the ceiling.  A Markdown
 file that puts each paragraph on one long line stays that way.
@@ -111,7 +107,7 @@ literal wraps only by splitting it, which puts the text further from what the
 program prints.  A pragma or lint suppression that has to sit on one line has
 no second line to move to.
 
-**7b. Put one space before a trailing comment in a C-family file.**  That is
+**12. Put one space before a trailing comment in a C-family file.**  That is
 the gap between code and the `//` or `///<` that follows it on the same line.
 Rule 7 governs a different place, so do not let the two spaces after a period
 pull this one to two.  A language with its own rule wins, and PEP 8 asks for at
@@ -124,29 +120,29 @@ one that follows a statement.
 
 ## Content
 
-**8. Do not restate the declaration.**  The reader can see the types, the
+**13. Do not restate the declaration.**  The reader can see the types, the
 parameter names, and the return type.  A comment earns its place by saying
 something the code does not.
 
-**9. Do not explain what was rejected.**  Rationale for a road not taken
+**14. Do not explain what was rejected.**  Rationale for a road not taken
 belongs in a plan document or a decision ledger, never in a comment or a
 commit message.
 
-**10. Do not state the obvious.**  "Increment the counter" above a line that
+**15. Do not state the obvious.**  "Increment the counter" above a line that
 increments the counter is noise.
 
-Cutting has a floor.  Rules 8 and 10 delete what the reader can already see,
+Cutting has a floor.  Rules 13 and 15 delete what the reader can already see,
 never what the reader could not reconstruct.  A comment trimmed until it is
 merely shorter than the fact it recorded has been broken, not tightened.
 
-Rule 9 is the one most often overread.  It sends a design alternative that was
-weighed and dropped to the ledger.  It does not send away a hazard the reader
-is likely to walk into, and a warning against a change that would silently
-break something stays next to the code it protects.  Nor does it send away an
-argument that heads off a likely suggestion, which rule 10a keeps where the
-suggestion forms.
+Rule 14 is the one most often overread.  It sends a design alternative that
+was weighed and dropped to the ledger.  It does not send away a hazard the
+reader is likely to walk into, and a warning against a change that would
+silently break something stays next to the code it protects.  Nor does it send
+away an argument that heads off a likely suggestion, which rule 16 keeps where
+the suggestion forms.
 
-**10a. Write an argument once.**  A second site that needs it states the
+**16. Write an argument once.**  A second site that needs it states the
 consequence in a sentence and points at where the argument lives.  Copying the
 reasoning means every copy is a place to update when the answer changes.  Point
 only at something that goes along when the file is copied into another program.
@@ -166,40 +162,91 @@ the pointer is exactly the one it was written for.  Such a copy carries the
 argument alone.  Do not append a line saying the real rationale lives
 elsewhere.
 
+## Wording
+
+**17. Use American spellings.**  Watch for the British endings `-our`, `-ise`,
+`-yse`, and `-re`, and for a doubled `l` before a suffix, as in "travelled".
+These spellings are forbidden in any sense: "programme", "judgement",
+"licence", "defence", and "grey".  A spelling that is code, such as an
+identifier, stays as the code spells it.
+
+**18. Never write "load-bearing".**  Name the actual dependency instead.
+
+**19. Write numbers in one format.**  A number of four digits stands plain, and
+one of five or more digits takes a comma before each group of three, as in 6200
+and 14,400.  A quantity the reader might check or tune reads best as numerals,
+as in 2 iterations, 96 columns, and 100 words, and a small everyday count reads
+best as a word, as in two spaces.  A unit symbol takes a space after the number,
+as in 10 nm, but a degree or percent sign takes none, as in 90° and 5%.  A
+number that is code, such as a command-line argument or a literal, stays as the
+code spells it.
+
+**20. Write a heading in sentence case.**  Capitalize its first word and
+lowercase the rest, as in "Benchmark results".  A name, an acronym, or a word
+that is code keeps its own spelling wherever it falls, so "glibc" stays
+lowercase even as the first word.  A heading that quotes a title, such as a
+section of a standard, keeps the title's own case.
+
+## Commit messages
+
+**21. A commit subject is an imperative phrase with no terminating period.**
+It names what the commit does, as in "Add a README".  It is not past tense, as
+in "Added a README", and not a description, as in "Adds a README".  It is the
+commit's brief, so it ends without a period, as a Doxygen brief does.
+
+The body below it is detail and punctuates normally.  It may tell what the
+code did before in the past tense, and what it does now in the present.  An
+editor that recognizes a commit message wraps its body at 72 columns, so a body
+reads best at that width.
+
 ## Doxygen
 
-This section assumes Doxygen, and so do the `///` and `///<` in rules 5, 5a,
-and 7b.  A repo on another doc-comment system keeps every rule and reads `///`
-and `///<` as whatever that system writes them.  Where that system has its own
-hard convention, it wins, and rules 5a and 7b record the two cases that arise.
+This section assumes Doxygen, and so does the `///<` in rule 12.  A repo on
+another doc-comment system keeps every rule and reads `///` and `///<` as
+whatever that system writes them.  Where that system has its own hard
+convention, it wins, and rules 12 and 22a record the two cases that arise.
 
 The Doxygen behavior described below was checked against version 1.18.0.
 
-**10b. The brief goes on `///` lines above the block.**  Write the brief as
+**22. Write a short brief on `///` lines above the block.**  Put the brief on
 `///` immediately above the `/** ... */` block, and let the block hold only the
 detail.  Do not use `\brief` inside the block.  A declaration whose brief says
 everything needs no block at all.
 
-**10c. Use `\a` for a parameter and `\c` for a code token, never `\p`.**  `\a`
+A brief may be a noun phrase.  Keep it short.  Brevity is what this asks for,
+not a line count, so a brief that still runs past the column limit wraps onto a
+second line.  Rule 22b covers what a wrapped brief needs from the doc
+generator.
+
+**22a. A Doxygen brief takes no terminating period.**  That holds whether the
+brief reads as a noun phrase or as a full sentence, so every brief in a file
+ends the same way.  A `///<` trailing brief follows the same rule.  Detail
+paragraphs inside the block punctuate normally.
+
+Another language keeps its own convention.  A Python docstring ends its summary
+line with a period, because PEP 257 says so.  What carries across is that a
+file settles on one ending, not which ending it is.
+
+**22b. Set `MULTILINE_CPP_IS_BRIEF = YES`.**  Under the default of `NO`, only a
+one-line `///` block counts as a brief.  A brief that wraps onto a second line
+then produces no brief at all, and its text falls through into the detailed
+description, where it runs together with the first detail paragraph.  Doxygen
+reports nothing.
+
+A repo that generates no documentation still sets it, in whatever scratch
+configuration is used to check a file.  The wrapped briefs rule 22 allows are
+correct only under this setting.
+
+**23. Use `\a` for a parameter and `\c` for a code token, never `\p`.**  `\a`
 and `\p` both mark a word as a parameter in running text.  `\a` renders it
 italic and `\p` renders it monospace.  The italic sets a parameter apart, where
 monospace blends it into the identifiers the prose already writes that way.
 
 Neither one checks that the word names a real parameter, so a typo in either is
-silent.  Only `\param` checks.  `\p` is another name for the `\c` of rule 10f,
+silent.  Only `\param` checks.  `\p` is another name for the `\c` of rule 24,
 so for code it would only add a second spelling to search for.
 
-**10d. Line the block's stars up with its `/**`.**  A continuation line inside
-a `/** ... */` block starts its `*` in the same column as the opening `/**`,
-not one column to the right.  The closing `*/` sits in that column too.  A
-block indented inside a class indents its stars to match its own `/**`.
-
-**10e. Document an exception with `\exception`, never `\throw` or `\throws`.**
-Doxygen renders all three identically.  Committing to one spelling is what
-keeps a search for the tag exhaustive.  `\exception` is the noun, which
-matches the `\param` and `\return` it sits beside.
-
-**10f. Monospace one token with `\c`, and a phrase with `<code>`.**  `\c` marks
+**24. Monospace one token with `\c`, and a phrase with `<code>`.**  `\c` marks
 only the word that follows it, so `\c operator new` sets `operator` in
 monospace and leaves `new` in the running text.  Doxygen reports nothing when
 that happens, the same way it says nothing about a misspelled `\a` parameter.
@@ -208,17 +255,17 @@ Reach for `<code>...</code>` when the span runs to more than one token, and for
 nothing else.  Two spellings with a rule between them keep a search for either
 exhaustive, so do not add Markdown backticks as a third.
 
-**10g. Set `MULTILINE_CPP_IS_BRIEF = YES`.**  Under the default of `NO`, only a
-one-line `///` block counts as a brief.  A brief that wraps onto a second line
-then produces no brief at all, and its text falls through into the detailed
-description, where it runs together with the first detail paragraph.  Doxygen
-reports nothing.
+**25. Line the block's stars up with its `/**`.**  A continuation line inside
+a `/** ... */` block starts its `*` in the same column as the opening `/**`,
+not one column to the right.  The closing `*/` sits in that column too.  A
+block indented inside a class indents its stars to match its own `/**`.
 
-A repo that generates no documentation still sets it, in whatever scratch
-configuration is used to check a file.  The wrapped briefs rule 5 allows are
-correct only under this setting.
+**26. Document an exception with `\exception`, never `\throw` or `\throws`.**
+Doxygen renders all three identically.  Committing to one spelling is what
+keeps a search for the tag exhaustive.  `\exception` is the noun, which
+matches the `\param` and `\return` it sits beside.
 
-**11. Use `\copydoc` when the whole block transfers.**  It copies the `\param`
+**27. Use `\copydoc` when the whole block transfers.**  It copies the `\param`
 and `\exception` lines along with the text, so it only works when the parameter
 names match.  An overload that names them differently draws an "is not found in
 the argument list" warning, and a block with its own `\exception` lines ends up
@@ -228,51 +275,14 @@ Matching names is the only part Doxygen checks.  A `\pre` or a postcondition
 that holds for only some of the overloads is copied into the rest, and so is an
 `\a` naming a parameter that some of them lack.  Doxygen reports neither.  A
 target block therefore holds only what is true of every overload that copies
-it.  Where the contracts differ, the whole block does not transfer, and rule 12
-applies.
+it.  Where the contracts differ, the whole block does not transfer, and rule
+27a applies.
 
-**12. Use `\copybrief` plus one specific paragraph when it does not.**  Two
+**27a. Use `\copybrief` plus one specific paragraph when it does not.**  Two
 overloads that spell the same parameter differently are the usual case.  One
 taking `data` and `len` cannot `\copydoc` from one taking `src`, because the
 imported `\param` names would not match the signature.
 
-**13. Verify that a reference resolves.**  Doxygen cannot tell two overloads
+**28. Verify that a reference resolves.**  Doxygen cannot tell two overloads
 apart by a `requires` clause alone.  A reference that silently resolves to the
 wrong one is worse than no reference.
-
-## Wording
-
-**14. Use American spellings.**  Watch for the British endings `-our`, `-ise`,
-`-yse`, and `-re`, and for a doubled `l` before a suffix, as in "travelled".
-These spellings are forbidden in any sense: "programme", "judgement",
-"licence", "defence", and "grey".  A spelling that is code, such as an
-identifier, stays as the code spells it.
-
-**14a. Put punctuation inside quotation marks only when it belongs to the
-quoted text.**  Rule 14 asks for American spelling, not the American habit of
-putting every period and comma inside.  Quoted text in code and commit messages
-is usually literal, such as a commit subject, an error message, or a command,
-and a mark added inside the quotes reads as part of it.
-
-**15. Use the serial comma.**  Put a comma before the final conjunction in a
-list of three or more.
-
-**15a. Follow "e.g." and "i.e." with a comma.**  Each one stands in for "for
-example" or "that is", which would take a comma in the same place.
-
-**16. Never write "load-bearing".**  Name the actual dependency instead.
-
-**17. Write numbers in one format.**  A number of four digits stands plain, and
-one of five or more digits takes a comma before each group of three, as in 6200
-and 14,400.  A quantity the reader might check or tune reads best as numerals,
-as in 2 iterations, 96 columns, and 100 words, and a small everyday count reads
-best as a word, as in two spaces.  A unit symbol takes a space after the number,
-as in 10 nm, but a degree or percent sign takes none, as in 90° and 5%.  A
-number that is code, such as a command-line argument or a literal, stays as the
-code spells it.
-
-**18. Write a heading in sentence case.**  Capitalize its first word and
-lowercase the rest, as in "Benchmark results".  A name, an acronym, or a word
-that is code keeps its own spelling wherever it falls, so "glibc" stays
-lowercase even as the first word.  A heading that quotes a title, such as a
-section of a standard, keeps the title's own case.
