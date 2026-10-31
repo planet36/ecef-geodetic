@@ -123,6 +123,6 @@ This repo adopts these prose rules:
 
 Headers use Doxygen, and each source file and script carries SPDX license headers.
 
-`include/Doxyfile` sets `MULTILINE_CPP_IS_BRIEF = YES` (rule 22b), so running `doxygen` in
+`include/Doxyfile` sets `MULTILINE_CPP_IS_BRIEF = YES` (rule 23b), so running `doxygen` in
 `include/` checks the headers' doc blocks.  It writes `include/html/`, which git does not
 ignore, so delete that folder afterward.
