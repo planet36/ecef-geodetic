@@ -67,8 +67,8 @@ docstring summary follows its language's convention.
 ## Paragraphs
 
 **6. Keep a paragraph to one topic.**  A wall of text is not thorough — it is
-unread.  Settle the sentences under rule 1 first, because splitting a paragraph
-of run-on sentences only spreads them out.
+unread.  Settle the sentences under rule 1 first.  Splitting a paragraph of
+run-on sentences only spreads them out.
 
 Look closer at a paragraph past about 100 words or 5 sentences, counting
 rendered words rather than source lines, since wrapping varies from file to
@@ -110,10 +110,10 @@ example" or "that is", which would take a comma in the same place.
 marks where the main clause starts.  Requiring it at every length leaves no
 threshold to argue over.  Write "By default, the parser skips blank lines", not
 "By default the parser skips blank lines".  An opening clause takes one too, and
-so does a lone adverb that modifies the whole sentence, as in "Here, the cache
-is cold".  A phrase or clause that is the sentence's subject takes none, as in
-"Running the tests takes a minute", and neither does one that inverts the
-sentence, as in "Below the table sits a note".
+so does a lone adverb that modifies the whole sentence, as in "Unfortunately,
+the cache is cold".  A phrase or clause that is the sentence's subject takes
+none, as in "Running the tests takes a minute", and neither does one that
+inverts the sentence, as in "Below the table sits a note".
 
 ## Layout
 
@@ -122,7 +122,7 @@ Comment prose is usually wrapped narrower, and a paragraph you edit keeps the
 width it already had rather than being reflowed to the ceiling.  A Markdown
 file that puts each paragraph on one long line stays that way.
 
-Four more things are exempt, because wrapping them costs more than it returns.
+Four more things are exempt because wrapping them costs more than it returns.
 A URL wraps into something the reader cannot click.  A run of column-aligned
 declarations or table rows loses the alignment that made it readable.  A string
 literal wraps only by splitting it, which puts the text further from what the
@@ -179,10 +179,9 @@ copy that survives the move, so never thin one into a pointer, and never let a
 gotcha live only in a file the copy leaves behind.
 
 One case earns a second copy.  An argument written to head off a suggestion has
-to sit where the reader forms the suggestion, because a reader who never follows
-the pointer is exactly the one it was written for.  Such a copy carries the
-argument alone.  Do not append a line saying the real rationale lives
-elsewhere.
+to sit where the reader forms the suggestion.  A reader who never follows the
+pointer is exactly the one it was written for.  Such a copy carries the argument
+alone.  Do not append a line saying the real rationale lives elsewhere.
 
 ## Wording
 
@@ -246,7 +245,7 @@ ends the same way.  A `///<` trailing brief follows the same rule.  Detail
 paragraphs inside the block punctuate normally.
 
 Another language keeps its own convention.  A Python docstring ends its summary
-line with a period, because PEP 257 says so.  What carries across is that a
+line with a period because PEP 257 says so.  What carries across is that a
 file settles on one ending, not which ending it is.
 
 **23b. Set `MULTILINE_CPP_IS_BRIEF = YES`.**  Under the default of `NO`, only a
@@ -259,23 +258,25 @@ A repo that generates no documentation still sets it, in whatever scratch
 configuration is used to check a file.  The wrapped briefs rule 23 allows are
 correct only under this setting.
 
-**24. Use `\a` for a parameter and `\c` for a code token, never `\p`.**  `\a`
-and `\p` both mark a word as a parameter in running text.  `\a` renders it
-italic and `\p` renders it monospace.  The italic sets a parameter apart, where
-monospace blends it into the identifiers the prose already writes that way.
+**24. Use `\a` for a parameter, never `\p`.**  `\a` and `\p` both mark a word as
+a parameter in running text.  `\a` renders it italic and `\p` renders it
+monospace.  The italic sets a parameter apart, where monospace blends it into
+the identifiers the prose already writes that way.
 
 Neither one checks that the word names a real parameter, so a typo in either is
 silent.  Only `\param` checks.  `\p` is another name for the `\c` of rule 25,
-so for code it would only add a second spelling to search for.
+so for code it would only add another spelling to search for.
 
-**25. Monospace one token with `\c`, and a phrase with `<code>`.**  `\c` marks
-only the word that follows it, so `\c operator new` sets `operator` in
-monospace and leaves `new` in the running text.  Doxygen reports nothing when
+**25. Monospace code with backticks, `\c`, or `<code>`.**  Backticks work for
+one token or a phrase, and what they enclose is literal.  They need
+`MARKDOWN_SUPPORT = YES`, which is the default.
+
+`\c` marks only the word that follows it, so `\c operator new` sets `operator`
+in monospace and leaves `new` in the running text.  Doxygen reports nothing when
 that happens, the same way it says nothing about a misspelled `\a` parameter.
 
-Reach for `<code>...</code>` when the span runs to more than one token, and for
-nothing else.  Two spellings with a rule between them keep a search for either
-exhaustive, so do not add Markdown backticks as a third.
+`<code>...</code>` also works for a phrase, but it still runs any command
+inside it.
 
 **26. Line the block's stars up with its `/**`.**  A continuation line inside
 a `/** ... */` block starts its `*` in the same column as the opening `/**`,
@@ -302,8 +303,8 @@ it.  Where the contracts differ, the whole block does not transfer, and rule
 
 **28a. Use `\copybrief` plus one specific paragraph when it does not.**  Two
 overloads that spell the same parameter differently are the usual case.  One
-taking `data` and `len` cannot `\copydoc` from one taking `src`, because the
-imported `\param` names would not match the signature.
+taking `data` and `len` cannot `\copydoc` from one taking `src`.  The imported
+`\param` names would not match the signature.
 
 **29. Verify that a reference resolves.**  Doxygen cannot tell two overloads
 apart by a `requires` clause alone.  A reference that silently resolves to the
