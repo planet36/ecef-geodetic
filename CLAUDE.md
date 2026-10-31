@@ -117,10 +117,11 @@ scalar ellipsoid math that `ecef-to-geodetic.py`, `geodetic-to-ecef.py`,
 
 ## Style
 
-All prose, including code comments, doc blocks, commit messages, and documentation files,
-follows `COMMENT-STYLE.md`.  Read it before writing any of those.  Headers use Doxygen with
-`///` briefs above `/** */` detail blocks, and each source file and script carries SPDX
-license headers.
+This repo adopts these prose rules:
+
+@COMMENT-STYLE.md
+
+Headers use Doxygen, and each source file and script carries SPDX license headers.
 
 `include/Doxyfile` sets `MULTILINE_CPP_IS_BRIEF = YES` (rule 22b), so running `doxygen` in
 `include/` checks the headers' doc blocks.  It writes `include/html/`, which git does not
