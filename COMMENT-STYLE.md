@@ -28,10 +28,14 @@ first whether a comma and a conjunction would carry them, and whether the
 second clause wants to be its own sentence.  Keep the semicolon when neither of
 those reads as well.
 
-**3. Colons introduce lists and explanations.**  A colon before a real list is
-correct, and so is one whose second half explains the clause before it.  What
-sits before the colon should be a clause rather than a bare noun phrase used as
-a label.  A bold run-in label ends with a period rather than a colon, as each
+**3. Colons introduce rather than join.**  A colon before a real list is
+correct, and so is one before a block set off below it, such as a code sample
+or a quotation.  So is one after a conventional label, such as "Usage:".  Do not
+use a colon to join a clause to its explanation, as in "X must match the word
+size: the largest power of 2 bits".  Write "which is", a conjunction, or a
+second sentence instead, and do not move the join to a dash.  Apart from such a
+label, what sits before the colon should be a clause rather than a bare noun
+phrase.  A bold run-in label ends with a period rather than a colon, as each
 rule's title here does, and the text after it is a full sentence.
 
 **4. Dashes set off a parenthetical or land a closing clause.**  A pair of
