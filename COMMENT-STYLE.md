@@ -258,6 +258,11 @@ A repo that generates no documentation still sets it, in whatever scratch
 configuration is used to check a file.  The wrapped briefs rule 23 allows are
 correct only under this setting.
 
+**23c. A doc comment for a file needs `\file`.**  Put it inside the `/** ... */`
+if there is one.  Without `\file`, Doxygen gives the comment to whatever follows
+and reports nothing.  On a `///` line above the block, `\file` claims only the
+brief, and the block still goes to whatever follows.
+
 **24. Use `\a` for a parameter, never `\p`.**  `\a` and `\p` both mark a word as
 a parameter in running text.  `\a` renders it italic and `\p` renders it
 monospace.  The italic sets a parameter apart, where monospace blends it into
