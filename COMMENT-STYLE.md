@@ -115,10 +115,10 @@ the cache is cold".
 
 A phrase or clause that is the sentence's subject takes none, as in "Running the
 tests takes a minute", and neither does one that inverts the sentence, as in
-"Below the table sits a note".  "Here", "Now", and "Otherwise" take none when
-the main clause follows at once, as in "Otherwise the parser skips the line".
-Keep the comma where dropping it would change the reading, as in "Otherwise,
-identical files compare equal".
+"Below the table sits a note".  "Here", "Now", "Otherwise", and "Therefore" take
+none when the main clause follows at once, as in "Otherwise the parser skips the
+line".  Keep the comma where dropping it would change the reading, as in
+"Otherwise, identical files compare equal".
 
 ## Layout
 
