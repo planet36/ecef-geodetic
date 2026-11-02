@@ -3276,15 +3276,15 @@ COMMON_FIRST_DECLS
     {
         if (w <= a_e2 + z / (1 - ell.f))
         {
-            // region 2: the point lies inside the ellipse with high latitude and passes through
-            // the 2 vertices of the evolute
+            // region 2: the point lies inside the ellipse with high latitude, on or above
+            // the line through the evolute's vertex on the W axis
             sin_lat = z * (1 - ell.f) + a_e2;
             cos_lat = w;
         }
         else // w > a_e2 + z / (1 - ell.f)
         {
-            // region 3: the point lies inside the ellipse with low latitude and passes through
-            // the 2 vertices of the evolute
+            // region 3: the point lies inside the ellipse with low latitude, below the line
+            // through the evolute's vertex on the W axis
             sin_lat = z * (1 - ell.f);
             cos_lat = w - a_e2;
         }
