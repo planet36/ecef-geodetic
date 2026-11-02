@@ -106,7 +106,7 @@ Two headers are generated.  `generate/generate.bash` runs `calc` scripts to writ
 than those headers.
 
 Several scripts in `scripts/` generate and plot the input data.  `Nd-arange.py` produces the
-geodetic grids, and piped into `polar-to-cartesian.py` it produces the ECEF grids.  The
+geodetic grids, and, piped into `polar-to-cartesian.py`, it produces the ECEF grids.  The
 `create-*.py` scripts produce the polar, equatorial, and speed points, and `plot-points.py`
 draws the inputs (see the `plot-ecef` and `plot-geod` targets).  `ellipsoid.py` holds the
 scalar ellipsoid math that `ecef-to-geodetic.py`, `geodetic-to-ecef.py`,
@@ -123,6 +123,6 @@ This repo adopts these prose rules:
 
 Headers use Doxygen, and each source file and script carries SPDX license headers.
 
-`include/Doxyfile` sets `MULTILINE_CPP_IS_BRIEF = YES` (rule 23b), so running `doxygen` in
-`include/` checks the headers' doc blocks.  It writes `include/html/`, which git does not
-ignore, so delete that folder afterward.
+`include/Doxyfile` sets `MULTILINE_CPP_IS_BRIEF = YES` (the wrapped-brief rule, 23b), so
+running `doxygen` in `include/` checks the headers' doc blocks.  It writes `include/html/`,
+which git does not ignore, so delete that folder afterward.
