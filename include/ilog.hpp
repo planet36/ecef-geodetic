@@ -58,8 +58,8 @@ ilog10(const T x) noexcept
     else
     {
         // Match std::ilogb where the logarithm is not finite.  The logarithm of zero is
-        // -infinity, and of a negative value or NaN is NaN, and converting either to int
-        // is undefined behavior.
+        // -infinity, and the logarithm of a negative value or NaN is NaN.  Converting either
+        // to int is undefined behavior.
         if (x == 0)
             return FP_ILOGB0;
         if (std::isnan(x))

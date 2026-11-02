@@ -23,8 +23,10 @@
 * \pre \a allowed_abs_diff is non-negative
 * \param a the first value
 * \param b the second value
-* \param allowed_rel_diff maximum relative difference for being considered "close", relative to the magnitude of the input values
-* \param allowed_abs_diff maximum absolute difference for being considered "close", regardless of the magnitude of the input values
+* \param allowed_rel_diff maximum relative difference for being considered "close", relative to
+*        the magnitude of the input values
+* \param allowed_abs_diff maximum absolute difference for being considered "close", regardless
+*        of the magnitude of the input values
 * \return true if \a a equals \a b, or if both are finite and within either tolerance
 */
 template <std::floating_point T>

@@ -48,7 +48,7 @@ class Ellipsoid:
         # derived physical constants
         gamma_e = 9.7803253359 # normal gravity at the equator (on the ellipsoid) (m/s²)
         gamma_p = 9.8321849379 # normal gravity at the poles (on the ellipsoid) (m/s²)
-        k = (1 - f) * gamma_p / gamma_e - 1 # Somigliana's Formula - normal gravity formula constant
+        k = (1 - f) * gamma_p / gamma_e - 1 # normal gravity formula constant (Somigliana's formula)
         m = omega * omega * a2 * b / GM # normal gravity formula constant
 
         self.a       = a

@@ -49,7 +49,7 @@ auto fast_hypot(const T x, const T y) noexcept
 #endif
 }
 
-/// make a unit vector (i.e. normalize the vector components)
+/// make a unit vector (i.e., normalize the vector components)
 /**
 * \pre The magnitude of &lt;\a x, \a y&gt; is non-zero.
 * \sa https://mathworld.wolfram.com/NormalizedVector.html
@@ -103,7 +103,7 @@ auto cos_from_sin(const T sin_x) noexcept
 constexpr int lines_common_first_decls = 4;
 
 // common declarations for the ECEF-to-geodetic functions
-// that need code for corner cases (i.e. equator or the poles)
+// that need code for corner cases (i.e., the equator or the poles)
 #define COMMON_FIRST_DECLS_CHECKED                            \
     const auto w2 = x * x + y * y;                            \
     if (w2 != 0)                                              \
@@ -1333,7 +1333,7 @@ COMMON_FIRST_DECLS
     const auto P = w / ell.a; // (2) SDW: was p*ainv
     const auto E = ell.e2; // (2)
 
-    // (17) has a typo: it gives S_0 = Z, but the Fortran uses S_0 = |z|/a
+    // (17) has a typo.  It gives S_0 = Z, but the Fortran uses S_0 = |z|/a.
     auto S_n = std::abs(z) / ell.a; // (17) SDW: was absz*ainv
     auto C_n = ec * P; // (17)
     const auto Z = ec * S_n; // (2), with S_n = S_0 = |z|/a
@@ -1431,7 +1431,7 @@ COMMON_FIRST_DECLS
     const auto P = w / ell.a; // (2) SDW: was p*ainv
     const auto E = ell.e2; // (2)
 
-    // (17) has a typo: it gives S_0 = Z, but the Fortran uses S_0 = |z|/a
+    // (17) has a typo.  It gives S_0 = Z, but the Fortran uses S_0 = |z|/a.
     auto S_n = std::abs(z) / ell.a; // (17) SDW: was absz*ainv
     auto C_n = ec * P; // (17)
     const auto Z = ec * S_n; // (2), with S_n = S_0 = |z|/a
@@ -1530,7 +1530,7 @@ COMMON_FIRST_DECLS
     const auto P = w / ell.a; // (2) SDW: was p*ainv
     const auto E = ell.e2; // (2)
 
-    // (17) has a typo: it gives S_0 = Z, but the Fortran uses S_0 = |z|/a
+    // (17) has a typo.  It gives S_0 = Z, but the Fortran uses S_0 = |z|/a.
     auto S_n = std::abs(z) / ell.a; // (17) SDW: was absz*ainv
     auto C_n = ec * P; // (17)
     const auto Z = ec * S_n; // (2), with S_n = S_0 = |z|/a
@@ -1630,7 +1630,7 @@ COMMON_FIRST_DECLS
     const auto P = w / ell.a; // (2) SDW: was p*ainv
     const auto E = ell.e2; // (2)
 
-    // (17) has a typo: it gives S_0 = Z, but the Fortran uses S_0 = |z|/a
+    // (17) has a typo.  It gives S_0 = Z, but the Fortran uses S_0 = |z|/a.
     auto S_n = std::abs(z) / ell.a; // (17) SDW: was absz*ainv
     auto C_n = ec * P; // (17)
     const auto Z = ec * S_n; // (2), with S_n = S_0 = |z|/a
@@ -3276,15 +3276,15 @@ COMMON_FIRST_DECLS
     {
         if (w <= a_e2 + z / (1 - ell.f))
         {
-            // region 2: the point lies inside the ellipse with high latitude and passes through the 2 vertices of the evolute
-
+            // region 2: the point lies inside the ellipse with high latitude and passes through
+            // the 2 vertices of the evolute
             sin_lat = z * (1 - ell.f) + a_e2;
             cos_lat = w;
         }
         else // w > a_e2 + z / (1 - ell.f)
         {
-            // region 3: the point lies inside the ellipse with low latitude and passes through the 2 vertices of the evolute
-
+            // region 3: the point lies inside the ellipse with low latitude and passes through
+            // the 2 vertices of the evolute
             sin_lat = z * (1 - ell.f);
             cos_lat = w - a_e2;
         }
@@ -3292,7 +3292,7 @@ COMMON_FIRST_DECLS
 
     //u0 = std::atan2(sin_lat, cos_lat);
 
-    // SDW: what is F'(u) ?
+    // SDW: what is F'(u)?
 
     // (i = 1)
     normalize(cos_lat, sin_lat);

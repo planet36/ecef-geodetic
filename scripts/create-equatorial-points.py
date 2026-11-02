@@ -6,7 +6,7 @@
 '''
 Create 2D geodetic points near the equatorial plane.
 
-The latitudes are plus and minus 10**-k degrees for k = 5 to 13.  At the surface they put the
+The latitudes are plus and minus 10**-k degrees for k = 5 to 13.  At the surface, they put the
 points from about 1.1 m down to 11 nm from the plane.  The heights are -10 km to 100 km.
 '''
 

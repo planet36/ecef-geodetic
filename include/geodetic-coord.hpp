@@ -18,7 +18,9 @@
 #include <string>
 
 inline constexpr int geodetic_default_precision = 6; ///< The default precision
-inline constexpr int geodetic_precision_add = 5; ///< The precision to add to the geodetic latitude and longitude
+
+/// The precision to add to the geodetic latitude and longitude
+inline constexpr int geodetic_precision_add = 5;
 
 /// Geodetic to string
 /**
@@ -27,7 +29,8 @@ inline constexpr int geodetic_precision_add = 5; ///< The precision to add to th
 * \param ht ellipsoid height (meters)
 * \param precision the number of digits after the decimal place to generate for \a ht
 * \note \a lat and \a lon are converted to decimal degrees.
-* \note The precision of \a lat and \a lon is <code>\a precision + geodetic_precision_add</code>.
+* \note The precision of \a lat and \a lon is
+*       <code>\a precision + geodetic_precision_add</code>.
 * \return the string representation of the geodetic coordinate
 */
 template <angle_unit U, std::floating_point T>

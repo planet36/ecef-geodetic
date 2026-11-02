@@ -57,7 +57,7 @@ read_line_values(const std::string& line, const std::size_t line_num)
 
 /// read ECEF coordinates from stdin
 /**
-* Each line holds X, Y, and Z, or W and Z, in meters.  W is the distance from the Z axis, and a
+* Each line holds X, Y, and Z, or W and Z, in meters.  W is the distance from the Z axis.  A
 * line with W and Z puts the point on the prime meridian.  Blank lines are skipped.
 * \param[in,out] ecef_vec the vector the points are appended to
 * \exception std::invalid_argument a line holds text that does not parse as a number, or
@@ -110,7 +110,7 @@ read_coords_ecef(std::vector<ECEF<T>>& ecef_vec)
 /// read Geodetic coordinates from stdin
 /**
 * Each line holds the latitude, longitude, and height, or the latitude and height.  Angles are
-* in degrees and heights in meters, and a line without a longitude puts the point on the prime
+* in degrees and heights in meters.  A line without a longitude puts the point on the prime
 * meridian.  Blank lines are skipped.
 * \param[in,out] geod_vec the vector the points are appended to
 * \exception std::invalid_argument a line holds text that does not parse as a number, or

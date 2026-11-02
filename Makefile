@@ -28,7 +28,7 @@ tr
 $(foreach bin,$(REQUIRED_BINS),\
     $(if $(shell command -v $(bin) 2> /dev/null),,$(error Please install `$(bin)`)))
 
-# clang++ not supported
+# clang++ is not supported.
 CXX = g++
 
 CPPFLAGS = -MMD -MP
@@ -42,7 +42,7 @@ CXXFLAGS += -fno-math-errno
 CXXFLAGS += -march=native
 #CXXFLAGS += -march=raptorlake
 
-# -frecord-gcc-switches is used by readelf
+# readelf extracts the options that -frecord-gcc-switches records.
 CXXFLAGS += -frecord-gcc-switches
 # https://gcc.gnu.org/wiki/FloatingPointMath
 #CXXFLAGS += -freciprocal-math # slightly decreased accuracy, slightly increased speed
@@ -51,7 +51,7 @@ CXXFLAGS += -frecord-gcc-switches
 # NOTE: -fassociative-math requires -fno-signed-zeros and -fno-trapping-math
 #CXXFLAGS += -fassociative-math -fno-signed-zeros -fno-trapping-math # almost same accuracy, almost same speed
 
-# Do not use -ffinite-math-only (enabled with -ffast-math (enabled with -Ofast))
+# Do not use -ffinite-math-only, which -ffast-math enables, as does -Ofast through -ffast-math.
 
 LINT_CPPFLAGS = $(CPPFLAGS)
 # clang cannot call std::sqrt in a constant expression, so every constexpr built from the
@@ -89,7 +89,7 @@ $(INPUT_DIR)/ecef.2d.speed.txt \
 # Use N-1 threads in the speed test
 export NUM_THREADS := $(shell nproc --ignore 1)
 
-# Should be an odd number for simpler median
+# Make this odd for a simpler median.
 BENCHMARK_REPS = 5
 
 # Used by plot
@@ -131,10 +131,11 @@ $(ALL_INFILES_ECEF) $(ALL_INFILES_GEOD): | $(INPUT_DIR)/.
 # ECEF points
 # NOTE: They can be generated 2 ways:
 # 1) vary W (meters) and Z (meters)
-# 2) vary r (meters) and theta (degrees), and convert from polar to cartesian
+# 2) vary r (meters) and theta (degrees), and convert from polar to Cartesian
 #    r is distance from center of earth
 #    theta is geocentric latitude (not geodetic)
-#    polar-to-cartesian.py is good enough for this case, even though it's input is geocentric latitude.
+#    polar-to-cartesian.py is good enough for this case, even though its input is geocentric
+#    latitude.
 
 $(INPUT_DIR)/ecef.2d.region-0.txt:
 	python3 $(SCRIPTS_DIR)/Nd-arange.py 0 50_000 1_000 0 90 30 | python3 $(SCRIPTS_DIR)/polar-to-cartesian.py > $@
@@ -229,7 +230,8 @@ speed: $(BIN_SPEED) input | $(OUTPUT_DIR)
 		--benchmark_out=$(OUTPUT_DIR)/$@.json \
 		< $(INPUT_DIR)/ecef.2d.speed.txt
 
-	@# Preserve the given order because --benchmark_enable_random_interleaving=true shuffles the order of the tests.
+	@# Restore the given order because --benchmark_enable_random_interleaving=true shuffles
+	@# the order of the tests.
 	jq '.benchmarks |= sort_by(.family_index)' \
 		< $(OUTPUT_DIR)/$@.json | sponge $(OUTPUT_DIR)/$@.json
 

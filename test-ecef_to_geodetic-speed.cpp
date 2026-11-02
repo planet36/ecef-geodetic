@@ -23,7 +23,7 @@
 /// time \a func on the points in \a ecef_vec
 /**
 * Each benchmark iteration converts the next point and wraps back to the first after the
-* last, and the results are kept from being optimized away.
+* last.  The results are kept from being optimized away.
 * \param BM_state the benchmark state that drives the iterations
 * \param func the algorithm under test
 * \param ecef_vec the input points

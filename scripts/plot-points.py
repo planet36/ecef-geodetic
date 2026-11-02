@@ -207,12 +207,12 @@ ECEF (W, Z) data is in meters.  Geodetic (latitude, height) data is in degrees a
     args = parser.parse_args(argv[1:])
 
     def print_verbose(s: str) -> None:
-        """Print the message if verbose mode is on"""
+        """Print the message if verbose mode is on."""
         if args.verbose:
             print(f"# {s}", file=sys.stderr)
 
     def print_error(s: str) -> None:
-        """Print the error message"""
+        """Print the error message."""
         print(f"Error: {s}", file=sys.stderr)
         print(f"Try '{program_name} --help' for more information.", file=sys.stderr)
 

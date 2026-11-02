@@ -23,7 +23,8 @@ inline constexpr int ecef_default_precision = 6; ///< The default precision
 * \param x X coordinate (meters)
 * \param y Y coordinate (meters)
 * \param z Z coordinate (meters)
-* \param precision the number of digits after the decimal place to generate for \a x, \a y, and \a z
+* \param precision the number of digits after the decimal place to generate for \a x, \a y,
+*        and \a z
 * \return the string representation of the ECEF coordinate
 */
 template <std::floating_point T>

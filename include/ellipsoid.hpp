@@ -117,13 +117,13 @@ struct Ellipsoid
 
     // derived physical constants
 
-    /// γₑ - normal gravity at the equator (on the ellipsoid) (m/s²)
+    /// γₑ, the normal gravity at the equator (on the ellipsoid) (m/s²)
     const T gamma_e = 9.7803253359L;
 
-    /// γₚ - normal gravity at the poles (on the ellipsoid) (m/s²)
+    /// γₚ, the normal gravity at the poles (on the ellipsoid) (m/s²)
     const T gamma_p = 9.8321849379L;
 
-    /// Somigliana's Formula - normal gravity formula constant
+    /// normal gravity formula constant (Somigliana's formula)
     const T k = (1 - f) * gamma_p / gamma_e - 1;
 
     /// normal gravity formula constant
@@ -274,8 +274,8 @@ struct Ellipsoid
     Polar case:
     h = z / sin - Rn * (1-e2)
     \endverbatim
-    * \param w distance from the rotational (i.e. Z) axis (meters)
-    * \param z distance above the equatorial (i.e. X-Y) plane (meters)
+    * \param w distance from the rotational (i.e., Z) axis (meters)
+    * \param z distance above the equatorial (i.e., X-Y) plane (meters)
     * \param sin_lat sine of the geodetic latitude
     * \param cos_lat cosine of the geodetic latitude
     * \param Rn prime vertical radius of curvature (meters)
@@ -293,8 +293,8 @@ struct Ellipsoid
 
     /// get the height above the ellipsoid (meters)
     /**
-    * \param w distance from the rotational (i.e. Z) axis (meters)
-    * \param z distance above the equatorial (i.e. X-Y) plane (meters)
+    * \param w distance from the rotational (i.e., Z) axis (meters)
+    * \param z distance above the equatorial (i.e., X-Y) plane (meters)
     * \param sin_lat sine of the geodetic latitude
     * \param cos_lat cosine of the geodetic latitude
     * \return the height above the ellipsoid (meters)
@@ -307,8 +307,8 @@ struct Ellipsoid
 
     /// get the height above the ellipsoid (meters)
     /**
-    * \param w distance from the rotational (i.e. Z) axis (meters)
-    * \param z distance above the equatorial (i.e. X-Y) plane (meters)
+    * \param w distance from the rotational (i.e., Z) axis (meters)
+    * \param z distance above the equatorial (i.e., X-Y) plane (meters)
     * \param lat_rad geodetic latitude (radians)
     * \return the height above the ellipsoid (meters)
     */

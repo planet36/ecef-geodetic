@@ -260,10 +260,10 @@ try
 {
     /*
     ** Methodology for testing a single point:
-    ** Given a Geodetic point (g1), perform an exact conversion to ECEF (e1).
-    ** For the given algorithm, convert e1 to Geodetic (g2).
-    ** Perform an exact conversion of g2 to ECEF (e2).
-    ** Calculate the Euclidean distance from e1 to e2.  This is the distance error.
+    ** 1. Given a Geodetic point (g1), perform an exact conversion to ECEF (e1).
+    ** 2. For the given algorithm, convert e1 to Geodetic (g2).
+    ** 3. Perform an exact conversion of g2 to ECEF (e2).
+    ** 4. Calculate the Euclidean distance from e1 to e2.  This is the distance error.
     **
     ** For many Geodetic points, vary the latitude and height.
     ** The longitude calculation is the same in all algorithms (lon = atan2(y, x)), so it's not

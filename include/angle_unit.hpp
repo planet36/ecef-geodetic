@@ -100,7 +100,7 @@ template <angle_unit To, angle_unit From, std::floating_point T>
 constexpr T
 convert_to(const T& x) noexcept
 {
-    // convert same angle unit (i.e. do nothing)
+    // convert same angle unit (i.e., do nothing)
 
     if constexpr (To == From) { return x; }
 
