@@ -134,7 +134,7 @@ $(ALL_INFILES_ECEF) $(ALL_INFILES_GEOD): | $(INPUT_DIR)/.
 # 2) vary r (meters) and theta (degrees), and convert from polar to Cartesian
 #    r is distance from center of earth
 #    theta is geocentric latitude (not geodetic)
-#    polar-to-cartesian.py is good enough for this case, even though its input is geocentric
+#    polar-to-cartesian.py is good enough for this case, because its input is geocentric
 #    latitude.
 
 $(INPUT_DIR)/ecef.2d.region-0.txt:
