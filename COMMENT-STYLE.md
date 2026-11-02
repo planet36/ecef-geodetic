@@ -109,16 +109,14 @@ example" or "that is", which would take a comma in the same place.
 **11. Put a comma after an introductory phrase, even a short one.**  The comma
 marks where the main clause starts.  Requiring it at every length leaves no
 threshold to argue over.  Write "By default, the parser skips blank lines", not
-"By default the parser skips blank lines".  An opening clause takes one too, and
-so does a lone adverb that modifies the whole sentence, as in "Unfortunately,
-the cache is cold".
+"By default the parser skips blank lines".  An opening clause takes one too.
 
 A phrase or clause that is the sentence's subject takes none, as in "Running the
 tests takes a minute", and neither does one that inverts the sentence, as in
-"Below the table sits a note".  "Here", "Now", "Otherwise", and "Therefore" take
-none when the main clause follows at once, as in "Otherwise the parser skips the
-line".  Keep the comma where dropping it would change the reading, as in
-"Otherwise, identical files compare equal".
+"Below the table sits a note".  A single opening word takes none, as in
+"Unfortunately the cache is cold" and "Hence the name", unless a reader could
+misread the sentence without it, as in "Otherwise, identical files compare
+equal" and "Thus, far more rounds are needed".
 
 ## Layout
 
