@@ -92,7 +92,7 @@ export NUM_THREADS := $(shell nproc --ignore 1)
 # Make this odd for a simpler median.
 BENCHMARK_REPS = 5
 
-# Used by plot
+# Used by the plot-ecef and plot-geod targets
 DPI = 180
 
 DATETIME := $(shell date -u +'%Y%m%dT%H%M%S')
