@@ -113,10 +113,8 @@ threshold to argue over.  Write "By default, the parser skips blank lines", not
 
 A phrase or clause that is the sentence's subject takes none, as in "Running the
 tests takes a minute", and neither does one that inverts the sentence, as in
-"Below the table sits a note".  A single opening word takes none, as in
-"Unfortunately the cache is cold" and "Hence the name", unless a reader could
-misread the sentence without it, as in "Otherwise, identical files compare
-equal" and "Thus, far more rounds are needed".
+"Below the table sits a note".  A single opening word is left to the writer, so
+a review or a sweep does not add or remove a comma after one.
 
 ## Layout
 
