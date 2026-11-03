@@ -86,8 +86,10 @@ $(INPUT_DIR)/ecef.2d.region-4.txt \
 $(INPUT_DIR)/ecef.2d.region-all.txt \
 $(INPUT_DIR)/ecef.2d.speed.txt \
 
-# Use N-1 threads in the speed test
-export NUM_THREADS := $(shell nproc --ignore 1)
+# Use N-1 threads in the speed test.
+#export NUM_THREADS := $(shell nproc --ignore 1)
+# Use 1 thread in the speed test.
+export NUM_THREADS := 1
 
 # Make this odd for a simpler median.
 BENCHMARK_REPS = 5
