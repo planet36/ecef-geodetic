@@ -3296,10 +3296,18 @@ COMMON_FIRST_DECLS_CHECKED
 
     lat_rad = std::atan(std::tan(t) / (1 - ell.f));
 
+#ifdef USE_CUSTOM_HT
+    const auto sin_lat = std::sin(lat_rad);
+    ht = w * std::cos(lat_rad) + z_abs * sin_lat -
+         ell.a * std::sqrt(1 - ell.f * (2 - ell.f) * SQ(sin_lat));
+#endif
+
     if (z < 0)
         lat_rad = -lat_rad;
 
+#if !defined(USE_CUSTOM_HT)
     ht = ell.get_ht(w, z, lat_rad);
+#endif
 }
 constexpr int line_end = __LINE__;
 
@@ -3319,6 +3327,95 @@ const auto func_info = func_info_t(
     /*.citation                    =*/ R"(C. Jones, G. (2002). New solutions for the geodetic coordinate transformation. Journal of Geodesy. 76. 437-446. 10.1007/s00190-002-0267-4.)"
 );
 
+}
+// }}}
+
+namespace jones_2002_customht_x1
+// {{{
+{
+#define USE_CUSTOM_HT
+
+constexpr int max_iterations = 1;
+
+constexpr int line_begin = __LINE__;
+inline void ecef_to_geodetic(const double x, const double y, const double z,
+                             double& lat_rad, double& lon_rad, double& ht) noexcept
+{
+COMMON_FIRST_DECLS_CHECKED
+
+    // SDW: The MATLAB handles z = 0 and rho = 0 in branches of its own, which give the same
+    // results as the prologue.
+
+    constexpr auto rhostar = ell.a * ell.f * (2 - ell.f); // the rightmost point of the evolute
+
+    // The regions hold only in the northern hemisphere, so the MATLAB solves for |z| and
+    // restores the sign of the latitude at the end.
+    const auto z_abs = std::abs(z);
+
+    double t = 0; // reduced latitude
+
+    if (w2 + z2 / SQ(1 - ell.f) >= ell.a2)
+    {
+        // region 1: the point lies on or outside the ellipse
+        t = std::atan(z_abs / (w * (1 - ell.f)));
+    }
+    else if (w <= rhostar + z_abs / (1 - ell.f))
+    {
+        // region 2: the point lies inside the ellipse with high latitude, on or above the line
+        // through the evolute's vertex on the W axis
+        t = std::atan((z_abs * (1 - ell.f) + rhostar) / w);
+    }
+    else // w > rhostar + z_abs / (1 - ell.f)
+    {
+        // region 3: the point lies inside the ellipse with low latitude, below the line
+        // through the evolute's vertex on the W axis
+        t = std::atan(z_abs * (1 - ell.f) / (w - rhostar));
+    }
+
+    // SDW: The MATLAB iterates until successive values of t differ by at most eps.
+    for (int i = 1; i <= max_iterations; ++i)
+    {
+        // Newton's method on F(t) = f(t) - t
+        const auto A = ((1 - ell.f) * z_abs + rhostar * std::sin(t)) / w;
+        const auto f = std::atan(A);
+        const auto fprime = rhostar * std::cos(t) / (w * (1 + A * A));
+        t = t - (f - t) / (fprime - 1);
+    }
+
+    lat_rad = std::atan(std::tan(t) / (1 - ell.f));
+
+#ifdef USE_CUSTOM_HT
+    const auto sin_lat = std::sin(lat_rad);
+    ht = w * std::cos(lat_rad) + z_abs * sin_lat -
+         ell.a * std::sqrt(1 - ell.f * (2 - ell.f) * SQ(sin_lat));
+#endif
+
+    if (z < 0)
+        lat_rad = -lat_rad;
+
+#if !defined(USE_CUSTOM_HT)
+    ht = ell.get_ht(w, z, lat_rad);
+#endif
+}
+constexpr int line_end = __LINE__;
+
+constexpr int lines_extra = 0;
+
+const auto func_info = func_info_t(
+    /*.func                        =*/ ecef_to_geodetic,
+    /*.num_lines                   =*/ line_end - line_begin + lines_extra,
+    /*.needs_code_for_corner_cases =*/ true,
+    /*.ilog10_mean_dist_err        =*/ 1,
+    /*.display_name                =*/ "Jones 2002 (c.h.) (x1)",
+    /*.algo_author                 =*/ "G. C. Jones",
+    /*.code_copyright              =*/ "G. C. Jones",
+    /*.license                     =*/ "Unknown",
+    /*.orig_impl_lang              =*/ "MATLAB",
+    /*.url                         =*/ "https://www.researchgate.net/publication/225462506_New_solutions_for_the_geodetic_coordinate_transformation",
+    /*.citation                    =*/ R"(C. Jones, G. (2002). New solutions for the geodetic coordinate transformation. Journal of Geodesy. 76. 437-446. 10.1007/s00190-002-0267-4.)"
+);
+
+#undef USE_CUSTOM_HT
 }
 // }}}
 
