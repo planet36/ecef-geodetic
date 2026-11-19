@@ -4213,7 +4213,7 @@ const auto func_info = func_info_t(
     /*.code_copyright              =*/ "Steven Ward",
     /*.license                     =*/ "MPL-2.0",
     /*.orig_impl_lang              =*/ "None",
-    /*.url                         =*/ "http://www.dtic.mil/docs/citations/AD0420541",
+    /*.url                         =*/ "https://web.archive.org/web/20180602235803/http://www.dtic.mil/docs/citations/AD0420541",
     /*.citation                    =*/ R"(Naive iteration: must guess initial lat
 Hirvonen, R., and H. Moritz
 Practical Computations of Gravity at High Altitudes
@@ -4268,7 +4268,7 @@ const auto func_info = func_info_t(
     /*.code_copyright              =*/ "Steven Ward",
     /*.license                     =*/ "MPL-2.0",
     /*.orig_impl_lang              =*/ "None",
-    /*.url                         =*/ "http://www.dtic.mil/docs/citations/AD0420541",
+    /*.url                         =*/ "https://web.archive.org/web/20180602235803/http://www.dtic.mil/docs/citations/AD0420541",
     /*.citation                    =*/ R"(Naive iteration: must guess initial lat
 Hirvonen, R., and H. Moritz
 Practical Computations of Gravity at High Altitudes
