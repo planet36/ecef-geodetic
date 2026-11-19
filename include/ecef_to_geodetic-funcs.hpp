@@ -4218,7 +4218,7 @@ const auto func_info = func_info_t(
 Hirvonen, R., and H. Moritz
 Practical Computations of Gravity at High Altitudes
 Report No. 27
-Institude of Geodesy, Photogrammetry and Cartography
+Institute of Geodesy, Photogrammetry and Cartography
 The Ohio State University
 Columbus, 1963)"
 );
@@ -4273,7 +4273,7 @@ const auto func_info = func_info_t(
 Hirvonen, R., and H. Moritz
 Practical Computations of Gravity at High Altitudes
 Report No. 27
-Institude of Geodesy, Photogrammetry and Cartography
+Institute of Geodesy, Photogrammetry and Cartography
 The Ohio State University
 Columbus, 1963)"
 );
