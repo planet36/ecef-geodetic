@@ -22,7 +22,7 @@ Run the accuracy and speed tests.
 make full
 ```
 
-* Takes about 1 minute to finish
+* Takes about 6 minutes to finish
 * Runs the two tests one after the other, even under `make -j`
 
 The accuracy and speed tests write JSON files into a folder within `results` that is named for
